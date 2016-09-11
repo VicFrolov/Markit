@@ -45,10 +45,10 @@ class ListingsTableViewController: UITableViewController {
 
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
-                                                 for: indexPath)
+                                                 for: indexPath) as! ListingsTableViewCell
         // Configure the cell...
-        cell.textLabel?.text = sampleItems[indexPath.row]
-        cell.imageView?.image = UIImage(named: restaurantImages[indexPath.row])
+        cell.itemLabel?.text = sampleItems[indexPath.row]
+        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
         return cell
     }
 
