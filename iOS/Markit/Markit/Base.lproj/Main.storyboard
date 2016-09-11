@@ -6,36 +6,46 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Listings Table View Controller-->
         <scene sceneID="ofA-7a-2KH">
             <objects>
-                <tableViewController id="VcX-gb-ou2" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8Ch-tR-rC5">
+                <tableViewController id="VcX-gb-ou2" customClass="ListingsTableViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8Ch-tR-rC5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="EYM-dT-830">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="uAu-hb-5BU" rowHeight="140" style="IBUITableViewCellStyleDefault" id="EYM-dT-830">
+                                <rect key="frame" x="0.0" y="28" width="375" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EYM-dT-830" id="c6Z-xq-EeS">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="139"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uAu-hb-5BU">
+                                            <frame key="frameInset" minX="15" width="345" height="139"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="VcX-gb-ou2" id="K6C-8I-W9y"/>
                             <outlet property="delegate" destination="VcX-gb-ou2" id="3ug-KS-y3K"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="W87-rn-6BV"/>
+                    <tabBarItem key="tabBarItem" title="" selectedImage="Search@2x" systemItem="search" id="W87-rn-6BV"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H38-ix-0Ey" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="167"/>
+            <point key="canvasLocation" x="340" y="141"/>
         </scene>
-        <!--Item-->
+        <!--View Controller-->
         <scene sceneID="iyt-d8-fjk">
             <objects>
                 <viewController id="gpF-l5-Gnq" sceneMemberID="viewController">
@@ -48,13 +58,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Dzc-Kb-VEh"/>
+                    <tabBarItem key="tabBarItem" systemItem="mostViewed" id="Dzc-Kb-VEh"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAL-3h-Cbx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="340" y="827"/>
         </scene>
-        <!--Item-->
+        <!--View Controller-->
         <scene sceneID="L4s-qM-YgQ">
             <objects>
                 <viewController id="Kwb-x3-mN0" sceneMemberID="viewController">
@@ -67,7 +77,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="FPZ-cq-6YJ"/>
+                    <tabBarItem key="tabBarItem" systemItem="contacts" id="FPZ-cq-6YJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzp-dz-xvA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -93,4 +103,7 @@
             <point key="canvasLocation" x="-429.60000000000002" y="560.86956521739137"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Search@2x" width="37" height="37"/>
+    </resources>
 </document>
