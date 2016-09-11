@@ -12,7 +12,7 @@ class ListingsTableViewController: UITableViewController {
     
     var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
     
-
+    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,7 +48,7 @@ class ListingsTableViewController: UITableViewController {
                                                  for: indexPath)
         // Configure the cell...
         cell.textLabel?.text = sampleItems[indexPath.row]
-        cell.imageView?.image = UIImage(named: "restaurant.jpg")
+        cell.imageView?.image = UIImage(named: restaurantImages[indexPath.row])
         return cell
     }
 
