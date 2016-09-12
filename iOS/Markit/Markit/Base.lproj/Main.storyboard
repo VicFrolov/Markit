@@ -76,7 +76,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H38-ix-0Ey" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="-107"/>
+            <point key="canvasLocation" x="340" y="-168"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="iyt-d8-fjk">
@@ -95,7 +95,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAL-3h-Cbx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="1229"/>
+            <point key="canvasLocation" x="340" y="1298"/>
         </scene>
         <!--Hub-->
         <scene sceneID="34k-5b-AWg">
@@ -108,13 +108,33 @@
                     <view key="view" contentMode="scaleToFill" id="eeg-O8-bFa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi, Victor. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODg-iE-QOS">
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="37"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here's what going on at LMU" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDn-He-pAn">
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ODg-iE-QOS" firstAttribute="leading" secondItem="rDn-He-pAn" secondAttribute="leading" id="3Mn-79-Kck"/>
+                            <constraint firstItem="rDn-He-pAn" firstAttribute="top" secondItem="uPA-Zx-ttC" secondAttribute="bottom" constant="82" id="3Xk-qg-DjL"/>
+                            <constraint firstItem="ODg-iE-QOS" firstAttribute="top" secondItem="uPA-Zx-ttC" secondAttribute="bottom" constant="28" id="M6P-Rm-6nr"/>
+                            <constraint firstItem="ODg-iE-QOS" firstAttribute="leading" secondItem="eeg-O8-bFa" secondAttribute="leadingMargin" constant="22" id="Vem-H3-ece"/>
+                            <constraint firstItem="qaI-Bs-D1u" firstAttribute="top" secondItem="ODg-iE-QOS" secondAttribute="bottom" constant="510" id="XzG-q9-kPy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ODg-iE-QOS" secondAttribute="trailing" constant="81" id="cdA-GF-Vpm"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Hub" id="kgC-66-j5R"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgq-Q0-SzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="-785"/>
+            <point key="canvasLocation" x="340" y="-892"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="L4s-qM-YgQ">
@@ -133,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzp-dz-xvA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="1887"/>
+            <point key="canvasLocation" x="340" y="2037"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5fr-WQ-Dlb">
