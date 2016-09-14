@@ -66,7 +66,8 @@ Users will be sent notifications when they receive a message, when an item on th
 
 ##Web App
 
-### Differences from mobile
+###Differences from mobile
+While the web app will perform functionally the same as both of the mobile apps, it will feature a more open user interface not possible with the limited screen space of mobile devices. This will be the preferable way of using Markit for many users.
 
 #Software Requirements
 
@@ -78,6 +79,6 @@ iOS- Xcode
 
 Android- Android Studio
 
-#Team
+#Teams
 
 Senior Group  web/iOS/Android app
