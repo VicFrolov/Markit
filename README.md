@@ -13,7 +13,7 @@ Markit is your go to app for selling and purchasing used goods within a college 
 ##Android/iOS
 When opening the app for the first time, the user will be greeted by a Login/Register screen. To login, the user will be prompted to enter in their username or email in the first field and their password in the second. To register, the user will be asked to provide a username, academic email, and password. The user will then be asked if the app is allowed to get their current location. The user will then be given a quick tour of the app.
 
-###Hub
+###College Hub
 
 
 ###Searching
@@ -33,6 +33,10 @@ The profile view shows the user of the profile's picture, the user's rating, per
 
 ###Chat
 Allows a buyer and a seller to communicate with each other. Along with a button to send message the buyer is allowed to send an offer with a price. The seller is able to accept or decline the offer. If it is declined the buyer and the seller can still communicate or can end communications. If accepted both parties can continue talking but the item being discusses is considered sold.
+
+###Payment System
+
+###Notification
 
 ##Web App
 
