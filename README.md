@@ -31,7 +31,7 @@ Markit is your go to app for selling and purchasing used goods within a college 
 	* incentives
 
 #How to use it
-<<pic goes here>>
+<pic goes here>
 
 
 ##Android/iOS
@@ -61,7 +61,7 @@ Allows a buyer and a seller to communicate with each other. Along with a button 
 ###Payment System
 In most of the competing applications, payment is done via communication between the buyer and seller.  Markit will allow the buyer to pay the seller through the app once an offer has been accepeted either through Venmo or PayPal.  This will depend on the preferred method of payment of the seller.
 
-###Notification
+###Notifications
 Users will be sent notifications when they receive a message, when an item on their watchlist is sold or changes in price, and when tagged items become available in their area.
 
 ##Web App
