@@ -32,7 +32,7 @@ The user is shown a list of past sold items. At the end of the list a user can c
 The profile view shows the user of the profile's picture, the user's rating, perferred payment, a list of items the user is currently selling and a button to report the user.
 
 ###Chat
-
+Allows a buyer and a seller to communicate with each other. Along with a button to send message the buyer is allowed to send an offer with a price. The seller is able to accept or decline the offer. If it is declined the buyer and the seller can still communicate or can end communications. If accepted both parties can continue talking but the item being discusses is considered sold.
 
 ##Web App
 
