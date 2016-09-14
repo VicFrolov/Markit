@@ -29,8 +29,10 @@ The user is shown a list of past sold items. At the end of the list a user can c
 
 ###Profile
 
+The profile view shows the user of the profile's picture, the user's rating, perferred payment, a list of items the user is currently selling and a button to report the user.
 
 ###Chat
+
 
 ##Web App
 
