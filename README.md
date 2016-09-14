@@ -19,9 +19,10 @@ In list view, by default is shown a list of items being sold in the immediate ar
 In this view the user can see more details about the products including the name, photo and price. The user can also see the seller's name, photo, rating and method of perfered payment. Underneath the photo of the product there are two buttons named chat and offer. When you click either of these buttons the user will be taken to a chat session with the seller. (See Chat Section).
 
 ###Selling
-The user
+The user is shown a list of past sold items. At the end of the list a user can click a button to post a new item. The user is taken then prompted to add the name of the item being sold, a photo of the item and tags for the item. By clicking next they are taken to the next page where the user will enter the price of the item and the duration of how long the item will be posted. 
 
 ###Profile
+
 
 ###Chat
 Senior Group  web/iOS/Android app
