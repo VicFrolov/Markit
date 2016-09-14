@@ -49,8 +49,10 @@ Users will be sent notifications when they receive a message, when an item on th
 #Tools used to develop
 
 web-			Cloud9, Rails
+
 iOS-		 	Xcode
-Android app-	Android Studio
+
+Android-		Android Studio
 
 #Team
 
