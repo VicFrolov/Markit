@@ -14,7 +14,7 @@ Markit is your go to app for selling and purchasing used goods within a college 
 When opening the app for the first time, the user will be greeted by a Login/Register screen. To login, the user will be prompted to enter in their username or email in the first field and their password in the second. To register, the user will be asked to provide a username, academic email, and password. The user will then be asked if the app is allowed to get their current location. The user will then be given a quick tour of the app.
 
 ###College Hub
-Markit is designed to be used by college students in populated areas. If the particular item a user is looking for is unavailable at their school, or they know they will be visiting a friend who goes to another school, the user can easily filter their search by area and look for items available at specific college campuses. Finding items should be at the convinience of the user, and Markit should be a tool to bring college students together.
+Markit is designed to be used by college students in populated areas. If the particular item a user is looking for is unavailable at their school, or they know they will be visiting a friend who goes to another school, the user can easily filter their search by area and look for items available at specific college campuses. Finding items should be at the convenience of the user, and Markit should be a tool to bring college students together.
 
 ###Searching
 There are two views which the user can use to view items being sold. Under map view, the user will be able to view a map with multiple markers signifying the seller's general area. Above each marker is a small photo of the object that is up for sell. By clicking the marker, the map centers around the marker and a larger box replaces the photo. This box displays the seller's name, a photo of the item, the name of the item, the approximate distance from the user's current location, the price it is being sold for, and the option to add the item to the user's watchlist. By clicking it again the user is then redirected to the buying page. In the search bar above, the user can type in a location to see what items are being sold in that location.
@@ -35,8 +35,10 @@ The profile view shows the user's profile picture, the user's rating, the user's
 Allows a buyer and a seller to communicate with each other. Along with a button to send messages, the buyer is allowed to send an offer with a price. The seller is able to accept or decline the offer. If it is declined the seller can choose to continue or end communication with the buyer. If the offer is accepted, both parties can continue talking but the item being discussed is considered sold.
 
 ###Payment System
+In most of the competing applications, payment is done via communication between the buyer and seller.  Markit will allow the buyer to pay the seller through the app once an offer has been accepeted either through Venmo or PayPal.  This will depend on the preferred method of payment of the seller.
 
 ###Notification
+Users will be sent notifications when they receive a message, when an item on their watchlist is sold or changes in price, and when tagged items become available in their area.
 
 ##Web App
 
