@@ -52,7 +52,6 @@ In this view the user can see more details about the products including the name
 The user is shown a list of past sold items. At the end of the list a user can click a button to post a new item. The user is then prompted to add the name of the item being sold, a photo of the item, and tags for the item. By clicking 'next' they are taken to the next page where the user will enter the price of the item and the duration of how long the item will be posted. 
 
 ###Profile
-
 The profile view shows the user's profile picture, the user's rating, the user's perferred payment, a list of items the user is currently selling, and a button to report the user.
 
 ###Chat
@@ -68,6 +67,17 @@ Users will be sent notifications when they receive a message, when an item on th
 
 ###Differences from mobile
 While the web app will perform functionally the same as both of the mobile apps, it will feature a more open user interface not possible with the limited screen space of mobile devices. This will be the preferable way of using Markit for many users.
+
+#Why Use It?
+
+###Tagging
+Users will be able to reduce their search time when they have tagged an item. They will get a notification if an item that they have tagged is now being sold somewhere near them.
+
+###Exclusivity
+This app is strictly for students with a .edu e-mail which makes it safer and also guarantees a market.
+
+###Offers
+Unlike other selling/purchasing websites and applications, the user will have the ability to make an offer within the chat system and the seller can then accept or decline that offer. 
 
 #Software Requirements
 
