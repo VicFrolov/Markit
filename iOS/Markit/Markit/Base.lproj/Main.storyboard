@@ -168,7 +168,7 @@
                     <connections>
                         <segue destination="ke1-eE-Npk" kind="relationship" relationship="viewControllers" id="AgN-bQ-FP2"/>
                         <segue destination="VcX-gb-ou2" kind="relationship" relationship="viewControllers" id="dTN-qW-5NP"/>
-                        <segue destination="wU5-N3-cyO" kind="relationship" relationship="viewControllers" id="rxZ-Iv-IXb"/>
+                        <segue destination="aW4-ox-6SW" kind="relationship" relationship="viewControllers" id="rxZ-Iv-IXb"/>
                         <segue destination="gpF-l5-Gnq" kind="relationship" relationship="viewControllers" id="6im-by-Bgp"/>
                         <segue destination="Kwb-x3-mN0" kind="relationship" relationship="viewControllers" id="MI6-Wz-TrZ"/>
                     </connections>
@@ -177,7 +177,7 @@
             </objects>
             <point key="canvasLocation" x="-429.60000000000002" y="560.86956521739137"/>
         </scene>
-        <!--Sell-->
+        <!--View Controller-->
         <scene sceneID="UKM-c0-NoJ">
             <objects>
                 <viewController id="wU5-N3-cyO" sceneMemberID="viewController">
@@ -188,13 +188,122 @@
                     <view key="view" contentMode="scaleToFill" id="gfp-dX-ylc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wzg-aO-rFU">
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VsS-JS-IVd">
+                                        <state key="normal" title="Take a Pic"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Yr-fk-EtX">
+                                        <state key="normal" title="Select Photo"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sell Something!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PsS-2Z-hvz">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="124" id="Aw5-bH-CTL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ppF-Ht-uk0">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFC-hn-i68">
+                                <state key="normal" title="Next"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step 1 of 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPd-S3-Dgg">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnt-i0-quL">
+                                <frame key="frameInset" minX="20" minY="20" width="39" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <segue destination="tBL-Sl-EgX" kind="unwind" unwindAction="closeWithSegue:" id="6t6-Ep-rf7"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Wzg-aO-rFU" firstAttribute="top" secondItem="PsS-2Z-hvz" secondAttribute="bottom" constant="44" id="1D8-tW-5uc"/>
+                            <constraint firstItem="Wzg-aO-rFU" firstAttribute="centerX" secondItem="ppF-Ht-uk0" secondAttribute="centerX" id="9Uy-VZ-oW6"/>
+                            <constraint firstItem="PsS-2Z-hvz" firstAttribute="centerX" secondItem="gfp-dX-ylc" secondAttribute="centerX" id="Eed-D8-0Ye"/>
+                            <constraint firstItem="ppF-Ht-uk0" firstAttribute="centerX" secondItem="jFC-hn-i68" secondAttribute="centerX" id="JsA-zf-jTV"/>
+                            <constraint firstItem="jFC-hn-i68" firstAttribute="centerX" secondItem="SPd-S3-Dgg" secondAttribute="centerX" id="UGG-I9-owh"/>
+                            <constraint firstItem="NNK-VJ-6qA" firstAttribute="top" secondItem="SPd-S3-Dgg" secondAttribute="bottom" constant="43" id="WIJ-mh-yXz"/>
+                            <constraint firstItem="PsS-2Z-hvz" firstAttribute="centerX" secondItem="Wzg-aO-rFU" secondAttribute="centerX" id="XHU-F5-YjF"/>
+                            <constraint firstItem="ppF-Ht-uk0" firstAttribute="top" secondItem="Wzg-aO-rFU" secondAttribute="bottom" constant="53" id="aft-pT-bsZ"/>
+                            <constraint firstItem="PsS-2Z-hvz" firstAttribute="top" secondItem="PQf-WK-zRz" secondAttribute="bottom" constant="27" id="e8z-Vs-Irp"/>
+                            <constraint firstItem="ppF-Ht-uk0" firstAttribute="leading" secondItem="gfp-dX-ylc" secondAttribute="leadingMargin" constant="61" id="ifM-1s-XDc"/>
+                            <constraint firstItem="SPd-S3-Dgg" firstAttribute="top" secondItem="jFC-hn-i68" secondAttribute="bottom" constant="21" id="pAT-u4-UiA"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Sell" id="mo3-0Q-GRo"/>
+                    <navigationItem key="navigationItem" id="sYl-yE-ifO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erI-uK-UTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="tBL-Sl-EgX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="340" y="561"/>
+            <point key="canvasLocation" x="1820" y="561"/>
+        </scene>
+        <!--Sell-->
+        <scene sceneID="4KY-aX-5XV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aW4-ox-6SW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Sell" id="mo3-0Q-GRo"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uxp-yY-EZD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vhY-lT-abz" kind="relationship" relationship="rootViewController" id="v9M-OB-Ot5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pgq-IU-sWP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="340" y="560.86956521739137"/>
+        </scene>
+        <!--Selling Tab Table View Controller-->
+        <scene sceneID="BFu-HI-g8K">
+            <objects>
+                <tableViewController id="vhY-lT-abz" customClass="SellingTabTableViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z38-bQ-l8y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SellCell" id="gdS-S0-T7l">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gdS-S0-T7l" id="Aez-1m-hfd">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="vhY-lT-abz" id="vdw-ag-Jm2"/>
+                            <outlet property="delegate" destination="vhY-lT-abz" id="eVe-ak-WXY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="2Hf-ir-riv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="6DT-df-XyP">
+                            <connections>
+                                <segue destination="wU5-N3-cyO" kind="presentation" id="hG0-LB-1fv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Uy-Pf-BWG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1082" y="561"/>
         </scene>
     </scenes>
     <resources>
