@@ -27,7 +27,7 @@ class AddItemForSaleViewController: UIViewController {
     
     
     @IBAction func didTapPost(_ sender: AnyObject) {
-        postNewListing(userID: "1993910", username: "Vic", item: "ball of wax", price: 69)
+        postNewListing(userID: "1993910", username: "Vic", item: "ball of wax", price: 69, hub: "LMU")
     }
     
     
