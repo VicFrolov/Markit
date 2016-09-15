@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import Firebase
 
 class ListingsTableViewController: UITableViewController {
-    
     var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
-    
     var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
+    
+    var ref: FIRDatabaseReference!
+
+    
+    
+    func postNewListing(userID: String, username: String, item: String, price: Int) {
+        let key = ref.child("posts").childByAutoId().key
+        let item = ["uid": userID,
+                    "seller": username,
+                    "item": item,
+                    "price": price] as [String : Any]
+        let childUpdates = ["/items/\(key)": item,
+                            "/userAllSaleItems/\(userID)/\(key)/": item]
+        ref.updateChildValues(childUpdates)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.ref = FIRDatabase.database().reference()
+        postNewListing(userID: "FirstTest", username: "Vic", item: "ball of wax", price: 69)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
