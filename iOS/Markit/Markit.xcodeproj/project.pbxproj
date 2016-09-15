@@ -14,6 +14,7 @@
 		384810C91D84E60A00830C95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384810C81D84E60A00830C95 /* Assets.xcassets */; };
 		384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */; };
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
+		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
 		388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 388B46A81D8A70F200B6717E /* GoogleService-Info.plist */; };
 		9F6265EDD5E354A227273B61 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B7D6526198F445DDB38A580 /* Pods_Markit.framework */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		384810C81D84E60A00830C95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewController.swift; sourceTree = "<group>"; };
 		384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewCell.swift; sourceTree = "<group>"; };
+		387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemForSaleViewController.swift; sourceTree = "<group>"; };
 		388B46A81D8A70F200B6717E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B7D6526198F445DDB38A580 /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B8647FDED104FF70BD2C425 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
+				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
+				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
