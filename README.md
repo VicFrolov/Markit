@@ -58,10 +58,10 @@ In the hub view, the user can see an overview of what is being sold in your area
 ###Searching
 There are two views which the user can use to view items being sold. Under map view, the user will be able to view a map with multiple markers signifying the seller's general area. Above each marker is a small photo of the object that is up for sell. By clicking the marker, the map centers around the marker and a larger box replaces the photo. This box displays the seller's name, a photo of the item, the name of the item, the approximate distance from the user's current location, the price it is being sold for, and the option to add the item to the user's watchlist. By clicking it again the user is then redirected to the buying page. In the search bar above, the user can type in a location to see what items are being sold in that location.
 
-In list view, a list of items being sold in the immediate area is shown. Each listed item shows a picture of the item shown, the name of the seller, the name of the item, the approximate distance from the user's current location, the price it is being sold for, and the option to add the item to the user's watchlist. By clicking the list the user is redirected to the buying view. At the top of the screen is a search bar where the user can type in a location to only show items in a certain location or the user can enter an item name which will filter items that don't match the tag that was provided.
+In list view, a list of items being sold in the immediate area is shown. Each listed item shows a picture of the item, the name of the seller, the name of the item, the approximate distance from the user's current location, the price it is being sold for, and the option to add the item to the user's watchlist. By clicking the list the user is redirected to the buying view. At the top of the screen is a search bar where the user can type in a location to only show items in a certain location. Alternatively the user can enter an item name which will filter items that don't match the tag that was provided.
 
 ###Buying
-In this view the user can see more details about the products including the name, a photo, and a price. The user can also see the seller's name, their photo, their rating, and their preferred method of payment. Underneath the photo of the product there are two buttons named chat and offer. When the user clicks either of these buttons, the user will be taken to a chat session with the seller. (See Chat Section).
+In this view the user can see more details about the product including the name, a photo, and a price. The user can also see the seller's name, their photo, their rating, and their preferred method of payment. Underneath the photo of the product there are two buttons named chat and offer. When the user clicks either of these buttons, the user will be taken to a chat session with the seller.
 
 ###Selling
 The user is shown a list of past sold items. At the end of the list a user can click a button to post a new item. The user is then prompted to add the name of the item being sold, a photo of the item, and tags for the item. By clicking 'next' they are taken to the next page where the user will enter the price of the item and the duration of how long the item will be posted. 
@@ -114,4 +114,4 @@ Android- Android Studio
 	* Mike McAuley
 	* Peyton Cross
 
-Senior Group  web/iOS/Android app
+
