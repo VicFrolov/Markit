@@ -1,3 +1,7 @@
+body {
+  font-family: "Oxygen", sans-serif;
+}
+
 .brand-logo{
     font-weight:900;
 }
@@ -19,4 +23,15 @@
 
 .profile-dropdown-icon {
     padding-left: -100px;
+}
+
+.video {
+  position: fixed;
+  top: 50%; left: 50%;
+  z-index: -10;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
 }
