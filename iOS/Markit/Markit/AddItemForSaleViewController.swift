@@ -12,14 +12,15 @@ import Firebase
 class AddItemForSaleViewController: UIViewController {
     var ref: FIRDatabaseReference!
     
-    func postNewListing(userID: String, username: String, item: String, price: Int) {
+    func postNewListing(userID: String, username: String, item: String, price: Int, hub: String) {
         let key = ref.child("posts").childByAutoId().key
         let item = ["uid": userID,
                     "seller": username,
                     "item": item,
                     "price": price] as [String : Any]
         let childUpdates = ["/items/\(key)": item,
-                            "/saleItemsByUser/\(userID)/\(key)/": item]
+                            "/itemsByUser/\(userID)/\(key)/": item,
+                            "/itemsByHub/\(hub)": item]
         ref.updateChildValues(childUpdates)
         print("item posted to database")
     }
