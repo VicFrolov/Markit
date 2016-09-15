@@ -1,5 +1,5 @@
 # Markit
-#About
+#What is it?
 Markit is your go to app for selling and purchasing used goods within a college community. Users can search, sell, purchase and track items via Android, iPhone or on your favorite web browser. Markit has a dynamic chat and offering system which provides great communication between the buyer and seller. Worried about being robbed or cheated? Markit allows users to rate each other! Are you looking for an item but it's not available? Markit will track that for you! Markit is your one stop app for buying and selling used goods!
 
 #Features
@@ -30,15 +30,30 @@ Markit is your go to app for selling and purchasing used goods within a college 
 	* send/receive
 	* incentives
 
+#Why Use It?
+
+###Tagging
+Users will be able to reduce their search time when they have tagged an item. They will get a notification if an item that they have tagged is now being sold somewhere near them.
+
+###Exclusivity
+This app is strictly for students with a .edu e-mail which makes it safer and also guarantees a market.
+
+###Offers
+Unlike other selling/purchasing websites and applications, the user will have the ability to make an offer within the chat system and the seller can then accept or decline that offer. 
+
 #How to use it
 <pic goes here>
 
 
 ##Android/iOS
-When opening the app for the first time, the user will be greeted by a Login/Register screen. To login, the user will be prompted to enter in their username or email in the first field and their password in the second. To register, the user will be asked to provide a username, academic email, and password. The user will then be asked if the app is allowed to get their current location. The user will then be given a quick tour of the app.
+
+###Login/Register
+When using the app for the first time, the user will be greeted by a Login/Register screen. To login, the user will be prompted to enter in their username or email in the first field and their password in the second. To register, the user will be asked to provide a username, academic email, and password. The user will then be asked if the app is allowed to get their current location. The user will then be given a quick tour of the app.
 
 ###College Hub
 Markit is designed to be used by college students in populated areas. If the particular item a user is looking for is unavailable at their school, or they know they will be visiting a friend who goes to another school, the user can easily filter their search by area and look for items available at specific college campuses. Finding items should be at the convenience of the user, and Markit should be a tool to bring college students together.
+
+In the hub view, the user can see an overview of what is being sold in your area. The user can view different trends of commonly sold items in the area, general price changes and list of items on your watchlist. The user is also able to switch to different areas to see information in that area.
 
 ###Searching
 There are two views which the user can use to view items being sold. Under map view, the user will be able to view a map with multiple markers signifying the seller's general area. Above each marker is a small photo of the object that is up for sell. By clicking the marker, the map centers around the marker and a larger box replaces the photo. This box displays the seller's name, a photo of the item, the name of the item, the approximate distance from the user's current location, the price it is being sold for, and the option to add the item to the user's watchlist. By clicking it again the user is then redirected to the buying page. In the search bar above, the user can type in a location to see what items are being sold in that location.
@@ -68,18 +83,14 @@ Users will be sent notifications when they receive a message, when an item on th
 ###Differences from mobile
 While the web app will perform functionally the same as both of the mobile apps, it will feature a more open user interface not possible with the limited screen space of mobile devices. This will be the preferable way of using Markit for many users.
 
-#Why Use It?
 
-###Tagging
-Users will be able to reduce their search time when they have tagged an item. They will get a notification if an item that they have tagged is now being sold somewhere near them.
 
-###Exclusivity
-This app is strictly for students with a .edu e-mail which makes it safer and also guarantees a market.
-
-###Offers
-Unlike other selling/purchasing websites and applications, the user will have the ability to make an offer within the chat system and the seller can then accept or decline that offer. 
-
-#Software Requirements
+#Minimum Software Requirements
+* Android
+ * Android 4.1 (Jelly Bean)
+ 
+* iOS
+ * iOS 10
 
 #Tools used to develop
 
@@ -90,5 +101,17 @@ iOS- Xcode
 Android- Android Studio
 
 #Teams
+* Web App
+	* Joel Homan
+	* Adrian Lu
+	* Victor Frolov
+* iOS
+	* Trixie Roque
+	* Bryan Ku
+* Android
+	* J.B. Morris
+	* Anna Gotsis
+	* Mike McAuley
+	* Peyton Cross
 
 Senior Group  web/iOS/Android app
