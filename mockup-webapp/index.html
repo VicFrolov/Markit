@@ -11,17 +11,20 @@
   
 
   <body>
-    <nav>
-        <div class="nav-wrapper blue">
+    <nav class="z-depth-0">
+        <div class="nav-wrapper">
             <a href="#!" class="brand-logo left">Markit</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#!">Messages<i class="material-icons right">email</i></a></li>
-                <li><a href="#!">Notifications<i class="material-icons right">announcement</i></a></li>
+                <li><a href="#!"><i class="material-icons right">email</i></a></li>
+                <li><a href="#!"><i class="material-icons right">announcement</i></a></li>
                 <!-- Dropdown Trigger -->
-                <li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">User Profile<i class="material-icons right">perm_identity</i></a></li>
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown-help" data-beloworigin="true"><i class="material-icons right">live_help</i></a></li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">CrakRokz<i class="material-icons right profile">perm_identity</i></a></li>
             </ul>
         </div>
     </nav>
+
     <!-- Dropdown Structure -->
     <ul id="dropdown" class="dropdown-content collection">
         <li class="collection-item avatar">
@@ -43,15 +46,18 @@
             <a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
         </li>
     </ul>
+    <ul id="dropdown-help" class="dropdown-content collection">
+      <li>About</li>
+      <li>Help</li>
+      <li>FAQ</li>
+    </ul>    
 
 
-    <h2>Welcome To My Product</h2>
 
-    <video id="my-video" class="video" autoplay="autoplay" loop="loop" muted="" width="300" height="150">
-      <source src="media/demo.mp4" type="video/mp4" />
-      <source src="media/demo.ogv" type="video/ogg" />
-      <source src="media/demo.webm" type="video/webm" />
-    </video><!-- /video -->    
+    <div id="landing-page-header-text">
+      <h4><i>"Revolutionizing the secondhand buying and selling experience; for students, by students."<span id="signature-landing-page-header">(JB Morris, 2016)</span><i> </h4>
+    </div>
+
 
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
