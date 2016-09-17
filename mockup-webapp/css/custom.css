@@ -9,20 +9,20 @@ body {
 }
 
 nav {
-    margin-left: 10%;
-    margin-right: 10%;
-    width: 80%;
+    margin-left: 7%;
+    width: 86%;
     background-color: #fff;
-    border-bottom: solid 2px black;
+    border-bottom: solid 2px rgba(0, 0, 0, 0.3);
 }
 
 nav .brand-logo {
-    color: black;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 nav ul a {
-    color: black;
+    color: rgba(0, 0, 0, 0.5);
 }
+
 
 nav ul li:hover {
     background-color: rgba(0, 0, 255, 0.3);
