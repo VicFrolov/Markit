@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import Firebase
 
 class ListingsTableViewController: UITableViewController {
-    
     var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
-    
     var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
+    
+    var ref: FIRDatabaseReference!
+    var refHandle: FIRDatabaseHandle?
+    var items: Array<FIRDataSnapshot> = []
+
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,6 +27,11 @@ class ListingsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+
     }
 
     override func didReceiveMemoryWarning() {

@@ -1,0 +1,58 @@
+body {
+  font-family: "Oxygen", sans-serif;
+}
+
+/*NAVBAR*/
+
+#dropdown-help {
+    margin-top: 64px;
+}
+
+nav {
+    margin-left: 7%;
+    width: 86%;
+    background-color: #fff;
+    border-bottom: solid 2px rgba(0, 0, 0, 0.3);
+}
+
+nav .brand-logo {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+nav ul a {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+
+nav ul li:hover {
+    background-color: rgba(0, 0, 255, 0.3);
+}
+
+i.right {
+    margin: 0px;
+}
+
+.profile {
+    margin-left: 10px;
+}
+
+
+
+/*Launch page*/
+
+.profile-dropdown-icon {
+    padding-left: -100px;
+}
+
+
+#landing-page-header-text {
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 5%;
+    font-style: bold;
+}
+
+#signature-landing-page-header {
+    font-size:7px;
+}

@@ -177,10 +177,10 @@
             </objects>
             <point key="canvasLocation" x="-429.60000000000002" y="560.86956521739137"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Item For Sale View Controller-->
         <scene sceneID="UKM-c0-NoJ">
             <objects>
-                <viewController id="wU5-N3-cyO" sceneMemberID="viewController">
+                <viewController id="wU5-N3-cyO" customClass="AddItemForSaleViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PQf-WK-zRz"/>
                         <viewControllerLayoutGuide type="bottom" id="NNK-VJ-6qA"/>
@@ -214,6 +214,9 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFC-hn-i68">
                                 <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="didTapPost:" destination="wU5-N3-cyO" eventType="touchUpInside" id="tRf-SN-l0I"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step 1 of 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPd-S3-Dgg">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -283,7 +286,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gdS-S0-T7l" id="Aez-1m-hfd">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
