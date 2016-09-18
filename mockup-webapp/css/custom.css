@@ -1,5 +1,7 @@
-body {
+html, body {
   font-family: "Oxygen", sans-serif;
+  height: 100%;
+  width: 100%;
 }
 
 /*NAVBAR*/
@@ -47,15 +49,21 @@ i.right {
     padding-left: -100px;
 }
 
-
-#landing-page-header-text {
-    text-align: center;
-    margin-left: 15%;
-    margin-right: 15%;
-    margin-top: 5%;
-    font-style: bold;
+/*custom login popup*/
+#login-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-#signature-landing-page-header {
-    font-size:7px;
+#login-popup-inner {
+    margin: 0 auto;
+    margin-top: 10%;
+    width: 450px;
+    height: 70%;
+    min-height: 550px;
+    background-color: #fff;
 }
