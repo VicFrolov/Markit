@@ -66,4 +66,31 @@ i.right {
     height: 70%;
     min-height: 550px;
     background-color: #fff;
+    text-align: center;
+    padding: 30px 30px 30px 30px;
+}
+
+.login-popup-inner-items {
+    width: 100%;
+    margin-bottom: 5px;
+    height: 60px;
+}
+
+.crossline-wrapper {
+    margin-top:20px;
+    border-top: 1px solid #969696;
+    /* width: 80px; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.crossline-wrapper > div {
+    margin-top: -15px;
+    background: #fff;
+    width: 30px;
+    line-height: 25px;
+    color: #969696;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
