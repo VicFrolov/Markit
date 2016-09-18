@@ -1,5 +1,7 @@
 $(function() {
 
+    $('.carousel.carousel-slider').carousel({full_width: true});
+
         // $('.dropdown-button').dropdown({
         //     inDuration: 300,
         //     outDuration: 225,
@@ -8,23 +10,21 @@ $(function() {
         //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
         // });
 
-    var extendNavBar = function () {
-        $("nav").animate({
-            "margin-left": "0%",
-            width: "100%"
-        }, 600);
+    // $("nav").mouseenter(function(){
+    //     $(this).animate({
+    //         "margin-left": "0%",
+    //         width: "100%"
+    //     });
         
-        $(".brand-logo").animate({
-            "margin-left": "40px"
-        });
+    //     $(".brand-logo").animate({
+    //         "margin-left": "40px"
+    //     });
 
-        $("nav ul li").animate({
-            "padding-right": "10px",
-            "padding-left": "10px"
-        });
-    };
-    setTimeout(extendNavBar, 300);
-
+    //     $("nav ul li").animate({
+    //         "padding-right": "10px",
+    //         "padding-left": "10px"
+    //     });
+    // });
 
     // $("nav").mouseleave(function(){
     //     $(this).animate({
