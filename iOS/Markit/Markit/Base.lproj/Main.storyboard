@@ -232,10 +232,10 @@
             </objects>
             <point key="canvasLocation" x="1082" y="561"/>
         </scene>
-        <!--View Controller-->
+        <!--New listing-->
         <scene sceneID="X2i-r2-usa">
             <objects>
-                <viewController id="B9v-iv-uZr" sceneMemberID="viewController">
+                <viewController title="New listing" id="B9v-iv-uZr" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lsV-G2-fJg"/>
                         <viewControllerLayoutGuide type="bottom" id="K4W-zx-y85"/>

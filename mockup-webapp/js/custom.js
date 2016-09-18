@@ -8,11 +8,11 @@ $(function() {
         //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
         // });
 
-    $("nav").mouseenter(function(){
-        $(this).animate({
+    var extendNavBar = function () {
+        $("nav").animate({
             "margin-left": "0%",
             width: "100%"
-        });
+        }, 600);
         
         $(".brand-logo").animate({
             "margin-left": "40px"
@@ -22,22 +22,24 @@ $(function() {
             "padding-right": "10px",
             "padding-left": "10px"
         });
-    });
+    };
+    setTimeout(extendNavBar, 300);
 
-    $("nav").mouseleave(function(){
-        $(this).animate({
-            "margin-left": "7%",
-            width: "84%"
-        });
 
-        $(".brand-logo").animate({
-            "margin-left": "0px"
-        });
+    // $("nav").mouseleave(function(){
+    //     $(this).animate({
+    //         "margin-left": "7%",
+    //         width: "84%"
+    //     });
+
+    //     $(".brand-logo").animate({
+    //         "margin-left": "0px"
+    //     });
        
-        $("nav ul li").animate({
-            "padding-right": "0px",
-            "padding-left": "0px"
-        })
-    });    
+    //     $("nav ul li").animate({
+    //         "padding-right": "0px",
+    //         "padding-left": "0px"
+    //     })
+    // });    
 
 }); // End Document Ready
