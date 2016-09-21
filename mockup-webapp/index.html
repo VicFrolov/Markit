@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MarkIt, MarkIt reaaalll good</title>
+    <title>Caml</title>
 
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
@@ -11,6 +11,34 @@
   
 
   <body>
+    <!-- facebook auth stuff -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '164366894009708',
+          xfbml      : true,
+          version    : 'v2.7'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- start drop down  -->
+    <ul id="dropdown-help" class="dropdown-content collection">
+      <li>About</li>
+      <li>Help</li>
+      <li>FAQ</li>
+    </ul> 
+
+    <!-- end dropdown -->
+    <!-- start nav -->
     <nav class="z-depth-0">
         <div class="nav-wrapper">
             <a href="#!" class="brand-logo left">Caml</a>
@@ -20,49 +48,71 @@
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown-help" data-beloworigin="true"><i class="material-icons right">live_help</i></a></li>
                 <!-- Dropdown Trigger -->
-                <li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">CrakRokz<i class="material-icons right profile">perm_identity</i></a></li>
+                <li id="login-button"><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">Login<i class="material-icons right profile">perm_identity</i></a></li>
             </ul>
         </div>
-    </nav>
+    </nav>   
+    <!-- end nav -->
 
-    <!-- Dropdown Structure -->
-    <ul id="dropdown" class="dropdown-content collection">
-        <li class="collection-item avatar">
-            <img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
-            <span class="title">Name</span>
-            <p>First Line</p>
-            <a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
-        </li>
-        <li class="collection-item avatar">
-            <img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
-            <span class="title">Name</span>
-            <p>First Line</p>
-            <a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
-        </li>
-        <li class="collection-item avatar">
-            <img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
-            <span class="title">Name</span>
-            <p>First Line</p>
-            <a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
-        </li>
-    </ul>
-    <ul id="dropdown-help" class="dropdown-content collection">
-      <li>About</li>
-      <li>Help</li>
-      <li>FAQ</li>
-    </ul>    
-
-
-
-    <div id="landing-page-header-text">
-      <h4><i>"Revolutionizing the secondhand buying and selling experience; for students, by students."<span id="signature-landing-page-header">(JB Morris, 2016)</span><i> </h4>
+    <!--start carousel -->
+    <div class="carousel carousel-slider center" data-indicators="true">
+      <div class="carousel-fixed-item center">
+        <a class="btn waves-effect white grey-text darken-text-2">Learn About Caml</a>
+      </div>
+      <div class="carousel-item red white-text" href="#one!">
+        <h2>Revolutionizing the way students buy and sell goods, textbooks, and everything else</h2>
+        <p class="white-text">subheader</p>
+      </div>
+      <div class="carousel-item amber white-text" href="#two!">
+        <h2>Second Panel</h2>
+        <p class="white-text">This is your second panel</p>
+      </div>
+      <div class="carousel-item green white-text" href="#three!">
+        <h2>Third Panel</h2>
+        <p class="white-text">This is your third panel</p>
+      </div>
+      <div class="carousel-item blue white-text" href="#four!">
+        <h2>Fourth Panel</h2>
+        <p class="white-text">This is your fourth panel</p>
+      </div>
     </div>
+    <!-- end carousel -->
 
+    <!-- custom login pop up -->
+    <div id="login-popup">
+      <div id="login-popup-inner">
+        <fb:login-button class="login-popup-inner-items" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+        <a class="waves-effect waves-light btn login-popup-inner-items"><i class="material-icons left"></i>Log in with Google</a>
+        <div class="crossline-wrapper">
+          <div> or </div>
+        </div>
+        <div class="row">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate">
+                <label for="email">Username</label>
+              </div>
+            </div>    
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password">Password</label>
+              </div>
+            </div>
+        </div>
+        <a class="waves-effect waves-light btn login-popup-inner-items" id="sign-in-button">Log in</a>
+      </div>
+    </div>
 
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-database.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
 
   </body>
 </html>

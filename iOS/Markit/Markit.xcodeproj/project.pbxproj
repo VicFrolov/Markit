@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
+		381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 381C21A91D8D125500657D9D /* Assets.xcassets */; };
 		384810B41D83984400830C95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810B31D83984400830C95 /* AppDelegate.swift */; };
 		384810B91D83984400830C95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810B71D83984400830C95 /* Main.storyboard */; };
 		384810BE1D83984400830C95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810BC1D83984400830C95 /* LaunchScreen.storyboard */; };
-		384810C91D84E60A00830C95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384810C81D84E60A00830C95 /* Assets.xcassets */; };
 		384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */; };
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
 		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
@@ -21,12 +21,12 @@
 
 /* Begin PBXFileReference section */
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
+		381C21A91D8D125500657D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		384810B01D83984400830C95 /* Markit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Markit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384810B31D83984400830C95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		384810B81D83984400830C95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		384810BD1D83984400830C95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		384810BF1D83984400830C95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		384810C81D84E60A00830C95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewController.swift; sourceTree = "<group>"; };
 		384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewCell.swift; sourceTree = "<group>"; };
 		387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemForSaleViewController.swift; sourceTree = "<group>"; };
@@ -72,8 +72,8 @@
 				384810CC1D84F49B00830C95 /* View */,
 				384810C51D83B9E600830C95 /* Controller */,
 				384810B31D83984400830C95 /* AppDelegate.swift */,
+				381C21A91D8D125500657D9D /* Assets.xcassets */,
 				384810B71D83984400830C95 /* Main.storyboard */,
-				384810C81D84E60A00830C95 /* Assets.xcassets */,
 				384810BC1D83984400830C95 /* LaunchScreen.storyboard */,
 				388B46A81D8A70F200B6717E /* GoogleService-Info.plist */,
 				384810BF1D83984400830C95 /* Info.plist */,
@@ -181,7 +181,7 @@
 			files = (
 				384810BE1D83984400830C95 /* LaunchScreen.storyboard in Resources */,
 				388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */,
-				384810C91D84E60A00830C95 /* Assets.xcassets in Resources */,
+				381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */,
 				384810B91D83984400830C95 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

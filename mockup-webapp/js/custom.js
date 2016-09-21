@@ -1,43 +1,28 @@
 $(function() {
+    $('.carousel.carousel-slider').carousel({full_width: true});
+    
 
-        // $('.dropdown-button').dropdown({
-        //     inDuration: 300,
-        //     outDuration: 225,
-        //     hover: true, // Activate on hover
-        //     belowOrigin: true, // Displays dropdown below the button
-        //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
-        // });
-
-    $("nav").mouseenter(function(){
-        $(this).animate({
-            "margin-left": "0%",
-            width: "100%"
-        });
-        
-        $(".brand-logo").animate({
-            "margin-left": "40px"
-        });
-
-        $("nav ul li").animate({
-            "padding-right": "10px",
-            "padding-left": "10px"
-        });
+    //pop up for login buttnon
+    $('#login-popup').hide();
+    $('#login-button').on('click', function () {
+        $('#login-popup').fadeIn();
+    });
+    $(document).mouseup(function (e) {
+        var popup = $('#login-popup');
+        if (popup.is(e.target)) {
+            popup.fadeOut();
+        }
     });
 
-    $("nav").mouseleave(function(){
-        $(this).animate({
-            "margin-left": "7%",
-            width: "84%"
+    //sign in:
+    $("#sign-in-button").on('click', function() {
+        console.log("attempting sign in...");
+        firebase.auth().signInWithEmailAndPassword($("#email").val(), $("#password").val()).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
         });
+    })
 
-        $(".brand-logo").animate({
-            "margin-left": "0px"
-        });
-       
-        $("nav ul li").animate({
-            "padding-right": "0px",
-            "padding-left": "0px"
-        })
-    });    
-
-}); // End Document Ready
+});
