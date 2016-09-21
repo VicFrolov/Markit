@@ -51,6 +51,7 @@ i.right {
 
 /*custom login popup*/
 #login-popup {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -74,6 +75,13 @@ i.right {
     width: 100%;
     margin-bottom: 5px;
     height: 60px;
+    line-height: 60px;
+    background-color: rgba(0, 0, 255, 0.6);
+    text-transform: none;
+}
+
+.login-popup-inner-items:hover {
+    background-color: rgba(0, 0, 255, 0.9);
 }
 
 .crossline-wrapper {
@@ -94,3 +102,4 @@ i.right {
     margin-left: auto;
     margin-right: auto;
 }
+
