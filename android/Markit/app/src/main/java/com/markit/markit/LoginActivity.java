@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import com.firebase.client.Firebase;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -101,13 +102,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void registerClick() {
+
         Button registerButton = (Button) findViewById(R.id.register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Firebase myFirebaseRef = new Firebase("http://markit-80192.firebaseio.com");
+                myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
             }
         });
+
     }
 
 
