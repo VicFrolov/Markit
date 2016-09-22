@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         registerClick();
-        homeClick();
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,20 +105,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Register button was clicked!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void homeClick() {
-        ImageButton homeButton = (ImageButton) findViewById(R.id.home_button);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
     }
+
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -218,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") && email.contains(".edu");
     }
 
     private boolean isPasswordValid(String password) {
