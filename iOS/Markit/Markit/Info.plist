@@ -24,6 +24,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+	<string>&quot;Allow access to take pictures&quot;</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>&quot;select a photo of an item to sell&quot;</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
