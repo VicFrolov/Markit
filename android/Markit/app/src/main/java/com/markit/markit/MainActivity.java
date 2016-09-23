@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -19,14 +20,19 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 public class MainActivity extends AppCompatActivity {
-
+    private EditText emailView;
+    private EditText passwordView;
+    private EditText confirmPasswordView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        emailView = (EditText) findViewById(R.id.email);
+        passwordView = (EditText) findViewById(R.id.password);
+        confirmPasswordView = (EditText) findViewById(R.id.password2);
         profileClick();
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+
+
 
     }
 
@@ -35,19 +41,18 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                attemptRegister();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
     }
 
-    public void jSonButton() {
-        Button jButton = (Button) findViewById(R.id.jbutton);
-        jButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
+    private void attemptRegister() {
+        String email = emailView.getText().toString();
+        String password = passwordView.getText().toString();
+        String confirmPassword = confirmPasswordView.getText().toString();
 
-            }
-        });
+        //Checking email
     }
 
 
