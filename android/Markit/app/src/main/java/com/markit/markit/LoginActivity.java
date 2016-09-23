@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import com.firebase.client.Firebase;
+import com.firebase.client.AuthData;
+import com.firebase.client.FirebaseError;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -209,8 +211,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+
+            Firebase userRef = new  Firebase("http://markit-80192.firebaseio.com");
+
+            userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    showProgress(false);
+                    //TODO: Implement login success
+                    Toast.makeText(LoginActivity.this, "You should be logged in", Toast.LENGTH_LONG).show();
+                }
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    showProgress(false);
+                    Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 
@@ -332,12 +350,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
@@ -354,13 +372,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
+            //showProgress(false);
 
             if (success) {
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
+                //mPasswordView.requestFocus();
             }
         }
 
