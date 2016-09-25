@@ -1,9 +1,15 @@
 $(function() {
     $('.carousel.carousel-slider').carousel({full_width: true});
-    
+    $('#navbar-placeholder').load('../navbar/navbar-logged-in.html');
+    var loadMain = function () {
+        $('main').fadeIn()
+    }
+    setTimeout(loadMain, 300);
+
     //pop up for login buttnon
     $('#login-popup').hide();
-    $('#login-button').on('click', function () {
+    $("#navbar-placeholder").on('click', '#login-button', function () {
+        console.log("it worked")
         $('#login-popup').fadeIn();
     });
     
@@ -15,13 +21,14 @@ $(function() {
     });
 
     //sign in:
-    $("#sign-in-button").on('click', function() {
+    $('#sign-in-button').on('click', function() {
         console.log("attempting sign in...");
-        firebase.auth().signInWithEmailAndPassword($("#email").val(), $("#password").val()).catch(function(error) {
+        firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
           // ...
         });
     });
+
 });

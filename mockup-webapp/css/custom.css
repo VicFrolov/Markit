@@ -4,6 +4,10 @@ html, body {
   width: 100%;
 }
 
+main {
+    display: none;
+}
+
 /*NAVBAR*/
 
 #dropdown-help {
@@ -11,9 +15,8 @@ html, body {
 }
 
 nav {
-    margin-left: 7%;
-    width: 86%;
     background-color: #fff;
+    border-bottom: 1px solid #000;
 }
 
 nav .brand-logo {
@@ -50,6 +53,7 @@ i.right {
 
 /*custom login popup*/
 #login-popup {
+    z-index: 2;
     display: none;
     position: absolute;
     top: 0;
