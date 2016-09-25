@@ -8,39 +8,29 @@
 
 import UIKit
 
-class NewListingViewController: UIViewController, UIImagePickerControllerDelegate {
+class NewListingViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var itemImage:UIImageView!
-    
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     
     @IBAction func takePicture(sender: UIButton) {
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
-            
                 imagePicker.sourceType = .camera
                 imagePicker.cameraCaptureMode = .photo
                 present(imagePicker, animated: true, completion: {})
                 print("yay")
-                
-            } else {
-                print("no rear camera")
             }
-        } else {
-            print("noo")
         }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        print("inside imagePickerController func")
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let pickedImage:UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             itemImage.contentMode = .scaleToFill
             itemImage.image = pickedImage
-            print("allegedly picked image lole)")
         }
+        imagePicker.dismiss(animated: true, completion: {})
     }
-    
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         
@@ -60,24 +50,10 @@ class NewListingViewController: UIViewController, UIImagePickerControllerDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        imagePicker.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
