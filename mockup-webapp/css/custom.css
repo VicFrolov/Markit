@@ -49,6 +49,7 @@ i.right {
 
 /*custom login popup*/
 #login-popup {
+    z-index: 2;
     display: none;
     position: absolute;
     top: 0;
