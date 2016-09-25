@@ -1,46 +1,47 @@
 //
-//  NewListingViewController.swift
+//  NewListingTableViewController.swift
 //  Markit
 //
-//  Created by Victor Frolov on 9/21/16.
+//  Created by Victor Frolov on 9/25/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
 
 import UIKit
 
-class NewListingViewController: UIViewController, UIImagePickerControllerDelegate {
-    
-    @IBOutlet weak var itemImage:UIImageView!
-    
+class NewListingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let imagePicker: UIImagePickerController! = UIImagePickerController()
+    var priceSelected = false
+    var titleSelected = false
+    var photoSelected = false
+    var tagSelected = false
     
+    @IBOutlet weak var price: UIButton!
+
+    @IBOutlet weak var itemImage:UIImageView!
+
     @IBAction func takePicture(sender: UIButton) {
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
-            
                 imagePicker.sourceType = .camera
                 imagePicker.cameraCaptureMode = .photo
                 present(imagePicker, animated: true, completion: {})
-                print("yay")
-                
-            } else {
-                print("no rear camera")
             }
-        } else {
-            print("noo")
         }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        print("inside imagePickerController func")
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            itemImage.contentMode = .scaleToFill
+        if let pickedImage:UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            itemImage.contentMode = .scaleAspectFill
             itemImage.image = pickedImage
-            print("allegedly picked image lole)")
+            itemImage.layer.zPosition = 1
+            photoSelected = true
+            if (!priceSelected) {
+                print("it's printing")
+                price.layer.zPosition = 2
+            }
         }
+        imagePicker.dismiss(animated: true, completion: {})
     }
-    
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         
@@ -57,27 +58,14 @@ class NewListingViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction func unwindTag(segue: UIStoryboardSegue) {
         
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        imagePicker.delegate = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
-    */
-
 }
+
