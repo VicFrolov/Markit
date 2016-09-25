@@ -4,6 +4,10 @@ html, body {
   width: 100%;
 }
 
+main {
+    display: none;
+}
+
 /*NAVBAR*/
 
 #dropdown-help {
