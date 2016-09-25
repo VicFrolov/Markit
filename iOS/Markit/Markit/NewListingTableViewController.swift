@@ -9,10 +9,16 @@
 import UIKit
 
 class NewListingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    let imagePicker: UIImagePickerController! = UIImagePickerController()
+    var priceSelected = false
+    var titleSelected = false
+    var photoSelected = false
+    var tagSelected = false
+    
+    @IBOutlet weak var price: UIButton!
 
     @IBOutlet weak var itemImage:UIImageView!
-    let imagePicker: UIImagePickerController! = UIImagePickerController()
-    
+
     @IBAction func takePicture(sender: UIButton) {
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
@@ -27,7 +33,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         if let pickedImage:UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             itemImage.contentMode = .scaleAspectFill
             itemImage.image = pickedImage
-            itemImage.layer.zPosition = 1;
+            itemImage.layer.zPosition = 1
+            photoSelected = true
+            if (!priceSelected) {
+                print("it's printing")
+                price.layer.zPosition = 2
+            }
         }
         imagePicker.dismiss(animated: true, completion: {})
     }
