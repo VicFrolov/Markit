@@ -14,6 +14,7 @@ $(function() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             console.log('user is signed in');
+            $("#navbar-placeholder").load("../navbar/navbar-signup.html");
         } else {
             console.log('user is NOT signed in');
         }
