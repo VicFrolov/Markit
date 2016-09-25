@@ -39,7 +39,7 @@ $(function() {
 
         if (itemTitle && itemDescription && itemTags && itemPrice) {
             addListing(itemTitle, itemDescription, itemTags, itemPrice);
-            $("main").val("Item has been Posted :)");
+            $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
         }
