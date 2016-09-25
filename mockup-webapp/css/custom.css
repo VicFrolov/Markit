@@ -11,9 +11,8 @@ html, body {
 }
 
 nav {
-    margin-left: 7%;
-    width: 86%;
     background-color: #fff;
+    border-bottom: 1px solid #000;
 }
 
 nav .brand-logo {

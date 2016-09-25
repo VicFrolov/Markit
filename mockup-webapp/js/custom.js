@@ -1,9 +1,10 @@
 $(function() {
     $('.carousel.carousel-slider').carousel({full_width: true});
-    
+    $("#navbar-placeholder").load("../navbar/navbar-logged-in.html");
     //pop up for login buttnon
     $('#login-popup').hide();
-    $('#login-button').on('click', function () {
+    $("#navbar-placeholder").on('click', '#login-button', function () {
+        console.log("it worked")
         $('#login-popup').fadeIn();
     });
     
@@ -24,4 +25,7 @@ $(function() {
           // ...
         });
     });
+
+
+
 });
