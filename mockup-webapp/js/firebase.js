@@ -7,20 +7,33 @@ $(function() {
         storageBucket: "markit-80192.appspot.com",
         messagingSenderId: "4085636156"
     };
+    
     firebase.initializeApp(config);
     var database = firebase.database();
+    var auth = firebase.auth();
 
 
-    firebase.auth().onAuthStateChanged(function(user) {
+    auth.onAuthStateChanged(function(user) {
         if (user) {
             console.log('user is signed in');
-            $("#navbar-placeholder").load("../navbar/navbar-signup.html");
+            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html");
         } else {
             console.log('user is NOT signed in');
+            $("#navbar-placeholder").load("../navbar/navbar-signup.html");
         }
     });
 
 
+    //logout 
+    $("header").on('click', '#navbar-logout-button', function () {
+        auth.signOut().then(function() {
+            console.log("successfully signed out user");
+        }, function(error) {
+            // An error happened.
+        });
+    });
+
+    //ADD new listing
     var addListing = function (item, description, tags, price) {
         database.ref('mockup-post/').push({
             item: item,
@@ -43,6 +56,8 @@ $(function() {
         } else {
             alert("please enter a username and comment");
         }
-    });    
+    });
+    // END ADD new listing
+
 
 });

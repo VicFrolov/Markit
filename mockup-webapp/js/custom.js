@@ -1,6 +1,10 @@
 $(function() {
     $('.carousel.carousel-slider').carousel({full_width: true});
-    $('#navbar-placeholder').load('../navbar/navbar-logged-in.html');
+
+    /**
+        loading main data, slight timeOut so it 
+        doesn't appear before the navbar does
+    **/
     var loadMain = function () {
         $('main').fadeIn()
     }
@@ -8,7 +12,7 @@ $(function() {
 
     //pop up for login buttnon
     $('#login-popup').hide();
-    $("#navbar-placeholder").on('click', '#login-button', function () {
+    $('#navbar-placeholder').on('click', '#login-button', function () {
         console.log("it worked")
         $('#login-popup').fadeIn();
     });
@@ -21,7 +25,7 @@ $(function() {
     });
 
     //sign in:
-    $('#sign-in-button').on('click', function() {
+    $('body').on('click', '#sign-in-button', function() {
         console.log("attempting sign in...");
         firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
           // Handle Errors here.
