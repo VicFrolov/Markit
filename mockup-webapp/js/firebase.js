@@ -8,7 +8,7 @@ $(function() {
         messagingSenderId: "4085636156"
     };
     firebase.initializeApp(config);
-
+    var database = firebase.database();
 
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -19,5 +19,30 @@ $(function() {
             console.log('user is NOT signed in');
         }
     });
+
+
+    var addListing = function (item, description, tags, price) {
+        database.ref('mockup-post/').push({
+            item: item,
+            description: description,
+            tags: tags,
+            price: price
+        });
+    };
+
+    $("main").on('click', '#addListing', function (e) {
+        e.preventDefault();
+        var itemTitle = $("#item-post-title").val();
+        var itemDescription = $("#item-post-description").val();
+        var itemTags = $("#item-post-tags").val();
+        var itemPrice = $("#item-post-price").val();
+
+        if (itemTitle && itemDescription && itemTags && itemPrice) {
+            addListing(itemTitle, itemDescription, itemTags, itemPrice);
+            $("main").val("Item has been Posted :)");
+        } else {
+            alert("please enter a username and comment");
+        }
+    });    
 
 });

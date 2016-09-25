@@ -15,6 +15,48 @@
       <div id="navbar-placeholder"> </div>
     </header>
 
+    <main>
+      <h2> Add a new listing</h2>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="item-post-title" type="text" class="validate">
+                <label for="item-post-title">Item Name</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="item-post-description" type="text" class="validate">
+                <label for="item-post-description">Item Description</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="item-post-tags" type="text" class="validate">
+                <label for="item-post-tags">Tags</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="item-post-price" type="text" class="validate">
+                <label for="item-post-price">Price</label>
+              </div>
+            </div>
+            <div class="file-field input-field col s4">
+              <div class="btn">
+                <span>Add Image</span>
+                <input type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+            <a id="addListing" class="waves-effect btn-large modal-trigger">
+              Add Your Listing!
+            </a>
+          </form>
+        </div>
+    </main>
+
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
