@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
 		381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 381C21A91D8D125500657D9D /* Assets.xcassets */; };
+		381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */; };
 		381DCF461D9372E7005FC26E /* NewListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381DCF451D9372E7005FC26E /* NewListingViewController.swift */; };
 		384810B41D83984400830C95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810B31D83984400830C95 /* AppDelegate.swift */; };
 		384810B91D83984400830C95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810B71D83984400830C95 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
 		381C21A91D8D125500657D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListingTableViewController.swift; sourceTree = "<group>"; };
 		381DCF451D9372E7005FC26E /* NewListingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListingViewController.swift; sourceTree = "<group>"; };
 		384810B01D83984400830C95 /* Markit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Markit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384810B31D83984400830C95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 				381DCF451D9372E7005FC26E /* NewListingViewController.swift */,
+				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				381DCF461D9372E7005FC26E /* NewListingViewController.swift in Sources */,
 				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
+				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,

@@ -1,15 +1,15 @@
 //
-//  NewListingViewController.swift
+//  NewListingTableViewController.swift
 //  Markit
 //
-//  Created by Victor Frolov on 9/21/16.
+//  Created by Victor Frolov on 9/25/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
 
 import UIKit
 
-class NewListingViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+class NewListingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     @IBOutlet weak var itemImage:UIImageView!
     let imagePicker: UIImagePickerController! = UIImagePickerController()
     
@@ -25,8 +25,9 @@ class NewListingViewController: UIViewController, UIImagePickerControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage:UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            itemImage.contentMode = .scaleToFill
+            itemImage.contentMode = .scaleAspectFill
             itemImage.image = pickedImage
+            itemImage.layer.zPosition = 1;
         }
         imagePicker.dismiss(animated: true, completion: {})
     }
@@ -46,13 +47,14 @@ class NewListingViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction func unwindTag(segue: UIStoryboardSegue) {
         
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
+
