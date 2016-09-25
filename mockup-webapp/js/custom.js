@@ -1,12 +1,12 @@
 $(function() {
     $('.carousel.carousel-slider').carousel({full_width: true});
     
-
     //pop up for login buttnon
     $('#login-popup').hide();
     $('#login-button').on('click', function () {
         $('#login-popup').fadeIn();
     });
+    
     $(document).mouseup(function (e) {
         var popup = $('#login-popup');
         if (popup.is(e.target)) {
@@ -23,6 +23,5 @@ $(function() {
           var errorMessage = error.message;
           // ...
         });
-    })
-
+    });
 });
