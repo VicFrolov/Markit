@@ -10,6 +10,7 @@ $(function() {
     
     firebase.initializeApp(config);
     var database = firebase.database();
+    var listingsRef = firebase.database().ref('mockup-post/');
     var auth = firebase.auth();
 
 
@@ -34,20 +35,20 @@ $(function() {
     });
 
     //ADD new listing
-    var addListing = function (item, description, tags, price) {
+    var addListing = function (item, description, tags, price, uid) {
         database.ref('mockup-post/').push({
             item: item,
             description: description,
             tags: tags,
-            price: price
+            price: price,
+            uid: uid
         });
     };
 
-    var getListings = function() {
-        database.ref('mockup-post/').snapshot.forEach()
-    }
-
-    
+    listingsRef.on('child_added', function (snapshot) {
+        snapshot.val();
+        console.log(snapshot.val());
+    });
 
     $("main").on('click', '#addListing', function (e) {
         e.preventDefault();
@@ -55,9 +56,12 @@ $(function() {
         var itemDescription = $("#item-post-description").val();
         var itemTags = $("#item-post-tags").val();
         var itemPrice = $("#item-post-price").val();
+        var itemUid = auth.currentUser.uid;
+        console.log(itemUid);
+
 
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
