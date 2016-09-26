@@ -43,6 +43,12 @@ $(function() {
         });
     };
 
+    var getListings = function() {
+        database.ref('mockup-post/').snapshot.forEach()
+    }
+
+    
+
     $("main").on('click', '#addListing', function (e) {
         e.preventDefault();
         var itemTitle = $("#item-post-title").val();
