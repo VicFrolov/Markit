@@ -37,6 +37,9 @@ class AddPriceViewController: UIViewController {
     }
     
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
     /*
     // MARK: - Navigation
 
