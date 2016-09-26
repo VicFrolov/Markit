@@ -25,14 +25,31 @@ $(function() {
     });
 
     //sign in:
-    $('body').on('click', '#sign-in-button', function() {
+    var signIn = function () {
         console.log("attempting sign in...");
         firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
         });
+    }
+
+   var createAccount = function () {
+        firebase.auth().createUserWithEmailAndPassword($("#email").val(), $("#password").val()).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+    }
+
+    $('body').on('click', '#sign-in-button', function() {
+        signIn();
+    });
+
+    $('body').on('click', '#create-account-button', function() {
+        createAccount();
     });
 
 });
