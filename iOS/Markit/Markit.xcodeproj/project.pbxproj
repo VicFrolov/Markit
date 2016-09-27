@@ -19,9 +19,11 @@
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
 		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
 		388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 388B46A81D8A70F200B6717E /* GoogleService-Info.plist */; };
+		91D7D0771028AD7F25AD0BB6 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2753E9746BFF7B228F376277 /* Pods_Markit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2753E9746BFF7B228F376277 /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		347AC2F11D98AC050073E949 /* createUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createUserViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91D7D0771028AD7F25AD0BB6 /* Pods_Markit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +92,8 @@
 		384810C51D83B9E600830C95 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				347AC2F01D98AC050073E949 /* LoginViewController.swift */,
+				347AC2F11D98AC050073E949 /* createUserViewController.swift */,
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
@@ -100,8 +105,6 @@
 		384810CC1D84F49B00830C95 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				347AC2F01D98AC050073E949 /* LoginViewController.swift */,
-				347AC2F11D98AC050073E949 /* createUserViewController.swift */,
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
 			);
 			name = View;
@@ -110,6 +113,7 @@
 		524E6867D3EE0AB2A4F075BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2753E9746BFF7B228F376277 /* Pods_Markit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,6 +134,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 384810C21D83984400830C95 /* Build configuration list for PBXNativeTarget "Markit" */;
 			buildPhases = (
+				6DBC43A0B81EA3B5F0EA90D9 /* Check Pods Manifest.lock */,
 				2F376E2D457F102CB1DBBD24 /* [CP] Check Pods Manifest.lock */,
 				384810AC1D83984400830C95 /* Sources */,
 				384810AD1D83984400830C95 /* Frameworks */,
@@ -137,6 +142,7 @@
 				D2BB4AA0A87F96D4FB23F434 /* [CP] Embed Pods Frameworks */,
 				3CFE692DEF1BE224E22A8FC2 /* [CP] Copy Pods Resources */,
 				CD02C318D491C849D703C13A /* Embed Pods Frameworks */,
+				5E0C4F7BF17538750F9190E5 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -230,6 +236,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Markit/Pods-Markit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5E0C4F7BF17538750F9190E5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Markit/Pods-Markit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6DBC43A0B81EA3B5F0EA90D9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		CD02C318D491C849D703C13A /* Embed Pods Frameworks */ = {
