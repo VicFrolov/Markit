@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_new_listing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.markit.markit.NewListing"
+    tools:showIn="@layout/activity_new_listing"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="Add Photo"
+            android:layout_width="match_parent"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="#90caf9"
+            android:layout_height="200dp"
+            android:id="@+id/addPhoto"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="0dp"
+            android:background="@android:color/holo_blue_bright" />
+
+        <Button
+            android:text="Add Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@color/colorAccent"
+            android:id="@+id/addTitle"
+            android:layout_marginTop="0dp"
+            android:layout_alignTop="@+id/addPhoto"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorAccent" />
+
+        <Button
+            android:text="Add Description"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/addDescription"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:background="@android:color/holo_orange_light" />
+
+        <Button
+            android:text="Post Listing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@android:color/holo_purple"
+            android:id="@+id/postListing"
+            android:background="@android:color/holo_purple" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:srcCompat="@android:color/holo_blue_light"
+            android:id="@+id/imageButton"
+            app:layout_anchorGravity="bottom|center_horizontal"
+            android:layout_gravity="top|left"
+            android:background="@android:color/holo_blue_light"
+            android:src="@android:color/holo_blue_light" />
+    </LinearLayout>
+
+    <Button
+        android:text="price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/price"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:textColor="@android:color/background_light"
+        android:background="@android:color/holo_green_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="300dp" />
+
+
+</RelativeLayout>
+
