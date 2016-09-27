@@ -10,19 +10,24 @@ import UIKit
 
 class AddPriceViewController: UIViewController {
     @IBOutlet weak var price: UITextField!
-    @IBOutlet weak var cents: UITextField!
+    @IBOutlet weak var priceLabel: UILabel!
+
     
     var itemDollars:String = ""
-    var itemPennies:String = ""
     
     @IBAction func itemPrice(_ sender: AnyObject) {
         itemDollars = price.text!
-        itemPennies = cents.text!
-        print(itemDollars + "." + itemPennies)
+        print(itemDollars)
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        priceLabel.text = price.text
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        price.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
+
 
         // Do any additional setup after loading the view.
     }
