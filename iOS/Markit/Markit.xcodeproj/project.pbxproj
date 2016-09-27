@@ -393,6 +393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Markit/Markit.entitlements;
 				DEVELOPMENT_TEAM = WZGKH83WEV;
@@ -412,6 +413,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Markit/Markit.entitlements;
 				DEVELOPMENT_TEAM = WZGKH83WEV;
