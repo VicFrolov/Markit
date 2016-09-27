@@ -16,7 +16,6 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     var tagSelected = false
     
     @IBOutlet weak var price: UIButton!
-
     @IBOutlet weak var itemImage:UIImageView!
 
     @IBAction func takePicture(sender: UIButton) {
@@ -35,8 +34,8 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
             itemImage.image = pickedImage
             itemImage.layer.zPosition = 1
             photoSelected = true
+            
             if (!priceSelected) {
-                print("it's printing")
                 price.layer.zPosition = 2
             }
         }
