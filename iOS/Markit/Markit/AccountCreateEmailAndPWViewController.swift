@@ -15,8 +15,8 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     @IBOutlet weak var checkmarkEmail: UIImageView!
     @IBOutlet weak var checkmarkPassword: UIImageView!
     
-    var firstName:String?
-    var lastName:String?
+    var firstName:String!
+    var lastName:String!
     
     @IBAction func nextStep(_ sender: AnyObject) {
         if (!checkmarkEmail.isHidden && !checkmarkPassword.isHidden) {
@@ -55,7 +55,6 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         email.becomeFirstResponder()
-        print(firstName)
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,5 +74,13 @@ class AccountCreateEmailAndPWViewController: UIViewController {
         passNameBottomLine.backgroundColor = UIColor.white.cgColor
         pass.borderStyle = UITextBorderStyle.none
         pass.layer.addSublayer(passNameBottomLine)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueToHub" {
+            let userInfo: [String] = [firstName, lastName, email.text!, pass.text!]
+            let nextVC = segue.destination as! AccountCreateHubViewController
+            nextVC.userInfo = userInfo
+        }
     }
 }
