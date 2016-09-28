@@ -29,7 +29,7 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.1.17 The GUI subsystem for Android shall include a menu bar at the top of the main  window to navigate between pages <br />
 5.3.1.18 The GUI for Android shall include a “card” view for postings 
 
-**5.3.2 Profile Requirements**
+**5.3.2 Profile Requirements**<br />
 5.3.2.1 The user shall be able to choose their username upon registration <br />
 5.3.2.2 The user shall be able to choose their password upon registration <br />
 5.3.2.3 The user shall have to provide an .edu email upon registration <br />
@@ -57,7 +57,7 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.2.25 The user shall be able to see another user’s rating.<br />
 5.3.2.26 The user should be able to report another user.
 
-**5.3.3 Posting Requirements**
+**5.3.3 Posting Requirements**<br />
 5.3.3.1 The GUI subsystem shall have college hubs in which products are listed under the college or university from where they are being sold. <br />
 5.3.3.2 The user shall be able to scroll through college hubs other than their own.<br />
 5.3.3.3 The user shall be able to choose which products they are interested in or want to buy within hubs<br />
@@ -83,7 +83,7 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.3.18 The GUI subsystem should include a “price” field where the user sets the price of the item.<br />
 5.3.3.19 The GUI subsystem may include a button that allows the user to remove the product from their profile and the hub.<br />
 
-**5.3.4 Searching Requirements**
+**5.3.4 Searching Requirements**<br />
 5.3.4.1 The GUI subsystem shall provide text entry fields into which the user may type values.<br />
 5.3.4.2 The GUI subsystem shall include predetermined categories in which both buyers and sellers can list their product under.<br />
 5.3.4.3 The user shall be able to view all items under one specific category.<br />
