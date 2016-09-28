@@ -361,7 +361,7 @@
                                 <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -427,10 +427,10 @@
             </objects>
             <point key="canvasLocation" x="-429.60000000000002" y="560.86956521739137"/>
         </scene>
-        <!--Sell-->
+        <!-- -->
         <scene sceneID="4KY-aX-5XV">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aW4-ox-6SW" sceneMemberID="viewController">
+                <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="aW4-ox-6SW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Sell" id="mo3-0Q-GRo"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uxp-yY-EZD">
@@ -782,6 +782,9 @@
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="nW6-tj-dgD" kind="unwind" unwindAction="unwindBailTagWithSegue:" id="He6-xH-zTB"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.82107371790000006" green="0.35587328610000002" blue="0.61160387650000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -795,6 +798,7 @@
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FkR-Kk-NfV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="nW6-tj-dgD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4537" y="534"/>
         </scene>
@@ -1063,7 +1067,7 @@
                                 <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1134,19 +1138,18 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="join" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" alpha="0.64999997615814209" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzX-By-f1S">
-                                <frame key="frameInset" minX="16" minY="318" width="343" height="45"/>
+                            <button opaque="NO" alpha="0.64999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzX-By-f1S">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="C7H-SR-h20"/>
-                                    <constraint firstAttribute="width" constant="47" id="Vfu-gc-Ktk"/>
+                                    <constraint firstAttribute="width" constant="343" id="Vfu-gc-Ktk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                 <state key="normal" title="Sign up">
@@ -1179,7 +1182,7 @@
                             <constraint firstItem="EVh-7q-DWh" firstAttribute="leading" secondItem="T5j-gm-JJO" secondAttribute="leading" id="7ta-FL-rZu"/>
                             <constraint firstItem="oeb-aB-KdX" firstAttribute="top" secondItem="QRn-Ej-siD" secondAttribute="bottom" constant="36" id="N7J-8M-m3b"/>
                             <constraint firstItem="zzS-H2-kac" firstAttribute="trailing" secondItem="T5j-gm-JJO" secondAttribute="trailing" constant="-104" id="OdX-Mu-m6e"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="EzX-By-f1S" secondAttribute="trailing" constant="24" id="SXf-t7-kDW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EzX-By-f1S" secondAttribute="trailing" id="SXf-t7-kDW"/>
                             <constraint firstItem="zzS-H2-kac" firstAttribute="top" secondItem="oeb-aB-KdX" secondAttribute="bottom" constant="8" symbolic="YES" id="TMM-AT-UrJ"/>
                             <constraint firstItem="oeb-aB-KdX" firstAttribute="leading" secondItem="j67-qw-ae7" secondAttribute="leadingMargin" id="UXy-S6-rdx"/>
                             <constraint firstItem="EVh-7q-DWh" firstAttribute="top" secondItem="zzS-H2-kac" secondAttribute="bottom" constant="13" id="eld-3P-m4a"/>
