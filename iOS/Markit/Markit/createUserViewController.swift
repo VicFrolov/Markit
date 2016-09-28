@@ -11,6 +11,8 @@ import Firebase
 import FirebaseAuth
 
 class createUserViewController: UIViewController {
+    var firstName:String?
+    var lastName:String?
     
     var ref: FIRDatabaseReference!
     @IBOutlet var emailTextField: UITextField!

@@ -15,6 +15,9 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     @IBOutlet weak var checkmarkEmail: UIImageView!
     @IBOutlet weak var checkmarkPassword: UIImageView!
     
+    var firstName:String?
+    var lastName:String?
+    
     @IBAction func nextStep(_ sender: AnyObject) {
         if (!checkmarkEmail.isHidden && !checkmarkPassword.isHidden) {
             self.performSegue(withIdentifier: "segueToHub", sender: self)
@@ -52,6 +55,7 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         email.becomeFirstResponder()
+        print(firstName)
     }
     
     override func viewDidLayoutSubviews() {

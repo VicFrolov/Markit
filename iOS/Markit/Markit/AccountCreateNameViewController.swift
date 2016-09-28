@@ -72,4 +72,12 @@ class AccountCreateNameViewController: UIViewController {
         last.borderStyle = UITextBorderStyle.none
         last.layer.addSublayer(lastNameBottomLine)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "nameCheckPassed" {
+            let nextVC = segue.destination as! AccountCreateEmailAndPWViewController
+            nextVC.firstName = self.first!.text
+            nextVC.lastName = self.last!.text
+        }
+    }
 }

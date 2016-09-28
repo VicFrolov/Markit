@@ -21,7 +21,6 @@ class AccountCreateHubViewController: UIViewController {
                 NSLog(String(format: "Successfully created user: %@", "blarf@lmu.edu"))
             }
         }
-        
     }
 
     override func viewDidLoad() {
@@ -47,7 +46,6 @@ class AccountCreateHubViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         hub.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
-
         
         //only display a bottom-border for the UITextView
         let bottomLine = CALayer()
