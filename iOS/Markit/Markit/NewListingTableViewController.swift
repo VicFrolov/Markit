@@ -43,8 +43,8 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
-        let foo = segue.source as? AddPriceViewController
-        var userPrice = (foo?.priceLabel.text)!
+        let priceVC = segue.source as? AddPriceViewController
+        var userPrice = (priceVC?.priceLabel.text)!
         
         if (userPrice != "...") {
             userPrice = "$" + userPrice;
@@ -56,8 +56,10 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         }
     }
     
-    @IBAction func unwindTitle(segue: UIStoryboardSegue) {
-        
+    @IBAction func unwindAddTitle(segue: UIStoryboardSegue) {
+        let titleVC = segue.source as? AddTitleViewController
+        let userTitle = titleVC?.itemTitle.text!
+        print("it's running! and here's the title:" + userTitle!)
     }
     
     @IBAction func unwindDescription(segue: UIStoryboardSegue) {
@@ -76,5 +78,18 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func unwindBailTag(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailPrice(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailTitle(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailDescription(segue: UIStoryboardSegue) {
+        
+    }
+    
 }
-

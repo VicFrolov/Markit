@@ -14,14 +14,12 @@ class AddTitleViewController: UIViewController {
     @IBOutlet weak var itemTitleLabel: UILabel!
     
     @IBAction func tapButton(sender: UIButton) {
-        if itemTitle.text!.characters.count > 5 && itemTitle.text!.characters.count < 24 {
+        if itemTitle.text!.characters.count > 4 && itemTitle.text!.characters.count < 24 {
             performSegue(withIdentifier: "unwindAddTitle", sender: self)
-            print("wat")
         } else {
             let alertController = UIAlertController(title: "Invalid Price", message:
                 "Please enter a valid title :)", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-            
             self.present(alertController, animated: true, completion: nil)
         }
     }
@@ -40,6 +38,10 @@ class AddTitleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         itemTitle.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        itemTitle.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
