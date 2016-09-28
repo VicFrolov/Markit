@@ -9,7 +9,6 @@
 import UIKit
 
 class AccountCreateEmailAndPWViewController: UIViewController {
-    
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var pass: UITextField!
     @IBOutlet weak var nextButton: UIButton!
@@ -28,7 +27,6 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        
         //only display a bottom-border for the UITextView
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:email.frame.height - 1), size: CGSize(width: email.frame.width, height:  1))

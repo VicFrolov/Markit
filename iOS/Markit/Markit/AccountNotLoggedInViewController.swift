@@ -9,13 +9,11 @@
 import UIKit
 
 class AccountNotLoggedInViewController: UIViewController {
-    
     @IBOutlet weak var createAccount: UIButton!
     @IBOutlet weak var logIn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         createAccount.layer.borderWidth = 1.0
         createAccount.layer.borderColor = UIColor.white.cgColor

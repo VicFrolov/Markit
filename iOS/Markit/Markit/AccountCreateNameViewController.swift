@@ -9,7 +9,6 @@
 import UIKit
 
 class AccountCreateNameViewController: UIViewController {
-
     @IBOutlet weak var first: UITextField!
     @IBOutlet weak var last: UITextField!
     @IBOutlet weak var nextButton: UIButton!
@@ -20,7 +19,6 @@ class AccountCreateNameViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -28,7 +26,6 @@ class AccountCreateNameViewController: UIViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        
         //only display a bottom-border for the UITextView
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:first.frame.height - 1), size: CGSize(width: first.frame.width, height:  1))

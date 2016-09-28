@@ -1027,8 +1027,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Finish setting up!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXK-zv-psb">
-                                <frame key="frameInset" minX="16" minY="100" width="231" height="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create a Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXK-zv-psb">
+                                <frame key="frameInset" minX="16" minY="100" width="206" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="29"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1083,6 +1083,9 @@
                                         <integer key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="NNp-2c-juK" kind="show" id="DAE-Dc-FBh"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-4z-zzi">
                                 <frame key="frameInset" minX="16" minY="212" width="97" height="30"/>
@@ -1103,6 +1106,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1k0-Um-6Sa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2561" y="2400"/>
+        </scene>
+        <!--Account Create Hub View Controller-->
+        <scene sceneID="fUz-1Q-kTV">
+            <objects>
+                <viewController id="NNp-2c-juK" customClass="AccountCreateHubViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QRn-Ej-siD"/>
+                        <viewControllerLayoutGuide type="bottom" id="JdN-Pc-hXq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j67-qw-ae7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish Signing up!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oeb-aB-KdX">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="Sjj-r8-UAO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="29"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T5j-gm-JJO" userLabel="passwordTextField">
+                                <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="QBh-jh-viN"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" secureTextEntry="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <button opaque="NO" alpha="0.64999997615814209" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzX-By-f1S">
+                                <frame key="frameInset" minX="16" minY="318" width="343" height="45"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="C7H-SR-h20"/>
+                                    <constraint firstAttribute="width" constant="47" id="Vfu-gc-Ktk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <state key="normal" title="Sign up">
+                                    <color key="titleColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="self.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Your Hub" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EVh-7q-DWh">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="rUt-K0-epm"/>
+                                    <constraint firstAttribute="height" constant="30" id="u6j-5F-bCv"/>
+                                </constraints>
+                                <color key="textColor" red="0.97686620970000004" green="1" blue="0.97832953519999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose your main college hub. You'll have access to all colleges, but this will be set as your default hub!" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzS-H2-kac">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="JdN-Pc-hXq" firstAttribute="top" secondItem="EzX-By-f1S" secondAttribute="bottom" constant="255" id="17P-iU-vXi"/>
+                            <constraint firstItem="EVh-7q-DWh" firstAttribute="leading" secondItem="T5j-gm-JJO" secondAttribute="leading" id="7ta-FL-rZu"/>
+                            <constraint firstItem="oeb-aB-KdX" firstAttribute="top" secondItem="QRn-Ej-siD" secondAttribute="bottom" constant="36" id="N7J-8M-m3b"/>
+                            <constraint firstItem="zzS-H2-kac" firstAttribute="trailing" secondItem="T5j-gm-JJO" secondAttribute="trailing" constant="-104" id="OdX-Mu-m6e"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EzX-By-f1S" secondAttribute="trailing" constant="24" id="SXf-t7-kDW"/>
+                            <constraint firstItem="zzS-H2-kac" firstAttribute="top" secondItem="oeb-aB-KdX" secondAttribute="bottom" constant="8" symbolic="YES" id="TMM-AT-UrJ"/>
+                            <constraint firstItem="oeb-aB-KdX" firstAttribute="leading" secondItem="j67-qw-ae7" secondAttribute="leadingMargin" id="UXy-S6-rdx"/>
+                            <constraint firstItem="EVh-7q-DWh" firstAttribute="top" secondItem="zzS-H2-kac" secondAttribute="bottom" constant="13" id="eld-3P-m4a"/>
+                            <constraint firstItem="EzX-By-f1S" firstAttribute="top" secondItem="T5j-gm-JJO" secondAttribute="bottom" constant="45" id="lqI-5M-0Ud"/>
+                            <constraint firstItem="zzS-H2-kac" firstAttribute="leading" secondItem="EVh-7q-DWh" secondAttribute="leading" id="mju-qC-p0b"/>
+                            <constraint firstItem="oeb-aB-KdX" firstAttribute="leading" secondItem="zzS-H2-kac" secondAttribute="leading" id="q1O-Tb-qqB"/>
+                            <constraint firstItem="zzS-H2-kac" firstAttribute="trailing" secondItem="j67-qw-ae7" secondAttribute="trailingMargin" constant="-104" id="qQ3-dP-Fak"/>
+                            <constraint firstItem="T5j-gm-JJO" firstAttribute="top" secondItem="EVh-7q-DWh" secondAttribute="bottom" constant="1" id="tx4-f2-F3N"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="hub" destination="T5j-gm-JJO" id="gGY-R8-PhT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3253.5999999999999" y="2399.5502248875564"/>
         </scene>
     </scenes>
     <resources>
