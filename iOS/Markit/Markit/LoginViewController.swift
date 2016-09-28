@@ -8,9 +8,9 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
-    
     var ref: FIRDatabaseReference!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
@@ -42,6 +42,4 @@ class LoginViewController: UIViewController {
     @IBAction func unwindCreateUser(segue: UIStoryboardSegue) {
         
     }
-    
-
 }

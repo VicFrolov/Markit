@@ -16,7 +16,6 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     var tagSelected = false
     
     @IBOutlet weak var price: UIButton!
-
     @IBOutlet weak var itemImage:UIImageView!
 
     @IBAction func takePicture(sender: UIButton) {
@@ -35,8 +34,8 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
             itemImage.image = pickedImage
             itemImage.layer.zPosition = 1
             photoSelected = true
+            
             if (!priceSelected) {
-                print("it's printing")
                 price.layer.zPosition = 2
             }
         }
@@ -44,11 +43,23 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
+        let priceVC = segue.source as? AddPriceViewController
+        var userPrice = (priceVC?.priceLabel.text)!
         
+        if (userPrice != "...") {
+            userPrice = "$" + userPrice;
+            let blingedOutUserPrice = NSMutableAttributedString(string: userPrice as String)
+            blingedOutUserPrice.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255, green: 218, blue: 0, alpha: 0.7), range: NSRange(location:0,length:1))
+
+            price.setAttributedTitle(blingedOutUserPrice, for: .normal)
+            price.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.5)
+        }
     }
     
-    @IBAction func unwindTitle(segue: UIStoryboardSegue) {
-        
+    @IBAction func unwindAddTitle(segue: UIStoryboardSegue) {
+        let titleVC = segue.source as? AddTitleViewController
+        let userTitle = titleVC?.itemTitle.text!
+        print("it's running! and here's the title:" + userTitle!)
     }
     
     @IBAction func unwindDescription(segue: UIStoryboardSegue) {
@@ -67,5 +78,18 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func unwindBailTag(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailPrice(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailTitle(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func unwindBailDescription(segue: UIStoryboardSegue) {
+        
+    }
+    
 }
-
