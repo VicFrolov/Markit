@@ -13,7 +13,7 @@ class AddPriceViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     
     @IBAction func tapButton(sender: UIButton) {
-        if Int(priceLabel.text!)! > 1 && Int(priceLabel.text!)! < 125000 {
+        if price.text!.characters.count > 1 && price.text!.characters.count < 125000 {
             performSegue(withIdentifier: "unwindAddPrice", sender: self)
         } else {
             let alertController = UIAlertController(title: "Invalid Price", message:

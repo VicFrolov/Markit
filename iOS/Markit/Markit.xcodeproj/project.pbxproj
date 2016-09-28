@@ -20,6 +20,7 @@
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
 		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
 		388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 388B46A81D8A70F200B6717E /* GoogleService-Info.plist */; };
+		38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */; };
 		5B0BE399A6B57513D8571D18 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14839011C015C617372EE7F /* Pods_Markit.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewCell.swift; sourceTree = "<group>"; };
 		387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemForSaleViewController.swift; sourceTree = "<group>"; };
 		388B46A81D8A70F200B6717E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTitleViewController.swift; sourceTree = "<group>"; };
 		5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.debug.xcconfig"; sourceTree = "<group>"; };
 		D14839011C015C617372EE7F /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -101,6 +103,7 @@
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
 				3832CC511D98677300536451 /* AddPriceViewController.swift */,
+				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				347AC2F31D98AC050073E949 /* createUserViewController.swift in Sources */,
 				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
+				38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
 			);

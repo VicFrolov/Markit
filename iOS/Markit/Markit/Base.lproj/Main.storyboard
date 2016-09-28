@@ -608,10 +608,10 @@
             </objects>
             <point key="canvasLocation" x="2567" y="193"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Title View Controller-->
         <scene sceneID="wXb-cr-TO1">
             <objects>
-                <viewController id="b46-Ci-uXc" sceneMemberID="viewController">
+                <viewController id="b46-Ci-uXc" customClass="AddTitleViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ews-g8-9wP"/>
                         <viewControllerLayoutGuide type="bottom" id="egn-i8-spE"/>
@@ -634,7 +634,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Eu2-Py-Pz9" kind="unwind" unwindAction="unwindTitleWithSegue:" id="lEB-E3-0Dq"/>
+                                    <segue destination="Eu2-Py-Pz9" kind="unwind" identifier="unwindAddTitle" unwindAction="unwindTitleWithSegue:" id="lEB-E3-0Dq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SBa-yO-kes">
@@ -647,10 +647,11 @@
                                     <color key="titleColor" red="1" green="0.40784313729999999" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="tapButtonWithSender:" destination="b46-Ci-uXc" eventType="touchUpInside" id="fg3-AL-kYx"/>
                                     <action selector="tapButtonWithSender:" destination="Q4m-RM-0m1" eventType="touchUpInside" id="qtw-Ln-jVa"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQc-TE-XQe" userLabel="selling-price">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQc-TE-XQe" userLabel="selling-price">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="126" id="pPP-B6-vbo"/>
                                 </constraints>
@@ -682,6 +683,11 @@
                             <constraint firstItem="5SQ-Zq-Jzd" firstAttribute="top" secondItem="PBw-9I-7ad" secondAttribute="bottom" constant="62" id="vMe-z7-F8c"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="itemTitle" destination="5SQ-Zq-Jzd" id="7H6-fF-Mxv"/>
+                        <outlet property="itemTitleLabel" destination="ZQc-TE-XQe" id="jgI-8G-EE2"/>
+                        <segue destination="Eu2-Py-Pz9" kind="unwind" unwindAction="unwindTitleWithSegue:" id="0gq-9R-Jsz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fli-0Q-4tW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Eu2-Py-Pz9" userLabel="Exit" sceneMemberID="exit"/>
