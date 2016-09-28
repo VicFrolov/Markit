@@ -24,6 +24,8 @@
 		38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */; };
 		38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */; };
 		38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */; };
+		38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */; };
+		38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */; };
 		5B0BE399A6B57513D8571D18 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14839011C015C617372EE7F /* Pods_Markit.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,8 @@
 		38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagsViewController.swift; sourceTree = "<group>"; };
 		38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDescriptionViewController.swift; sourceTree = "<group>"; };
 		38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCreateNameViewController.swift; sourceTree = "<group>"; };
+		38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNotLoggedInViewController.swift; sourceTree = "<group>"; };
+		38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCreateEmailAndPWViewController.swift; sourceTree = "<group>"; };
 		5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.debug.xcconfig"; sourceTree = "<group>"; };
 		D14839011C015C617372EE7F /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -113,6 +117,8 @@
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
+				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
+				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -274,6 +280,7 @@
 			files = (
 				347AC2F21D98AC050073E949 /* LoginViewController.swift in Sources */,
 				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
+				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
 				347AC2F31D98AC050073E949 /* createUserViewController.swift in Sources */,
@@ -285,6 +292,7 @@
 				38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
+				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

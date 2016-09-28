@@ -229,10 +229,10 @@
             </objects>
             <point key="canvasLocation" x="1834" y="-893"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Account Not Logged In View Controller-->
         <scene sceneID="L4s-qM-YgQ">
             <objects>
-                <viewController id="Kwb-x3-mN0" customClass="LoginViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Kwb-x3-mN0" customClass="AccountNotLoggedInViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hid-P9-v2R"/>
                         <viewControllerLayoutGuide type="bottom" id="FTx-GL-8LH"/>
@@ -244,7 +244,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdW-Aj-kOc" userLabel="loginButton">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="TBS-rH-DV9"/>
+                                    <constraint firstAttribute="height" constant="30" id="Y7I-L8-9x6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="Login">
@@ -255,9 +255,6 @@
                                         <integer key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="getUserInfoWithSender:" destination="Kwb-x3-mN0" eventType="touchUpInside" id="OYt-wf-8QY"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r8f-zM-XU1" userLabel="loginButton">
                                 <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -274,7 +271,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="getUserInfoWithSender:" destination="Kwb-x3-mN0" eventType="touchUpInside" id="cNv-1v-zc5"/>
+                                    <segue destination="OSd-4d-Q1K" kind="show" id="0hx-22-fQK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Thrifti." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5w-ws-kbt">
@@ -282,20 +279,35 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make an account to let you contact sellers, faorite and tag items, and securely sell your own goods!" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4K3-oH-Ja4">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="74" id="sVF-qj-gdk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="trailing" secondItem="bzb-gj-vG3" secondAttribute="trailingMargin" id="0I0-Te-2WF"/>
-                            <constraint firstItem="r8f-zM-XU1" firstAttribute="leading" secondItem="cdW-Aj-kOc" secondAttribute="leading" id="66g-CH-RRQ"/>
-                            <constraint firstItem="f5w-ws-kbt" firstAttribute="leading" secondItem="cdW-Aj-kOc" secondAttribute="leading" id="79h-oR-Gcx"/>
-                            <constraint firstItem="f5w-ws-kbt" firstAttribute="top" secondItem="Hid-P9-v2R" secondAttribute="bottom" constant="122" id="BdK-Xx-JzS"/>
-                            <constraint firstItem="r8f-zM-XU1" firstAttribute="trailing" secondItem="cdW-Aj-kOc" secondAttribute="trailing" id="CFF-Iu-czx"/>
-                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="top" secondItem="f5w-ws-kbt" secondAttribute="bottom" constant="43" id="X6a-0q-9Fd"/>
-                            <constraint firstItem="f5w-ws-kbt" firstAttribute="leading" secondItem="bzb-gj-vG3" secondAttribute="leadingMargin" id="mW9-M9-YGK"/>
-                            <constraint firstItem="r8f-zM-XU1" firstAttribute="centerY" secondItem="bzb-gj-vG3" secondAttribute="centerY" id="x0h-Cd-Ua5"/>
+                            <constraint firstItem="4K3-oH-Ja4" firstAttribute="leading" secondItem="r8f-zM-XU1" secondAttribute="leading" id="00A-as-UlK"/>
+                            <constraint firstItem="4K3-oH-Ja4" firstAttribute="top" secondItem="r8f-zM-XU1" secondAttribute="bottom" constant="43" id="JQb-SY-krB"/>
+                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="trailing" secondItem="r8f-zM-XU1" secondAttribute="trailing" id="Mkt-Xk-bE4"/>
+                            <constraint firstItem="4K3-oH-Ja4" firstAttribute="trailing" secondItem="r8f-zM-XU1" secondAttribute="trailing" id="Pea-VV-LQZ"/>
+                            <constraint firstItem="r8f-zM-XU1" firstAttribute="top" secondItem="cdW-Aj-kOc" secondAttribute="bottom" constant="23" id="TKS-F0-x9u"/>
+                            <constraint firstItem="f5w-ws-kbt" firstAttribute="top" secondItem="Hid-P9-v2R" secondAttribute="bottom" constant="88" id="ZnN-0o-U8E"/>
+                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="top" secondItem="f5w-ws-kbt" secondAttribute="bottom" constant="43" id="du4-gE-jgl"/>
+                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="leading" secondItem="r8f-zM-XU1" secondAttribute="leading" id="hH4-Vm-Frc"/>
+                            <constraint firstItem="cdW-Aj-kOc" firstAttribute="trailing" secondItem="bzb-gj-vG3" secondAttribute="trailingMargin" id="hsW-SO-Cwl"/>
+                            <constraint firstItem="f5w-ws-kbt" firstAttribute="leading" secondItem="cdW-Aj-kOc" secondAttribute="leading" id="izk-gL-jih"/>
+                            <constraint firstItem="f5w-ws-kbt" firstAttribute="leading" secondItem="bzb-gj-vG3" secondAttribute="leadingMargin" id="zpc-gZ-dLU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NJA-VC-eWz"/>
+                    <connections>
+                        <outlet property="createAccount" destination="r8f-zM-XU1" id="29z-vP-848"/>
+                        <outlet property="logIn" destination="cdW-Aj-kOc" id="L4x-f9-HHF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzp-dz-xvA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -370,7 +382,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="9Op-cj-liI" kind="show" id="kHl-wb-cdF"/>
+                                    <segue destination="9Op-cj-liI" kind="show" id="ZFn-NU-3g7"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FS8-rP-vO1">
@@ -391,7 +403,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75E-Fp-imR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1713" y="1918"/>
+            <point key="canvasLocation" x="1871" y="2400"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5fr-WQ-Dlb">
@@ -1003,10 +1015,10 @@
             </objects>
             <point key="canvasLocation" x="340" y="1918.2908545727139"/>
         </scene>
-        <!--View Controller-->
+        <!--Account Create Email AndPW View Controller-->
         <scene sceneID="kZ1-8Q-ysS">
             <objects>
-                <viewController id="9Op-cj-liI" sceneMemberID="viewController">
+                <viewController id="9Op-cj-liI" customClass="AccountCreateEmailAndPWViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g41-qH-7gD"/>
                         <viewControllerLayoutGuide type="bottom" id="vYf-TW-zrT"/>
@@ -1083,14 +1095,14 @@
                         <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
-                        <outlet property="first" destination="3AW-eG-Ugl" id="nov-ng-jbE"/>
-                        <outlet property="last" destination="xBg-LX-Kmh" id="Cg1-Ha-4cn"/>
-                        <outlet property="nextButton" destination="w9a-W3-xmu" id="MEn-EJ-QPm"/>
+                        <outlet property="email" destination="3AW-eG-Ugl" id="oO7-AC-UAg"/>
+                        <outlet property="nextButton" destination="w9a-W3-xmu" id="sdb-LJ-fml"/>
+                        <outlet property="pass" destination="xBg-LX-Kmh" id="ZKZ-YY-Li6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1k0-Um-6Sa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2561" y="2287"/>
+            <point key="canvasLocation" x="2561" y="2400"/>
         </scene>
     </scenes>
     <resources>

@@ -16,13 +16,6 @@ class AccountCreateNameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        first.layer.borderWidth = 1.0
-//        last.layer.borderWidth = 1.0
-//        first.layer.borderColor = UIColor.white.cgColor
-//        last.layer.borderColor = UIColor.white.cgColor
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
