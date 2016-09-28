@@ -37,7 +37,7 @@ class AccountCreateEmailAndPWViewController: UIViewController {
         
         checkmarkPassword.isHidden = pass.text!.characters.count >= minPasswordLength ? false : true
         
-        checkmarkEmail.isHidden = isValidEmail(testStr: email.text!) ? false : true
+        checkmarkEmail.isHidden = isValidEmail(testStr: email.text!.lowercased()) ? false : true
     }
     
     override func viewDidLoad() {
