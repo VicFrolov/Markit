@@ -9,15 +9,15 @@ This requirements specification is for Markit, a selling and trading application
 **5.3  Functional Requirements**
 Each university shall have their own “College Hub” in which all the items that are being sold at that college are listed. Markit shall allow users to easily look through items in their own college hub and in those of other schools around them. Users shall be able to communicate with each other through a messenger in order to make the purchasing process easy for both parties. Users shall be able to tag an item and will be notified when an item with that tag is posted for sale. Users will be able to interact with the items and other users in the ways described in the functional requirements below.
 
-**5.3.1 General requirements** 
-5.3.1.1 The app should include a map view
-5.3.1.2 The app shall include a “card” view for postings
+**5.3.1 General requirements** <br />
+5.3.1.1 The app should include a map view <br />
+5.3.1.2 The app shall include a “card” view for postings <br />
 5.3.1.3 The card view shall include graphic displays for each posting
 5.3.1.4 The card view shall include a basic overview of the item in text below the graphic for each posting
 5.3.1.5 The card view page will be able to be refreshed
 5.3.1.6 The app will include a chat system
 5.3.1.7 The all shall include a profile page where ratings, watch lists, and tags can be viewed
-5.3.1. 8 The app will include a chat system
+5.3.1.8 The app will include a chat system
 5.3.1.9 The chat system should include a built in offer system
 5.3.1.10 The app shall include a watch list where users can save items they want to see later
 5.3.1.11 The app shall include a tagging system where users can list tags relevant to items they are searching for
