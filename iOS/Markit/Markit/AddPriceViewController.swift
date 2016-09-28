@@ -11,13 +11,17 @@ import UIKit
 class AddPriceViewController: UIViewController {
     @IBOutlet weak var price: UITextField!
     @IBOutlet weak var priceLabel: UILabel!
-
     
-    var itemDollars:String = ""
-    
-    @IBAction func itemPrice(_ sender: AnyObject) {
-        itemDollars = price.text!
-        print(itemDollars)
+    @IBAction func tapButton(sender: UIButton) {
+        if Int(priceLabel.text!)! > 1 && Int(priceLabel.text!)! < 125000 {
+            performSegue(withIdentifier: "unwindAddPrice", sender: self)
+        } else {
+            let alertController = UIAlertController(title: "Invalid Price", message:
+                "Please enter a valid price :)", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func textViewDidChange(textView: UITextView) {
@@ -27,14 +31,10 @@ class AddPriceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         price.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
-
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,14 +45,4 @@ class AddPriceViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

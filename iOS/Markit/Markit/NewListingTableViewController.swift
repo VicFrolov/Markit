@@ -43,7 +43,13 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
+        let foo = segue.source as? AddPriceViewController
+        let userPrice = (foo?.priceLabel.text)!
         
+        if (userPrice != "...") {
+            price.setTitle("$ " + userPrice, for: .normal)
+            price.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.5)
+        }
     }
     
     @IBAction func unwindTitle(segue: UIStoryboardSegue) {
