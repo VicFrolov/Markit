@@ -1,4 +1,4 @@
-package com.markit.markit;
+package com.markit.android;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,8 +16,12 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-import com.Markit.android.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.*;
+import com.markit.android.R;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,7 +34,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,17 +69,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
         populateAutoComplete();
         registerClick();
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+
+                } else {
+                    // User is signed out
+
+                }
+                // ...
+            }
+        };
+        // ...
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -212,21 +247,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
 
-            Firebase userRef = new  Firebase("http://markit-80192.firebaseio.com");
+            //Firebase userRef = new  Firebase("http://markit-80192.firebaseio.com");
 
-            userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-                @Override
-                public void onAuthenticated(AuthData authData) {
-                    showProgress(false);
-                    //TODO: Implement login success
-                    Toast.makeText(LoginActivity.this, "You should be logged in", Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onAuthenticationError(FirebaseError firebaseError) {
-                    showProgress(false);
-                    Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
-                }
-            });
+//            userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+//                @Override
+//                public void onAuthenticated(AuthData authData) {
+//                    showProgress(false);
+//
+//                    Toast.makeText(LoginActivity.this, "You should be logged in", Toast.LENGTH_LONG).show();
+//                }
+//                @Override
+//                public void onAuthenticationError(FirebaseError firebaseError) {
+//                    showProgress(false);
+//                    Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
+//                }
+//            });
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                showProgress(false);
+                                Toast.makeText(LoginActivity.this, task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                //TODO: Implement login success
+                                showProgress(false);
+                                Toast.makeText(LoginActivity.this, "Login is successful",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            // ...
+                        }
+                    });
+
         }
     }
 

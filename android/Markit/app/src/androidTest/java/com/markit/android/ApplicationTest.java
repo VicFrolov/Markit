@@ -1,4 +1,4 @@
-package com.markit.markit;
+package com.markit.android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

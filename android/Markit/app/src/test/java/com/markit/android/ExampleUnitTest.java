@@ -1,4 +1,4 @@
-package com.markit.markit;
+package com.markit.android;
 
 import org.junit.Test;
 
