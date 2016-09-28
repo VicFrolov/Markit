@@ -44,10 +44,14 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         let foo = segue.source as? AddPriceViewController
-        let userPrice = (foo?.priceLabel.text)!
+        var userPrice = (foo?.priceLabel.text)!
         
         if (userPrice != "...") {
-            price.setTitle("$ " + userPrice, for: .normal)
+            userPrice = "$" + userPrice;
+            let blingedOutUserPrice = NSMutableAttributedString(string: userPrice as String)
+            blingedOutUserPrice.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255, green: 218, blue: 0, alpha: 0.7), range: NSRange(location:0,length:1))
+
+            price.setAttributedTitle(blingedOutUserPrice, for: .normal)
             price.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.5)
         }
     }
