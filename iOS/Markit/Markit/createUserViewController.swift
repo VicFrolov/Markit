@@ -25,7 +25,7 @@ class createUserViewController: UIViewController {
         let email: String! = emailTextField.text
         let password: String! = passwordTextField.text
         
-        if (isValidEmail(email: email) && password.characters.count > 5) {
+        if isValidEmail(email: email) && password.characters.count > 5 {
             FIRAuth.auth()?.createUser(withEmail: email, password: password) { (user, error) in
                 NSLog(String(format: "Successfully created user: %@", email!))
             }

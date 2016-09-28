@@ -382,7 +382,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="9Op-cj-liI" kind="show" id="ZFn-NU-3g7"/>
+                                    <action selector="nextStep:" destination="OSd-4d-Q1K" eventType="touchUpInside" id="57y-gz-mga"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FS8-rP-vO1">
@@ -392,13 +392,24 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_check_circle_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="TE1-li-22v">
+                                <frame key="frameInset" minX="323" minY="176" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_check_circle_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="9EN-3a-CQD">
+                                <frame key="frameInset" minX="323" minY="246" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="checkmarkLastName" destination="9EN-3a-CQD" id="9dE-AM-TN2"/>
+                        <outlet property="checkmarkName" destination="TE1-li-22v" id="vry-QH-eQP"/>
                         <outlet property="first" destination="xLF-UL-1at" id="7hR-GF-Q8I"/>
                         <outlet property="last" destination="PTN-1l-a3J" id="XSh-rY-rQ3"/>
                         <outlet property="nextButton" destination="hTN-t3-TCK" id="Uac-db-eLB"/>
+                        <segue destination="9Op-cj-liI" kind="show" identifier="nameCheckPassed" id="vnm-jL-wde"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75E-Fp-imR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -560,7 +571,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.5450980392" green="0.76470588240000004" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.68235294120000001" green="0.83529411760000005" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lH6-P5-fhz" firstAttribute="centerX" secondItem="6aT-Gn-Kfm" secondAttribute="centerX" constant="40" id="1Ew-K4-3qa"/>
                             <constraint firstItem="4yo-1W-lU6" firstAttribute="leading" secondItem="8U1-cA-huG" secondAttribute="trailing" constant="8" symbolic="YES" id="2A5-3f-f1K"/>
@@ -1088,7 +1099,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="NNp-2c-juK" kind="show" id="DAE-Dc-FBh"/>
+                                    <action selector="nextStep:" destination="9Op-cj-liI" eventType="touchUpInside" id="xfZ-mm-7JP"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-4z-zzi">
@@ -1098,13 +1109,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_check_circle_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="hpf-xZ-k85">
+                                <frame key="frameInset" minX="323" minY="176" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_check_circle_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="dVR-sr-3Is">
+                                <frame key="frameInset" minX="323" minY="246" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="checkmarkEmail" destination="hpf-xZ-k85" id="7pv-a8-NyX"/>
+                        <outlet property="checkmarkPassword" destination="dVR-sr-3Is" id="AND-Nd-AQL"/>
                         <outlet property="email" destination="3AW-eG-Ugl" id="oO7-AC-UAg"/>
-                        <outlet property="nextButton" destination="w9a-W3-xmu" id="sdb-LJ-fml"/>
                         <outlet property="pass" destination="xBg-LX-Kmh" id="ZKZ-YY-Li6"/>
+                        <segue destination="NNp-2c-juK" kind="show" identifier="segueToHub" id="Qek-YJ-ebb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1k0-Um-6Sa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1160,6 +1181,9 @@
                                         <integer key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="finishSignup:" destination="NNp-2c-juK" eventType="touchUpInside" id="m5m-5f-hWA"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Your Hub" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EVh-7q-DWh">
                                 <constraints>
@@ -1175,6 +1199,10 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_check_circle_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="Qgb-aO-V29">
+                                <frame key="frameInset" minX="322" minY="246" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.56470588239999997" green="0.79215686269999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1195,6 +1223,7 @@
                     </view>
                     <connections>
                         <outlet property="hub" destination="T5j-gm-JJO" id="gGY-R8-PhT"/>
+                        <outlet property="markedHub" destination="Qgb-aO-V29" id="nKx-aJ-ZuK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1206,6 +1235,7 @@
         <image name="Search@2x" width="37" height="37"/>
         <image name="barrafina" width="448" height="448"/>
         <image name="ic_add_circle_outline_white" width="24" height="24"/>
+        <image name="ic_check_circle_white_36pt" width="36" height="36"/>
         <image name="ic_swap_calls" width="24" height="24"/>
         <image name="lmu" width="800" height="533"/>
     </resources>
