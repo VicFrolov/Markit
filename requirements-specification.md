@@ -94,4 +94,46 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.4.6 The user shall be able to choose specific tags to have under their profile<br />
 5.3.4.7 The user shall be notified when an item with a tag that they have saved is posted.<br />
 
+##5.4 Performance Requirements
+5.4.1 The sales postings features shall require minimally a picture, price, and general location of the item.<br />
+5.4.2 The email address provided shall only be accepted if it ends with .edu<br />
+5.4.3 The sign-up page shall reject an email address that does not end with .edu within 3 seconds of typing the email.<br />
+5.4.4 The login page shall allow a user to use the app within 5 seconds of pressing the login button.<br />
+5.4.5 Items in the listing shall be tagged by common keywords or by user's choice.<br />
+5.4.6 The user shall have a main home (“hub”) page of the academic institution of their choosing.<br />
+5.4.7 User accounts shall provide options to alter personal information.<br />
+5.4.8 Search results shall load within 5 seconds.<br />
+5.4.9 Viewing sales postings shall show price, location and a picture of the item.<br />
+5.4.10 Signing-in shall offer options to login with email or facebook.<br />
+
+##5.5 Environment Requirements
+
+**5.5.1 Development Environment Requirements**<br />
+5.5.1.1 Developing the iOS version of the application shall require Xcode 8 and Swift 3<br />
+5.5.1.2 Developing the iOS version of the application shall require Firebase authentication and database dependencies<br />
+5.5.1.3 Developing the iOS version of the application shall require SwiftyJSON dependency<br />
+5.5.1.4 Developing the Android version of the application shall require Android Studio<br />
+5.5.1.5 The database storage and retrieval shall require using Google's Firebase.
+
+**5.5.2 Execution Environment Requirements**<br />
+5.5.2.1 Computing Requirements<br />
+The application shall not require any special computing hardware to operate.<br />
+
+**5.5.2.2 Software Requirements**<br />
+5.5.2.2.1 The application shall be accessed through devices that use iOS 9 and up: <br />
+* iPhone 4/4s
+* iPhone 5/5s/5c
+* iPhone 6/6s/6 plus
+* iPhone SE
+
+5.5.2.2.2 The application shall be accessed through Android 7 on the following devices:<br />
+* Samsung GS5
+* Samsung GS6
+* Samsung GS7
+
+5.5.2.2.3 The application shall be accessed through the following web browsers:<br />
+* Google Chrome
+
+
+
 

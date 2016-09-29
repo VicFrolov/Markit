@@ -14,7 +14,7 @@ class AddPriceViewController: UIViewController {
     let priceRange = 1..<125001
     
     @IBAction func tapButton(sender: UIButton) {
-        if price.text!.characters.count > 0 && priceRange.contains(Int(price.text!)!) {
+        if price.text!.characters.count > 0 && Int(price.text!) != nil && priceRange.contains(Int(price.text!)!) {
             performSegue(withIdentifier: "unwindAddPrice", sender: self)
         } else {
             let alertController = UIAlertController(title: "Invalid Price", message:
