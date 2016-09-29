@@ -112,18 +112,18 @@ Each university shall have their own “College Hub” in which all the items th
 ##5.5 Environment Requirements
 
 **5.5.1 Development Environment Requirements**<br />
-5.5.1.1 Developing the iOS version of the application shall require Xcode 8 and Swift 3<br />
-5.5.1.2 Developing the iOS version of the application shall require Firebase authentication and database dependencies<br />
-5.5.1.3 Developing the iOS version of the application shall require SwiftyJSON dependency<br />
-5.5.1.4 Developing the Android version of the application shall require Android Studio<br />
+5.5.1.1 Developing the iOS version of the application shall require Xcode 8 and Swift 3.<br />
+5.5.1.2 Developing the iOS version of the application shall require Firebase authentication and database dependencies.<br />
+5.5.1.3 Developing the iOS version of the application shall require SwiftyJSON for accessing JSON objects.<br />
+5.5.1.4 Developing the Android version of the application shall require Android Studio.<br />
 5.5.1.5 The database storage and retrieval shall require using Google's Firebase.<br />
 
 **5.5.2 Execution Environment Requirements**<br />
-5.5.2.1 Computing Requirements<br />
+5.5.2.1 Hardware Requirements<br />
 The application shall not require any special computing hardware to operate.<br />
 
 **5.5.2.2 Software Requirements**<br />
-5.5.2.2.1 The application shall be accessed through devices that use iOS 9 and up: <br />
+5.5.2.2.1 The application shall be accessed through devices that use iOS 9.0 and up on the following devices: <br />
 * iPhone 4
 * iPhone 4s
 * iPhone 5
@@ -132,7 +132,10 @@ The application shall not require any special computing hardware to operate.<br 
 * iPhone 6
 * iPhone 6s
 * iPhone 6 plus
+* iPhone 6s plus
 * iPhone SE
+* iPhone 7
+* iPhone 7 plus
 
 5.5.2.2.2 The application shall be accessed through Android 6.0 Marshmallow on the following devices:<br />
 * Samsung Galaxy S6 edge+
@@ -197,8 +200,6 @@ The application shall not require any special computing hardware to operate.<br 
 * Asus Zenfone 2 Deluxe
 * Asus Zenfone Selfie
 * Asus Zenfone Go
-
-5.5.2.2.2.2
 
 5.5.2.2.3 The application shall be accessed through the following web browsers:<br />
 * Google Chrome 53.0 and up
