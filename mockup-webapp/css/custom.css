@@ -72,6 +72,14 @@ nav .input-field label i {
     color: rgba(0, 0, 0, 0.2);
 }
 
+.input-field input[type=search]:focus+label i {
+    color: rgba(244, 67, 54, 0.5);
+}
+
+.input-field input[type=search]:focus ~ .material-icons {
+    color: rgba(244, 67, 54, 0.5);
+}
+
 
 /*Launch page*/
 .slider {
