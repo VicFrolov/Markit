@@ -16,10 +16,10 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.1.2 The app shall include a “card” view for postings <br />
 5.3.1.3 The card view shall include graphic displays for each posting <br />
 5.3.1.4 The card view shall include a basic overview of the item in text below the graphic for each posting <br />
-5.3.1.5 The card view page will be able to be refreshed <br />
-5.3.1.6 The app will include a chat system <br />
+5.3.1.5 The card view page should be able to be refreshed <br />
+5.3.1.6 The app should include a chat system <br />
 5.3.1.7 The all shall include a profile page where ratings, watch lists, and tags can be viewed <br />
-5.3.1.8 The app will include a chat system <br />
+5.3.1.8 The app should include a chat system <br />
 5.3.1.9 The chat system should include a built in offer system <br />
 5.3.1.10 The app shall include a watch list where users can save items they want to see later <br />
 5.3.1.11 The app shall include a tagging system where users can list tags relevant to items they are searching for. <br />
