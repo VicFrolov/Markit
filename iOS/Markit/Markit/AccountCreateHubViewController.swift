@@ -23,11 +23,12 @@ class AccountCreateHubViewController: UIViewController {
     
     @IBAction func finishSignup(_ sender: AnyObject) {
         if !markedHub.isHidden && !markedUsername.isHidden {
-            badUsername.isHidden = true
             FIRAuth.auth()?.createUser(
-                withEmail: "blarf@lmu.edu", password: "harfdarf") { (user, error) in
-                NSLog(String(format: "Successfully created user: %@", "blarf@lmu.edu"))
+                withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
+                NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
             }
+            
+            self.performSegue(withIdentifier: "successCreateAccount", sender: self)
         }
     }
 
@@ -100,4 +101,5 @@ class AccountCreateHubViewController: UIViewController {
         username.borderStyle = UITextBorderStyle.none
         username.layer.addSublayer(bottomLineTwo)
     }
+
 }

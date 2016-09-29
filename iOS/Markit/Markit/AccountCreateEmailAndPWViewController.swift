@@ -7,11 +7,11 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class AccountCreateEmailAndPWViewController: UIViewController {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var pass: UITextField!
-    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var checkmarkEmail: UIImageView!
     @IBOutlet weak var checkmarkPassword: UIImageView!
     
@@ -35,9 +35,8 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     func textViewDidChange(textView: UITextView) {
         let minPasswordLength = 8
         
+        checkmarkEmail.isHidden = isValidEmail(testStr: email.text!) ? false : true
         checkmarkPassword.isHidden = pass.text!.characters.count >= minPasswordLength ? false : true
-        
-        checkmarkEmail.isHidden = isValidEmail(testStr: email.text!.lowercased()) ? false : true
     }
     
     override func viewDidLoad() {
@@ -48,19 +47,16 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    
     
     override func viewDidAppear(_ animated: Bool) {
         email.becomeFirstResponder()
     }
     
     override func viewDidLayoutSubviews() {
-        
         email.addTarget(self, action : #selector(self.textViewDidChange), for: .editingChanged)
         pass.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
+        
         //only display a bottom-border for the UITextView
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:email.frame.height - 1), size: CGSize(width: email.frame.width, height:  1))
@@ -78,7 +74,7 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToHub" {
-            let userInfo: [String] = [firstName, lastName, email.text!, pass.text!]
+            let userInfo: [String] = [firstName, lastName, email.text!.lowercased(), pass.text!]
             let nextVC = segue.destination as! AccountCreateHubViewController
             nextVC.userInfo = userInfo
         }
