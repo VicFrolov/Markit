@@ -16,6 +16,7 @@ main {
 
 nav {
     background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 nav .brand-logo {
@@ -83,6 +84,13 @@ nav .input-field label i {
 .input-field input[type=search]:focus ~ .material-icons {
     color: rgba(244, 67, 54, 0.5);
 }
+ 
+.dropdown-content li>a {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    width:200px;
+}
+
 
 
 /*Launch page*/

@@ -1,11 +1,10 @@
- <!-- start drop down  -->
-<ul id="dropdown-help" class="dropdown-content collection">
-  <li>About</li>
-  <li>Help</li>
-  <li>FAQ</li>
-</ul> 
-
-<!-- end dropdown -->
+<ul id="profile-drop" class="dropdown-content">
+  <li><a href="#!">My Hub</a></li>
+  <li><a href="#!">Messages</a></li>
+  <li><a href="#!">Settings</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Logout</a></li>
+</ul>
 <!-- start nav -->
 <nav class="z-depth-1">
     <div class="nav-wrapper">
@@ -24,7 +23,8 @@
         <li><a href="#">Messages</a></li>
         <li id="sign-up-button"><a href="#">Notifications</a></li>
         <!-- Dropdown Trigger -->
-        <li id="login-button"><a href="#">Profile</a></li>
+        <li><a class="dropdown-button" data-activates="profile-drop" href="#" 
+          data-hover="true" data-belowOrigin="true" data-constrainwidth="false">Profile</a></li>
       </ul>
     </div>
 </nav>    

@@ -18,7 +18,7 @@ $(function() {
         if (user) {
             console.log('user is signed in');
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
-                $(".dropdown-button").dropdown();
+                $(".dropdown-button").dropdown({constrain_width: false});
             });
         } else {
             console.log('user is NOT signed in');
@@ -57,13 +57,15 @@ $(function() {
         });
     };
 
-    getListings(function(input){
+    getListings(function (input) {
         console.log(Object.keys(input));
         var objectNames = Object.keys(input);
         var objects = [];
-        for (var i = 0; i < objectNames.length; i++){
+
+        for (var i = 0; i < objectNames.length; i++) {
             objects.push(input[objectNames[i]]);
         };
+        
         $(".result-container").empty().append(
             objects.map(function (listing) {
                 return $("<div></div>").append(
@@ -84,7 +86,6 @@ $(function() {
         var itemUid = auth.currentUser.uid;
         console.log(itemUid);
 
-
         if (itemTitle && itemDescription && itemTags && itemPrice) {
             addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
             $("main").text("Item has been Posted :)");
@@ -92,7 +93,4 @@ $(function() {
             alert("please enter a username and comment");
         }
     });
-    // END ADD new listing
-
-
 });
