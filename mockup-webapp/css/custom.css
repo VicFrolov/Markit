@@ -16,7 +16,6 @@ main {
 
 nav {
     background-color: #fff;
-
 }
 
 nav .brand-logo {
@@ -54,16 +53,65 @@ i.right {
     margin-left: 10px;
 }
 
+#navbar-searchbar {
+    width: 400px;
+}
+
+#navbar-searchbar:hover {
+    background-color: #ddd;
+}
+
+input#search {
+    display: inline-block;
+    height: 64px;
+    line-height: 64px;
+}
+
+nav .input-field {
+    height: 64px;
+    line-height: 64px;
+}
+/*show the stupid navbar search*/
+nav .input-field label i { 
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.input-field input[type=search]:focus+label i {
+    color: rgba(244, 67, 54, 0.5);
+}
+
+.input-field input[type=search]:focus ~ .material-icons {
+    color: rgba(244, 67, 54, 0.5);
+}
 
 
 /*Launch page*/
-.carousel {
-    height: 500px !important;
+.slider {
+    z-index: 1;
+    height: 550px !important;
+}
+
+.slides {
+    height: 550px !important;
+}
+
+.slider h3 {
+    text-shadow: 0px 1px 10px #000;
+}
+
+.slider h5 {
+    text-shadow: 0px 5px 10px #000;
 }
 
 .profile-dropdown-icon {
     padding-left: -100px;
 }
+
+.grey-box {
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
 
 /*custom login popup*/
 #login-popup {
@@ -90,7 +138,6 @@ i.right {
 
 .login-popup-inner-items {
     width: 100%;
-    margin-bottom: 5px;
     height: 60px;
     line-height: 60px;
     background-color: rgba(0, 0, 255, 0.6);
@@ -118,5 +165,71 @@ i.right {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.login-popup-inner-items {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: #fff;
+}
+
+.login-popup-inner-items:hover {
+    background-color: rgba(244, 67, 54, 0.6);
+}
+
+#fb-login-button {
+    background-color: #4568b2;
+    color: #fff;
+}
+
+#fb-login-button:hover {
+    background-color: #5679c3;
+}
+
+#google-login-button {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0 ,0, 0.3);
+    margin-bottom: 15px;
+}
+
+#google-login-button:hover {
+    border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.login-fields .row .col {
+    text-align: left;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.login-fields .row .col:hover {
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+input[type=email], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
+    border: none;
+    box-shadow: none;
+}
+
+.checkbox {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.checkbox-black[type="checkbox"].filled-in:checked + label:after{
+     border: 2px solid #777;
+     background-color: #777;
+}
+
+.row.login-fields {
+    margin-bottom: 0px;
 }
 

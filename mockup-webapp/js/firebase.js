@@ -17,10 +17,14 @@ $(function() {
     auth.onAuthStateChanged(function(user) {
         if (user) {
             console.log('user is signed in');
-            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html");
+            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+                $(".dropdown-button").dropdown();
+            });
         } else {
             console.log('user is NOT signed in');
-            $("#navbar-placeholder").load("../navbar/navbar-signup.html");
+            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
+                $(".dropdown-button").dropdown();
+            });
         }
     });
 

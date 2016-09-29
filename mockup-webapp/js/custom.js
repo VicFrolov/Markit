@@ -1,4 +1,6 @@
 $(function() {
+    $('.slider').slider();
+
     /**
         loading main data, slight timeOut so it 
         doesn't appear before the navbar does
