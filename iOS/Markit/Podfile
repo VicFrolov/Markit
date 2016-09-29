@@ -9,7 +9,6 @@ target 'Markit' do
   pod 'Firebase'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
-  pod 'Firebase/Crash'
-
+  pod 'SwiftyJSON', '3.0.0'
 
 end

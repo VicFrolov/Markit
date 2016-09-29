@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		347AC2F21D98AC050073E949 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* LoginViewController.swift */; };
-		347AC2F31D98AC050073E949 /* createUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F11D98AC050073E949 /* createUserViewController.swift */; };
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
 		381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 381C21A91D8D125500657D9D /* Assets.xcassets */; };
 		381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */; };
+		3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3832CC511D98677300536451 /* AddPriceViewController.swift */; };
 		384810B41D83984400830C95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810B31D83984400830C95 /* AppDelegate.swift */; };
 		384810B91D83984400830C95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810B71D83984400830C95 /* Main.storyboard */; };
 		384810BE1D83984400830C95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810BC1D83984400830C95 /* LaunchScreen.storyboard */; };
@@ -19,17 +19,25 @@
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
 		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
 		388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 388B46A81D8A70F200B6717E /* GoogleService-Info.plist */; };
-		91D7D0771028AD7F25AD0BB6 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2753E9746BFF7B228F376277 /* Pods_Markit.framework */; };
+		38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */; };
+		38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */; };
+		38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */; };
+		38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */; };
+		38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */; };
+		38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */; };
+		38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */; };
+		38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */; };
+		5B0BE399A6B57513D8571D18 /* Pods_Markit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14839011C015C617372EE7F /* Pods_Markit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2753E9746BFF7B228F376277 /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		347AC2F11D98AC050073E949 /* createUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createUserViewController.swift; sourceTree = "<group>"; };
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
 		381C21A91D8D125500657D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListingTableViewController.swift; sourceTree = "<group>"; };
+		3832CC511D98677300536451 /* AddPriceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPriceViewController.swift; sourceTree = "<group>"; };
 		384810B01D83984400830C95 /* Markit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Markit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384810B31D83984400830C95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		384810B81D83984400830C95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -39,8 +47,16 @@
 		384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewCell.swift; sourceTree = "<group>"; };
 		387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemForSaleViewController.swift; sourceTree = "<group>"; };
 		388B46A81D8A70F200B6717E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4B8647FDED104FF70BD2C425 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
-		D5E401CA705917DE2332AE39 /* Pods-Markit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.debug.xcconfig"; sourceTree = "<group>"; };
+		38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTitleViewController.swift; sourceTree = "<group>"; };
+		38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagsViewController.swift; sourceTree = "<group>"; };
+		38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDescriptionViewController.swift; sourceTree = "<group>"; };
+		38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCreateNameViewController.swift; sourceTree = "<group>"; };
+		38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNotLoggedInViewController.swift; sourceTree = "<group>"; };
+		38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCreateEmailAndPWViewController.swift; sourceTree = "<group>"; };
+		38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCreateHubViewController.swift; sourceTree = "<group>"; };
+		38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.debug.xcconfig"; sourceTree = "<group>"; };
+		D14839011C015C617372EE7F /* Pods_Markit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Markit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91D7D0771028AD7F25AD0BB6 /* Pods_Markit.framework in Frameworks */,
+				5B0BE399A6B57513D8571D18 /* Pods_Markit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,8 +76,8 @@
 			children = (
 				384810B21D83984400830C95 /* Markit */,
 				384810B11D83984400830C95 /* Products */,
-				AA6BD6EA9BCD4014AC49C5A0 /* Pods */,
-				524E6867D3EE0AB2A4F075BE /* Frameworks */,
+				B7348C6D9D9DD9181F2EC209 /* Pods */,
+				B7FA343ECE81E67837A175CC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,11 +109,19 @@
 			isa = PBXGroup;
 			children = (
 				347AC2F01D98AC050073E949 /* LoginViewController.swift */,
-				347AC2F11D98AC050073E949 /* createUserViewController.swift */,
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
+				3832CC511D98677300536451 /* AddPriceViewController.swift */,
+				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
+				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
+				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
+				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
+				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
+				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
+				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
+				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -110,21 +134,21 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		524E6867D3EE0AB2A4F075BE /* Frameworks */ = {
+		B7348C6D9D9DD9181F2EC209 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2753E9746BFF7B228F376277 /* Pods_Markit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		AA6BD6EA9BCD4014AC49C5A0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D5E401CA705917DE2332AE39 /* Pods-Markit.debug.xcconfig */,
-				4B8647FDED104FF70BD2C425 /* Pods-Markit.release.xcconfig */,
+				5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */,
+				286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B7FA343ECE81E67837A175CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D14839011C015C617372EE7F /* Pods_Markit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,15 +158,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 384810C21D83984400830C95 /* Build configuration list for PBXNativeTarget "Markit" */;
 			buildPhases = (
-				6DBC43A0B81EA3B5F0EA90D9 /* Check Pods Manifest.lock */,
-				2F376E2D457F102CB1DBBD24 /* [CP] Check Pods Manifest.lock */,
+				54B14CDD226E4915BEB8A4ED /* [CP] Check Pods Manifest.lock */,
 				384810AC1D83984400830C95 /* Sources */,
 				384810AD1D83984400830C95 /* Frameworks */,
 				384810AE1D83984400830C95 /* Resources */,
-				D2BB4AA0A87F96D4FB23F434 /* [CP] Embed Pods Frameworks */,
-				3CFE692DEF1BE224E22A8FC2 /* [CP] Copy Pods Resources */,
-				CD02C318D491C849D703C13A /* Embed Pods Frameworks */,
-				5E0C4F7BF17538750F9190E5 /* Copy Pods Resources */,
+				F10B877D5CEA7EA86F437C6A /* [CP] Embed Pods Frameworks */,
+				045D323420EFAFE99CC66390 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -208,22 +229,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2F376E2D457F102CB1DBBD24 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3CFE692DEF1BE224E22A8FC2 /* [CP] Copy Pods Resources */ = {
+		045D323420EFAFE99CC66390 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -238,52 +244,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Markit/Pods-Markit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5E0C4F7BF17538750F9190E5 /* Copy Pods Resources */ = {
+		54B14CDD226E4915BEB8A4ED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Markit/Pods-Markit-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		6DBC43A0B81EA3B5F0EA90D9 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CD02C318D491C849D703C13A /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Markit/Pods-Markit-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D2BB4AA0A87F96D4FB23F434 /* [CP] Embed Pods Frameworks */ = {
+		F10B877D5CEA7EA86F437C6A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -307,12 +283,20 @@
 			files = (
 				347AC2F21D98AC050073E949 /* LoginViewController.swift in Sources */,
 				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
+				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
-				347AC2F31D98AC050073E949 /* createUserViewController.swift in Sources */,
+				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
+				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
+				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
+				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
 				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
+				38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
+				38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
+				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
+				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,8 +419,9 @@
 		};
 		384810C31D83984400830C95 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5E401CA705917DE2332AE39 /* Pods-Markit.debug.xcconfig */;
+			baseConfigurationReference = 5BDB8040AE7D03131D3DC174 /* Pods-Markit.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Markit/Markit.entitlements;
 				DEVELOPMENT_TEAM = WZGKH83WEV;
@@ -454,8 +439,9 @@
 		};
 		384810C41D83984400830C95 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B8647FDED104FF70BD2C425 /* Pods-Markit.release.xcconfig */;
+			baseConfigurationReference = 286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Markit/Markit.entitlements;
 				DEVELOPMENT_TEAM = WZGKH83WEV;
