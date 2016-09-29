@@ -33,7 +33,7 @@ nav ul a:hover {
     color: #fff;
 }
 
-nav ul li:not(:last) {
+.navbar-buttons > li:not(:last-child) {
     width: 110px;
     text-align: center;
 }
