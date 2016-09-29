@@ -138,7 +138,6 @@ nav .input-field label i {
 
 .login-popup-inner-items {
     width: 100%;
-    margin-bottom: 5px;
     height: 60px;
     line-height: 60px;
     background-color: rgba(0, 0, 255, 0.6);
@@ -218,5 +217,19 @@ input[type=email], input[type=password] {
 input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
     border: none;
     box-shadow: none;
+}
+
+.checkbox {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.checkbox-black[type="checkbox"].filled-in:checked + label:after{
+     border: 2px solid #777;
+     background-color: #777;
+}
+
+.row.login-fields {
+    margin-bottom: 0px;
 }
 
