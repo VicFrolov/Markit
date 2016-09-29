@@ -38,6 +38,11 @@ nav ul a:hover {
     text-align: center;
 }
 
+.navbar-buttons > li:last-child {
+    width: 130px;
+    text-align: center;
+}
+
 nav ul li {
     border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
