@@ -144,8 +144,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Firebase myFirebaseRef = new Firebase("http://markit-80192.firebaseio.com");
-                myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
+                //Firebase myFirebaseRef = new Firebase("http://markit-80192.firebaseio.com");
+                //myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
             }
@@ -280,6 +280,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 showProgress(false);
                                 Toast.makeText(LoginActivity.this, "Login is successful",
                                         Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, Profile.class));
                             }
 
                             // ...

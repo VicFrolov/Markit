@@ -61,7 +61,7 @@ public class Profile extends AppCompatActivity {
 
 
 
-        //startActivity(new Intent(Profile.this, LoginActivity.class));
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
