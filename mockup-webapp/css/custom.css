@@ -92,17 +92,21 @@ nav .input-field label i {
 
 .slider h3 {
     text-shadow: 0px 1px 10px #000;
-    font-family: "Oxygen", sans-serif;
 }
 
 .slider h5 {
     text-shadow: 0px 5px 10px #000;
-    font-family: "Oxygen", sans-serif;
 }
 
 .profile-dropdown-icon {
     padding-left: -100px;
 }
+
+.grey-box {
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
 
 /*custom login popup*/
 #login-popup {
