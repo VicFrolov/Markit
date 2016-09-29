@@ -67,6 +67,10 @@ input#search {
     line-height: 64px;
 }
 
+nav .input-field {
+    height: 64px;
+    line-height: 64px;
+}
 /*show the stupid navbar search*/
 nav .input-field label i { 
     color: rgba(0, 0, 0, 0.2);
