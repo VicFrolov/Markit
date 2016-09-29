@@ -19,9 +19,16 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     var lastName:String!
     
     @IBAction func nextStep(_ sender: AnyObject) {
-        if (!checkmarkEmail.isHidden && !checkmarkPassword.isHidden) {
-            self.performSegue(withIdentifier: "segueToHub", sender: self)
-        }
+        FIRAuth.auth()?.fetchProviders(forEmail: email.text!.lowercased(), completion:{(providers, error) in
+            if providers != nil {
+                self.showAlert(message: "this email is already taken :(")
+            } else {
+                if self.isValidEmail(testStr: self.email.text!.lowercased()) &&
+                    !self.checkmarkEmail.isHidden && !self.checkmarkPassword.isHidden {
+                        self.performSegue(withIdentifier: "segueToHub", sender: self)
+                }
+            }
+        })
     }
     
     func isValidEmail(testStr:String) -> Bool {
@@ -35,7 +42,7 @@ class AccountCreateEmailAndPWViewController: UIViewController {
     func textViewDidChange(textView: UITextView) {
         let minPasswordLength = 8
         
-        checkmarkEmail.isHidden = isValidEmail(testStr: email.text!) ? false : true
+        checkmarkEmail.isHidden = self.isValidEmail(testStr: email.text!.lowercased()) ? false : true
         checkmarkPassword.isHidden = pass.text!.characters.count >= minPasswordLength ? false : true
     }
     
@@ -78,5 +85,12 @@ class AccountCreateEmailAndPWViewController: UIViewController {
             let nextVC = segue.destination as! AccountCreateHubViewController
             nextVC.userInfo = userInfo
         }
+    }
+    
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Sorry...", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
