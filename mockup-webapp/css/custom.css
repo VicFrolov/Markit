@@ -67,6 +67,11 @@ input#search {
     line-height: 64px;
 }
 
+/*show the stupid navbar search*/
+nav .input-field label i { 
+    color: rgba(0, 0, 0, 0.2);
+}
+
 
 /*Launch page*/
 .slider {
