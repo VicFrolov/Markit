@@ -57,8 +57,12 @@ i.right {
 
 
 /*Launch page*/
-.carousel {
-    height: 500px !important;
+.slider {
+    height: 550px !important;
+}
+
+.slides {
+    height: 550px !important;
 }
 
 .profile-dropdown-icon {
