@@ -45,9 +45,30 @@ $(function() {
         });
     };
 
-    listingsRef.on('child_added', function (snapshot) {
-        snapshot.val();
-        console.log(snapshot.val());
+    var getListings = function (callback) {
+        var x = ""
+        listingsRef.on('value', function (snapshot) {
+            x = snapshot.val(); 
+            callback(x);
+        });
+    };
+
+    getListings(function(input){
+        console.log(Object.keys(input));
+        var objectNames = Object.keys(input);
+        var objects = [];
+        for (var i = 0; i < objectNames.length; i++){
+            objects.push(input[objectNames[i]]);
+        };
+        $(".result-container").empty().append(
+            objects.map(function (listing) {
+                return $("<div></div>").append(
+                    $("<img/>").attr({
+                        alt: listing.description + " " + listing.item + " " + listing.price + " " + listing.tags
+                    })
+                );
+            })
+        );
     });
 
     $("main").on('click', '#addListing', function (e) {
