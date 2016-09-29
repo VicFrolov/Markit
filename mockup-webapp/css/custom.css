@@ -57,6 +57,10 @@ i.right {
     width: 400px;
 }
 
+#navbar-searchbar:hover {
+    background-color: #ddd;
+}
+
 input#search {
     display: inline-block;
     height: 64px;
