@@ -50,10 +50,8 @@ $(function() {
     };
 
     var getListings = function (callback) {
-        var x = ""
         listingsRef.on('value', function (snapshot) {
-            x = snapshot.val(); 
-            callback(x);
+            callback(snapshot.val());
         });
     };
 
