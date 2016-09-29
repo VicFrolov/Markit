@@ -95,16 +95,19 @@ Each university shall have their own “College Hub” in which all the items th
 5.3.4.7 The user shall be notified when an item with a tag that they have saved is posted.<br />
 
 ##5.4 Performance Requirements
-5.4.1 The sales postings features shall require minimally a picture, price, and general location of the item.<br />
-5.4.2 The email address provided shall only be accepted if it ends with .edu<br />
+5.4.1 The sales postings features shall load a picture, price, and general description of the item within 3 seconds from the time of the request.<br />
+5.4.2 The email address provided shall notify the user if it is valid (i.e., it ends with .edu) within 1 second of typing a character.<br />
 5.4.3 The sign-up page shall reject an email address that does not end with .edu within 3 seconds of typing the email.<br />
 5.4.4 The login page shall allow a user to use the app within 5 seconds of pressing the login button.<br />
 5.4.5 Items in the listing shall be tagged by common keywords or by user's choice.<br />
-5.4.6 The user shall have a main home (“hub”) page of the academic institution of their choosing.<br />
+5.4.6 The user shall display the main home (“hub”) page of the academic institution of their choosing within 5 seconds of logging in.<br />
 5.4.7 User accounts shall provide options to alter personal information.<br />
 5.4.8 Search results shall load within 5 seconds.<br />
-5.4.9 Viewing sales postings shall show price, location and a picture of the item.<br />
-5.4.10 Signing-in shall offer options to login with email or facebook.<br />
+5.4.9 Refreshing sales postings shall take no more than 3 seconds<br />
+5.4.10 Switching between the main tab bar items shall take no more than 1 second.<br />
+5.4.11 The application shall be capable of supporting at least 20,000 users.<br />
+5.4.12 The application shall require no more than 15% of CPU utilization.<br />
+5.4.13 The database shall be able to handle at least 1,000 read transactions per hour.<br />
 
 ##5.5 Environment Requirements
 
@@ -113,7 +116,7 @@ Each university shall have their own “College Hub” in which all the items th
 5.5.1.2 Developing the iOS version of the application shall require Firebase authentication and database dependencies<br />
 5.5.1.3 Developing the iOS version of the application shall require SwiftyJSON dependency<br />
 5.5.1.4 Developing the Android version of the application shall require Android Studio<br />
-5.5.1.5 The database storage and retrieval shall require using Google's Firebase.
+5.5.1.5 The database storage and retrieval shall require using Google's Firebase.<br />
 
 **5.5.2 Execution Environment Requirements**<br />
 5.5.2.1 Computing Requirements<br />
@@ -121,19 +124,84 @@ The application shall not require any special computing hardware to operate.<br 
 
 **5.5.2.2 Software Requirements**<br />
 5.5.2.2.1 The application shall be accessed through devices that use iOS 9 and up: <br />
-* iPhone 4/4s
-* iPhone 5/5s/5c
-* iPhone 6/6s/6 plus
+* iPhone 4
+* iPhone 4s
+* iPhone 5
+* iPhone 5s
+* iPhone 5c
+* iPhone 6
+* iPhone 6s
+* iPhone 6 plus
 * iPhone SE
 
-5.5.2.2.2 The application shall be accessed through Android 7 on the following devices:<br />
-* Samsung GS5
-* Samsung GS6
-* Samsung GS7
+5.5.2.2.2 The application shall be accessed through Android 6.0 Marshmallow on the following devices:<br />
+* Samsung Galaxy S6 edge+
+* Samsung Galaxy Note5
+* Samsung Galaxy S6 edge
+* Samsung Galaxy S6
+* Samsung Galaxy Note 4
+* Samsung Galaxy S5
+* Samsung Galaxy Alpha
+* Samsung Galaxy A8
+* Samsung Galaxy A7
+* Sony Xperia Z5 Premium
+* Sony Xperia Z5
+* Sony Xperia Z5 Compact
+* Sony Xperia Z3+ / Z4
+* Sony Xperia C5 Ultra
+* Sony Xperia C4
+* Sony Xperia M5
+* Sony Xperia M4 Aqua
+* Sony Xperia Z3 / Z3v
+* Sony Xperia Z3 Compact
+* Sony Xperia Z2
+* Sony Xperia Z Ultra GPE
+* LG V10
+* LG G4
+* LG G Flex2
+* LG G4 Stylo
+* LG G3
+* HTC One M9 Plus
+* HTC One E9 Plus
+* HTC One M9
+* HTC One E9
+* HTC One ME
+* HTC Butterfly 3
+* HTC Desire 826
+* HTC One (M8)
+* HTC One (E8)
+* HTC One (M8 Eye)
+* HTC Desire 820
+* HTC Desire 816
+* Motorola Moto X Pure Edition (3rd gen)
+* Motorola Moto X Style (3rd gen)
+* Motorola Moto X Play
+* Motorola Moto X Force
+* Motorola Moto G (3rd gen)
+* Motorola Moto G Turbo
+* Motorola Moto E (3rd gen)
+* Motorola DROID Turbo 2
+* Motorola Moto MAXX 2
+* Motorola Moto X Pure edition (2nd gen)
+* Motorola DROID Turbo
+* Motorola Moto MAXX
+* Motorola Moto Turbo
+* Motorola Moto G (2nd gen) and Moto G 4G (2nd gen)
+* Lenovo K3 Note
+* Lenovo A7000
+* Lenovo A7000 Plus
+* Lenovo Vibe S1
+* Lenovo Vibe P1
+* Asus Zenfone 2 series
+* Asus Zenfone 2 Laser
+* Asus Zenfone 2 Deluxe
+* Asus Zenfone Selfie
+* Asus Zenfone Go
+
+5.5.2.2.2.2
 
 5.5.2.2.3 The application shall be accessed through the following web browsers:<br />
-* Google Chrome
-
-
-
-
+* Google Chrome 53.0 and up
+* Firefox 50.0
+* Safari 9.1
+* Microsoft Edge 20.1
