@@ -87,6 +87,7 @@ nav .input-field label i {
 
 /*Launch page*/
 .slider {
+    z-index: 1;
     height: 550px !important;
 }
 
@@ -165,5 +166,57 @@ nav .input-field label i {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.login-popup-inner-items {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: #fff;
+}
+
+.login-popup-inner-items:hover {
+    background-color: rgba(244, 67, 54, 0.6);
+}
+
+#fb-login-button {
+    background-color: #4568b2;
+    color: #fff;
+}
+
+#fb-login-button:hover {
+    background-color: #5679c3;
+}
+
+#google-login-button {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0 ,0, 0.3);
+    margin-bottom: 15px;
+}
+
+#google-login-button:hover {
+    border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.login-fields .row .col {
+    text-align: left;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.login-fields .row .col:hover {
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+input[type=email], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
+    border: none;
+    box-shadow: none;
 }
 

@@ -24,26 +24,23 @@
 <!-- custom login pop up -->
 <div id="login-popup">
   <div id="login-popup-inner">
-    <fb:login-button class="login-popup-inner-items" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-    <a class="waves-effect waves-light btn login-popup-inner-items"><i class="material-icons left"></i>Log in with Google</a>
+    <a class="waves-effect waves-light btn login-popup-inner-items z-depth-0" id="google-login-button"><i class="material-icons left"></i>Log in with Google</a>
+    <a class="waves-effect waves-light btn login-popup-inner-items z-depth-0" id="fb-login-button"><i class="material-icons left"></i>Log in with Facebook</a>
     <div class="crossline-wrapper">
       <div> or </div>
     </div>
-    <div class="row">
+    <div class="row login-fields">
         <div class="row">
           <div class="input-field col s12">
-            <input id="email" type="email" class="validate">
-            <label for="email">Username</label>
+            <input id="email" type="email" class="validate" placeholder="Email">
           </div>
         </div>    
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
+            <input id="password" type="password" class="validate" placeholder="Password">
           </div>
         </div>
     </div>
     <a class="waves-effect waves-light btn login-popup-inner-items" id="sign-in-button">Log in</a>
-    <a class="waves-effect waves-light btn login-popup-inner-items" id="create-account-button">Create Account</a>
   </div>
 </div>
