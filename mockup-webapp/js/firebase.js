@@ -84,7 +84,7 @@ $(function() {
         }
     });
 
-    $("main").on('click', '#addListing', function (e) {
+    $("main").on('click', '#add-listing', function (e) {
         e.preventDefault();
         var itemTitle = $("#item-post-title").val();
         var itemDescription = $("#item-post-description").val();
