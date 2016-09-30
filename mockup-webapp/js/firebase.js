@@ -19,7 +19,6 @@ $(function() {
             console.log('user is signed in');
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
                 $(".dropdown-button").dropdown();
-                console.log("lol")
                 $("#navbar-logout-button").click(function () {
                     console.log('lol')
                     auth.signOut();
