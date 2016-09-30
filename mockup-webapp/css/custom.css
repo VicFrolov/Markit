@@ -84,6 +84,7 @@ nav .input-field {
     height: 64px;
     line-height: 64px;
 }
+
 /*show the stupid navbar search*/
 nav .input-field label i { 
     color: rgba(0, 0, 0, 0.2);
@@ -246,4 +247,34 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 .row.login-fields {
     margin-bottom: 0px;
 }
+
+/*NEW POST MAIN*/
+
+#new-post-main {
+    background-color: #448AFF;
+    color: #fff;
+}
+
+#new-post-main .input-field label {
+    color: #fff;
+}
+
+#new-post-main .input-field label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#new-post-main .input-field input[type=text] {
+    border-bottom: 1px solid #fff;
+    box-shadow: none;
+}
+
+#new-post-main .input-field input[type=text]:focus {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+#new-post-main main {
+    padding: 30px 30px 0px 50px;
+}
+
 

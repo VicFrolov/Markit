@@ -75,6 +75,15 @@ $(function() {
         );
     });
 
+    // post new listing autocomplete
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'http://placehold.it/250x250'
+        }
+    });
+
     $("main").on('click', '#addListing', function (e) {
         e.preventDefault();
         var itemTitle = $("#item-post-title").val();
