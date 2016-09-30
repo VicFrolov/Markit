@@ -17,11 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         FIRApp.configure()
         
-        UITabBar.appearance().tintColor = UIColor(red: 30/255.0, green: 144/255.0, blue: 255/255.0, alpha: 1.0)
-
+        UITabBar.appearance().tintColor = UIColor(red: 244.0/255.0, green: 67.0/255.0, blue: 54.0/255.0, alpha: 0.5)
         let tabBar: UITabBarController = self.window?.rootViewController as! UITabBarController;
         tabBar.selectedIndex = 1;
         

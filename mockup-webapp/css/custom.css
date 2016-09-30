@@ -16,6 +16,7 @@ main {
 
 nav {
     background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 nav .brand-logo {
@@ -32,8 +33,13 @@ nav ul a:hover {
     color: #fff;
 }
 
-nav ul li {
+.navbar-buttons > li:not(:last-child) {
     width: 110px;
+    text-align: center;
+}
+
+.navbar-buttons > li:last-child {
+    width: 130px;
     text-align: center;
 }
 
@@ -44,6 +50,13 @@ nav ul li:hover {
     background-color: rgba(244, 67, 54, 0.5);
 }
 
+#navbar-user-photo {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 7px;
+}
 
 i.right {
     margin: 0px;
@@ -71,6 +84,7 @@ nav .input-field {
     height: 64px;
     line-height: 64px;
 }
+
 /*show the stupid navbar search*/
 nav .input-field label i { 
     color: rgba(0, 0, 0, 0.2);
@@ -83,6 +97,13 @@ nav .input-field label i {
 .input-field input[type=search]:focus ~ .material-icons {
     color: rgba(244, 67, 54, 0.5);
 }
+ 
+.dropdown-content li>a {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    width:200px;
+}
+
 
 
 /*Launch page*/
@@ -106,12 +127,6 @@ nav .input-field label i {
 .profile-dropdown-icon {
     padding-left: -100px;
 }
-
-.grey-box {
-    background-color: rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
 
 /*custom login popup*/
 #login-popup {
@@ -232,4 +247,39 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 .row.login-fields {
     margin-bottom: 0px;
 }
+
+/*NEW POST MAIN*/
+
+#new-post-main {
+    background-color: #448AFF;
+    color: #fff;
+}
+
+#new-post-main .input-field label {
+    color: #fff;
+}
+
+#new-post-main .input-field label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#new-post-main .input-field input[type=text] {
+    border-bottom: 1px solid #fff;
+    box-shadow: none;
+}
+
+#new-post-main .input-field input[type=text]:focus {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+#new-post-main main {
+    padding: 30px 30px 0px 50px;
+}
+
+#add-listing {
+    background-color: #AED581;
+    color: #fff;
+}
+
 

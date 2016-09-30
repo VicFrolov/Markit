@@ -11,50 +11,48 @@
   </head>
   
 
-  <body>
+  <body id="new-post-main">
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
 
     <main>
-      <h2> Add a new listing</h2>
+      <h2>Sell an item</h2>
         <div class="row">
-          <form class="col s12">
+          <form class="col l6 s12">
             <div class="row">
-              <div class="input-field col s6">
-                <input id="item-post-title" type="text" class="validate">
+              <div class="input-field col l6 m12 s12">
+                <input id="item-post-title" type="text" class="validate" length="24">
                 <label for="item-post-title">Item Name</label>
               </div>
-              <div class="input-field col s6">
-                <input id="item-post-description" type="text" class="validate">
-                <label for="item-post-description">Item Description</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="item-post-tags" type="text" class="validate">
-                <label for="item-post-tags">Tags</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
+              <div class="input-field col l6 m3 s12">
                 <input id="item-post-price" type="text" class="validate">
                 <label for="item-post-price">Price</label>
               </div>
             </div>
-            <div class="file-field input-field col s4">
-              <div class="btn">
-                <span>Add Image</span>
-                <input type="file">
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="item-post-description" class="materialize-textarea"></textarea>
+                <label for="item-post-description">Item Description</label>
               </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-              </div>
+            </div>            
+            <div class="row">
+              <div class="input-field col l6 s12">
+                <input type="text" id="autocomplete-input" class="autocomplete">
+                <label for="autocomplete-input">Hub (campus)</label>
+              </div> 
+              <div class="input-field col l6 s12">
+                <input id="item-post-tags" type="text" class="validate">
+                <label for="item-post-tags">Tags</label>
+              </div>              
             </div>
-            <a id="addListing" class="waves-effect btn-large modal-trigger">
+            <a id="add-listing" class="waves-effect btn-large modal-trigger">
               Add Your Listing!
             </a>
           </form>
+          <div class="col l6">
+            <p>aslkdfj</p>
+          </div>
         </div>
     </main>
 
