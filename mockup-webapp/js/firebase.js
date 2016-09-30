@@ -18,7 +18,12 @@ $(function() {
         if (user) {
             console.log('user is signed in');
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
-                $(".dropdown-button").dropdown({constrain_width: false});
+                $(".dropdown-button").dropdown();
+                console.log("lol")
+                $("#navbar-logout-button").click(function () {
+                    console.log('lol')
+                    auth.signOut();
+                })
             });
         } else {
             console.log('user is NOT signed in');
@@ -26,16 +31,6 @@ $(function() {
                 $(".dropdown-button").dropdown();
             });
         }
-    });
-
-
-    //logout 
-    $("header").on('click', '#navbar-logout-button', function () {
-        auth.signOut().then(function() {
-            console.log("successfully signed out user");
-        }, function(error) {
-            // An error happened.
-        });
     });
 
     //ADD new listing
