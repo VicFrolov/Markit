@@ -47,21 +47,6 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[] {
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
 
 
     // UI references.
@@ -88,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+                    startActivity(new Intent(LoginActivity.this, Profile.class));
 
                 } else {
                     // User is signed out
@@ -144,8 +129,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Firebase myFirebaseRef = new Firebase("http://markit-80192.firebaseio.com");
-                //myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
             }
@@ -188,15 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Callback received when a permissions request has been completed.
      */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
-    }
+
 
 
     /**
@@ -280,7 +255,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 showProgress(false);
                                 Toast.makeText(LoginActivity.this, "Login is successful",
                                         Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, Profile.class));
+
                             }
 
                             // ...
@@ -389,10 +364,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
 
 }
 
