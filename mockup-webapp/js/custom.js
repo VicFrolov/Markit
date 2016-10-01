@@ -91,7 +91,7 @@ $(function() {
         }
     });
 
-    var emailCheck = new RegExp(/(.+)+@(.+)+.edu/);
+    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.edu/);
     var emailValid = false;
 
     $('body').on('keyup', '#sign-up-email', function() {
