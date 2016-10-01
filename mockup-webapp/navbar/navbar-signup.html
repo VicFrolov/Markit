@@ -24,7 +24,7 @@
 <!-- end nav -->
 
 <!-- custom login pop up -->
-<div id="login-popup" style="display: none;">
+<div id="login-popup">
   <div id="login-popup-inner">
     <fb:login-button class="login-popup-inner-items" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
     <a class="waves-effect waves-light btn login-popup-inner-items"><i class="material-icons left"></i>Log in with Google</a>
@@ -54,30 +54,40 @@
     <div class="row">
         <div class="row">
           <div class="input-field col s12">
-            <input id="sign-up-first-name" type="email" class="validate">
+            <i hidden class="material-icons prefix" id="first-name-available">check_circle</i>
+            <i class="material-icons prefix" id="first-name-unavailable">highlight_off</i>
+            <input id="sign-up-first-name" type="text" class="validate">
             <label for="email">First Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="sign-up-last-name" type="email" class="validate">
+            <i hidden class="material-icons prefix" id="last-name-available">check_circle</i>
+            <i class="material-icons prefix" id="last-name-unavailable">highlight_off</i>
+            <input id="sign-up-last-name" type="text" class="validate">
             <label for="email">Last Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="sign-up-username" type="email" class="validate">
+            <i hidden class="material-icons prefix" id="username-available">check_circle</i>
+            <i class="material-icons prefix" id="username-unavailable">highlight_off</i>
+            <input id="sign-up-username" type="text" class="validate">
             <label for="email">Username</label>
           </div>
         </div>      
         <div class="row">
           <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="email-available">check_circle</i>
+            <i class="material-icons prefix" id="email-unavailable">highlight_off</i>
             <input id="sign-up-email" type="email" class="validate">
             <label for="email">Email</label>
           </div>
         </div>    
         <div class="row">
           <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="password-available">check_circle</i>
+            <i class="material-icons prefix" id="password-unavailable">highlight_off</i>
             <input id="sign-up-password" type="password" class="validate">
             <label for="password">Password</label>
           </div>

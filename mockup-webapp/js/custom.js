@@ -59,6 +59,70 @@ $(function() {
         signIn();
     });
 
+    var nameSizeLimit = 3;
+    var passwordSizeLimit = 8;
+
+    $('body').on('keyup', '#sign-up-first-name', function() {
+        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
+            $('#first-name-unavailable').hide();
+            $('#first-name-available').show();
+        } else {
+            $('#first-name-unavailable').show();
+            $('#first-name-available').hide();
+        }
+    });
+
+     $('body').on('keyup', '#sign-up-last-name', function() {
+        if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
+            $('#last-name-unavailable').hide();
+            $('#last-name-available').show();
+        } else {
+            $('#last-name-unavailable').show();
+            $('#last-name-available').hide();
+        }
+    });
+
+    $('body').on('keyup', '#sign-up-username', function() {
+        if ($('#sign-up-username').val().length >= nameSizeLimit) {
+            $('#username-unavailable').hide();
+            $('#username-available').show();
+        } else {
+            $('#username-unavailable').show();
+            $('#username-available').hide();
+        }
+    });
+
+    var emailCheck = new RegExp(/(.+)+@(.+)+.edu/);
+    $('body').on('keyup', '#sign-up-email', function() {
+        if (emailCheck.test($('#sign-up-email').val())) {
+            $('#email-unavailable').hide();
+            $('#email-available').show();
+        } else {
+            $('#email-unavailable').show();
+            $('#email-available').hide();
+        }
+        // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
+        //     var errorCode = error.code;
+        //     var errorMessage = error.message;
+        // });
+        // if (testEmail.length == 0) {
+        //     $('#email-unavailable').hide();
+        //     $('#email-available').show();
+        // }
+    });
+
+
+    $('body').on('keyup', '#sign-up-password', function() {
+        if ($('#sign-up-password').val().length >= passwordSizeLimit) {
+            $('#password-unavailable').hide();
+            $('#password-available').show();
+        } else {
+            $('#password-unavailable').show();
+            $('#password-available').hide();
+        }
+    });
+
+
     $('body').on('click', '#create-account-button', function() {
         createAccount();
     });
