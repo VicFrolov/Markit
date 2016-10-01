@@ -11,14 +11,25 @@ $(function() {
     setTimeout(loadMain, 300);
 
     //pop up for login buttnon
-    $('#login-popup').hide();
     $('#navbar-placeholder').on('click', '#login-button', function () {
         console.log("it worked")
         $('#login-popup').fadeIn();
     });
+
+     $('#navbar-placeholder').on('click', '#sign-up-button', function () {
+        console.log("it worked")
+        $('#sign-up-popup').fadeIn();
+    });
     
     $(document).mouseup(function (e) {
         var popup = $('#login-popup');
+        if (popup.is(e.target)) {
+            popup.fadeOut();
+        }
+    });
+
+    $(document).mouseup(function (e) {
+        var popup = $('#sign-up-popup');
         if (popup.is(e.target)) {
             popup.fadeOut();
         }
@@ -36,7 +47,7 @@ $(function() {
     }
 
    var createAccount = function () {
-        firebase.auth().createUserWithEmailAndPassword($("#email").val(), $("#password").val()).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
