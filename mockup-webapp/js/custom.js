@@ -60,7 +60,6 @@ $(function() {
     });
 
     var nameSizeLimit = 3;
-    var passwordSizeLimit = 8;
 
     $('body').on('keyup', '#sign-up-first-name', function() {
         if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
@@ -93,11 +92,15 @@ $(function() {
     });
 
     var emailCheck = new RegExp(/(.+)+@(.+)+.edu/);
+    var emailValid = false;
+
     $('body').on('keyup', '#sign-up-email', function() {
         if (emailCheck.test($('#sign-up-email').val())) {
+            emailValid = true;
             $('#email-unavailable').hide();
             $('#email-available').show();
         } else {
+            emailValid = false;
             $('#email-unavailable').show();
             $('#email-available').hide();
         }
@@ -111,12 +114,16 @@ $(function() {
         // }
     });
 
+    var passwordSizeLimit = 8;
+    var passwordValid = false;
 
     $('body').on('keyup', '#sign-up-password', function() {
         if ($('#sign-up-password').val().length >= passwordSizeLimit) {
+            passwordValid = true;
             $('#password-unavailable').hide();
             $('#password-available').show();
         } else {
+            passwordValid = false;
             $('#password-unavailable').show();
             $('#password-available').hide();
         }
@@ -124,7 +131,9 @@ $(function() {
 
 
     $('body').on('click', '#create-account-button', function() {
-        createAccount();
+        if (emailValid && passwordValid) {
+            createAccount();
+        }
     });
 
 });
