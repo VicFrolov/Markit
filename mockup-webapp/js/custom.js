@@ -1,6 +1,4 @@
 $(function() {
-    $('.carousel.carousel-slider').carousel({full_width: true});
-
     /**
         loading main data, slight timeOut so it 
         doesn't appear before the navbar does

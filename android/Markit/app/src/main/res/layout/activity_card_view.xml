@@ -47,15 +47,15 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton2"
-        android:layout_width="50dp"
+        android:layout_width="146dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="?attr/actionModeShareDrawable"
         android:tint="#ffffff"
         app:backgroundTint="#8c8c8c"
-        app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="bottom|center_horizontal"
-        android:layout_gravity="center_vertical|center_horizontal" />
+        android:layout_gravity="center_vertical|center_horizontal"
+        app:layout_anchor="@+id/app_bar" />
 
     <include layout="@layout/content_card_view" />
 
