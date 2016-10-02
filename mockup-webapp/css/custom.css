@@ -169,8 +169,8 @@ nav .input-field label i {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 110%;
+    height: 110%;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -187,7 +187,6 @@ nav .input-field label i {
 
 .sign-up-popup-inner-items {
     width: 100%;
-    margin-bottom: 5px;
     height: 60px;
     line-height: 60px;
     background-color: rgba(0, 0, 255, 0.6);
@@ -196,6 +195,11 @@ nav .input-field label i {
 
 .sign-up-popup-inner-items:hover {
     background-color: rgba(0, 0, 255, 0.9);
+}
+
+.input-message {
+    font-size: 14px;
+    color: rgba(200, 0, 50, 0.9);
 }
 
 .crossline-wrapper {
@@ -223,6 +227,15 @@ nav .input-field label i {
 }
 
 .login-popup-inner-items:hover {
+    background-color: rgba(244, 67, 54, 0.6);
+}
+
+.sign-up-popup-inner-items {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: #fff;
+}
+
+.sign-up-popup-inner-items:hover {
     background-color: rgba(244, 67, 54, 0.6);
 }
 
@@ -316,5 +329,3 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
     background-color: #AED581;
     color: #fff;
 }
-
-

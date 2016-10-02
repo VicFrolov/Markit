@@ -51,46 +51,41 @@
 
 <div id="sign-up-popup">
   <div id="sign-up-popup-inner">
-    <div class="row">
+    <div class="row login-fields">
         <div class="row">
           <div class="input-field col s12">
             <i hidden class="material-icons prefix" id="first-name-available">check_circle</i>
-            <i class="material-icons prefix" id="first-name-unavailable">highlight_off</i>
-            <input id="sign-up-first-name" type="text" class="validate">
-            <label for="email">First Name</label>
+            <input id="sign-up-first-name" type="email" placeholder="First Name">
           </div>
+          <div class="input-message" id="first-name-unavailable">First name must be at least 3 characters long.</div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <i hidden class="material-icons prefix" id="last-name-available">check_circle</i>
-            <i class="material-icons prefix" id="last-name-unavailable">highlight_off</i>
-            <input id="sign-up-last-name" type="text" class="validate">
-            <label for="email">Last Name</label>
+            <input id="sign-up-last-name" type="email" placeholder="Last Name">
           </div>
+          <div class="input-message" id="last-name-unavailable">Last name must be at least 3 characters long.</div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <i hidden class="material-icons prefix" id="username-available">check_circle</i>
-            <i class="material-icons prefix" id="username-unavailable">highlight_off</i>
-            <input id="sign-up-username" type="text" class="validate">
-            <label for="email">Username</label>
+            <input id="sign-up-username" type="email" placeholder="Username">
           </div>
+          <div class="input-message" id="username-unavailable">Username must be at least 3 characters long.</div>
         </div>      
         <div class="row">
           <div class="input-field col s12">
             <i hidden class="material-icons prefix" id="email-available">check_circle</i>
-            <i class="material-icons prefix" id="email-unavailable">highlight_off</i>
-            <input id="sign-up-email" type="email" class="validate">
-            <label for="email">Email</label>
+            <input id="sign-up-email" type="email" placeholder="Email">
           </div>
+          <div class="input-message" id="email-unavailable">Must be a valid .edu email.</div>
         </div>    
         <div class="row">
           <div class="input-field col s12">
             <i hidden class="material-icons prefix" id="password-available">check_circle</i>
-            <i class="material-icons prefix" id="password-unavailable">highlight_off</i>
-            <input id="sign-up-password" type="password" class="validate">
-            <label for="password">Password</label>
+            <input id="sign-up-password" type="password" placeholder="Password">
           </div>
+          <div class="input-message" id="password-unavailable">Password must be at least 8 characters long.</div>
         </div>
     </div>
     <a class="waves-effect waves-light btn sign-up-popup-inner-items" id="create-account-button">Create Account</a>

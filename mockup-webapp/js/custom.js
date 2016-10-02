@@ -63,49 +63,52 @@ $(function() {
 
     $('body').on('keyup', '#sign-up-first-name', function() {
         if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
-            $('#first-name-unavailable').hide();
+            $('#first-name-unavailable').css('visibility','hidden');
             $('#first-name-available').show();
         } else {
-            $('#first-name-unavailable').show();
+            $('#first-name-unavailable').css('visibility','visible');
             $('#first-name-available').hide();
         }
     });
 
      $('body').on('keyup', '#sign-up-last-name', function() {
         if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
-            $('#last-name-unavailable').hide();
+            $('#last-name-unavailable').css('visibility','hidden');
             $('#last-name-available').show();
         } else {
-            $('#last-name-unavailable').show();
+            $('#last-name-unavailable').css('visibility','visible');
             $('#last-name-available').hide();
         }
     });
 
     $('body').on('keyup', '#sign-up-username', function() {
         if ($('#sign-up-username').val().length >= nameSizeLimit) {
-            $('#username-unavailable').hide();
+            $('#username-unavailable').css('visibility','hidden');
             $('#username-available').show();
         } else {
-            $('#username-unavailable').show();
+            $('#username-unavailable').css('visibility','visible');
             $('#username-available').hide();
         }
     });
 
-    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.edu/);
+    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
     var emailValid = false;
 
     $('body').on('keyup', '#sign-up-email', function() {
-        // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
-        //     var errorCode = error.code;
-        //     var errorMessage = error.message;
-        // });
         if (emailCheck.test($('#sign-up-email').val())) {
-            emailValid = true;
-            $('#email-unavailable').hide();
-            $('#email-available').show();
+            // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
+            //     var errorCode = error.code;
+            //     var errorMessage = error.message;
+            // });
+            // console.log(testEmail);
+            // if (testEmail != 0) {
+                emailValid = true;
+                $('#email-unavailable').css('visibility','hidden');
+                $('#email-available').show();
+            //}
         } else {
             emailValid = false;
-            $('#email-unavailable').show();
+            $('#email-unavailable').css('visibility','visible');
             $('#email-available').hide();
         }
     });
@@ -116,11 +119,11 @@ $(function() {
     $('body').on('keyup', '#sign-up-password', function() {
         if ($('#sign-up-password').val().length >= passwordSizeLimit) {
             passwordValid = true;
-            $('#password-unavailable').hide();
+            $('#password-unavailable').css('visibility','hidden');
             $('#password-available').show();
         } else {
             passwordValid = false;
-            $('#password-unavailable').show();
+            $('#password-unavailable').css('visibility','visible');
             $('#password-available').hide();
         }
     });
