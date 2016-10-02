@@ -108,11 +108,7 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onDestroy () {
-        super.onDestroy();
-        FirebaseAuth.getInstance().signOut();
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
