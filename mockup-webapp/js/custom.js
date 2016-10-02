@@ -95,6 +95,10 @@ $(function() {
     var emailValid = false;
 
     $('body').on('keyup', '#sign-up-email', function() {
+        // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
+        //     var errorCode = error.code;
+        //     var errorMessage = error.message;
+        // });
         if (emailCheck.test($('#sign-up-email').val())) {
             emailValid = true;
             $('#email-unavailable').hide();
@@ -104,14 +108,6 @@ $(function() {
             $('#email-unavailable').show();
             $('#email-available').hide();
         }
-        // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
-        //     var errorCode = error.code;
-        //     var errorMessage = error.message;
-        // });
-        // if (testEmail.length == 0) {
-        //     $('#email-unavailable').hide();
-        //     $('#email-available').show();
-        // }
     });
 
     var passwordSizeLimit = 8;
