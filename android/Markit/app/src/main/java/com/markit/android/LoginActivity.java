@@ -117,10 +117,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuth.removeAuthStateListener(mAuthListener);
         }
 
-
-
-
     }
+
+
 
     private void registerClick() {
 
