@@ -16,11 +16,10 @@ main {
 
 nav {
     background-color: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 nav .brand-logo {
-    color: rgba(244, 67, 54, 0.5);
+    color: #F4A49D;
     font-weight: bold;
     margin-left: 50px;
 }
@@ -31,6 +30,7 @@ nav ul a {
 
 nav ul a:hover {
     color: #fff;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .navbar-buttons > li:not(:last-child) {
@@ -47,11 +47,12 @@ nav ul li {
     border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 nav ul li:hover {
-    background-color: rgba(244, 67, 54, 0.5);
+    background-color: #F4A49D;
 }
 
 #navbar-user-photo {
     border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.7);
     width: 30px;
     height: 30px;
     vertical-align: middle;
@@ -298,34 +299,51 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 
 /*NEW POST MAIN*/
 
-#new-post-main {
-    background-color: #448AFF;
+#new-post-body {
+    background-color: #66bb6a;
     color: #fff;
 }
 
-#new-post-main .input-field label {
+#new-post-body .input-field label {
     color: #fff;
 }
 
-#new-post-main .input-field label {
+#new-post-body .input-field label {
     color: rgba(255, 255, 255, 0.9);
 }
 
-#new-post-main .input-field input[type=text] {
+#new-post-body .input-field input[type=text] {
     border-bottom: 1px solid #fff;
     box-shadow: none;
 }
 
-#new-post-main .input-field input[type=text]:focus {
+#new-post-body .input-field input[type=text]:focus {
     border-bottom: 1px solid #fff;
     box-shadow: 0 1px 0 0 #fff;
 }
 
-#new-post-main main {
-    padding: 30px 30px 0px 50px;
+textarea.materialize-textarea {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+#new-post-body main {
+    padding: 30px 0px 0px 0px;
 }
 
 #add-listing {
+<<<<<<< HEAD
+    color: #66bb6a;
+    background-color: #fff;
+}
+
+
+=======
     background-color: #AED581;
     color: #fff;
 }
+>>>>>>> master

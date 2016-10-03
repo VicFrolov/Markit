@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>markEEt</title>
+    <title>thrifti</title>
 
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
@@ -9,17 +9,18 @@
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
 
   </head>
-  
-
-  <body id="new-post-main">
+  <body id="new-post-body">
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
 
     <main>
-      <h2>Sell an item</h2>
+
+      <div class="test">
+    
         <div class="row">
-          <form class="col l6 s12">
+          <form class="col l6 s12 test">
+          <h4>Fill out some information</h4>
             <div class="row">
               <div class="input-field col l6 m12 s12">
                 <input id="item-post-title" type="text" class="validate" length="24">
@@ -50,10 +51,15 @@
               Add Your Listing!
             </a>
           </form>
-          <div class="col l6">
+          
+          <div class="col l6 test">
+            <h4>Photo time</h4>
             <p>aslkdfj</p>
           </div>
         </div>
+
+      </div>
+
     </main>
 
 
@@ -65,6 +71,5 @@
     <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-database.js"></script>
     <script type="text/javascript" src="../js/custom.js"></script>
     <script type="text/javascript" src="../js/firebase.js"></script>
-
   </body>
 </html>
