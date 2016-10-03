@@ -16,7 +16,6 @@ main {
 
 nav {
     background-color: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 nav .brand-logo {
@@ -31,6 +30,7 @@ nav ul a {
 
 nav ul a:hover {
     color: #fff;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .navbar-buttons > li:not(:last-child) {
@@ -251,25 +251,25 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 
 /*NEW POST MAIN*/
 
-#new-post-main {
-    background-color: #448AFF;
+#new-post-body {
+    background-color: #66bb6a;
     color: #fff;
 }
 
-#new-post-main .input-field label {
+#new-post-body .input-field label {
     color: #fff;
 }
 
-#new-post-main .input-field label {
+#new-post-body .input-field label {
     color: rgba(255, 255, 255, 0.9);
 }
 
-#new-post-main .input-field input[type=text] {
+#new-post-body .input-field input[type=text] {
     border-bottom: 1px solid #fff;
     box-shadow: none;
 }
 
-#new-post-main .input-field input[type=text]:focus {
+#new-post-body .input-field input[type=text]:focus {
     border-bottom: 1px solid #fff;
     box-shadow: 0 1px 0 0 #fff;
 }
@@ -283,13 +283,13 @@ textarea.materialize-textarea:focus:not([readonly]) {
     box-shadow: 0 1px 0 0 #fff;
 }
 
-#new-post-main main {
-    padding: 30px 30px 0px 50px;
+#new-post-body main {
+    padding: 30px 0px 0px 0px;
 }
 
 #add-listing {
-    color: #fff;
-    background-color: #F4A49D;
+    color: #66bb6a;
+    background-color: #fff;
 }
 
 
