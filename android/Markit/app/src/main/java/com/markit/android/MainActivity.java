@@ -2,11 +2,14 @@ package com.markit.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.markit.android.*;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailView;
     private EditText passwordView;
     private EditText confirmPasswordView;
+    private EditText displayNameView;
+    String displayName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
@@ -30,24 +35,30 @@ public class MainActivity extends AppCompatActivity {
         emailView = (EditText) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         confirmPasswordView = (EditText) findViewById(R.id.password2);
+        displayNameView = (EditText) findViewById(R.id.displayName);
         profileClick();
-
-        //Firebase boiler plate code
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+                    //startActivity(new Intent(LoginActivity.this, Profile.class));
+                    UserProfileChangeRequest update = new UserProfileChangeRequest.Builder().setDisplayName(displayName).build();
+                    user.updateProfile(update).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                String text  = "Account Registered " + displayName;
+                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
-                } else {
-                    // User is signed out
-                    //Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
-        // ...
+
     }
 
     @Override
@@ -62,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-
-
     }
 
     private void profileClick(){
@@ -77,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attemptRegister() {
-        Firebase userRef = new  Firebase("http://markit-80192.firebaseio.com");
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
         String confirmPassword = confirmPasswordView.getText().toString();
+        displayName = displayNameView.getText().toString();
         boolean cancel = false;
 
         if (!isEmailValid(email)) {
@@ -99,30 +108,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            //If there was an error. Probably going to focusview on the problem.
             emailView.requestFocus();
         } else {
           //Attempt to register account
 
-            //Toast.makeText(MainActivity.this, "Got to the else condition", Toast.LENGTH_LONG).show();
+
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(Task<AuthResult> task) {
 
 
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
+
                             if (!task.isSuccessful()) {
                                 Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else{
-                                Toast.makeText(MainActivity.this, "Account Successfully Registered", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+
                             }
 
-                            // ...
                         }
                     });
 
