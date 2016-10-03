@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordView;
     private EditText confirmPasswordView;
     private EditText displayNameView;
+    String displayName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
@@ -42,7 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //startActivity(new Intent(LoginActivity.this, Profile.class));
-                    UserProfileChangeRequest update = new UserProfileChangeRequest.Builder().setDisplayName(displayNameView.getText().toString()).build();
+                    UserProfileChangeRequest update = new UserProfileChangeRequest.Builder().setDisplayName(displayName).build();
+                    user.updateProfile(update).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                String text  = "Account Registered " + displayName;
+                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
                 }
@@ -79,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
         String confirmPassword = confirmPasswordView.getText().toString();
+        displayName = displayNameView.getText().toString();
         boolean cancel = false;
 
         if (!isEmailValid(email)) {
@@ -113,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else{
-                                Toast.makeText(MainActivity.this, "Account Successfully Registered", Toast.LENGTH_LONG).show();
+
 
                             }
 
