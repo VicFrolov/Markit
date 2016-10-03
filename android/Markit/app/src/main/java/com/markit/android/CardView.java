@@ -61,6 +61,9 @@ public class CardView extends AppCompatActivity {
             return true;
         }
         if (id == R.id.edit_tags) {
+            Intent tagPage = new Intent(CardView.this, Profile.class);
+            tagPage.putExtra("ARG_SECTION_NUMBER", 2);
+            startActivity(tagPage);
             return true;
         }
         if (id == R.id.new_listing) {

@@ -25,7 +25,16 @@ class AccountCreateHubViewController: UIViewController {
         if !markedHub.isHidden && !markedUsername.isHidden {
             FIRAuth.auth()?.createUser(
                 withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
-                NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
+                    
+                    NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
+                    let uidRef = self.ref.child("/usernames/" + user!.uid)
+                    let userJson = ["username"  : self.username.text!,
+                                    "email"     : self.userInfo[2],
+                                    "firstName" : self.userInfo[0],
+                                    "lastName"  : self.userInfo[1],
+                                    "hub"       : self.hub.text!]
+                    uidRef.setValue(userJson)
+                    
             }
             
             self.performSegue(withIdentifier: "successCreateAccount", sender: self)
@@ -53,6 +62,13 @@ class AccountCreateHubViewController: UIViewController {
         let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
         return usernameTest.evaluate(with: testStr)
     }
+    /*
+    let usernameRef = self.ref.child("/usernames")
+    let meh = ["firstName" : self.userInfo[0],
+               "lastName"  : self.userInfo[1],
+               "uid"       : self.userInfo[2]]
+    print(user!.uid) 
+    */
     
     func textViewDidChange(textView: UITextView) {
         
