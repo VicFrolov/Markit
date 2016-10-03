@@ -15,48 +15,52 @@ class ListingsTableViewController: UITableViewController {
     var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     var ref: FIRDatabaseReference!
     var refHandle: FIRDatabaseHandle?
-    var items: Array<JSON> = []
+    var itemsRef: FIRDatabaseReference!
+    var userRef: FIRDatabaseReference!
+    var items: JSON!
+    var key: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ref = FIRDatabase.database().reference()
-        displayListing()
+        self.ref = FIRDatabase.database().reference()
+        self.itemsRef = ref.child("items")
+        self.userRef = ref.child("users")
         
-    }
-    
-    func displayListing() {
-        refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in
+        self.refHandle = itemsRef!.observe(.childAdded, with: { (snapshot) -> Void in
             
-            print("Here are the children \(snapshot.children)")
+            let jsonSnap = JSON(snapshot.value!)
+            self.key = snapshot.key
+            self.items = jsonSnap
             
-            let jsonSnap = JSON(snapshot.value)
-            print("HERE IS THE JSON \(jsonSnap)")
+            print("ITEMS \(self.items!)")
+            print("key \(snapshot.key)")
+            print("self \(self.items["seller"])")
             
-            self.items.append(jsonSnap)
+//            print("KEY \(snapshot.key)")
+//            print("HERE IS THE JSON \(jsonSnap)")
+//            self.dict.append(["key": jsonSnap])
+//            
+//            print("listings \(self.dict)")
+//            print("COUNT \(self.dict.count)")
             
-            print("COUNT \(self.items.count)")
+            //            for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
+            ////                let seller = item.value!["seller"] as? String
+            //
+            //                print("ITEM \(item)")
+            //                self.items.append(item)
+            //
+            //                print("COUNT \(self.items.count)")
             
-//            for item in snapshot.children {
-//                print("Here is the snapshot \(jsonSnap["items"])")
-//                let child = JSON(item)
-//                print("Child is \(child)")
-//                self.items.append(child)
-//                //                let dict = child.value
-//                //                listings.append(dict as! NSDictionary)
-//            }
-            
-            self.tableView.reloadData()
+            //                print("Here is the snapshot \(jsonSnap["items"])")
+            //                let child = JSON(item)
+            //                print("Child is \(child)")
+            //                self.items.append(child)
             
         })
         
-//        for item in self.items as! Dictionary<String, AnyObject> {
-//            let seller = item["seller"] as! String
-//            let itemName = item[""] as! String
-//        }
-        
+        self.tableView.reloadData()
 
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -72,8 +76,7 @@ class ListingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.items.count)
-        return self.items.count
+        return sampleItems.count
     }
 
     
@@ -82,8 +85,11 @@ class ListingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! ListingsTableViewCell
         // Configure the cell...
-        cell.itemLabel?.text = sampleItems[indexPath.row]
+//        cell.itemLabel?.text = sampleItems[indexPath.row]
         cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
+//        cell.priceLabel?.text = self.items!["price"].string
+//        cell.userLabel?.text = self.items!["seller"].string
+//        cell.itemLabel?.text = self.items!["item"].string
         return cell
     }
 }
