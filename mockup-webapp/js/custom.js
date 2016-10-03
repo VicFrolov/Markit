@@ -1,6 +1,18 @@
 $(function() {
     $('.slider').slider();
 
+    // range slider
+    var slider = document.getElementById('search-slider');
+    noUiSlider.create(slider, {
+        start: [0, 300],
+        connect: true,
+        tooltips: true,
+        range: {
+            'min': 0,
+            'max': 1500
+        }
+    });
+
     /**
         loading main data, slight timeOut so it 
         doesn't appear before the navbar does
