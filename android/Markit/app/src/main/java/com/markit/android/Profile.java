@@ -21,10 +21,17 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.markit.android.dummy.DummyContent;
+import com.markit.android.dummy.DummyContent.DummyItem;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity implements WatchListFragment.OnWatchListSelectedListener {
+
+    public void onListFragmentInteraction(DummyItem d) {
+//        TODO figure out what the fuck this thing is supposed to do
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -180,7 +187,18 @@ public class Profile extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+
+            switch (position) {
+                case 0:
+                    return PlaceholderFragment.newInstance(position + 1);
+                case 1:
+                    return WatchListFragment.newInstance(1);
+                case 2:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
+            return null;
+//            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
