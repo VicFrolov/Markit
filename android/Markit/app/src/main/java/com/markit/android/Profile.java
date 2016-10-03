@@ -81,8 +81,8 @@ public class Profile extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Toast.makeText(Profile.this, "You should be logged in", Toast.LENGTH_LONG).show();
-                    Toast.makeText(Profile.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(Profile.this, user.getEmail(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getEmail(), Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(Profile.this, "You are not logged in", Toast.LENGTH_LONG).show();
@@ -175,13 +175,13 @@ public class Profile extends AppCompatActivity {
                 }
             });
 
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            try {
-                textView.setText(user.getDisplayName());
-            } catch (Exception NullPointerException) {
-                textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            }
-
+//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            try {
+//                textView.setText(user.getDisplayName());
+//            } catch (Exception NullPointerException) {
+//
+//            }
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             return rootView;
         }
