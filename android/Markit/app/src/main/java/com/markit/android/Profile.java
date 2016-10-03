@@ -57,7 +57,7 @@ public class Profile extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        //Toast.makeText(Profile.this, "Code above mAuthListener works", Toast.LENGTH_LONG).show();
+
 
 
 

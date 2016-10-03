@@ -3,28 +3,17 @@ package com.markit.android;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-import com.firebase.client.Firebase;
-import com.firebase.client.AuthData;
-import com.firebase.client.FirebaseError;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.AuthResult;
-import com.google.android.gms.tasks.*;
-import com.markit.android.R;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,10 +26,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -65,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
-        populateAutoComplete();
+
         registerClick();
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -94,14 +88,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (user != null) {
                     startActivity(new Intent(LoginActivity.this, Profile.class));
 
-                } else {
-                    // User is signed out
-
                 }
-                // ...
             }
         };
-        // ...
     }
 
     @Override
@@ -136,40 +125,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
-
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//            return true;
-//        }
-//        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-//            return true;
-//        }
-//        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-//            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-//                    .setAction(android.R.string.ok, new View.OnClickListener() {
-//                        @Override
-//                        @TargetApi(Build.VERSION_CODES.M)
-//                        public void onClick(View v) {
-//                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-//                        }
-//                    });
-//        } else {
-//            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-//        }
-        return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-
 
 
     /**
@@ -193,48 +148,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            //mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordView.setError("Password Error");
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            //mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.setError("Email is required");
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            //mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError("Invalid Email");
             focusView = mEmailView;
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
 
-            //Firebase userRef = new  Firebase("http://markit-80192.firebaseio.com");
-
-//            userRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-//                @Override
-//                public void onAuthenticated(AuthData authData) {
-//                    showProgress(false);
-//
-//                    Toast.makeText(LoginActivity.this, "You should be logged in", Toast.LENGTH_LONG).show();
-//                }
-//                @Override
-//                public void onAuthenticationError(FirebaseError firebaseError) {
-//                    showProgress(false);
-//                    Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
-//                }
-//            });
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -249,14 +183,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                //TODO: Implement login success
+                                //You might as well just use the firebase listener.
                                 showProgress(false);
                                 Toast.makeText(LoginActivity.this, "Login is successful",
                                         Toast.LENGTH_SHORT).show();
 
                             }
 
-                            // ...
                         }
                     });
 
