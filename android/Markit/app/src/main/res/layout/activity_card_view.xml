@@ -39,12 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/abc_ratingbar_indicator_material"
+        android:src="@drawable/ic_account_outline_black_24px"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         android:tint="#ffffff"
         app:backgroundTint="#8c8c8c"
-        app:fabSize="normal" />
+        app:fabSize="normal"
+        android:scaleType="center" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton2"
@@ -60,11 +61,7 @@
         app:fabSize="normal" />
 
 
-
-
-
     <include layout="@layout/content_card_view" />
-
 
 
 </android.support.design.widget.CoordinatorLayout>
