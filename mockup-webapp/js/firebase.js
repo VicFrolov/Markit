@@ -68,12 +68,17 @@ $(function() {
             objects.map(function (listing) {
                 return $("<div></div>").append(
                     $("<img/>").attr({
-                        alt: listing.description + " " + listing.item + " " + listing.price + " " + listing.tags
+                        alt: listing.description
+                        alt: listing.item
+                        alt: listing.price
+                        alt: listing.tags
                     })
                 );
             })
         );
     });
+
+    console.log(firebase.User.email);
 
     // post new listing autocomplete
     $('input.autocomplete').autocomplete({
