@@ -164,6 +164,45 @@ nav .input-field label i {
     background-color: rgba(0, 0, 255, 0.9);
 }
 
+#sign-up-popup {
+    z-index: 2;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#sign-up-popup-inner {
+    margin: 0 auto;
+    margin-top: 10%;
+    width: 450px;
+    height: 70%;
+    min-height: 550px;
+    background-color: #fff;
+    text-align: center;
+    padding: 30px 30px 30px 30px;
+}
+
+.sign-up-popup-inner-items {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: rgba(0, 0, 255, 0.6);
+    text-transform: none;
+}
+
+.sign-up-popup-inner-items:hover {
+    background-color: rgba(0, 0, 255, 0.9);
+}
+
+.input-message {
+    font-size: 14px;
+    color: rgba(200, 0, 50, 0.9);
+}
+
 .crossline-wrapper {
     margin-top:20px;
     border-top: 1px solid #969696;
@@ -189,6 +228,15 @@ nav .input-field label i {
 }
 
 .login-popup-inner-items:hover {
+    background-color: rgba(244, 67, 54, 0.6);
+}
+
+.sign-up-popup-inner-items {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: #fff;
+}
+
+.sign-up-popup-inner-items:hover {
     background-color: rgba(244, 67, 54, 0.6);
 }
 
@@ -288,8 +336,14 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 #add-listing {
+<<<<<<< HEAD
     color: #66bb6a;
     background-color: #fff;
 }
 
 
+=======
+    background-color: #AED581;
+    color: #fff;
+}
+>>>>>>> master
