@@ -1,0 +1,23 @@
+#find-body {
+	background-color: #eeeeee;
+	height: 100%;
+	width: 100%;
+}
+
+#find-content {
+	margin: 20px 10px 0px 20px;
+	background-color: #ffffff;
+	height: 100%;
+	width: 50%;
+	min-width: 400px;
+}
+
+.find-result {
+	width: 45%;
+	height: 300px;
+	min-width: 200px;
+}
+
+.card .card-title {
+	font-size: 20px;
+}
