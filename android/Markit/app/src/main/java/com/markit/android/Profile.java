@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,11 +65,11 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        //Toast.makeText(Profile.this, "Code above mAuthListener works", Toast.LENGTH_LONG).show();
 
 
 
-        //startActivity(new Intent(Profile.this, LoginActivity.class));
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +88,8 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
                 if (user != null) {
                     // User is signed in
                     Toast.makeText(Profile.this, "You should be logged in", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getEmail(), Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(Profile.this, "You are not logged in", Toast.LENGTH_LONG).show();
@@ -114,6 +117,7 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
 
 
     }
+
 
 
     @Override
@@ -146,6 +150,7 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
          * The fragment argument representing the section number for this
          * fragment.
          */
+        private Button signOut;
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
@@ -168,7 +173,23 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            signOut = (Button) rootView.findViewById(R.id.signOutButton);
+
+            signOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                }
+            });
+
+//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            try {
+//                textView.setText(user.getDisplayName());
+//            } catch (Exception NullPointerException) {
+//
+//            }
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
     }

@@ -16,21 +16,35 @@ main {
 
 nav {
     background-color: #fff;
-    border-bottom: 1px solid #000;
+
 }
 
 nav .brand-logo {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(244, 67, 54, 0.5);
+    font-weight: bold;
+    margin-left: 50px;
 }
 
 nav ul a {
     color: rgba(0, 0, 0, 0.5);
 }
 
-
-nav ul li:hover {
-    background-color: rgba(0, 0, 255, 0.3);
+nav ul a:hover {
+    color: #fff;
 }
+
+nav ul li {
+    width: 110px;
+    text-align: center;
+}
+
+nav ul li {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+nav ul li:hover {
+    background-color: rgba(244, 67, 54, 0.5);
+}
+
 
 i.right {
     margin: 0px;
