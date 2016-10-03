@@ -45,7 +45,7 @@
 }
 
 #search-slider .noUi-tooltip {
-    bottom: -170%;
+    bottom: -200%;
     border: none;
     background-color: rgba(0, 0, 0, 0);
 }
@@ -65,6 +65,10 @@
     margin-left: 10px;
 }
 
+#search-slider .noUi-connect {
+    background-color: #448AFF;
+}
+
 #search-slider {
-    margin: 0px 10px 20px 10px;
+    margin: 0px 10px 20px 25px;
 }
