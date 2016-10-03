@@ -43,9 +43,8 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         android:tint="#ffffff"
-        app:backgroundTint="#8c8c8c" />
-
-    <include layout="@layout/content_card_view" />
+        app:backgroundTint="#8c8c8c"
+        app:fabSize="normal" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton2"
@@ -56,7 +55,16 @@
         app:backgroundTint="#8c8c8c"
         android:layout_gravity="center_vertical|center_horizontal"
         app:layout_anchor="@+id/app_bar"
-        android:layout_marginLeft="275dp"
-        app:layout_anchorGravity="bottom" />
+        app:layout_anchorGravity="right|bottom"
+        android:layout_marginRight="85dp"
+        app:fabSize="normal" />
+
+
+
+
+
+    <include layout="@layout/content_card_view" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>
