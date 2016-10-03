@@ -2,11 +2,14 @@ package com.markit.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.markit.android.*;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailView;
     private EditText passwordView;
     private EditText confirmPasswordView;
+    private EditText displayNameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
@@ -30,18 +34,35 @@ public class MainActivity extends AppCompatActivity {
         emailView = (EditText) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
         confirmPasswordView = (EditText) findViewById(R.id.password2);
+        displayNameView = (EditText) findViewById(R.id.displayName);
         profileClick();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    //startActivity(new Intent(LoginActivity.this, Profile.class));
+                    UserProfileChangeRequest update = new UserProfileChangeRequest.Builder().setDisplayName(displayNameView.getText().toString()).build();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+                }
+            }
+        };
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     private void profileClick(){
@@ -93,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             } else{
                                 Toast.makeText(MainActivity.this, "Account Successfully Registered", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
                             }
 
                         }
