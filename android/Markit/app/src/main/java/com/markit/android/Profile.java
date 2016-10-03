@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -142,6 +143,7 @@ public class Profile extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
+        private Button signOut;
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
@@ -164,6 +166,15 @@ public class Profile extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            signOut = (Button) rootView.findViewById(R.id.signOutButton);
+
+            signOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                }
+            });
+
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             try {
                 textView.setText(user.getDisplayName());
