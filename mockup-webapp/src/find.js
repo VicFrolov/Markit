@@ -1,18 +1,21 @@
 $(function() {
+    console.log(window.location.pathname)
     var getListings = require('./firebase.js')['getListings'];
 
-    var slider = document.getElementById('search-slider');
-    
-    noUiSlider.create(slider, {
-        start: [0, 300],
-        connect: true,
-        step: 1,
-        tooltips: true,
-        range: {
-            'min': 0,
-            'max': 1500
-        }
-    });
+   if ($('body.search-slider').length > 0) {
+        var slider = document.getElementById('search-slider');
+        
+        noUiSlider.create(slider, {
+            start: [0, 300],
+            connect: true,
+            step: 1,
+            tooltips: true,
+            range: {
+                'min': 0,
+                'max': 1500
+            }
+        });
+    }
 
     getListings(function (input) {
         console.log("getListings function is autorun")
