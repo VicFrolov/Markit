@@ -1,4 +1,6 @@
-firebase = require('../js/firebase.js');
+var fb = require('./firebase.js');
+
+var signIn = fb["signIn"];
 
 $('#navbar-placeholder').on('click', '#login-button', function () {
     $('#login-popup').fadeIn();

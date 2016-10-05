@@ -1,3 +1,3 @@
-firebase2 = require('./firebase.js');
+firebase2 = require('./firebase-auth.js');
 
 console.log(firebase2)

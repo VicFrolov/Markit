@@ -11,9 +11,6 @@ firebase.initializeApp({
     messagingSenderId: "4085636156"
 });
 
-var config = "hi idiot"
-var shit = "lol"
-console.log('idiot')
 
 
 // firebase.initializeApp(config);
@@ -51,4 +48,7 @@ var createAccount = function () {
     });
 };
 
-module.exports = auth;
+module.exports = {
+    auth: auth,
+    signIn: signIn
+};

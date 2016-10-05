@@ -1,5 +1,7 @@
 module.exports = {
-     entry: './src/firebase-auth.js',
+     entry: {
+     	app: ['./src/firebase-auth.js', './src/navbar-login']
+     },
      output: {
          path: './bin',
          filename: 'index.bundle.js'
