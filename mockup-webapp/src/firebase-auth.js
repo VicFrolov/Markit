@@ -1,5 +1,4 @@
 var fb = require('./firebase.js');
-
 var auth = fb["auth"];
 
 auth.onAuthStateChanged(function(user) {
@@ -8,7 +7,6 @@ auth.onAuthStateChanged(function(user) {
         $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
             $(".dropdown-button").dropdown();
             $("#navbar-logout-button").click(function () {
-                console.log('lol')
                 auth.signOut();
             })
         });

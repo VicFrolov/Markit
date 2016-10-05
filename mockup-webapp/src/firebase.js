@@ -1,4 +1,4 @@
-var firebase = require('firebase');
+var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
 
@@ -11,10 +11,7 @@ firebase.initializeApp({
     messagingSenderId: "4085636156"
 });
 
-
-
-// firebase.initializeApp(config);
-// var database = firebase.database();
+var database = firebase.database();
 var auth = firebase.auth();
 var listingsRef = firebase.database().ref('mockup-post/');
 
@@ -35,14 +32,14 @@ var getListings = function (callback) {
 };
 
 var signIn = function () {
-    firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
+    auth.signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
     });
 };
 
 var createAccount = function () {
-    firebase.auth().createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
+    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
     });
