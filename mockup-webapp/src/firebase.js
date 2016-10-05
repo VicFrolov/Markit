@@ -48,5 +48,6 @@ var createAccount = function () {
 module.exports = {
     auth: auth,
     signIn: signIn,
-    getListings: getListings
+    getListings: getListings,
+    addListing: addListing
 };

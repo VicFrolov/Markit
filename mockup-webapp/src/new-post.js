@@ -1,5 +1,7 @@
-$(function() {    
-    // post new listing autocomplete
+$(function() {
+    var addListing = require('./firebase.js')['addListing'];
+    var auth = require('./firebase.js')['auth'];
+
     $('input.autocomplete').autocomplete({
         data: {
             "Loyola Marymount University": null,

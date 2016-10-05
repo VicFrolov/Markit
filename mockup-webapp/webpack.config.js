@@ -1,6 +1,11 @@
 module.exports = {
      entry: {
-     	app: ['./src/firebase-auth.js', './src/navbar-login', './src/find.js']
+        app: [  
+            './src/firebase-auth.js', 
+            './src/navbar-login', 
+            './src/new-post.js',
+            './src/find.js'
+        ]
      },
      output: {
          path: './bin',
