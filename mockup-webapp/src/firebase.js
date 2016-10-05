@@ -12,10 +12,13 @@ firebase.initializeApp({
 });
 
 var config = "hi idiot"
+var shit = "lol"
+console.log('idiot')
+
 
 // firebase.initializeApp(config);
 // var database = firebase.database();
-// var auth = firebase.auth();
+var auth = firebase.auth();
 var listingsRef = firebase.database().ref('mockup-post/');
 
 var addListing = function (item, description, tags, price, uid) {
@@ -48,4 +51,4 @@ var createAccount = function () {
     });
 };
 
-module.exports = {config, addListing()};
+module.exports = auth;

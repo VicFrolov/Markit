@@ -1,2 +1,3 @@
-firebase = require('./js/firebase.js');
-console.log(firebase)
+firebase2 = require('./firebase.js');
+
+console.log(firebase2)
