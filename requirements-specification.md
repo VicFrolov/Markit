@@ -207,7 +207,7 @@ The application shall not require any special computing hardware to operate.<br 
 * Safari 9.1
 * Microsoft Edge 20.1
  
- ## Reviewer Comments
+ # Reviewer Comments
  1. Very nice work on the introduction.  The diagram communicates the operations well.
  2. Section 5.3.1: change "general" to "system" requirements, and use "the system" throughout this section in the requirements.  Using "the app" and "the card view" and "the chat system" breaks this section into smaller sections.
  3. Be careful of the specific language: "shall", "will", and "should" all have very specific meanings.  DO NOT number any "will" or "should" statements.
