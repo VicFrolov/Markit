@@ -59,7 +59,7 @@ class AccountLoginViewController: UIViewController {
         
         checkedEmail.isHidden = isValidEmail(testStr: emailTextField.text!) ? false : true
         
-        if passwordTextField.text!.characters.count > minPasswordLength {
+        if passwordTextField.text!.characters.count >= minPasswordLength {
             checkedPassword.isHidden = false
         } else {
             checkedPassword.isHidden = true
