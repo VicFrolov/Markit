@@ -206,3 +206,18 @@ The application shall not require any special computing hardware to operate.<br 
 * Firefox 50.0
 * Safari 9.1
 * Microsoft Edge 20.1
+ 
+ ## Reviewer Comments
+ 1. Very nice work on the introduction.  The diagram communicates the operations well.
+ 2. Section 5.3.1: change "general" to "system" requirements, and use "the system" throughout this section in the requirements.  Using "the app" and "the card view" and "the chat system" breaks this section into smaller sections.
+ 3. Be careful of the specific language: "shall", "will", and "should" all have very specific meanings.  DO NOT number any "will" or "should" statements.
+ 4. In Section 5.3.2, re-word the statements from the system point of view.  "The profile system shall..." should be the focus.  "The user" is not a <em>part</em> of your system.  For example: "The profile system shall allow the user to....."
+ 5. Same thing goes sfor Section 5.3.3 and 5.3.4 -- focus on the part of the system that performs the "posting" or the "searching" and make the language say it allows or facilitates the user interaction.
+ 6. Section 5.4.2, the email address will not do the notifying, your system will.
+ 7. Section 5.3.5, what are "common keywords" allowed?
+ 8. Section 5.4.7, what personal information will be stored?  How is it protected?
+ 9. Section 5.4.12, how is this measured/verified?
+ 10. Section 5.4.13, how is this measured/verified?
+ 
+ NICE WORK!!
+ 
