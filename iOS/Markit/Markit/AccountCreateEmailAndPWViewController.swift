@@ -72,11 +72,11 @@ class AccountCreateEmailAndPWViewController: UIViewController {
         email.layer.addSublayer(bottomLine)
         
         //same as above
-        let passNameBottomLine = CALayer()
-        passNameBottomLine.frame = CGRect(origin: CGPoint(x: 0, y:pass.frame.height - 1), size: CGSize(width: pass.frame.width, height:  1))
-        passNameBottomLine.backgroundColor = UIColor.white.cgColor
+        let lastNameBottomLine = CALayer()
+        lastNameBottomLine.frame = CGRect(origin: CGPoint(x: 0, y:pass.frame.height - 1), size: CGSize(width: pass.frame.width, height:  1))
+        lastNameBottomLine.backgroundColor = UIColor.white.cgColor
         pass.borderStyle = UITextBorderStyle.none
-        pass.layer.addSublayer(passNameBottomLine)
+        pass.layer.addSublayer(lastNameBottomLine)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
