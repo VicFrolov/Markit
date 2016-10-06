@@ -1,72 +1,64 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>markEEt</title>
-
+    <title>thrifti</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/custom.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
-
   </head>
-  
-
-  <body>
+  <body id="new-post-body">
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
 
     <main>
-      <h2> Add a new listing</h2>
-        <div class="row">
-          <form class="col s12">
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="item-post-title" type="text" class="validate">
-                <label for="item-post-title">Item Name</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="item-post-description" type="text" class="validate">
-                <label for="item-post-description">Item Description</label>
-              </div>
+    
+      <div class="row">
+        <form class="col l6 s12 test">
+        <h4>Fill out some information</h4>
+          <div class="row">
+            <div class="input-field col l6 m12 s12">
+              <input id="item-post-title" type="text" class="validate" length="24">
+              <label for="item-post-title">Item Name</label>
             </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="item-post-tags" type="text" class="validate">
-                <label for="item-post-tags">Tags</label>
-              </div>
+            <div class="input-field col l6 m12 s12">
+              <input id="item-post-price" type="text" class="validate">
+              <label for="item-post-price">Price</label>
             </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="item-post-price" type="text" class="validate">
-                <label for="item-post-price">Price</label>
-              </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="item-post-description" class="materialize-textarea"></textarea>
+              <label for="item-post-description">Item Description</label>
             </div>
-            <div class="file-field input-field col s4">
-              <div class="btn">
-                <span>Add Image</span>
-                <input type="file">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-              </div>
-            </div>
-            <a id="addListing" class="waves-effect btn-large modal-trigger">
-              Add Your Listing!
-            </a>
-          </form>
+          </div>            
+          <div class="row">
+            <div class="input-field col l6 s12">
+              <input type="text" id="autocomplete-input" class="autocomplete">
+              <label for="autocomplete-input">Hub (campus)</label>
+            </div> 
+            <div class="input-field col l6 s12">
+              <input id="item-post-tags" type="text" class="validate">
+              <label for="item-post-tags">Tags</label>
+            </div>              
+          </div>
+          <a id="add-listing" class="waves-effect btn-large modal-trigger">
+            Add Your Listing!
+          </a>
+        </form>
+        
+        <div class="col l6 test">
+          <h4>Photo time</h4>
+          <p>aslkdfj</p>
         </div>
-    </main>
+      </div>
 
+
+    </main>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-database.js"></script>
-    <script type="text/javascript" src="../js/custom.js"></script>
-    <script type="text/javascript" src="../js/firebase.js"></script>
-
+    <script type="text/javascript" src="../bin/index.bundle.js"></script>
   </body>
 </html>

@@ -4,10 +4,6 @@ html, body {
   width: 100%;
 }
 
-main {
-    display: none;
-}
-
 /*NAVBAR*/
 
 #dropdown-help {
@@ -19,7 +15,7 @@ nav {
 }
 
 nav .brand-logo {
-    color: rgba(244, 67, 54, 0.5);
+    color: #F4A49D;
     font-weight: bold;
     margin-left: 50px;
 }
@@ -30,10 +26,16 @@ nav ul a {
 
 nav ul a:hover {
     color: #fff;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
-nav ul li {
+.navbar-buttons > li:not(:last-child) {
     width: 110px;
+    text-align: center;
+}
+
+.navbar-buttons > li:last-child {
+    width: 130px;
     text-align: center;
 }
 
@@ -41,9 +43,17 @@ nav ul li {
     border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 nav ul li:hover {
-    background-color: rgba(244, 67, 54, 0.5);
+    background-color: #F4A49D;
 }
 
+#navbar-user-photo {
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 7px;
+}
 
 i.right {
     margin: 0px;
@@ -71,6 +81,7 @@ nav .input-field {
     height: 64px;
     line-height: 64px;
 }
+
 /*show the stupid navbar search*/
 nav .input-field label i { 
     color: rgba(0, 0, 0, 0.2);
@@ -83,6 +94,13 @@ nav .input-field label i {
 .input-field input[type=search]:focus ~ .material-icons {
     color: rgba(244, 67, 54, 0.5);
 }
+ 
+.dropdown-content li>a {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    width:200px;
+}
+
 
 
 /*Launch page*/
@@ -107,11 +125,9 @@ nav .input-field label i {
     padding-left: -100px;
 }
 
-.grey-box {
-    background-color: rgba(0, 0, 0, 0.3);
-    text-align: center;
+.slider .indicators {
+    display: none;
 }
-
 
 /*custom login popup*/
 #login-popup {
@@ -148,6 +164,45 @@ nav .input-field label i {
     background-color: rgba(0, 0, 255, 0.9);
 }
 
+#sign-up-popup {
+    z-index: 2;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#sign-up-popup-inner {
+    margin: 0 auto;
+    margin-top: 10%;
+    width: 450px;
+    height: 70%;
+    min-height: 550px;
+    background-color: #fff;
+    text-align: center;
+    padding: 30px 30px 30px 30px;
+}
+
+.sign-up-popup-inner-items {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: rgba(0, 0, 255, 0.6);
+    text-transform: none;
+}
+
+.sign-up-popup-inner-items:hover {
+    background-color: rgba(0, 0, 255, 0.9);
+}
+
+.input-message {
+    font-size: 14px;
+    color: rgba(200, 0, 50, 0.9);
+}
+
 .crossline-wrapper {
     margin-top:20px;
     border-top: 1px solid #969696;
@@ -173,6 +228,15 @@ nav .input-field label i {
 }
 
 .login-popup-inner-items:hover {
+    background-color: rgba(244, 67, 54, 0.6);
+}
+
+.sign-up-popup-inner-items {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: #fff;
+}
+
+.sign-up-popup-inner-items:hover {
     background-color: rgba(244, 67, 54, 0.6);
 }
 
@@ -233,3 +297,45 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
     margin-bottom: 0px;
 }
 
+/*NEW POST MAIN*/
+
+#new-post-body {
+    background-color: #66bb6a;
+    color: #fff;
+}
+
+#new-post-body .input-field label {
+    color: #fff;
+}
+
+#new-post-body .input-field label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#new-post-body .input-field input[type=text] {
+    border-bottom: 1px solid #fff;
+    box-shadow: none;
+}
+
+#new-post-body .input-field input[type=text]:focus {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+textarea.materialize-textarea {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+#new-post-body main {
+    padding: 30px 0px 0px 0px;
+}
+
+#add-listing {
+    color: #66bb6a;
+    background-color: #fff;
+}

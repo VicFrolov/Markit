@@ -1,5 +1,5 @@
 .DS_STORE
-
+node_modules/
 
 # Built application files
 *.apk
@@ -12,7 +12,7 @@
 *.class
 
 # Generated files
-bin/
+android/bin/
 gen/
 out/
 
