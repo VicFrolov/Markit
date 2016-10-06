@@ -668,15 +668,14 @@
 	        }
 	    });
 
-	    $('body').on('keypress', '#email', function(e) {
-	        console.log(e.which)
-	    })
-	    
-	    $('body').on('keypress click', function(e) {
-	        if (e.which === 13 || e.type === 'click') {
-	            console.log("lol")
+	    $('body').on('keypress', '#login-popup-inner', function(e) {
+	        if (e.which === 13) {
 	            signIn($('#email').val(), $('#password').val());
 	        };
+	    });
+
+	    $('body').on('click', '#sign-in-button', function() {
+	        signIn($('#email').val(), $('#password').val());
 	    });
 	});
 
