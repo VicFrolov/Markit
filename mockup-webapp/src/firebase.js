@@ -13,7 +13,7 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var listingsRef = firebase.database().ref('mockup-post/');
+var listingsRef = firebase.database().ref('mockup-post');
 
 var addListing = function (item, description, tags, price, uid) {
     database.ref('mockup-post/').push({
@@ -25,14 +25,19 @@ var addListing = function (item, description, tags, price, uid) {
     });
 };
 
-var getListings = function () {
-    listingsRef.once("value").then(function(snapshot) {
-        console.log(snapshot.val());
-        return snapshot;
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
+
+var currentListings;
+
+var getListings = function() {
+    listingsRef.once("value").then(function (snapshot) {
+        currentListings = snapshot.val();
+        console.log(currentListings)
+    }, function (error) {
+        console.log(error)
     });
 };
+
+getListings()
 
 var signIn = function (email, password) {
     auth.signInWithEmailAndPassword(email, password).catch(function(error) {

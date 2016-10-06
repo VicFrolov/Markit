@@ -16,16 +16,6 @@ $(function() {
         });
     }
 
-    // getListings(function (input) {
-    //     console.log(Object.keys(input));
-    //     var objectNames = Object.keys(input);
-    //     var objects = [];
-
-    //     for (var i = 0; i < objectNames.length; i++) {
-    //         objects.push(input[objectNames[i]]);
-    //     };
-
-    // });
 
     var newListing = function() {
         return $("<div></div>").addClass("col l4 m4 s12").append(
