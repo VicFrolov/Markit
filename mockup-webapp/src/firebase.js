@@ -13,7 +13,7 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var listingsRef = firebase.database().ref('mockup-post');
+var listingsRef = firebase.database().ref('mockup-post/');
 
 var addListing = function (item, description, tags, price, uid) {
     database.ref('mockup-post/').push({
@@ -31,7 +31,9 @@ var currentListings;
 var getListings = function() {
     listingsRef.once("value").then(function (snapshot) {
         currentListings = snapshot.val();
-        console.log(currentListings)
+        for (var items in currentListings) {
+            console.log(currentListings[items]["description"])
+        }
     }, function (error) {
         console.log(error)
     });
