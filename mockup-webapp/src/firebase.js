@@ -25,9 +25,12 @@ var addListing = function (item, description, tags, price, uid) {
     });
 };
 
-var getListings = function (callback) {
-    listingsRef.on('value', function (snapshot) {
-        callback(snapshot.val());
+var getListings = function () {
+    listingsRef.once("value").then(function(snapshot) {
+        console.log(snapshot.val());
+        return snapshot;
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
     });
 };
 
