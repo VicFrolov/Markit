@@ -27,5 +27,64 @@ $(function() {
 
     // });
 
-    console.log(getListings());
+    var newListing = function() {
+        $("<div></div>").addClass("col l4 m4 s12").append(
+            $("<div></div>").addClass("card find-result").append(
+                $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
+                    $("<img/>").addClass("activator").attr({
+                        src: "./iphone-sample.jpg"
+                    })
+                )
+            ).append(
+                $("<div></div>").addClass("card-content").append(
+                    $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
+                            "iPhone 6s 32 GB used"
+                    ).append(
+                        $("<i></i>").addClass("material-icons right").text("more_vert")
+                    )
+                ).append(
+                    $("<p></p>").append(
+                        $("<a></a>").attr({
+                            href: "#"
+                        }).text(
+                            "view item"
+                        )
+                    )
+                )
+            ).append(
+                $("<div></div>").addClass("card-reveal").append(
+                    $("<span></span>").addClass("card-title grey-text text-darken-4").text(
+                        "Description"
+                    ).append(
+                        $("<i></i>").addClass("material-icons right").text(
+                            "close"
+                        )
+                    ).append(
+                        $("<p></p>").text(
+                            "DETAILED INFO ABOUT STOOPD IPHONE"
+                        )
+                    )
+                )
+            )
+        );
+    };
+
+
+            // <div class="col l4 m4 s12">
+            //   <div class="card find-result">
+            //     <div class="card-image waves-effect waves-block waves-light">
+            //       <img class="activator" src="./iphone-sample.jpg">
+            //     </div>
+            //     <div class="card-content">
+            //       <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
+            //       <p><a href="#">view item</a></p>
+            //     </div>
+            //     <div class="card-reveal">
+            //       <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+            //       <p>detailed information about the stoopid iphone</p>
+            //     </div>
+            //   </div>
+            // </div>    
+
+    // console.log(getListings());
 });
