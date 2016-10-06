@@ -28,7 +28,7 @@ $(function() {
     // });
 
     var newListing = function() {
-        $("<div></div>").addClass("col l4 m4 s12").append(
+        return $("<div></div>").addClass("col l4 m4 s12").append(
             $("<div></div>").addClass("card find-result").append(
                 $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
                     $("<img/>").addClass("activator").attr({
@@ -69,22 +69,12 @@ $(function() {
         );
     };
 
+    var postListings = function(n) {
+        for (var i = 0; i < n; i += 1) {
+            $("#find-content").append(newListing())
+        }
+    };
 
-            // <div class="col l4 m4 s12">
-            //   <div class="card find-result">
-            //     <div class="card-image waves-effect waves-block waves-light">
-            //       <img class="activator" src="./iphone-sample.jpg">
-            //     </div>
-            //     <div class="card-content">
-            //       <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
-            //       <p><a href="#">view item</a></p>
-            //     </div>
-            //     <div class="card-reveal">
-            //       <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-            //       <p>detailed information about the stoopid iphone</p>
-            //     </div>
-            //   </div>
-            // </div>    
+    postListings(4);
 
-    // console.log(getListings());
 });
