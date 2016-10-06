@@ -111,8 +111,8 @@
 	    });
 	};
 
-	var signIn = function () {
-	    auth.signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
+	var signIn = function (email, password) {
+	    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
 	        var errorCode = error.code;
 	        var errorMessage = error.message;
 	    });
@@ -653,25 +653,32 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var fb = __webpack_require__(2);
+	$(function () {
+	    var fb = __webpack_require__(2);
+	    var signIn = fb["signIn"];
 
-	var signIn = fb["signIn"];
+	    $('#navbar-placeholder').on('click', '#login-button', function () {
+	        $('#login-popup').fadeIn();
+	    });
 
-	$('#navbar-placeholder').on('click', '#login-button', function () {
-	    $('#login-popup').fadeIn();
+	    $(document).mouseup(function (e) {
+	        var popup = $('#login-popup');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    $('body').on('keypress', '#email', function(e) {
+	        console.log(e.which)
+	    })
+	    
+	    $('body').on('keypress click', function(e) {
+	        if (e.which === 13 || e.type === 'click') {
+	            console.log("lol")
+	            signIn($('#email').val(), $('#password').val());
+	        };
+	    });
 	});
-
-	$(document).mouseup(function (e) {
-	    var popup = $('#login-popup');
-	    if (popup.is(e.target)) {
-	        popup.fadeOut();
-	    }
-	});
-
-	$('body').on('click', '#sign-in-button', function() {
-	    signIn();
-	});
-
 
 /***/ },
 /* 7 */

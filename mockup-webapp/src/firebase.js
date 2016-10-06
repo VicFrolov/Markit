@@ -31,8 +31,8 @@ var getListings = function (callback) {
     });
 };
 
-var signIn = function () {
-    auth.signInWithEmailAndPassword($('#email').val(), $('#password').val()).catch(function(error) {
+var signIn = function (email, password) {
+    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
     });
