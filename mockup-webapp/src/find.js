@@ -16,24 +16,55 @@ $(function() {
         });
     }
 
-    getListings(function (input) {
-        console.log("getListings function is autorun")
-        console.log(Object.keys(input));
-        var objectNames = Object.keys(input);
-        var objects = [];
 
-        for (var i = 0; i < objectNames.length; i++) {
-            objects.push(input[objectNames[i]]);
-        };
-        
-        $(".result-container").empty().append(
-            objects.map(function (listing) {
-                return $("<div></div>").append(
-                    $("<img/>").attr({
-                        alt: listing.description + " " + listing.item + " " + listing.price + " " + listing.tags
+    var newListing = function() {
+        return $("<div></div>").addClass("col l4 m4 s12").append(
+            $("<div></div>").addClass("card find-result").append(
+                $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
+                    $("<img/>").addClass("activator").attr({
+                        src: "./iphone-sample.jpg"
                     })
-                );
-            })
+                )
+            ).append(
+                $("<div></div>").addClass("card-content").append(
+                    $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
+                            "iPhone 6s 32 GB used"
+                    ).append(
+                        $("<i></i>").addClass("material-icons right").text("more_vert")
+                    )
+                ).append(
+                    $("<p></p>").append(
+                        $("<a></a>").attr({
+                            href: "#"
+                        }).text(
+                            "view item"
+                        )
+                    )
+                )
+            ).append(
+                $("<div></div>").addClass("card-reveal").append(
+                    $("<span></span>").addClass("card-title grey-text text-darken-4").text(
+                        "Description"
+                    ).append(
+                        $("<i></i>").addClass("material-icons right").text(
+                            "close"
+                        )
+                    ).append(
+                        $("<p></p>").text(
+                            "DETAILED INFO ABOUT STOOPD IPHONE"
+                        )
+                    )
+                )
+            )
         );
-    });
+    };
+
+    var postListings = function(n) {
+        for (var i = 0; i < n; i += 1) {
+            $("#find-content").append(newListing())
+        }
+    };
+
+    postListings(4);
+
 });

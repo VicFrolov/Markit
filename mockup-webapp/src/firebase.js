@@ -25,11 +25,21 @@ var addListing = function (item, description, tags, price, uid) {
     });
 };
 
-var getListings = function (callback) {
-    listingsRef.on('value', function (snapshot) {
-        callback(snapshot.val());
+
+var currentListings;
+
+var getListings = function() {
+    listingsRef.once("value").then(function (snapshot) {
+        currentListings = snapshot.val();
+        for (var items in currentListings) {
+            console.log(currentListings[items]["description"])
+        }
+    }, function (error) {
+        console.log(error)
     });
 };
+
+getListings()
 
 var signIn = function (email, password) {
     auth.signInWithEmailAndPassword(email, password).catch(function(error) {
