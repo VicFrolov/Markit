@@ -25,21 +25,13 @@ var addListing = function (item, description, tags, price, uid) {
     });
 };
 
-
-var currentListings;
-
-var getListings = function() {
-    listingsRef.once("value").then(function (snapshot) {
-        currentListings = snapshot.val();
-        for (var items in currentListings) {
-            console.log(currentListings[items]["description"])
-        }
+var getListings = function (callback) {
+    listingsRef.once("value").then(function(snapshot) {
+        callback(snapshot.val())
     }, function (error) {
         console.log(error)
     });
 };
-
-getListings()
 
 var signIn = function (email, password) {
     auth.signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -56,8 +48,8 @@ var createAccount = function () {
 };
 
 module.exports = {
-    auth: auth,
-    signIn: signIn,
-    getListings: getListings,
-    addListing: addListing
+    auth,
+    signIn,
+    getListings,
+    addListing
 };
