@@ -135,7 +135,31 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if(id == R.id.card_view) {
+            startActivity(new Intent(Profile.this, CardView.class));
+            return true;
+        }
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.watching) {
+            return true;
+        }
+        if (id == R.id.change_hub) {
+            return true;
+        }
+        if (id == R.id.edit_tags) {
+            Intent tagPage = new Intent(Profile.this, Profile.class);
+            tagPage.putExtra("ARG_SECTION_NUMBER", 2);
+            startActivity(tagPage);
+            return true;
+        }
+        if (id == R.id.new_listing) {
+            startActivity(new Intent(Profile.this, NewListing.class));
+            return true;
+        }
+        if (id == R.id.notifications) {
+            startActivity(new Intent(Profile.this, Notifications.class));
             return true;
         }
 
