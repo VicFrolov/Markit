@@ -2,23 +2,21 @@
 <html>
   <head>
     <title>thrifti</title>
-
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/custom.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="./find.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css">
-
-
   </head>
+
   <body id="find-body">
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
 
     <main>
-
+      <!-- search card -->
       <div id="find-search" class="z-depth-1">
         <div class="row search-top">
           <div class="input-field col l4 m4 s12">
@@ -41,48 +39,60 @@
         </div>  
         <a id="find-search-button" class="waves-effect waves-light btn">Search</a>      
       </div>
-
+      <!-- results card -->
       <div id="find-content" class="z-depth-1">
-        <div class="card find-result">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="./iphone-sample.jpg">
+        <div class="row">
+          <div class="col l4 m4 s12">
+            <div class="card find-result">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="./iphone-sample.jpg">
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
+                <p><a href="#">view item</a></p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+                <p>detailed information about the stoopid iphone</p>
+              </div>
+            </div>
           </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">view item</a></p>
+          <div class="col l4 m4 s12">
+            <div class="card find-result">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="./iphone-sample.jpg">
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
+                <p><a href="#">view item</a></p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+                <p>detailed information about the stoopid iphone</p>
+              </div>
+            </div>
           </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-            <p>detailed information about the stoopid iphone</p>
-          </div>
-        </div>
-        <div class="card find-result">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="./iphone-sample.jpg">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">view item</a></p>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
-            <p>detailed information about the stoopid iphone</p>
-          </div>
+          <div class="col l4 m4 s12">
+            <div class="card find-result">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="./iphone-sample.jpg">
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">iPhone 6s 32 GB used<i class="material-icons right">more_vert</i></span>
+                <p><a href="#">view item</a></p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Description<i class="material-icons right">close</i></span>
+                <p>detailed information about the stoopid iphone</p>
+              </div>
+            </div>
+          </div>          
         </div>
       </div>
-
     </main>
-
-
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-database.js"></script>
-    <script type="text/javascript" src="../js/custom.js"></script>
-    <script type="text/javascript" src="../js/firebase.js"></script>
-    <script type="text/javascript" src="./find.js"></script>
+    <script type="text/javascript" src="../bin/index.bundle.js"></script>
   </body>
 </html>
