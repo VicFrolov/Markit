@@ -4,10 +4,6 @@ html, body {
   width: 100%;
 }
 
-main {
-    display: none;
-}
-
 /*NAVBAR*/
 
 #dropdown-help {
@@ -127,6 +123,10 @@ nav .input-field label i {
 
 .profile-dropdown-icon {
     padding-left: -100px;
+}
+
+.slider .indicators {
+    display: none;
 }
 
 /*custom login popup*/
@@ -336,14 +336,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 #add-listing {
-<<<<<<< HEAD
     color: #66bb6a;
     background-color: #fff;
 }
-
-
-=======
-    background-color: #AED581;
-    color: #fff;
-}
->>>>>>> master
