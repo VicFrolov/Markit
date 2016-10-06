@@ -1,0 +1,87 @@
+html, body {
+    height: 100%
+}
+
+#find-body {
+    height: 100%;
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+#find-content {
+    margin: 20px 10px 0px 20px;
+    background-color: #fff;
+    width: 60%;
+    min-width: 400px;
+}
+
+
+/*results of search*/
+.find-result {
+    width: 30%;
+    height: 300px;
+    min-width: 200px;
+}
+
+.card .card-title {
+    font-size: 20px;
+}
+
+.card .card-image {
+    height: 200px;
+}
+
+.card {
+    display: inline-block;
+    margin: 10px 10px 10px 10px;
+}
+
+/*search settings*/
+#find-search {
+    background-color: #fff;
+    margin: 10px 20px 10px 20px;
+    width: 60%;
+    padding: 20px 10px 10px 10px;
+}
+
+.search-top {
+    margin-bottom: 0px;
+}
+
+#search-slider .noUi-tooltip {
+    bottom: -200%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#search-slider .noUi-handle {
+    height: 17px;
+    top: -1px;
+}
+
+#search-slider .noUi-handle:after, #search-slider .noUi-handle:before {
+    height: 5px;
+}
+
+.search-slider-title {
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+#search-slider .noUi-connect {
+    background-color: #F4A49D;
+}
+
+#search-slider {
+    margin: 0px 10px 20px 25px;
+}
+
+#find-search-button {
+    color: #fff;
+    background-color: #F4A49D;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}

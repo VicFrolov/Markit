@@ -10,10 +10,12 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class LoginViewController: UIViewController {
+class AccountLoginViewController: UIViewController {
     var ref: FIRDatabaseReference!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
+    @IBOutlet weak var checkedEmail: UIImageView!
+    @IBOutlet weak var checkedPassword: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +30,8 @@ class LoginViewController: UIViewController {
             FIRAuth.auth()!.signIn(withEmail: email, password: pass){ (user, error) in
                 if let error = error {
                     print("Sign in failed:", error.localizedDescription)
-                    print(email + " " + pass)
                 } else {
-                    print ("Signed in with uid:", user!.uid)
+                    self.performSegue(withIdentifier: "userLoggedIn", sender: self)
                 }
             }
         }
@@ -39,7 +40,13 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindCreateUser(segue: UIStoryboardSegue) {
-        
+    override func viewDidLayoutSubviews() {
+        //only display a bottom-border for the UITextView
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:emailTextField.frame.height - 1), size: CGSize(width: emailTextField.frame.width, height:  1))
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        emailTextField.borderStyle = UITextBorderStyle.none
+        emailTextField.layer.addSublayer(bottomLine)
+     
     }
 }
