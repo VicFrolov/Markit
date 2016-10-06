@@ -9,10 +9,7 @@ html, body {
 }
 
 #find-content {
-    margin: 20px 10px 0px 20px;
     background-color: #fff;
-    width: 60%;
-    min-width: 400px;
 }
 
 
@@ -34,8 +31,7 @@ html, body {
 /*search settings*/
 #find-search {
     background-color: #fff;
-    margin: 10px 20px 10px 20px;
-    width: 60%;
+    margin-top: 20px;
     padding: 20px 10px 10px 10px;
 }
 
@@ -80,3 +76,15 @@ html, body {
     margin-left: 10px;
     margin-bottom: 10px;
 }
+
+@media only screen and (min-width: 993px) {
+    .row .col.l9 {
+        width: 75%;
+        left: auto;
+        right: auto;
+        margin-left: 20px;
+
+    }
+}
+
+
