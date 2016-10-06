@@ -1,8 +1,7 @@
 $(function() {
-    console.log(window.location.pathname)
     var getListings = require('./firebase.js')['getListings'];
 
-   if ($('body.search-slider').length > 0) {
+   if (window.location.pathname == "/find/find.html") {
         var slider = document.getElementById('search-slider');
         
         noUiSlider.create(slider, {
