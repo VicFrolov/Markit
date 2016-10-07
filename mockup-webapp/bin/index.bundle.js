@@ -801,7 +801,9 @@
 	        };
 	    };
 
-	    getListings(newListing);
+	    $("#find-search-button").click(function () {
+	        getListings(newListing);
+	    });
 
 	});
 

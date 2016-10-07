@@ -17,7 +17,6 @@ $(function() {
     }
 
     var newListing = function(currentItems) {
-        var imageSwitcher = true;
         for (var item in currentItems) {
             
             var currentItem = currentItems[item];
@@ -79,6 +78,8 @@ $(function() {
         };
     };
 
-    getListings(newListing);
+    $("#find-search-button").click(function () {
+        getListings(newListing);
+    });
 
 });

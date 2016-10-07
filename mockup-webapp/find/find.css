@@ -30,12 +30,12 @@ html, body {
 
 .find-result-price {
     position: absolute;
-    top: 40%;
     left: 0%;
+    top: 0%;
     color: black;
     background-color: rgba(0, 0, 0, 0.4);
     padding: 5px;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     z-index: 3;
     color: #fff;
     pointer-events: none;
@@ -70,7 +70,7 @@ html, body {
     bottom: -200%;
     border: none;
     background-color: rgba(0, 0, 0, 0);
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.4);
 }
 
 #search-slider .noUi-handle {
@@ -98,20 +98,28 @@ html, body {
 
 #find-search-button {
     color: #fff;
-    background-color: #F4A49D;
+    background-color: #546A76;
     margin-top: 20px;
     margin-left: 10px;
     margin-bottom: 10px;
 }
 
-@media only screen and (min-width: 993px) {
-    .row .col.l9 {
-        width: 75%;
-        left: auto;
-        right: auto;
-        margin-left: 20px;
-
-    }
+/* label color */
+.input-field label {
+    color: #546A76;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #546A76;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #546A76;
+    box-shadow: 0 1px 0 0 #546A76;
 }
 
-
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+    box-shadow: 0 1px 0 0 rgba(255, 0, 0, 0.5);
+}
