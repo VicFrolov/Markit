@@ -131,7 +131,7 @@ nav .input-field label i {
 
 /*custom login popup*/
 #login-popup {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
@@ -165,7 +165,7 @@ nav .input-field label i {
 }
 
 #sign-up-popup {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
