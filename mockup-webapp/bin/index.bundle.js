@@ -739,6 +739,7 @@
 	    }
 
 	    var newListing = function(currentItems) {
+	        console.log("fuck")
 	        var imageSwitcher = true;
 	        for (var item in currentItems) {
 	            
@@ -801,7 +802,10 @@
 	        };
 	    };
 
-	    getListings(newListing);
+	    $("#find-search-button").click(function () {
+	        console.log("lol")
+	        getListings(newListing);
+	    });
 
 	});
 

@@ -101,6 +101,9 @@ nav .input-field label i {
     width:200px;
 }
 
+.dropdown-content li:hover {
+    background-color: #546A76;
+}
 
 
 /*Launch page*/
