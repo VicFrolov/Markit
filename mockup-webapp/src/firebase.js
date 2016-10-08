@@ -26,8 +26,10 @@ var addListing = function (item, description, tags, price, uid) {
 };
 
 var getListings = function (callback) {
-    listingsRef.on('value', function (snapshot) {
-        callback(snapshot.val());
+    listingsRef.once("value").then(function(snapshot) {
+        callback(snapshot.val())
+    }, function (error) {
+        console.log(error)
     });
 };
 
@@ -46,8 +48,8 @@ var createAccount = function () {
 };
 
 module.exports = {
-    auth: auth,
-    signIn: signIn,
-    getListings: getListings,
-    addListing: addListing
+    auth,
+    signIn,
+    getListings,
+    addListing
 };
