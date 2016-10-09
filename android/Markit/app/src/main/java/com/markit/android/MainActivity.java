@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordView;
     private EditText confirmPasswordView;
     private EditText displayNameView;
-    String displayName;
+    private String displayName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
