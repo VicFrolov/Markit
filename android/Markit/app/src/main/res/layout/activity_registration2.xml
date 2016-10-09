@@ -10,4 +10,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.markit.android.Registration2Activity">
 
+    <TextView
+        android:text="Almost Done!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="First Name"
+            android:ems="10"
+            android:id="@+id/firstName" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Last Name"
+            android:ems="10"
+            android:id="@+id/lastName" />
+
+        <AutoCompleteTextView
+            android:hint="Hub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hub" />
+
+        <Button
+            android:text="Finish Registration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/finishRegistration" />
+    </LinearLayout>
+
 </RelativeLayout>
