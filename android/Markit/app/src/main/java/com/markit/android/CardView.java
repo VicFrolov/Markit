@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CardView extends AppCompatActivity {
+public class CardView extends BaseActivity {
 
     private boolean loggedIn;
 
@@ -28,6 +30,21 @@ public class CardView extends AppCompatActivity {
                 startActivity(new Intent(CardView.this, Profile.class));
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
+            }
+        });
+
+//        final View layout = getLayoutInflater().inflate(R.layout.activity_base, null);
+//        CardView.super.layout
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
+        FloatingActionButton notifications = (FloatingActionButton) findViewById(R.id.notifications_button);
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("IT WORKS");
+                System.out.println(CardView.super.drawer);
+                CardView.super.drawer.openDrawer(GravityCompat.START);
             }
         });
     }
