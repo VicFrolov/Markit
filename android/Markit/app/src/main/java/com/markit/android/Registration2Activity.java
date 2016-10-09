@@ -41,19 +41,23 @@ public class Registration2Activity extends AppCompatActivity {
 
     @IgnoreExtraProperties
     public class User {
-        public String firstname;
-        public String lastname;
+        public String firstName;
+        public String lastName;
         public String hub;
         public String username;
         public String email;
 
         public User(){
-
+            firstName = "";
+            lastName = "";
+            username = "";
+            hub = "";
+            email = "";
         }
 
         public User(String firstname, String lastname, String username, String email, String hub) {
-            firstname = this.firstname;
-            lastname = this.lastname;
+            firstName = firstname;
+            lastName = lastname;
             username = this.username;
             email = this.email;
             hub = this.hub;
@@ -84,27 +88,31 @@ public class Registration2Activity extends AppCompatActivity {
         firstNameView = (EditText)findViewById(R.id.firstName);
         lastNameView = (EditText)findViewById(R.id.lastName);
         hubView = (AutoCompleteTextView)findViewById(R.id.hub);
-        firstName = firstNameView.getText().toString();
-        lastName = lastNameView.getText().toString();
-        hub = hubView.getText().toString();
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = fUser.getUid();
         String displayName = fUser.getDisplayName();
         String email = fUser.getEmail();
-        postUserInfo(firstName,lastName,hub,uid,displayName,email);
+        postUserInfo(uid,displayName,email);
     }
 
 
 
-    public void postUserInfo(final String firstName, final String lastName, final String hub,final String uid, final String username, final String email) {
+    public void postUserInfo(final String uid, final String username, final String email) {
         Button finishRegistration = (Button) findViewById(R.id.finishRegistration);
         finishRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
                 User user = new User(firstName,lastName,username,email,hub);
-
-                mDatabase.child("usernames").child(uid).setValue(user);
+                firstName = firstNameView.getText().toString();
+                lastName = lastNameView.getText().toString();
+                hub = hubView.getText().toString();
+                //mDatabase.child("usernames").child(uid).setValue(user);
+                mDatabase.child("usernames").child(uid).child("firstName").setValue(firstName);
+                mDatabase.child("usernames").child(uid).child("lastName").setValue(lastName);
+                mDatabase.child("usernames").child(uid).child("hub").setValue(hub);
+                mDatabase.child("usernames").child(uid).child("email").setValue(email);
+                mDatabase.child("usernames").child(uid).child("username").setValue(username);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
             }
         });
