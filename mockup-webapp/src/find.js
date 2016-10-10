@@ -5,13 +5,13 @@ $(function() {
     if (slider.length > 0) {
         
         noUiSlider.create(slider[0], {
-            start: [0, 300],
+            start: [50, 1500],
             connect: true,
             step: 1,
             tooltips: true,
             range: {
                 'min': 0,
-                'max': 1500
+                'max': 5000
             }
         });
     }
