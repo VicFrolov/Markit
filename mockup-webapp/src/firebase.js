@@ -13,11 +13,27 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var listingsRef = firebase.database().ref('mockup-post/');
+var itemsRef = database.ref('items/');
+var itemsByHub = database.ref('itemsByHub/' + hub)
+var itemsByUser = database.ref('itemsByUser/' + uid)
 
-var addListing = function (item, description, tags, price, uid) {
-    database.ref('mockup-post/').push({
-        item: item,
+var addListing = function (title, description, tags, price, hub, uid) {
+    itemsRef.push({
+        title: title,
+        description: description,
+        tags: tags,
+        price: price,
+        uid: uid
+    });
+    itemsByHub.push({
+        title: title,
+        description: description,
+        tags: tags,
+        price: price,
+        uid: uid
+    });
+    itemsByUser.push({
+        title: title,
         description: description,
         tags: tags,
         price: price,
@@ -31,6 +47,10 @@ var getListings = function (callback) {
     }, function (error) {
         console.log(error)
     });
+};
+
+var filterListings = function (keywords, hubs, tags, price_range) {
+    listingsRef.orderByChild()
 };
 
 var signIn = function (email, password) {

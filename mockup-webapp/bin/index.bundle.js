@@ -93,11 +93,27 @@
 
 	var database = firebase.database();
 	var auth = firebase.auth();
-	var listingsRef = firebase.database().ref('mockup-post/');
+	var itemsRef = database.ref('items/');
+	var itemsByHub = database.ref('itemsByHub/' + hub)
+	var itemsByUser = database.ref('itemsByUser/' + uid)
 
-	var addListing = function (item, description, tags, price, uid) {
-	    database.ref('mockup-post/').push({
-	        item: item,
+	var addListing = function (title, description, tags, price, hub, uid) {
+	    itemsRef.push({
+	        title: title,
+	        description: description,
+	        tags: tags,
+	        price: price,
+	        uid: uid
+	    });
+	    itemsByHub.push({
+	        title: title,
+	        description: description,
+	        tags: tags,
+	        price: price,
+	        uid: uid
+	    });
+	    itemsByUser.push({
+	        title: title,
 	        description: description,
 	        tags: tags,
 	        price: price,
@@ -111,6 +127,10 @@
 	    }, function (error) {
 	        console.log(error)
 	    });
+	};
+
+	var filterListings = function (keywords, hubs, tags, price_range) {
+	    listingsRef.orderByChild()
 	};
 
 	var signIn = function (email, password) {
@@ -703,11 +723,12 @@
 	        var itemDescription = $("#item-post-description").val();
 	        var itemTags = $("#item-post-tags").val();
 	        var itemPrice = $("#item-post-price").val();
+	        var itemHub = $("#autocomplete-input").val();
 	        var itemUid = auth.currentUser.uid;
 	        console.log(itemUid);
 
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
-	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
+	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
 	            $("main").text("Item has been Posted :)");
 	        } else {
 	            alert("please enter a username and comment");
@@ -739,7 +760,6 @@
 	    }
 
 	    var newListing = function(currentItems) {
-	        var imageSwitcher = true;
 	        for (var item in currentItems) {
 	            
 	            var currentItem = currentItems[item];

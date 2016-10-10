@@ -16,11 +16,12 @@ $(function() {
         var itemDescription = $("#item-post-description").val();
         var itemTags = $("#item-post-tags").val();
         var itemPrice = $("#item-post-price").val();
+        var itemHub = $("#autocomplete-input").val();
         var itemUid = auth.currentUser.uid;
         console.log(itemUid);
 
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
