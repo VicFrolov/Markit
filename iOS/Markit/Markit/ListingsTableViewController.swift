@@ -66,7 +66,7 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
                 let item = Item()
                 item.uid = dictionary["uid"] as! String?
                 item.username = dictionary["seller"] as! String?
-                item.price = dictionary["price"] as! Float?
+//                item.price = dictionary["price"] as! Float?
                 item.label = dictionary["item"] as! String?
                 item.tags = dictionary["tags"] as! String?
                 item.desc = dictionary["description"] as! String?
@@ -103,7 +103,7 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         // Configure the cell...
         cell.itemLabel?.text = itemList[indexPath.row].label
         cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-        cell.priceLabel?.text = "\(itemList[indexPath.row].price)"
+//        cell.priceLabel?.text = "\(itemList[indexPath.row].price)"
         cell.userLabel?.text = itemList[indexPath.row].username
         return cell
     }

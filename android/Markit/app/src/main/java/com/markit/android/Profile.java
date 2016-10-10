@@ -1,10 +1,13 @@
 package com.markit.android;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.widget.Button;
+import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,9 +19,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import android.widget.TextView;
 
-public class Profile extends AppCompatActivity {
+import com.markit.android.dummy.DummyContent;
+import com.markit.android.dummy.DummyContent.DummyItem;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class Profile extends AppCompatActivity implements WatchListFragment.OnWatchListSelectedListener {
+
+    public void onListFragmentInteraction(DummyItem d) {
+//        TODO figure out what the fuck this thing is supposed to do
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -34,6 +48,8 @@ public class Profile extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,10 @@ public class Profile extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
+
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +80,44 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Toast.makeText(Profile.this, "You should be logged in", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Profile.this, user.getEmail(), Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(Profile.this, "You are not logged in", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(Profile.this, LoginActivity.class));
+
+                }
+                // ...
+            }
+        };
+        // ...
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+
+
+    }
+
 
 
     @Override
@@ -93,6 +150,7 @@ public class Profile extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
+        private Button signOut;
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
@@ -115,7 +173,23 @@ public class Profile extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            signOut = (Button) rootView.findViewById(R.id.signOutButton);
+
+            signOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                }
+            });
+
+//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            try {
+//                textView.setText(user.getDisplayName());
+//            } catch (Exception NullPointerException) {
+//
+//            }
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
     }
@@ -134,7 +208,18 @@ public class Profile extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+
+            switch (position) {
+                case 0:
+                    return PlaceholderFragment.newInstance(position + 1);
+                case 1:
+                    return WatchListFragment.newInstance(1);
+                case 2:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
+            return null;
+//            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override

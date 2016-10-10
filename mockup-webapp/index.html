@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Caml</title>
-
+    <title>thrifti</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="css/custom.css"  media="screen,projection"/>
-
+    <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
   </head>
-  
 
   <body>
     <!-- facebook auth stuff -->
@@ -34,40 +32,45 @@
       <div id="navbar-placeholder"> </div>
     </header>
     <main>
-      <!--start carousel -->
-      <div class="carousel carousel-slider center" data-indicators="true">
-        <div class="carousel-fixed-item center">
-          <a class="btn waves-effect white grey-text darken-text-2">Learn About Caml</a>
-        </div>
-        <div class="carousel-item red white-text" href="#one!">
-          <h2>Revolutionizing the way students buy and sell goods, textbooks, and everything else</h2>
-          <p class="white-text">subheader</p>
-        </div>
-        <div class="carousel-item amber white-text" href="#two!">
-          <h2>Second Panel</h2>
-          <p class="white-text">This is your second panel</p>
-        </div>
-        <div class="carousel-item green white-text" href="#three!">
-          <h2>Third Panel</h2>
-          <p class="white-text">This is your third panel</p>
-        </div>
-        <div class="carousel-item blue white-text" href="#four!">
-          <h2>Fourth Panel</h2>
-          <p class="white-text">This is your fourth panel</p>
-        </div>
+      <div class="slider">
+        <ul class="slides">
+          <li>
+            <img src="https://www.educationquest.org/wp-content/uploads/2014/08/CollegeStudents2.jpg"> <!-- random image -->
+            <div class="caption center-align">
+                <h3>Buy items safely at the best prices!</h3>
+                <h5 class="light grey-text text-lighten-3">Only college students and alumni can access thrifti</h5>
+            </div>
+          </li>
+          <li>
+            <img src="http://fashionretailnews.com/I/2016/05/envogue-furniture-then-bedroom-furniture-furniture-images-furniture-images.jpg"> <!-- random image -->
+            <div class="caption left-align">
+              <div class="grey-box">
+                <h3>Access all deals from any campus</h3>
+                <h5 class="light grey-text text-lighten-3">Get notified when what you're looking for is up for sale</h5>
+              <div class="grey-box">
+            </div>
+          </li>
+          <li>
+            <img src="http://lorempixel.com/580/250/nature/3"> <!-- random image -->
+            <div class="caption right-align">
+              <h3>Right Aligned Caption</h3>
+              <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+          </li>
+          <li>
+            <img src="http://lorempixel.com/580/250/nature/4"> <!-- random image -->
+            <div class="caption center-align">
+              <h3>This is our big Tagline!</h3>
+              <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+          </li>
+        </ul>
       </div>
-      <!-- end carousel -->
     </main>
-
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase-database.js"></script>
-    <script type="text/javascript" src="js/custom.js"></script>
-    <script type="text/javascript" src="js/firebase.js"></script>
-
+    <script type="text/javascript" src="bin/index.bundle.js"></script>
+    <script type="text/javascript" src="src/custom.js"></script>
   </body>
 </html>

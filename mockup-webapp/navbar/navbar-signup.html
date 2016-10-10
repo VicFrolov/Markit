@@ -1,50 +1,93 @@
- <!-- start drop down  -->
-<ul id="dropdown-help" class="dropdown-content collection">
-  <li>About</li>
-  <li>Help</li>
-  <li>FAQ</li>
-</ul> 
-
-<!-- end dropdown -->
 <!-- start nav -->
-<nav class="z-depth-0">
-    <div class="nav-wrapper">
-        <a href="../index.html" class="brand-logo left">Caml</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="../new-post/new-post.html">New Post</a></li>
-            <li><a href="#!"><i class="material-icons right">announcement</i></a></li>
-            <!-- Dropdown Trigger -->
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown-help" data-beloworigin="true"><i class="material-icons right">live_help</i></a></li>
-            <!-- Dropdown Trigger -->
-            <li id="login-button"><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">Login<i class="material-icons right profile">perm_identity</i></a></li>
-        </ul>
-    </div>
+<nav class="z-depth-1">
+  <div class="nav-wrapper">
+    <a href="../index.html" class="brand-logo left">thrifti</a>
+    <ul class="right hide-on-med-and-down">
+      <li id="navbar-searchbar">
+        <form>
+          <div class="input-field">
+            <input id="search" type="search" placeholder="find an item" required>
+            <label for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+          </div>
+        </form>
+      </li>
+      <li><a href="#">Help</a></li>
+      <li id="sign-up-button"><a href="#">Sign Up</a></li>
+      <!-- Dropdown Trigger -->
+      <li id="login-button"><a href="#">Login</a></li>
+    </ul>
+  </div>
 </nav>   
 <!-- end nav -->
 
 <!-- custom login pop up -->
 <div id="login-popup">
   <div id="login-popup-inner">
-    <fb:login-button class="login-popup-inner-items" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-    <a class="waves-effect waves-light btn login-popup-inner-items"><i class="material-icons left"></i>Log in with Google</a>
+    <a class="waves-effect waves-light btn login-popup-inner-items z-depth-0" id="google-login-button"><i class="material-icons left"></i>Log in with Google</a>
+    <a class="waves-effect waves-light btn login-popup-inner-items z-depth-0" id="fb-login-button"><i class="material-icons left"></i>Log in with Facebook</a>
     <div class="crossline-wrapper">
       <div> or </div>
     </div>
-    <div class="row">
+    <div class="row login-fields">
         <div class="row">
           <div class="input-field col s12">
-            <input id="email" type="email" class="validate">
-            <label for="email">Username</label>
+            <input id="email" type="email" placeholder="Email">
           </div>
         </div>    
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Password">
           </div>
         </div>
     </div>
+    <div class="checkbox">
+      <input type="checkbox" class="filled-in checkbox-black" id="remember-me-checkbox" />
+      <label for="remember-me-checkbox">Remember Me</label>
+    </div>
     <a class="waves-effect waves-light btn login-popup-inner-items" id="sign-in-button">Log in</a>
-    <a class="waves-effect waves-light btn login-popup-inner-items" id="create-account-button">Create Account</a>
+  </div>
+</div>
+
+<div id="sign-up-popup">
+  <div id="sign-up-popup-inner">
+    <div class="row login-fields">
+        <div class="row">
+          <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="first-name-available">check_circle</i>
+            <input id="sign-up-first-name" type="email" placeholder="First Name">
+          </div>
+          <div class="input-message" id="first-name-unavailable">First name must be at least 3 characters long.</div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="last-name-available">check_circle</i>
+            <input id="sign-up-last-name" type="email" placeholder="Last Name">
+          </div>
+          <div class="input-message" id="last-name-unavailable">Last name must be at least 3 characters long.</div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="username-available">check_circle</i>
+            <input id="sign-up-username" type="email" placeholder="Username">
+          </div>
+          <div class="input-message" id="username-unavailable">Username must be at least 3 characters long.</div>
+        </div>      
+        <div class="row">
+          <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="email-available">check_circle</i>
+            <input id="sign-up-email" type="email" placeholder="Email">
+          </div>
+          <div class="input-message" id="email-unavailable">Must be a valid .edu email.</div>
+        </div>    
+        <div class="row">
+          <div class="input-field col s12">
+            <i hidden class="material-icons prefix" id="password-available">check_circle</i>
+            <input id="sign-up-password" type="password" placeholder="Password">
+          </div>
+          <div class="input-message" id="password-unavailable">Password must be at least 8 characters long.</div>
+        </div>
+    </div>
+    <a class="waves-effect waves-light btn sign-up-popup-inner-items" id="create-account-button">Create Account</a>
   </div>
 </div>
