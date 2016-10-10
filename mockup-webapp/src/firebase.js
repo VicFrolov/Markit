@@ -14,8 +14,8 @@ firebase.initializeApp({
 var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
-var itemsByHub = database.ref('itemsByHub/' + hub)
-var itemsByUser = database.ref('itemsByUser/' + uid)
+var itemsByHub = database.ref('itemsByHub/' + hub);
+var itemsByUser = database.ref('itemsByUser/' + uid);
 
 var addListing = function (title, description, tags, price, hub, uid) {
     itemsRef.push({
