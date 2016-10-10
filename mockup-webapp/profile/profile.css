@@ -1,0 +1,7 @@
+main, body {
+    background-color: #eeeeee;
+}
+
+.tabbar {
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+}

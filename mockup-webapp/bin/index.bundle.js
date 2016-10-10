@@ -54,8 +54,7 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var fb = __webpack_require__(2);
-	var auth = fb["auth"];
+	var auth = __webpack_require__(2)["auth"];
 
 	auth.onAuthStateChanged(function(user) {
 	    if (user) {
@@ -93,7 +92,7 @@
 
 	var database = firebase.database();
 	var auth = firebase.auth();
-	var listingsRef = firebase.database().ref('mockup-post/');
+	var itemsRef = firebase.database().ref('items/');
 
 	var addListing = function (item, description, tags, price, uid) {
 	    database.ref('mockup-post/').push({
@@ -106,7 +105,7 @@
 	};
 
 	var getListings = function (callback) {
-	    listingsRef.once("value").then(function(snapshot) {
+	    itemsRef.once("value").then(function(snapshot) {
 	        callback(snapshot.val())
 	    }, function (error) {
 	        console.log(error)
