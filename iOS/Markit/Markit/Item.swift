@@ -10,10 +10,10 @@ import UIKit
 
 class Item: NSObject {
     
-    var username: String?
-    var price: UInt?
-//    var desc: String?
+//    var username: String?
+    var price: String?
+    var desc: String?
     var label: String?
     var uid: String?
-//    var tags: [String]?
+    var tags: String?
 }

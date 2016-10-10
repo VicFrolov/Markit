@@ -23,7 +23,7 @@ class ListingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.ref = FIRDatabase.database().reference()
-        self.itemsRef = ref.child("items")
+        self.itemsRef = ref.child("mockup-post")
         self.userRef = ref.child("users")
         fetchItems()
     }
@@ -47,12 +47,13 @@ class ListingsTableViewController: UITableViewController {
                 
                 let item = Item()
                 item.uid = dictionary["uid"] as! String?
-                item.username = dictionary["seller"] as! String?
-                item.price = dictionary["price"] as! UInt?
+//                item.username = dictionary["seller"] as! String?
+                item.price = dictionary["price"] as! String?
                 item.label = dictionary["item"] as! String?
+                item.tags = dictionary["tags"] as! String?
+                item.desc = dictionary["description"] as! String?
                 
                 self.itemList.append(item)
-                self.tableView.reloadData()
             }
             self.tableView.reloadData()
         })
@@ -73,7 +74,6 @@ class ListingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("COUNT \(self.items.count)")
         return self.itemList.count
     }
 
@@ -84,9 +84,9 @@ class ListingsTableViewController: UITableViewController {
                                                  for: indexPath) as! ListingsTableViewCell
         // Configure the cell...
         cell.itemLabel?.text = itemList[indexPath.row].label
-        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-//        cell.priceLabel?.text = itemList[indexPath.row].price
-        cell.userLabel?.text = itemList[indexPath.row].username
+//        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
+        cell.priceLabel?.text = itemList[indexPath.row].price
+//        cell.userLabel?.text = itemList[indexPath.row].username
         return cell
     }
 }
