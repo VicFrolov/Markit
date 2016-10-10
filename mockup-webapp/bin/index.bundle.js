@@ -739,6 +739,7 @@
 
 	    var newListing = function(currentItems) {
 	        var imageSwitcher = true;
+	        $("#find-content").empty();
 	        for (var item in currentItems) {
 	            
 	            var currentItem = currentItems[item];
@@ -748,7 +749,7 @@
 	            imageSwitcher = !imageSwitcher;
 
 	            $("#find-content").append(
-	                $("<div></div>").addClass("col l4 m4 s12").append(
+	                $("<div></div>").addClass("col l4 m4 s12 hoverable").append(
 	                    $("<div></div>").addClass("card find-result").append(
 	                        $("<div></div>").addClass("find-result-favorite").append(
 	                            $("<img/>").addClass("find-result-favorite-image").attr({

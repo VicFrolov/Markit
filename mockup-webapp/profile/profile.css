@@ -2,11 +2,11 @@ main, body {
     background-color: #eeeeee;
 }
 
-.tabbar {
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-#profile-tabbar .s12 {
+#profile-tabbar .col {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+#profile-tabbar {
+    border-top: 2px solid #f9c9cb;
 }
