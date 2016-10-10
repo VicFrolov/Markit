@@ -794,8 +794,8 @@
 	            imageSwitcher = !imageSwitcher;
 
 	            $("#find-content").append(
-	                $("<div></div>").addClass("col l4 m4 s12 hoverable").append(
-	                    $("<div></div>").addClass("card find-result").append(
+	                $("<div></div>").addClass("col l4 m4 s12").append(
+	                    $("<div></div>").addClass("card find-result hoverable").append(
 	                        $("<div></div>").addClass("find-result-favorite").append(
 	                            $("<img/>").addClass("find-result-favorite-image").attr({
 	                                src: "../media/ic_heart.png",
