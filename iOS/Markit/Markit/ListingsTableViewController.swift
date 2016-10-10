@@ -10,25 +10,43 @@ import UIKit
 import Firebase
 import SwiftyJSON
 
-class ListingsTableViewController: UITableViewController {
+class ListingsTableViewController: UITableViewController, UISearchResultsUpdating {
     var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
-    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
+    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     var ref: FIRDatabaseReference!
     var refHandle: FIRDatabaseHandle?
     var itemsRef: FIRDatabaseReference!
+    var itemsByHubRef: FIRDatabaseReference!
+    var itemsByUserRef: FIRDatabaseReference!
     var userRef: FIRDatabaseReference!
     var key: String!
     var itemList: [Item] = []
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.ref = FIRDatabase.database().reference()
-        self.itemsRef = ref.child("mockup-post")
-        self.userRef = ref.child("users")
+        self.itemsRef = ref.child("items")
+        self.itemsByHubRef = ref.child("itemsByHub")
+        self.itemsByUserRef = ref.child("itemsByUser")
+        self.userRef = ref.child("usernames")
         fetchItems()
+        searchItems()
     }
     
-    func fetchItems () {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    func searchItems() {
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        self.tableView.tableHeaderView = searchController.searchBar
+    }
+    
+    func fetchItems() {
         refHandle = itemsRef!.observe(.childAdded, with: { (snapshot) -> Void in
 //            print("VALUE \(snapshot.children.allObjects)")
 //            print ("JSON \(JSON(snapshot.value))")
@@ -47,8 +65,8 @@ class ListingsTableViewController: UITableViewController {
                 
                 let item = Item()
                 item.uid = dictionary["uid"] as! String?
-//                item.username = dictionary["seller"] as! String?
-                item.price = dictionary["price"] as! String?
+                item.username = dictionary["seller"] as! String?
+                item.price = dictionary["price"] as! Float?
                 item.label = dictionary["item"] as! String?
                 item.tags = dictionary["tags"] as! String?
                 item.desc = dictionary["description"] as! String?
@@ -84,9 +102,9 @@ class ListingsTableViewController: UITableViewController {
                                                  for: indexPath) as! ListingsTableViewCell
         // Configure the cell...
         cell.itemLabel?.text = itemList[indexPath.row].label
-//        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-        cell.priceLabel?.text = itemList[indexPath.row].price
-//        cell.userLabel?.text = itemList[indexPath.row].username
+        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
+        cell.priceLabel?.text = "\(itemList[indexPath.row].price)"
+        cell.userLabel?.text = itemList[indexPath.row].username
         return cell
     }
 }

@@ -10,8 +10,8 @@ import UIKit
 
 class Item: NSObject {
     
-//    var username: String?
-    var price: String?
+    var username: String?
+    var price: Float?
     var desc: String?
     var label: String?
     var uid: String?
