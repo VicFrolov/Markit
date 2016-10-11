@@ -20,8 +20,9 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
     var itemsByUserRef: FIRDatabaseReference!
     var userRef: FIRDatabaseReference!
     var key: String!
-    var itemList: [Item] = []
+    var itemList = [Item]()
     let searchController = UISearchController(searchResultsController: nil)
+    var filteredItems = [Item]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,15 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        self.filteredItems = itemList.filter { item in
+            print("item \(item.label!.lowercased())")
+            return (item.label!.lowercased().contains(searchText.lowercased()))
+        }
+        self.tableView.reloadData()
     }
     
     func searchItems() {
@@ -67,7 +76,14 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
                 item.uid = dictionary["uid"] as! String?
                 item.username = dictionary["seller"] as! String?
 //                item.price = dictionary["price"] as! Float?
-                item.label = dictionary["item"] as! String?
+                
+                // This is temporary since we have inconsistent data.
+                if let label = dictionary["item"] as! String? {
+                    item.label = label
+                } else {
+                    item.label = dictionary["title"] as! String?
+                }
+                
                 item.tags = dictionary["tags"] as! String?
                 item.desc = dictionary["description"] as! String?
                 
@@ -92,6 +108,9 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            return self.filteredItems.count
+        }
         return self.itemList.count
     }
 
@@ -100,11 +119,19 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! ListingsTableViewCell
+        let item: Item
+        
+        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            item = self.filteredItems[indexPath.row]
+        } else {
+            item = itemList[indexPath.row]
+        }
+        
         // Configure the cell...
-        cell.itemLabel?.text = itemList[indexPath.row].label
+        cell.itemLabel?.text = item.label
         cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-//        cell.priceLabel?.text = "\(itemList[indexPath.row].price)"
-        cell.userLabel?.text = itemList[indexPath.row].username
+//        cell.priceLabel?.text = "\(item.price)"
+        cell.userLabel?.text = item.username
         return cell
     }
 }
