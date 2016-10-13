@@ -51,5 +51,6 @@ module.exports = {
     auth,
     signIn,
     getListings,
-    addListing
+    addListing,
+    createAccount
 };

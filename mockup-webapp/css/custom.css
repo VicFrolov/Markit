@@ -167,14 +167,25 @@ nav .input-field label i {
     background-color: rgba(0, 0, 255, 0.9);
 }
 
-#sign-up-popup {
-    z-index: 10;
+#sign-up-popup1 {
+    z-index: 2;
     display: none;
     position: absolute;
     top: 0;
     left: 0;
-    width: 110%;
-    height: 110%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#sign-up-popup2 {
+    z-index: 2;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -204,6 +215,10 @@ nav .input-field label i {
 .input-message {
     font-size: 14px;
     color: rgba(200, 0, 50, 0.9);
+}
+
+#check-mark {
+    vertical-align: middle;
 }
 
 .crossline-wrapper {
@@ -241,6 +256,12 @@ nav .input-field label i {
 
 .sign-up-popup-inner-items:hover {
     background-color: rgba(244, 67, 54, 0.6);
+}
+
+.prefix {
+    position: absolute;
+    margin-left: 15px;
+    top: 25%;
 }
 
 #fb-login-button {
@@ -298,4 +319,47 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 
 .row.login-fields {
     margin-bottom: 0px;
+}
+
+/*NEW POST MAIN*/
+
+#new-post-body {
+    background-color: #66bb6a;
+    color: #fff;
+}
+
+#new-post-body .input-field label {
+    color: #fff;
+}
+
+#new-post-body .input-field label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#new-post-body .input-field input[type=text] {
+    border-bottom: 1px solid #fff;
+    box-shadow: none;
+}
+
+#new-post-body .input-field input[type=text]:focus {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+textarea.materialize-textarea {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+#new-post-body main {
+    padding: 30px 0px 0px 0px;
+}
+
+#add-listing {
+    color: #66bb6a;
+    background-color: #fff;
 }
