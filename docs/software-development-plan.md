@@ -75,6 +75,8 @@ The following items are to be delivered to the customer:
 ## 4.3 Project Organization
 
 ## 4.4 Project Schedule
+Each team will work on their respective parts of the application but all teams should be on the same page of what is completed each week. We have a list of features that must completed for a minimum viable product which are detailed in the GANTT Chart. 
+The task and resource table outlines who's completing what and with what hardware and software they will be using.
 
 ### 4.4.1 PERT/GANTT Chart
 ![GANTT Chart](images/GANTT-chart.png)
