@@ -53,7 +53,6 @@ The following items are to be delivered to the customer:
 
 ### 4.2.1 Hardware Resources
 
-<<<<<<< HEAD
 | Operating System | CPU Name      | CPU speed | # of CPU Cores | Amount of Ram | Name of GPU             | Amount of VRAM | Purpose     |
 |:----------------:|---------------|-----------|----------------|---------------|-------------------------|----------------|-------------|
 | Windows          | Intel Core i7 | 2.4 GHz   | 2 Cores        | 8 GB          | Intel HD Graphics       |     128 MB     | Development |
@@ -72,8 +71,6 @@ The following items are to be delivered to the customer:
 | Android          | OnePlus 2 | Testing |
 
 ### 4.2.2 Software Resources
-=======
-### 4.2.2 Software Resources
 
 ## 4.3 Project Organization
 
@@ -85,4 +82,3 @@ The following items are to be delivered to the customer:
 ### 4.4.2 Task/Resource Table
 
 ### 4.4.3 Class Schedule
->>>>>>> 22400a909a4f23e9eb09957539f7960df83bf52b
