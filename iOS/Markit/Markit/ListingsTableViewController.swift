@@ -41,7 +41,6 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         self.filteredItems = itemList.filter { item in
-            print("item \(item.label!.lowercased())")
             return (item.label!.lowercased().contains(searchText.lowercased()))
         }
         self.tableView.reloadData()
@@ -75,7 +74,13 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
                 let item = Item()
                 item.uid = dictionary["uid"] as! String?
                 item.username = dictionary["seller"] as! String?
-//                item.price = dictionary["price"] as! Float?
+                
+                // This is temporary since we have inconsistent data
+                if dictionary["price"] is Float {
+                    item.price = dictionary["price"] as! Float?
+                } else {
+                    item.price = Float((dictionary["price"] as! String?)!)
+                }
                 
                 // This is temporary since we have inconsistent data.
                 if let label = dictionary["item"] as! String? {
@@ -130,7 +135,7 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         // Configure the cell...
         cell.itemLabel?.text = item.label
         cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-//        cell.priceLabel?.text = "\(item.price)"
+        cell.priceLabel?.text = String(format: "%.2f", item.price!)
         cell.userLabel?.text = item.username
         return cell
     }
