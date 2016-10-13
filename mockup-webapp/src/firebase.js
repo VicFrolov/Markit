@@ -49,5 +49,6 @@ module.exports = {
     auth: auth,
     signIn: signIn,
     getListings: getListings,
-    addListing: addListing
+    addListing: addListing,
+    createAccount: createAccount
 };
