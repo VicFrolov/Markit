@@ -24,7 +24,7 @@ Testing the product should be accomplished by the following date:
 -   Beta Testing (12/12)
 -   MVP User Interface (12/12)
 
-## 4.1.1 Project Deliverables
+### 4.1.1 Project Deliverables
 The following items are to be delivered to the customer:
 -   Project Proposal Document (9/14)
   - This document will introduce our project and will give a description and justification for it. 
@@ -48,3 +48,20 @@ The following items are to be delivered to the customer:
   - These reports will help tell the customer our team's progress with our project and deliverables.
 -   Written Status Reports in Project SDF
   - These reports will notify the customer of our status in the project SDF.
+
+## 4.2 Project Resources
+
+### 4.2.1 Hardware Resources
+
+### 4.2.2 Software Resources
+
+## 4.3 Project Organization
+
+## 4.4 Project Schedule
+
+### 4.4.1 PERT/GANTT Chart
+![GANTT Chart](images/GANTT-chart.png)
+
+### 4.4.2 Task/Resource Table
+
+### 4.4.3 Class Schedule
