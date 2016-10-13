@@ -90,3 +90,75 @@ The task and resource table outlines who's completing what and with what hardwar
 ### 4.4.2 Task/Resource Table
 
 ### 4.4.3 Class Schedule
+10.12.2016 - Software Developement Plan document due. 
+Full team meeting (scrum). Meeting place: Kecklab.
+Assign Software Design Description document.
+Unit and Integration Test
+10.13.2016 - Android Team meeting (Kecklab). 
+iOS team meeting (Kecklab).
+10.15.2016 - Android team scrum/code day (Kecklab)
+10.16.2016 - Full team scrum (Kecklab)
+Work on Software Design document
+10.18.2016 - Android team meeting
+10.19.2016 - Software Design description due
+Full team meeting/scrum  (Kecklab)
+Preliminary Design Review presentation assigned
+Special Guest Speak: Daniel Manchala
+10.20.2016 - Android team meeting  (Kecklab)
+iOS team meeting (Kecklab) 
+10.22.2016 - Android team scrum/code day (Kecklab)
+10.23.2016 - Full team scrum (Kecklab) 
+10.25.2016 - Android team meeting (Kecklab)
+10.26.2016 - Preliminary Design Review presentation 
+Project status update
+Full team meeting/scrum (Kecklab)
+10.27.2016 - iOS team meeting/scrum (Kecklab)
+10.29.2016 - Android team scrum/code day (Kecklab)
+10.30.2016 - Full team scrum (Kecklab) 
+11.01.2016 - Android team meeting
+11.02.2016 - Project status update
+Software Design Description document completion assigned
+Critical Design Review presentation assigned
+Full team scrum/code day (Kecklab) 
+11.03.2016 - iOS team scrum (Kecklab)
+Android team meeting (Kecklab)
+11.05.2016 - Android team scrum/code day (Kecklab) 
+11.06.2016 - Full team scrum/code day (Kecklab)
+11.09.2016 - Software Design Description document completion due
+Critical Design Review presentation
+Full team scrum (Kecklab) 
+11.10.2016 - iOS team scrum (Kecklab) 
+Android team meeting (Kecklab) 
+11.12.2016 - Android team scrum/code day (Kecklab) 
+11.13.2016 - Full team scrum/code day (Kecklab) 
+11.16.2016 - Alpha Project presentations assigned
+Test and Integration Plan document assigned
+Special Guest Speaker
+Full team scrum/code day (Kecklab)
+11.17.2016 - Android team meeting (Kecklab)
+iOS team scrum (Kecklab)
+11.19.2016 - Android team scrum/code day (Kecklab)
+11.20.2016 - Full team scrum/code day (Kecklab) 
+11.23.2016 - Alpha Project presentation
+Test and Integration Plan document due
+Full team scrum/code day (Kecklab)
+Beta Project Presentation assigned 
+Configuration Management Plan document assigned
+11.24.2016 - iOS team scrum (Kecklab)
+Android team meeting (Kecklab)
+11.26.2016 - Android team scrum/code day  (Kecklab)
+11.27.2016 - Full team scrum/code day (Kecklab) 
+11.30.2016 - Beta Project Presentation
+Configuration Management Plan document due
+Full team scrum/code day (Kecklab) 
+12.01.2016 - iOS team scrum (Kecklab)
+Android Team meeting (Kecklab)
+12.03.2016 - Android scrum/code day (Kecklab) 
+12.04.2016 - Full team scrum/code day (Kecklab)
+12.07.2017 - Peer Code Review 
+FInal User’s Manual Updates assigned
+Final SDF Submission assigned
+Full team scrum/code day (Kecklab)
+12.08-15.2016 - Final adjustments/additions/touches to all aspects of the project
+Preparation for final presentation
+Schedule most likely will become more busy during this time. 
