@@ -33,6 +33,8 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         self.userRef = ref.child("usernames")
         fetchItems()
         searchItems()
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, (self.tabBarController?.tabBar.frame)!.height, 0.0);
     }
     
     func updateSearchResults(for searchController: UISearchController) {
