@@ -72,6 +72,12 @@ The following items are to be delivered to the customer:
 
 ### 4.2.2 Software Resources
 
+| Team    | Sofware Used   |          |                     |             |      |        |                     |         |
+|---------|----------------|----------|---------------------|-------------|------|--------|---------------------|---------|
+| Android | Android Studio | Firebase | Sublime Text Editor |             |      |        |                     |         |
+| iOS     | CocoaPods      | Firebase | Sublime Text Editor | Xcode       |      |        |                     |         |
+| Webapp  | Angular        | Firebase | jQuery              | Materialize | Node | Python | Sublime Text Editor | Webpack |
+
 ## 4.3 Project Organization
 
 ## 4.4 Project Schedule
@@ -80,9 +86,7 @@ The task and resource table outlines who's completing what and with what hardwar
 
 ### 4.4.1 PERT/GANTT Chart
 ![GANTT Chart](images/GANTT-chart.png)
-To view the GANTT chart on a web browser, click [here](https://app.smartsheet.com/b/publish?EQBCT=46900f28d4b547f59686940dc4521edb)
 
 ### 4.4.2 Task/Resource Table
-![Task/Resource Table](images/resourcechart.PNG)
 
 ### 4.4.3 Class Schedule
