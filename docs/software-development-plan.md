@@ -79,6 +79,7 @@ The following items are to be delivered to the customer:
 | Webapp  | Angular, Firebase, jQuery, Materialize, Node, Python, Sublime Text   Editor, Webpack |   
 
 ## 4.3 Project Organization
+Members of this project will be split into three categories: project lead, team lead, and team member. Each position inheriting all the responsibilities of the one below it. The project is also divided into three teams: web, android, and iOS. A member of any given team is expected to contribute to that team’s individual section of the project. For example, in the case of the iOS team, that would mean contributing to the iOS app the team is developing for the project. Each team will also have a team lead, a moderator who, in addition to contributing to the project on his or her own, will delegate work to his or her self as well as the team members. Team leads are also expected to host scrum meetings on a weekly basis with his or her team. The project lead presides over the team leads and serves as a central hub for information on the project. The project lead will direct the team leads as well as act as a member of a team. In addition, the project lead will host a project scrum consisting of every member of every team on the project.
 
 ## 4.4 Project Schedule
 Each team will work on their respective parts of the application but all teams should be on the same page of what is completed each week. We have a list of features that must completed for a minimum viable product which are detailed in the GANTT Chart. 
