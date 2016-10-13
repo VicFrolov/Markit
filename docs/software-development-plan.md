@@ -24,7 +24,7 @@ Testing the product should be accomplished by the following date:
 -   Beta Testing (12/12)
 -   MVP User Interface (12/12)
 
-## 4.1.1 Project Deliverables
+### 4.1.1 Project Deliverables
 The following items are to be delivered to the customer:
 -   Project Proposal Document (9/14)
   - This document will introduce our project and will give a description and justification for it. 
@@ -48,3 +48,26 @@ The following items are to be delivered to the customer:
   - These reports will help tell the customer our team's progress with our project and deliverables.
 -   Written Status Reports in Project SDF
   - These reports will notify the customer of our status in the project SDF.
+
+## 4.2 Project Resources
+
+### 4.2.1 Hardware Resources
+
+| Operating System | CPU Name      | CPU speed | # of CPU Cores | Amount of Ram | Name of GPU             | Amount of VRAM | Purpose     |
+|:----------------:|---------------|-----------|----------------|---------------|-------------------------|----------------|-------------|
+| Windows          | Intel Core i7 | 2.4 GHz   | 2 Cores        | 8 GB          | Intel HD Graphics       |     128 MB     | Development |
+| Windows          | Intel Core i7 | 2.3 GHz   | 4 Cores        | 16 GB         | Intel Iris Pro          | 1536 MB        | Development |
+|        OSX       | Intel Core i5 | 1.3 GHz   | 2 Cores        | 4 GB          | Intel HD Graphics 5000  | 1536 MB        | Development |
+| OSX              | Intel Core i5 | 2.5 GHz   | 4 Cores        | 4 GB          | Intel HD Graphics 4000  | 1536 MB        | Development |
+| OSX              | Intel Core i5 | 1.4 GHz   | 2 Cores        | 4 GB          | Intel HD Graphics 5000  | 1536 MB        | Development |
+| Windows          | Intel Core i7 | 2.6 GHz   | 4 Cores        | 16 GB         | NVIDIA GeForce GTX 960  | 2 GB           | Development |
+| Windows          | Intel Core i7 | 3.75 GHz  | 4 Cores        | 16 GB         | ASUS ROG Strix GTX 1080 | 8 GB           | Development |
+| OSX              | Intel Core i5 | 2.5 GHz   | 4 Cores        | 8 GB          | Intel HD Graphics 4000  | 1536 MB        | Development |
+
+| Operating System | Model     | Purpose |
+|:----------------:|-----------|---------|
+| iOS              | iPhone 6  | Testing |
+| Android          | LG G3     | Testing |
+| Android          | OnePlus 2 | Testing |
+
+### 4.2.2 Software Resources
