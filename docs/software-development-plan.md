@@ -72,6 +72,12 @@ The following items are to be delivered to the customer:
 
 ### 4.2.2 Software Resources
 
+| Team    | Software Used                                                                        |   |
+|---------|--------------------------------------------------------------------------------------|---|
+| Android | Android Studio, Firebase, Sublime Text Editor                                        |   |
+| iOS     | CocoaPods, Firebase, Sublime Text Editor, Xcode                                      |   |
+| Webapp  | Angular, Firebase, jQuery, Materialize, Node, Python, Sublime Text   Editor, Webpack |   |
+
 ## 4.3 Project Organization
 
 ## 4.4 Project Schedule
