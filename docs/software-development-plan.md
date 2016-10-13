@@ -72,6 +72,12 @@ The following items are to be delivered to the customer:
 
 ### 4.2.2 Software Resources
 
+| Team    | Software Used                                                                        |   |
+|---------|--------------------------------------------------------------------------------------|---|
+| Android | Android Studio, Firebase, Sublime Text Editor                                        |   |
+| iOS     | CocoaPods, Firebase, Sublime Text Editor, Xcode                                      |   |
+| Webapp  | Angular, Firebase, jQuery, Materialize, Node, Python, Sublime Text   Editor, Webpack |   |
+
 ## 4.3 Project Organization
 Members of this project will be split into three categories: project lead, team lead, and team member. Each position inheriting all the responsibilities of the one below it. The project is also divided into three teams: web, android, and iOS. A member of any given team is expected to contribute to that team’s individual section of the project. For example, in the case of the iOS team, that would mean contributing to the iOS app the team is developing for the project. Each team will also have a team lead, a moderator who, in addition to contributing to the project on his or her own, will delegate work to his or her self as well as the team members. Team leads are also expected to host scrum meetings on a weekly basis with his or her team. The project lead presides over the team leads and serves as a central hub for information on the project. The project lead will direct the team leads as well as act as a member of a team. In addition, the project lead will host a project scrum consisting of every member of every team on the project.
 
@@ -87,146 +93,149 @@ To view the GANTT chart on a web browser, click [here](https://app.smartsheet.co
 ![Task/Resource Table](images/resourcechart.PNG)
 
 ### 4.4.3 Class Schedule
-10.12.2016 - Software Developement Plan document due. 
+10.12.2016 
+-   Software Developement Plan document due. 
+-   Full team meeting (scrum). Meeting place: Kecklab.
+-   Assign Software Design Description document.
+-   Unit and Integration Test
 
-Full team meeting (scrum). Meeting place: Kecklab.
+10.13.2016 
+-   Android Team meeting (Kecklab). 
+-   iOS team meeting (Kecklab).
 
-Assign Software Design Description document.
+10.15.2016 
+-   Android team scrum/code day (Kecklab)
 
-Unit and Integration Test
-
-10.13.2016 - Android Team meeting (Kecklab). 
-
-iOS team meeting (Kecklab).
-
-10.15.2016 - Android team scrum/code day (Kecklab)
-
-10.16.2016 - Full team scrum (Kecklab)
+10.16.2016 
+-   Full team scrum (Kecklab)
 
 Work on Software Design document
 
-10.18.2016 - Android team meeting
+10.18.2016 
+-   Android team meeting
 
-10.19.2016 - Software Design description due
+10.19.2016 
+-   Software Design description due
+-   Full team meeting/scrum  (Kecklab)
+-   Preliminary Design Review presentation assigned
+-   Special Guest Speak: Daniel Manchala
 
-Full team meeting/scrum  (Kecklab)
+10.20.2016 
+-   Android team meeting  (Kecklab)
+-   iOS team meeting (Kecklab) 
 
-Preliminary Design Review presentation assigned
+10.22.2016 
+-   Android team scrum/code day (Kecklab)
 
-Special Guest Speak: Daniel Manchala
+10.23.2016 
+-   Full team scrum (Kecklab) 
 
-10.20.2016 - Android team meeting  (Kecklab)
+10.25.2016 
+-   Android team meeting (Kecklab)
 
-iOS team meeting (Kecklab) 
+10.26.2016 
+-   Preliminary Design Review presentation 
+-   Project status update
+-   Full team meeting/scrum (Kecklab)
 
-10.22.2016 - Android team scrum/code day (Kecklab)
+10.27.2016 
+-   iOS team meeting/scrum (Kecklab)
 
-10.23.2016 - Full team scrum (Kecklab) 
+10.29.2016 
+-   Android team scrum/code day (Kecklab)
 
-10.25.2016 - Android team meeting (Kecklab)
+10.30.2016 
+-   Full team scrum (Kecklab) 
 
-10.26.2016 - Preliminary Design Review presentation 
+11.01.2016 
+-   Android team meeting
 
-Project status update
+11.02.2016 
+-   Project status update
+-   Software Design Description document completion assigned
+-   Critical Design Review presentation assigned
+-   Full team scrum/code day (Kecklab) 
 
-Full team meeting/scrum (Kecklab)
+11.03.2016 
+-   iOS team scrum (Kecklab)
+-   Android team meeting (Kecklab)
 
-10.27.2016 - iOS team meeting/scrum (Kecklab)
+11.05.2016 
+-   Android team scrum/code day (Kecklab) 
 
-10.29.2016 - Android team scrum/code day (Kecklab)
+11.06.2016 
+-     Full team scrum/code day (Kecklab)
 
-10.30.2016 - Full team scrum (Kecklab) 
+11.09.2016 
+-   Software Design Description document completion due
+-   Critical Design Review presentation
+-   Full team scrum (Kecklab) 
 
-11.01.2016 - Android team meeting
+11.10.2016 
+-   iOS team scrum (Kecklab) 
+-   Android team meeting (Kecklab) 
 
-11.02.2016 - Project status update
+11.12.2016 
+-   Android team scrum/code day (Kecklab) 
 
-Software Design Description document completion assigned
+11.13.2016 
+-   Full team scrum/code day (Kecklab) 
 
-Critical Design Review presentation assigned
+11.16.2016 
+-   Alpha Project presentations assigned
+-   Test and Integration Plan document assigned
+-   Special Guest Speaker
+-   Full team scrum/code day (Kecklab)
 
-Full team scrum/code day (Kecklab) 
+11.17.2016 
+-   Android team meeting (Kecklab)
+-   iOS team scrum (Kecklab)
 
-11.03.2016 - iOS team scrum (Kecklab)
+11.19.2016 
+-   Android team scrum/code day (Kecklab)
 
-Android team meeting (Kecklab)
+11.20.2016 
+-   Full team scrum/code day (Kecklab) 
 
-11.05.2016 - Android team scrum/code day (Kecklab) 
+11.23.2016 
+-   Alpha Project presentation
+-   Test and Integration Plan document due
+-   Full team scrum/code day (Kecklab)
+-   Beta Project Presentation assigned 
+-   Configuration Management Plan document assigned
 
-11.06.2016 - Full team scrum/code day (Kecklab)
+11.24.2016 
+-   iOS team scrum (Kecklab)
+-   Android team meeting (Kecklab)
 
-11.09.2016 - Software Design Description document completion due
+11.26.2016 
+-   Android team scrum/code day  (Kecklab)
 
-Critical Design Review presentation
+11.27.2016 
+-   Full team scrum/code day (Kecklab) 
 
-Full team scrum (Kecklab) 
+11.30.2016 
+-   Beta Project Presentation
+-   Configuration Management Plan document due
+-   Full team scrum/code day (Kecklab) 
 
-11.10.2016 - iOS team scrum (Kecklab) 
+12.01.2016 
+-   iOS team scrum (Kecklab)
+-   Android Team meeting (Kecklab)
 
-Android team meeting (Kecklab) 
+12.03.2016 
+-   Android scrum/code day (Kecklab) 
 
-11.12.2016 - Android team scrum/code day (Kecklab) 
+12.04.2016 
+-   Full team scrum/code day (Kecklab)
 
-11.13.2016 - Full team scrum/code day (Kecklab) 
+12.07.2017 
+-   Peer Code Review 
+-   Final User’s Manual Updates assigned
+-   Final SDF Submission assigned
+-   Full team scrum/code day (Kecklab)
 
-11.16.2016 - Alpha Project presentations assigned
-
-Test and Integration Plan document assigned
-
-Special Guest Speaker
-
-Full team scrum/code day (Kecklab)
-
-11.17.2016 - Android team meeting (Kecklab)
-
-iOS team scrum (Kecklab)
-
-11.19.2016 - Android team scrum/code day (Kecklab)
-
-11.20.2016 - Full team scrum/code day (Kecklab) 
-
-11.23.2016 - Alpha Project presentation
-
-Test and Integration Plan document due
-
-Full team scrum/code day (Kecklab)
-
-Beta Project Presentation assigned 
-
-Configuration Management Plan document assigned
-
-11.24.2016 - iOS team scrum (Kecklab)
-
-Android team meeting (Kecklab)
-
-11.26.2016 - Android team scrum/code day  (Kecklab)
-
-11.27.2016 - Full team scrum/code day (Kecklab) 
-
-11.30.2016 - Beta Project Presentation
-
-Configuration Management Plan document due
-
-Full team scrum/code day (Kecklab) 
-
-12.01.2016 - iOS team scrum (Kecklab)
-
-Android Team meeting (Kecklab)
-
-12.03.2016 - Android scrum/code day (Kecklab) 
-
-12.04.2016 - Full team scrum/code day (Kecklab)
-
-12.07.2017 - Peer Code Review 
-
-FInal User’s Manual Updates assigned
-
-Final SDF Submission assigned
-
-Full team scrum/code day (Kecklab)
-
-12.08-15.2016 - Final adjustments/additions/touches to all aspects of the project
-
-Preparation for final presentation
-
-Schedule most likely will become more busy during this time. 
+12.08-15.2016 
+-   Final adjustments/additions/touches to all aspects of the project
+-   Preparation for final presentation
+-   Schedule most likely will become more busy during this time. 
