@@ -842,7 +842,6 @@
 	    $('body').on('keyup', '#sign-up-first-name', function() {
 	        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
 	            firstNameValid = true;
-	            $('sign-up-first-name').css.color = rgba(0, 1, 0 , 1);
 	            $('#first-name-unavailable').hide();
 	            $('#first-name-available').show();
 	        } else {
@@ -898,7 +897,10 @@
 	                emailValid = true;
 	                $('#email-unavailable').hide();
 	                $('#email-available').show();
-	            //}
+	            //} else {
+	            //     emailValid = false;
+	            //     $('#email-available').hide();
+	            // }
 	        } else {
 	            emailValid = false;
 	            $('#email-available').hide();

@@ -255,6 +255,12 @@ nav .input-field label i {
     background-color: rgba(244, 67, 54, 0.6);
 }
 
+.prefix {
+    position: absolute;
+    margin-left: 15px;
+    top: 25%;
+}
+
 #fb-login-button {
     background-color: #4568b2;
     color: #fff;

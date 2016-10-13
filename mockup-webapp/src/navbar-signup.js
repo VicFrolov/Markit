@@ -132,7 +132,10 @@ $(function() {
                 emailValid = true;
                 $('#email-unavailable').hide();
                 $('#email-available').show();
-            //}
+            //} else {
+            //     emailValid = false;
+            //     $('#email-available').hide();
+            // }
         } else {
             emailValid = false;
             $('#email-available').hide();
