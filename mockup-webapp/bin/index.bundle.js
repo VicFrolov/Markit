@@ -128,18 +128,11 @@
 	};
 
 	module.exports = {
-<<<<<<< HEAD
 	    auth,
 	    signIn,
 	    getListings,
-	    addListing
-=======
-	    auth: auth,
-	    signIn: signIn,
-	    getListings: getListings,
-	    addListing: addListing,
-	    createAccount: createAccount
->>>>>>> webapp-signup
+	    addListing,
+	    createAccount
 	};
 
 /***/ },
