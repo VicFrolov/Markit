@@ -1286,20 +1286,58 @@
                         <outlet property="markedHub" destination="Qgb-aO-V29" id="nKx-aJ-ZuK"/>
                         <outlet property="markedUsername" destination="5d2-jr-IEp" id="NMS-l6-C3c"/>
                         <outlet property="username" destination="BcZ-fh-7tl" id="QaD-LT-dGs"/>
-                        <segue destination="N9Q-xA-oth" kind="show" identifier="successCreateAccount" id="1jp-bR-3nq"/>
+                        <segue destination="b2R-7H-qz5" kind="show" identifier="successCreateAccount" id="JBk-kr-tPL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3253.5999999999999" y="2399.5502248875564"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Profile View Controller-->
+        <scene sceneID="ErA-Yd-UnZ">
+            <objects>
+                <viewController id="b2R-7H-qz5" customClass="ProfileViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EJP-tW-8N1"/>
+                        <viewControllerLayoutGuide type="bottom" id="4tR-ds-QOY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QYF-8O-tXJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qrf-6I-nAj">
+                                <connections>
+                                    <segue destination="N9Q-xA-oth" kind="embed" id="zcS-2B-uDN"/>
+                                </connections>
+                            </containerView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0G1-Lm-HyH"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Qrf-6I-nAj" secondAttribute="trailing" id="Fxp-T9-nh3"/>
+                            <constraint firstItem="Qrf-6I-nAj" firstAttribute="leading" secondItem="QYF-8O-tXJ" secondAttribute="leading" id="KP4-us-Z4A"/>
+                            <constraint firstItem="0G1-Lm-HyH" firstAttribute="top" secondItem="EJP-tW-8N1" secondAttribute="bottom" constant="69" id="Ztm-eC-g2d"/>
+                            <constraint firstItem="Qrf-6I-nAj" firstAttribute="top" secondItem="EJP-tW-8N1" secondAttribute="bottom" constant="49" id="bW1-6w-WrL"/>
+                            <constraint firstItem="4tR-ds-QOY" firstAttribute="top" secondItem="Qrf-6I-nAj" secondAttribute="bottom" constant="60" id="dps-J0-8Ly"/>
+                            <constraint firstItem="0G1-Lm-HyH" firstAttribute="centerX" secondItem="Qrf-6I-nAj" secondAttribute="centerX" id="myM-VJ-ppZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="Qrf-6I-nAj" id="VKE-Ib-hQN"/>
+                        <outlet property="pageControl" destination="0G1-Lm-HyH" id="t4v-lw-09K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hTU-4M-TLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4167" y="2400"/>
+        </scene>
+        <!--Profile Page View Controller-->
         <scene sceneID="7Jw-cG-5Dj">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="N9Q-xA-oth" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="N9Q-xA-oth" customClass="ProfilePageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sop-L8-akk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4121" y="2103"/>
+            <point key="canvasLocation" x="4970" y="2342"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="5lh-d1-X7y">
@@ -1317,7 +1355,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TWY-VV-Wwn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4866" y="2305"/>
+            <point key="canvasLocation" x="5767" y="2400"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="aMl-UB-bfs">
@@ -1335,7 +1373,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mz1-Lq-vZe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4854" y="2982"/>
+            <point key="canvasLocation" x="5766" y="3092"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="E3D-0K-hTv">
@@ -1353,7 +1391,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sBD-th-yD0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4859" y="1624"/>
+            <point key="canvasLocation" x="5766" y="1655"/>
         </scene>
         <!--Account Login View Controller-->
         <scene sceneID="Vry-9N-IOP">
@@ -1403,7 +1441,7 @@
                                 <color key="backgroundColor" red="0.2666666667" green="0.54117647059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1450,7 +1488,7 @@
                         <outlet property="checkedPassword" destination="okH-yT-rl4" id="qyS-Og-Rgu"/>
                         <outlet property="emailTextField" destination="5Ns-Wg-8BX" id="XJ9-op-DvD"/>
                         <outlet property="passwordTextField" destination="Tlg-aN-MYG" id="zeZ-OR-oVS"/>
-                        <segue destination="N9Q-xA-oth" kind="show" identifier="userLoggedIn" id="qpv-5P-tdq"/>
+                        <segue destination="b2R-7H-qz5" kind="show" identifier="userLoggedIn" id="LWp-3N-5dv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aep-1D-5vC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1467,6 +1505,6 @@
         <image name="lmu" width="800" height="533"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qpv-5P-tdq"/>
+        <segue reference="JBk-kr-tPL"/>
     </inferredMetricsTieBreakers>
 </document>
