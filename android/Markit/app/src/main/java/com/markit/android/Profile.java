@@ -28,7 +28,7 @@ import com.markit.android.dummy.DummyContent.DummyItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends AppCompatActivity implements WatchListFragment.OnWatchListSelectedListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnWatchListSelectedListener {
 
     public void onListFragmentInteraction(DummyItem d) {
 //        TODO figure out what the fuck this thing is supposed to do
@@ -75,8 +75,9 @@ public class Profile extends AppCompatActivity implements WatchListFragment.OnWa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Profile.super.openNavDrawer();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 

@@ -1,67 +1,48 @@
 package com.markit.android;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public View layout;
-    public DrawerLayout drawer;
+    public DrawerLayout layout;
+    public FrameLayout drawerFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("CREATING BASE ACTIVITY");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        layout = getLayoutInflater().inflate(R.layout.activity_base, null);
-        drawer = (DrawerLayout) layout.findViewById(R.id.drawer_layout);
+    public void setContentView(int layoutResID) {
+        layout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
+        drawerFrame = (FrameLayout) layout.findViewById(R.id.base_frame);
+        getLayoutInflater().inflate(layoutResID, drawerFrame, true);
 
-        getLayoutInflater().inflate(layoutResID, drawer, true);
+        super.setContentView(layout);
+    }
 
-
-        super.setContentView(layoutResID);
+    public DrawerLayout getDrawerLayout() {
+        return BaseActivity.this.layout;
+    }
+    public void openNavDrawer() {
+        BaseActivity.this.layout.openDrawer(GravityCompat.END);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        BaseActivity.this.getDrawerLayout();
+        if (layout.isDrawerOpen(GravityCompat.END)) {
+            System.out.println("Drawer closed");
+            layout.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -89,6 +70,12 @@ public class BaseActivity extends AppCompatActivity
 //        return super.onOptionsItemSelected(item);
 //    }
 
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle("Markeet");
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -110,7 +97,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 }

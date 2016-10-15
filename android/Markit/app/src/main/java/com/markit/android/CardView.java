@@ -3,10 +3,8 @@ package com.markit.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -18,8 +16,11 @@ public class CardView extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("CREATING CARD VIEW ACTIVITY");
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_view);
+        super.setContentView(R.layout.activity_card_view);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -28,14 +29,9 @@ public class CardView extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(CardView.this, Profile.class));
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
-//        final View layout = getLayoutInflater().inflate(R.layout.activity_base, null);
-//        CardView.super.layout
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
         FloatingActionButton notifications = (FloatingActionButton) findViewById(R.id.notifications_button);
@@ -43,8 +39,19 @@ public class CardView extends BaseActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("IT WORKS");
-                System.out.println(CardView.super.drawer);
-                CardView.super.drawer.openDrawer(GravityCompat.START);
+                System.out.println(CardView.super.drawerFrame);
+                System.out.println(CardView.super.drawerFrame.getChildCount());
+                for(int i = 0; i<CardView.super.drawerFrame.getChildCount(); i++){
+                    System.out.println("CHILD " + i + ":");
+                    System.out.println(CardView.super.drawerFrame.getChildAt(i));
+                    System.out.println(CardView.super.drawerFrame.getChildAt(i).findViewById(R.id.notifications_button));
+                }
+
+                DrawerLayout drawer = CardView.super.getDrawerLayout();
+                System.out.println(drawer);
+                System.out.println(getWindow().getCurrentFocus());
+                drawer.openDrawer(GravityCompat.END);
+                CardView.super.openNavDrawer();
             }
         });
     }
