@@ -74,6 +74,9 @@ public class CardView extends AppCompatActivity {
             startActivity(new Intent(CardView.this, Notifications.class));
             return true;
         }
+        if (id == R.id.listview) {
+            startActivity(new Intent(CardView.this, MobileView.class));
+        }
 
         return super.onOptionsItemSelected(item);
     }
