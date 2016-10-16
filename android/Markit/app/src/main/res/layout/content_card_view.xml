@@ -5,11 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-<<<<<<< HEAD
+
     tools:context="com.markit.android.CardViewActivity"
-=======
-    tools:context="com.markit.android.CardView"
->>>>>>> Android-Register-PC
     tools:showIn="@layout/activity_card_view">
 
     <TextView
