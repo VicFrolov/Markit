@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CardView extends BaseActivity {
+public class CardViewActivity extends BaseActivity {
 
     private boolean loggedIn;
 
@@ -28,7 +28,7 @@ public class CardView extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CardView.this, Profile.class));
+                startActivity(new Intent(CardViewActivity.this, Profile.class));
             }
         });
 
@@ -38,20 +38,9 @@ public class CardView extends BaseActivity {
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("IT WORKS");
-                System.out.println(CardView.super.drawerFrame);
-                System.out.println(CardView.super.drawerFrame.getChildCount());
-                for(int i = 0; i<CardView.super.drawerFrame.getChildCount(); i++){
-                    System.out.println("CHILD " + i + ":");
-                    System.out.println(CardView.super.drawerFrame.getChildAt(i));
-                    System.out.println(CardView.super.drawerFrame.getChildAt(i).findViewById(R.id.notifications_button));
-                }
-
-                DrawerLayout drawer = CardView.super.getDrawerLayout();
-                System.out.println(drawer);
-                System.out.println(getWindow().getCurrentFocus());
+                DrawerLayout drawer = CardViewActivity.super.getDrawerLayout();
                 drawer.openDrawer(GravityCompat.END);
-                CardView.super.openNavDrawer();
+                CardViewActivity.super.openNavDrawer();
             }
         });
     }
@@ -75,7 +64,7 @@ public class CardView extends BaseActivity {
             return true;
         }
         if (id == R.id.profile) {
-            startActivity(new Intent(CardView.this, Profile.class));
+            startActivity(new Intent(CardViewActivity.this, Profile.class));
             return true;
         }
         if (id == R.id.watching) {
@@ -85,17 +74,17 @@ public class CardView extends BaseActivity {
             return true;
         }
         if (id == R.id.edit_tags) {
-            Intent tagPage = new Intent(CardView.this, Profile.class);
+            Intent tagPage = new Intent(CardViewActivity.this, Profile.class);
             tagPage.putExtra("ARG_SECTION_NUMBER", 2);
             startActivity(tagPage);
             return true;
         }
         if (id == R.id.new_listing) {
-            startActivity(new Intent(CardView.this, NewListing.class));
+            startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
         if (id == R.id.notifications) {
-            startActivity(new Intent(CardView.this, Notifications.class));
+            startActivity(new Intent(CardViewActivity.this, Notifications.class));
             return true;
         }
 

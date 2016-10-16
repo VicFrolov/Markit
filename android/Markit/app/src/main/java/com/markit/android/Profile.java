@@ -71,8 +71,6 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
             @Override
             public void onClick(View view) {
                 Profile.super.openNavDrawer();
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
