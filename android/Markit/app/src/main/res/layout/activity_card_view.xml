@@ -21,7 +21,15 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="#989898">
+            android:background="@color/cast_expanded_controller_text_color">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="center"
+                app:layout_collapseMode="pin"
+                android:id="@+id/hub_image" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -29,6 +37,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -42,8 +52,8 @@
         android:src="@drawable/ic_account_outline_black_24px"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        android:tint="#ffffff"
-        app:backgroundTint="#8c8c8c"
+        android:tint="@color/place_autocomplete_prediction_secondary_text"
+        app:backgroundTint="@color/cast_expanded_controller_text_color"
         android:scaleType="center"
         app:fabSize="normal" />
 
@@ -52,8 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="135dp"
         android:src="@drawable/ic_notifications_none_black_48px"
-        android:tint="#ffffff"
-        app:backgroundTint="#8c8c8c"
+        android:tint="@color/place_autocomplete_prediction_secondary_text"
+        app:backgroundTint="@color/cast_expanded_controller_text_color"
         android:layout_gravity="center_vertical|center_horizontal"
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="right|bottom"
@@ -62,12 +72,8 @@
         app:fabSize="normal" />
 
 
-
-
-
     <include layout="@layout/content_card_view"
         android:src="@drawable/ic_account_outline_black_24px" />
-
 
 
 </android.support.design.widget.CoordinatorLayout>

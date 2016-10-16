@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 public class CardViewActivity extends BaseActivity {
 
@@ -23,6 +24,10 @@ public class CardViewActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
+        hubPicture.setImageResource(R.drawable.sample_lmu_photo);
+        hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
