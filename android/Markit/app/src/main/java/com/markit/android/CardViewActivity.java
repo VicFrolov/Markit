@@ -92,6 +92,9 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, Notifications.class));
             return true;
         }
+        if (id == R.id.listview) {
+            startActivity(new Intent(CardView.this, MobileView.class));
+        }
 
         return super.onOptionsItemSelected(item);
     }
