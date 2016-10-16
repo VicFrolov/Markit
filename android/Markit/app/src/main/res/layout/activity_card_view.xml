@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="center"
-                app:layout_collapseMode="pin"
+                app:layout_collapseMode="parallax"
                 android:id="@+id/hub_image" />
 
             <android.support.v7.widget.Toolbar
