@@ -10,6 +10,7 @@ html, body {
 
 #find-content {
     background-color: #fff;
+    min-height: 400px
 }
 
 /*results of search*/
@@ -122,4 +123,15 @@ html, body {
 .input-field input[type=text].invalid {
     border-bottom: 1px solid rgba(255, 0, 0, 0.5);
     box-shadow: 0 1px 0 0 rgba(255, 0, 0, 0.5);
+}
+
+#find-search-image {
+    margin-top: 30px;
+    width: 150px;
+    opacity: 0.2;
+}
+
+#find-content-presearch {
+    text-align: center;
+    opacity: 0.6;
 }

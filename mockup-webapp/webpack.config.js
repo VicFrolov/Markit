@@ -4,7 +4,8 @@ module.exports = {
             './src/firebase-auth.js', 
             './src/navbar-login', 
             './src/new-post.js',
-            './src/find.js'
+            './src/find.js',
+            './src/navbar-signup.js'
         ]
      },
      output: {

@@ -1,5 +1,6 @@
 $(function() {
     $('.slider').slider();
+    $('ul.tabs').tabs();
 
     /**
         loading main data, slight timeOut so it 
