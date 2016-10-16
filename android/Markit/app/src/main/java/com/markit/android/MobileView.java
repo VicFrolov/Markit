@@ -19,10 +19,8 @@ import java.util.ArrayList;
 
 public class MobileView extends AppCompatActivity {
     private static final String TAG = "MobileView";
-    private ArrayList<String> itemArray = new ArrayList<>();
     private ArrayList<Item> itemObjectArray = new ArrayList<>();
     private DatabaseReference itemDatabase;
-    String[] mobileArray = {"Android","IPhone", "WindowsMobile", "Windows7","Mac OSX", "Ubuntu","WebOS"};
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +39,9 @@ public class MobileView extends AppCompatActivity {
                     String itemUID = (String) items.child("uid").getValue();
                     Item newItem = new Item(itemName, itemDescription, itemPrice, itemTags, itemUID);
                     Log.i(TAG,itemName+"");
-                    itemArray.add(itemName);
                     itemObjectArray.add(newItem);
                 }
-                ArrayAdapter adapter = new ArrayAdapter<String>(MobileView.this, R.layout.template_activity_list_view, itemArray);
+
                 ItemsAdapter iAdapter = new ItemsAdapter(MobileView.this,itemObjectArray);
                 listView = (ListView) findViewById(R.id.mobile_list);
                 listView.setAdapter(iAdapter);

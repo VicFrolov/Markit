@@ -1,6 +1,7 @@
 package com.markit.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
  */
 
 public class ItemsAdapter extends ArrayAdapter<Item> {
+    Context context;
     public ItemsAdapter(Context context, ArrayList<Item> items) {
         super(context, 0, items);
+        this.context = context;
     }
 
     @Override
@@ -26,6 +29,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         //Get the data item for this position
         Item item = getItem(position);
         //Check if an existing view is being reused, otherwise inflate the view
+        //@TODO Currently hard-coded have to make it modular for layout
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_activity_list_view, parent, false);
         }
@@ -34,8 +38,19 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         TextView itemDescription = (TextView) convertView.findViewById(R.id.itemDescription);
         //Populates data
         itemTitle.setText(item.getTitle());
-        itemPrice.setText(item.getPrice());
+        itemPrice.setText("$ "+item.getPrice());
         itemDescription.setText(item.getDescription());
+        //Adding Listener to name and tag
+        itemTitle.setTag(item.getUid());
+        itemTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uid = (String) view.getTag();
+                Intent itemDetail = new Intent(context, ItemDetail.class);
+                itemDetail.putExtra("uid",uid);
+                context.startActivity(itemDetail);
+            }
+        });
         // Return view to screen
         return convertView;
     }
