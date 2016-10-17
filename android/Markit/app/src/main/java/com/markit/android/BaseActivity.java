@@ -1,5 +1,6 @@
 package com.markit.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -55,20 +56,46 @@ public class BaseActivity extends AppCompatActivity
 //        return true;
 //    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.profile) {
+            startActivity(new Intent(BaseActivity.this, Profile.class));
+            return true;
+        }
+        if (id == R.id.watching) {
+            return true;
+        }
+        if (id == R.id.change_hub) {
+            return true;
+        }
+        if (id == R.id.edit_tags) {
+            Intent tagPage = new Intent(BaseActivity.this, Profile.class);
+            tagPage.putExtra("ARG_SECTION_NUMBER", 2);
+            startActivity(tagPage);
+            return true;
+        }
+        if (id == R.id.new_listing) {
+            startActivity(new Intent(BaseActivity.this, NewListing.class));
+            return true;
+        }
+        if (id == R.id.notifications) {
+            startActivity(new Intent(BaseActivity.this, Notifications.class));
+            return true;
+        }
+        if (id ==- R.id.nav_card_view) {
+            startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
