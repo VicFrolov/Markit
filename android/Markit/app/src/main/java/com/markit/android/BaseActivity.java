@@ -86,10 +86,6 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(BaseActivity.this, NewListing.class));
             return true;
         }
-        if (id == R.id.notifications) {
-            startActivity(new Intent(BaseActivity.this, Notifications.class));
-            return true;
-        }
         if (id ==- R.id.nav_card_view) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
         }
