@@ -11,6 +11,49 @@ Markit is an application designed for college students to sell and buy used item
 ### 6.1.2 Hardware, Software, and Human Interfaces
 
 ## 6.2 CSCI Descriptions
+Application - Markit
+
+*Settings (all activities extend this, it is an option over all activities)
+        
+        *getProfileActivity(); getNewListingActivity(), 
+        getProfileActivity().getProfilePageFragment().watchlist(), 
+        getProfileActivity().getProfilePageFragment().mytags(), changeHub(), getMessagesActivity();
+
+*Notifications (also an option over all activities) 
+        
+        *getPostActivity(); getMessagesActivity();
+        
+        *Main Activity - CardView
+                
+                *displayPosts(); getPostActivity(); getLoginActivity();
+        
+        *LogIn Activity
+               
+               *logIn(); getRegistrationActivity(); getMainActivity();
+       
+       *New Listing Activity 
+               
+               *postNewListing();
+        
+        *Profile Activity
+                
+                *getProfilePageFragment().watchlist(), getProfilePageFragment().mytags()
+                
+                *Profile Fragment - Watchlist
+                
+                     *getWatchlistItems();
+                
+                *Profile Fragment - My Tags
+                        
+                        *getMyTags();
+        
+        *Post Activity 
+                
+                *addToWatchlist(); makeOffer();
+
+*Firebase DataBase CSC 
+        
+        *All calls to this database are implemented within the functions displayed under each activity above. 
 
 ### 6.2.1 Concept of Execution
 
