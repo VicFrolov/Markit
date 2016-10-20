@@ -9,60 +9,81 @@ MarkIt is a new application for selling and purchasing used goods within a colle
 Markit is an application designed for college students to sell and buy used items from one another.  Buying these items will be at the convenience of the user.  Users will be able to search for items specific to a university and be able to maintain a list of items that they would like to buy, receiving notification once those items become available in the designated region.  Items will therefore be organized based on three parameters: where the item is being sold, what kind of item it is, and who is selling the item.  Organizing items in this way ensures that users will be able to easily find all items available in specific college communities, easily find a specific type of item, and easily maintain their own set of items they have posted for sale.
 
 ### 6.1.2 Hardware, Software, and Human Interfaces
+* Hardware: Wireless networking, Hard-wired networking, GPS connection
+* Software: Who even knows
+* Human: Keyboard, Mouse, Touchscreen, Computer monitor
 
 ## 6.2 CSCI Descriptions
 Application - Markit
 
-*Settings (all activities extend this, it is an option over all activities)
-        
-        *getProfileActivity(); getNewListingActivity(), 
-        getProfileActivity().getProfilePageFragment().watchlist(), 
-        getProfileActivity().getProfilePageFragment().mytags(), changeHub(), getMessagesActivity();
+* Settings (all activities extend this, it is an option over all activities)
+    * getProfileActivity()
+    * getNewListingActivity()
+    * getProfileActivity().getProfilePageFragment().watchlist()
+    * getProfileActivity().getProfilePageFragment().mytags()
+    * changeHub()
+    * getMessagesActivity()
 
-*Notifications (also an option over all activities) 
+* Notifications (also an option over all activities) 
+    * getPostActivity()
+    * getMessagesActivity()
         
-        *getPostActivity(); getMessagesActivity();
-        
-        *Main Activity - CardView
-                
-                *displayPosts(); getPostActivity(); getLoginActivity();
-        
-        *LogIn Activity
-               
-               *logIn(); getRegistrationActivity(); getMainActivity();
-       
-       *New Listing Activity 
-               
-               *postNewListing();
-        
-        *Profile Activity
-                
-                *getProfilePageFragment().watchlist(), getProfilePageFragment().mytags()
-                
-                *Profile Fragment - Watchlist
-                
-                     *getWatchlistItems();
-                
-                *Profile Fragment - My Tags
-                        
-                        *getMyTags();
-        
-        *Post Activity 
-                
-                *addToWatchlist(); makeOffer();
+* Main Activity - CardView        
+    * displayPosts()
+    * getPostActivity()
+    * getLoginActivity()
 
-*Firebase DataBase CSC 
+* LogIn Activity  
+    * logIn()
+    * getRegistrationActivity()
+    * getMainActivity()
+
+* New Listing Activity 
+   * postNewListing()
         
-        *All calls to this database are implemented within the functions displayed under each activity above. 
+* Profile Activity
+    * getProfilePageFragment().watchlist()
+    * getProfilePageFragment().mytags()
+                
+* Profile Fragment - Watchlist            
+    * getWatchlistItems();
+                
+* Profile Fragment - My Tags            
+    * getMyTags()
+        
+* Post Activity 
+    * addToWatchlist()
+    * makeOffer()
+
+* Firebase DataBase CSC   
+    * All calls to this database are implemented within the functions displayed under each activity above. 
 
 ### 6.2.1 Concept of Execution
 
 ### 6.2.2 Interface Design
+Below we will list all the components of our app that make up the user experience. That is, the links between activities in the app and all options presented at every activity. Here, you can get a sense of the flow of the app and how it will be used. 
 
 #### 6.2.2.1 Interface Identification and Diagrams
 ![interface](images/interface.PNG)
 
 #### 6.2.2.2 Project Interactions
+This project's database management and retrieval is handled by Firebase. Everything is sent and stored in Firebase as a string of characters or as file. User information, posts, ratings, hubs, tags, listings, pricing, descriptions, and more are stored as JSON-like file structure with in Firebase. For example an item for sale is stored as:
+```
+title: "title",
+description: "description",
+hub: "hub",
+price: num,
+seller: UID,
+image: image
+```
+ 
+Email and password authentication is also handled by Firebase's authentication system. Email and passwords have the following guidelines:
+```
+Email: A valid .edu email
+Password: A string of characters with the minimum length of 8 characters
+```
+
+In addition Firebase also will handle our chat system within the application. Within Firebase all chats will be linked, stored, and retrieved.
 
 ## 6.3 Preliminary User Manual
 
