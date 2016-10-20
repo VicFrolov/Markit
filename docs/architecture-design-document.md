@@ -8,36 +8,48 @@
 
 ## 6.2 CSCI Descriptions
 Application - Markit
--Settings (all activities extend this, it is an option over all activities)
+
+--Settings (all activities extend this, it is an option over all activities)
         
-   -getProfileActivity(); getNewListingActivity(), 
-        getProfileActivity().getProfilePageFragment().watchlist(), 
-        getProfileActivity().getProfilePageFragment().mytags(), changeHub(), getMessagesActivity();
+---getProfileActivity(); getNewListingActivity(), 
+   getProfileActivity().getProfilePageFragment().watchlist(), 
+   getProfileActivity().getProfilePageFragment().mytags(), changeHub(), getMessagesActivity();
 
--Notifications (also an option over all activities) 
-6.2.2.1		getPostActivity(); getMessagesActivity();
+--Notifications (also an option over all activities) 
 
-6.2.2.2		Main Activity - CardView
-6.2.2.2.1	displayPosts(); getPostActivity(); getLoginActivity();
+---getPostActivity(); getMessagesActivity();
 
-6.2.2.3		LogIn Activity
-6.2.2.3.1	logIn(); getRegistrationActivity(); getMainActivity();
+---Main Activity - CardView
 
-6.2.2.4		New Listing Activity 
-6.2.2.4.1	postNewListing();
+----displayPosts(); getPostActivity(); getLoginActivity();
 
-6.2.2.5		Profile Activity
-6.2.2.5.1	getProfilePageFragment().watchlist(), getProfilePageFragment().mytags()
-6.2.2.5.2	Profile Fragment - Watchlist
-6.2.2.5.2.1	getWatchlistItems();
-6.2.2.5.3 	Profile Fragment - My Tags
-6.2.2.5.3.1	getMyTags();
+---LogIn Activity
 
-6.2.2.6		Post Activity 
-6.2.2.6.1	addToWatchlist(); makeOffer();
+----logIn(); getRegistrationActivity(); getMainActivity();
 
-6.2.2 		Firebase DataBase CSC 
-All calls to this database are implemented within the functions displayed under each activity above. 
+---New Listing Activity 
+
+-----postNewListing();
+
+---Profile Activity
+
+----getProfilePageFragment().watchlist(), getProfilePageFragment().mytags()
+
+----Profile Fragment - Watchlist
+
+-----getWatchlistItems();
+
+----Profile Fragment - My Tags
+
+-----getMyTags();
+
+---Post Activity 
+
+----addToWatchlist(); makeOffer();
+
+--Firebase DataBase CSC 
+
+---All calls to this database are implemented within the functions displayed under each activity above. 
 
 ### 6.2.1 Concept of Execution
 
