@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.Markit.android.R;
+import com.markit.android.R;
 
 /**
  * A simple {@link Fragment} subclass.
