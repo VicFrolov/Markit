@@ -1,8 +1,12 @@
 # 6.0 Architectural Design Document
 
 ## 6.1 Introduction
+This document provides a comprehensive architectural overview of the system, using a number of different architectural views to depict different aspects of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system. This Software Architecture Document provides an architectural overview of the Markit (working title) app. 
+
+MarkIt is a new application for selling and purchasing used goods within a college community. It aims to simplify the whole buying experience by implementing systems to seamlessly unify the buyer and seller on a college campus. The application will be available through three different platforms via Android, iOS, and web. Unlike similar applications like Ebay or craigslist, this service is aimed towards students in college. This adds a level of security and reliability since accounts will be tied to a valid .edu email address. The base functionality of this application will enable users to search, sell, purchase, and track goods for sale. One of the central features of our application will be our robust implementation of user profiles. On their profiles, users will be able to show what items they are interested in potentially buying. Additionally, users will be able to clearly indicate their preferred forms of payment (e.g., cash, check, or Venmo). Finally, and perhaps most importantly, user profiles will be tied to user reviews, which can be made by both buyers and sellers. This feature will allow users to gauge the trustworthiness of each other.
 
 ### 6.1.1 System Objectives
+Markit is an application designed for college students to sell and buy used items from one another.  Buying these items will be at the convenience of the user.  Users will be able to search for items specific to a university and be able to maintain a list of items that they would like to buy, receiving notification once those items become available in the designated region.  Items will therefore be organized based on three parameters: where the item is being sold, what kind of item it is, and who is selling the item.  Organizing items in this way ensures that users will be able to easily find all items available in specific college communities, easily find a specific type of item, and easily maintain their own set of items they have posted for sale.
 
 ### 6.1.2 Hardware, Software, and Human Interfaces
 
@@ -13,6 +17,7 @@
 ### 6.2.2 Interface Design
 
 #### 6.2.2.1 Interface Identification and Diagrams
+![interface](images/interface.PNG)
 
 #### 6.2.2.2 Project Interactions
 
@@ -52,7 +57,7 @@ __If using iOS or Android:__
 9.  To view or send messages, tap on the Messages tab at the bottom of the screen. This also allows a buyer to send an offer for the posted item. The seller will be notified of the message and will be able to accept or decline the offer. <br/>
 10. To select up to three hubs or view listings from your selected hub(s), tap on the Hub tab at the bottom of the screen. <br/>
     I.  The page shows the top listings for the hub(s) and the items you’ve added to the "watchlist. <br/>
-    II. Tap on the ![hub-swap-button](../iOS/Markit/Markit/Assets.xcassets/ic_swap_calls.imageset/ic_swap_calls_2x-1.png) button if you wish to view your current hubs or to edit them. <br/>
+    II. Tap on the ![hub-swap-button](../iOS/Markit/Markit/Assets.xcassets/ic_swap_calls.imageset/ic_swap_calls_2x-1.png =0.15x0.15) button if you wish to view your current hubs or to edit them. <br/>
 
 11. To edit your profile, tap the Profile tab located at the bottom of the screen. The profile page contains the profile picture, username, rating, preferred payment, and notifications. Tap on the Edit button at the upper-right corner of the screen. <br/>
     I.  At the Profile page, tap on Edit button at the upper-right corner of the screen. <br/>
@@ -66,3 +71,5 @@ __If using a web browser:__
 4.  For returning users, login to your account by clicking on the upper-right button labeled “Login”. Enter your username and password for your account.
 5.  At the home screen, type the keyword(s) of the item you want to look for at the search bar located at the top of the screen. The items with the keywords should appear in the screen along with the price, vendor, and the name of the item.
 6.  Click on an item that interests you. This allows you to add the item to your "watchlist", or contact the seller through a direct message option.
+7.  To post an item, click on your Profile at the top-right corner. A drop-down menu should appear. Click on Post an Item. You will be redirected to a page where you can upload the image, name, price, description, and tags of the item.
+8.  To change/view your hubs (up to 3), click on your Profile to make the drop-down menu appear then click on Hubs. You will be redirected to a page where you can modify your selected hubs by selecting from a list of colleges.
