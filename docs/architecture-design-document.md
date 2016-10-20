@@ -121,7 +121,7 @@ __If using iOS or Android:__
 9.  To view or send messages, tap on the Messages tab at the bottom of the screen. This also allows a buyer to send an offer for the posted item. The seller will be notified of the message and will be able to accept or decline the offer. <br/>
 10. To select up to three hubs or view listings from your selected hub(s), tap on the Hub tab at the bottom of the screen. <br/>
     I.  The page shows the top listings for the hub(s) and the items you’ve added to the "watchlist. <br/>
-    II. Tap on the ![hub-swap-button](../iOS/Markit/Markit/Assets.xcassets/ic_swap_calls.imageset/ic_swap_calls_2x-1.png =0.15x0.15) button if you wish to view your current hubs or to edit them. <br/>
+    II. Tap on the ![hub-swap-button](../iOS/Markit/Markit/Assets.xcassets/ic_swap_calls.imageset/ic_swap_calls_2x-1.png) button if you wish to view your current hubs or to edit them. <br/>
 
 11. To edit your profile, tap the Profile tab located at the bottom of the screen. The profile page contains the profile picture, username, rating, preferred payment, and notifications. Tap on the Edit button at the upper-right corner of the screen. <br/>
     I.  At the Profile page, tap on Edit button at the upper-right corner of the screen. <br/>
