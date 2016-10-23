@@ -26,4 +26,14 @@
         app:srcCompat="@drawable/sample_lmu_photo"
         android:id="@+id/imageView2" />
 
+    <com.markit.android.RoundedImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/palceholder_profile_image"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="70dp" >
+
+    </com.markit.android.RoundedImageView>
+
 </FrameLayout>
