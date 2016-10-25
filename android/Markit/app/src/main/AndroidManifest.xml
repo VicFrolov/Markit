@@ -31,10 +31,6 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Notifications"
-            android:label="@string/title_activity_notifications"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".NewListing"
             android:label="@string/title_activity_new_listing"
             android:theme="@style/AppTheme.NoActionBar" />

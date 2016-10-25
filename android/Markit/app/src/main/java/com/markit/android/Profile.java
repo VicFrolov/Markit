@@ -1,6 +1,7 @@
 package com.markit.android;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,11 +29,15 @@ import com.markit.android.dummy.DummyContent.DummyItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends BaseActivity implements WatchListFragment.OnWatchListSelectedListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnWatchListSelectedListener, ProfilePageFragment.OnFragmentInteractionListener {
 
     public void onListFragmentInteraction(DummyItem d) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
+
+    public void onFragmentInteraction(Uri uri) {
+//        TODO also figure out what the fuck this thing is supposed to do
+        }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -206,7 +211,8 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
 
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return ProfilePageFragment.newInstance("what", "theFuck");
+//                    return PlaceholderFragment.newInstance(position + 1);
                 case 1:
                     return WatchListFragment.newInstance(1);
                 case 2:
