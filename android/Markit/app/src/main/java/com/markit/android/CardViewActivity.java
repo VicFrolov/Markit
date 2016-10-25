@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class CardViewActivity extends BaseActivity {
 
-    private boolean loggedIn;
+    //private boolean loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,6 @@ public class CardViewActivity extends BaseActivity {
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,12 +99,6 @@ public class CardViewActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isLoggedIn(){
-        return loggedIn;
-    }
 
-    public void setLoggedIn(boolean b) {
-        loggedIn = b;
-    }
 
 }
