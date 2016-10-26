@@ -6,19 +6,15 @@
     tools:context="com.markit.android.ProfilePageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-
-    </RelativeLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profile_name"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="215dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -35,5 +31,13 @@
         android:layout_marginTop="70dp" >
 
     </com.markit.android.RoundedImageView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </RelativeLayout>
+
 
 </FrameLayout>
