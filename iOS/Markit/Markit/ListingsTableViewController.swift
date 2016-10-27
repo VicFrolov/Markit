@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SwiftyJSON
 
-class ListingsTableViewController: UITableViewController, UISearchResultsUpdating {
+class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
     var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     var ref: FIRDatabaseReference!
@@ -21,10 +21,14 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
     var userRef: FIRDatabaseReference!
     var key: String!
     var itemList = [Item]()
+    
+//    These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
+    @IBOutlet weak var listingSearchBar: UISearchBar!
 
     override func viewDidLoad() {
+//        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
         self.ref = FIRDatabase.database().reference()
         self.itemsRef = ref.child("items")
@@ -33,8 +37,6 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         self.userRef = ref.child("usernames")
         fetchItems()
         searchItems()
-        
-        self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, (self.tabBarController?.tabBar.frame)!.height, 0.0);
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -52,24 +54,25 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Search by item"
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.frame.size.width = 100
+        
+//        let frame = CGRect(x: 0, y: 0, width: 100, height: 44)
+//        let titleView = UIView(frame: frame)
+//        searchController.searchBar.backgroundImage = UIImage()
+//        searchController.searchBar.frame = frame
+//        titleView.addSubview(searchController.searchBar)
+        
         definesPresentationContext = true
         self.tableView.tableHeaderView = searchController.searchBar
+        
     }
     
     func fetchItems() {
         refHandle = itemsRef!.observe(.childAdded, with: { (snapshot) -> Void in
-//            print("VALUE \(snapshot.children.allObjects)")
-//            print ("JSON \(JSON(snapshot.value))")
-//            self.key = snapshot.key
-//            
-//            print("ITEMS \(self.items)")
-//            print("key \(snapshot.key)")
-//            print("children \(snapshot.children)")
-//            
-//            for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
-//                newItems.append(item)
-//            }
-            
+
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 print("The dict is \(dictionary)")
                 
@@ -101,7 +104,12 @@ class ListingsTableViewController: UITableViewController, UISearchResultsUpdatin
         
     }
     
+    @IBAction func unwindAdvancedSearch (segue: UIStoryboardSegue) {
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        self.tableView.contentOffset = CGPoint (x: 0, y: self.searchController.searchBar.frame.size.height)
         self.tableView.reloadData()
     }
 
