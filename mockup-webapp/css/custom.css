@@ -303,8 +303,8 @@ input[type=email], input[type=password] {
 }
 
 input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
-    border: none;
-    box-shadow: none;
+        border: none;
+        box-shadow: none;
 }
 
 .checkbox {

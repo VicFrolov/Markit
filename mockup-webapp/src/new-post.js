@@ -72,4 +72,33 @@ $(function() {
         }
     });
 
+    $('#textarea').textext({plugins : 'tags autocomplete'})
+            .bind('getSuggestions', function(e, data){
+                var list = [
+                        'Table',
+                        'Desk',
+                        'Computer',
+                        'Electronics',
+                        'iPhone',
+                        'Cell Phone',
+                        'Apple',
+                        'Macbook',
+                        'Chair',
+                        'Leather',
+                        'Clothing',
+                        'Bedroom',
+                        'Bathroom',
+                        'Couch',
+                        'Kitchen',
+                        'Living Room',
+                        'Dinner Table'
+                    ],
+                    textext = $(e.target).textext()[0],
+                    query = (data ? data.query : '') || '';
+
+                $(this).trigger('setSuggestions',{
+                    result : textext.itemManager().filter(list, query) }
+                );
+    });    
+
 });
