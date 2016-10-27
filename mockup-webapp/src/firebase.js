@@ -13,7 +13,7 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var itemsRef = database.ref('items/');
+var itemsRef = database.ref('items/');\
 // var itemsByHub = database.ref('itemsByHub/' + hub);
 // var itemsByUser = database.ref('itemsByUser/' + uid);
 
@@ -67,9 +67,20 @@ var createAccount = function () {
     });
 };
 
+var addHub = function (hub) {
+    database.ref('hubs/' + hub).push();
+};
+
+var addCategory = function (category) {
+    database.ref('categories/' + category).push();
+};
+
 module.exports = {
     auth,
     signIn,
     getListings,
-    addListing
+    addListing,
+    addHub,
+    addCategory,
+    filterListings
 };
