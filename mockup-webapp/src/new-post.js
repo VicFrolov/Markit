@@ -6,7 +6,8 @@ $(function() {
         data: {
             "Loyola Marymount University": null,
             "UCLA": null,
-            "Berkley": 'http://placehold.it/250x250'
+            "Berkeley": 'http://placehold.it/250x250',
+            "Donglehorn University": null
         }
     });
 
