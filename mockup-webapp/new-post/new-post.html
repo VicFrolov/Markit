@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/custom.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="./new-post.css"  media="screen,projection"/>
+    <link href="../tag-plugin/textext.core.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.tags.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.autocomplete.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
   </head>
   <body id="new-post-body">
@@ -16,78 +19,60 @@
     <main>
       <div id="new-post-main" class="z-depth-1"> 
         <div class="row">
-          
           <div class="col s12">
             <ul class="tabs">
               <li class="tab col s3"><a href="#basic-info">Basic Info</a></li>
-              <li class="tab col s3"><a href="#photos">Photos</a></li>
-              <li class="tab col s3 disabled"><a href="#test3">Preview & Submit</a></li>
+              <li class="tab col s3 disabled"><a href="#preview-submit">Preview & Submit</a></li>
             </ul>
           </div>
-
           <div id="basic-info" class="col s12">
-            <div class="row">
-              <div class="col l12 m12 s12">
-
-                <h4>Fill out some information</h4>
+            <h4>Fill out some information</h4>
+            <div class="divider"></div>
+            <!-- left side -->
+            <div class="row" id="left-input-form">
+              <div class="col l6 m12">
                 <div class="row">
-                  <div class="input-field col l6 m12 s12">
-                    <input id="item-post-title" type="text" class="validate" length="24">
-                    <label for="item-post-title">Title</label>
+                  <div class="col s12 m12 l6">
+                    <input type="text" placeholder="Title">
                   </div>
-                  <div class="input-field col l3 m12 s12">
-                    <input id="item-post-price" type="text" class="validate">
-                    <label for="item-post-price">Price</label>
+                  <div class="col s12 m12 l6">
+                    <input type="text" placeholder="Price">
                   </div>
-                  <div class="input-field col l3 s12">
-                    <input id="item-post-tags" type="text" class="validate">
-                    <label for="item-post-tags">Tags</label>
-                  </div>                    
-                </div>
-                <div class="row">
-                  <div class="input-field col l12 m12 s12">
-                    <textarea id="item-post-description" class="materialize-textarea"></textarea>
-                    <label for="item-post-description">Item Description</label>
+                  <div class="col s12">
+                    <input type="text" placeholder="Description">
                   </div>
-                  
-                </div>            
-<!--                 <div class="row">
-                  <div class="input-field col l6 m12 s12">
-                    <input type="text" id="autocomplete-input" class="autocomplete">
-                    <label for="autocomplete-input">Hub (campus)</label>
+                  <div class="col s12">
+                    <input type="text" placeholder="Tags">
                   </div> 
-
-                </div> -->
-                <a id="post-next-part1" class="waves-effect btn-large modal-trigger">
-                  Next
-                </a>
-
+                  <div class="col s12">
+                    <textarea id="textarea" class="example" rows="1"></textarea>
+                  </div>                    
+                                     
+                </div>                      
+              </div>
+            </div>
+            <!-- right side -->
+            <a id="post-next-part1" class="waves-effect btn-large modal-trigger">
+              Next
+            </a>
+            <!-- PREVIEW SECTION -->
+            <div id="preview-submit" class="col s12">
+              <div class="col l6 test">
+                <h4>Photo time</h4>
+                <p>aslkdfj</p>
               </div>
             </div>
           </div>
-
-
-          <div id="photos" class="col s12">
-            <div class="col l6 test">
-              <h4>Photo time</h4>
-              <p>aslkdfj</p>
-            </div>
-          </div>
-
-
         </div>
-
-        
-        
-        
-
-
-
       </div>
     </main>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
     <script type="text/javascript" src="../bin/index.bundle.js"></script>
+    <!-- textext to be moved to webpack -->
+    <script src="../tag-plugin/textext.core.js"></script>
+    <script src="../tag-plugin/textext.plugin.tags.js"></script>
+    <script src="../tag-plugin/textext.plugin.autocomplete.js"></script>
   </body>
 </html>
