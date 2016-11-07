@@ -10,5 +10,5 @@ target 'Markit' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'SwiftyJSON', '3.0.0'
-
+  pod 'MARKRangeSlider'
 end

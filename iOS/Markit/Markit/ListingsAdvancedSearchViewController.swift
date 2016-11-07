@@ -7,24 +7,28 @@
 //
 
 import UIKit
+import MARKRangeSlider
 
 class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate {
 
     //  These are for the Advanced Search scene
-    let rangeSlider = ListingsAdvancedSearchSliderController(frame: CGRect.zero)
+    let rangeSlider = MARKRangeSlider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.addSubview(rangeSlider)
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
+        rangeSlider.setMinValue(0.0, maxValue: 3000.0)
+        rangeSlider.setLeftValue(500.0, rightValue: 2500.0)
+        view.addSubview(rangeSlider)
+
     }
     
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
         let width = view.bounds.width - 2.0 * margin
-        rangeSlider.frame = CGRect(x: margin, y: margin + topLayoutGuide.length, width: width, height: 31.0)
+        rangeSlider.frame = CGRect(x: margin, y: margin + topLayoutGuide.length, width: width, height: 355.0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,8 +43,8 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     func textViewDidBeginEditing(_ textView: UITextView) {
     }
     
-    func rangeSliderValueChanged(rangeSlider: ListingsAdvancedSearchSliderController) {
-        print("Range Slider value changed: (\(rangeSlider.lower) \(rangeSlider.upper))")
+    func rangeSliderValueChanged(rangeSlider: MARKRangeSlider) {
+        print("Range Slider value changed: (\(rangeSlider.leftValue) \(rangeSlider.rightValue))")
     }
 
     /*
