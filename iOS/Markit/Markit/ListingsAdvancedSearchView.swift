@@ -12,8 +12,8 @@ import Firebase
 class ListingsAdvancedSearchView: UIView {
 
     @IBOutlet weak var keywords: UITextField!
-    @IBOutlet weak var tags: UITextField!
     @IBOutlet weak var hubs: UITextField!
+    @IBOutlet weak var tags: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

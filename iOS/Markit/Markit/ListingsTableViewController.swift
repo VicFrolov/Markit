@@ -22,10 +22,9 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var key: String!
     var itemList = [Item]()
     
-//    These are for searching the list of items
+//  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
-    @IBOutlet weak var listingSearchBar: UISearchBar!
 
     override func viewDidLoad() {
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
@@ -83,8 +82,10 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                 // This is temporary since we have inconsistent data
                 if dictionary["price"] is Float {
                     item.price = dictionary["price"] as! Float?
-                } else {
+                } else if dictionary["price"] is String {
                     item.price = Float((dictionary["price"] as! String?)!)
+                } else {
+                    item.price = 0.01
                 }
                 
                 // This is temporary since we have inconsistent data.
