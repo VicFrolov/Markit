@@ -72,7 +72,7 @@ input[type=text]:focus:not([readonly]) {
 
 #dropzone {
     background-color: #fff;
-    border: 4px dotted #f9c9cb;
+    border: 3px dashed #f9c9cb;
     border-radius: 10px;
     height: 450px;
     display: -webkit-flex;
@@ -101,7 +101,6 @@ input[type=text]:focus:not([readonly]) {
     border-radius: 10px;
     height: 60%;
     width: 100%;
-    border: 2px dashed #f9c9cb;
     cursor: pointer;
     overflow: hidden;
     display: flex;

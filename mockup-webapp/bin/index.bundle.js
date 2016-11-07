@@ -829,6 +829,7 @@
 	        if (this.files && this.files[0]) {
 	            reader.onload = function (e) {
 	                $(drop).empty().append($("<img>").attr("src", reader.result));
+	                $(drop).css('background-color', '#fff');
 	            }
 	            reader.readAsDataURL(this.files[0]);
 	        }
