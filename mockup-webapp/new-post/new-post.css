@@ -58,6 +58,9 @@ input[type=text]:focus:not([readonly]) {
 }
 
 
+#current-hub {
+    font-size: 12px;
+}
 /*drophub*/
 
 
