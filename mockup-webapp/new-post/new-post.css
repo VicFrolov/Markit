@@ -56,3 +56,70 @@ input[type=text]:focus:not([readonly]) {
 #description-field {
     height:150px;
 }
+
+
+/*drophub*/
+
+
+#dropzone {
+    background-color: #fff;
+    border: 3px solid #0198E1;
+    border-radius: 10px;
+    height: 450px;
+    display: -webkit-flex;
+    display: flex;
+    padding-bottom: 20px;
+}
+
+#left-drop {
+    height: 100%;
+    width: 60%;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#right-drop {
+    height: 100%;
+    width: 40%;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+#dropMain {
+    background-color: #fff;
+    height: 60%;
+    width: 100%;
+    border: 2px dashed #0198E1;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dropMain img {
+    max-width: 100%;
+}
+
+.drop {
+    height: 28%;
+    margin-bottom: 10%;
+    flex: 1;
+    width: 100%;
+    border: 2px dashed #0198E1;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop img {
+    max-width: 100%;
+}
+
+#fileBox {
+    display: none;
+}
+/*end drophub*/
