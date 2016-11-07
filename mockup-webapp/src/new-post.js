@@ -14,7 +14,7 @@ $(function() {
 
         var itemTitle = $("#item-post-title").val();
         var itemDescription = $("#item-post-description").val();
-        var itemTags = $("#item-post-tags").val().match(/\S+/g) || [];
+        // var itemTags = $("#item-post-tags").val().match(/\S+/g) || [];
         var itemPrice = $("#item-post-price").val();
         var itemHub = $("#item-post-hub").val();
         console.log(itemTitle);
@@ -52,7 +52,7 @@ $(function() {
         }
     });
 
-    $("#post-next-part1").click(function () {
+    $("#post-preview").click(function () {
         var itemUid = auth.currentUser.uid;
         console.log(itemUid)
         
@@ -109,7 +109,7 @@ $(function() {
     // drophub
     var reader;
     var drop;
-    
+
     $('#dropMain, .drop').on({
         'click': function(e) {
             $('#fileBox').click();

@@ -13,14 +13,14 @@ body {
     padding: 30px 0px 0px 0px;
 }
 
-#post-next-part1 {
+#post-preview {
     color: #fff;
     background-color: #546A76;
     float: right;
     min-width: 200px;
 }
 
-#post-next-part1:hover {
+#post-preview:hover {
     color: #fff;
     background-color: #559BFF;
     float: right;
@@ -53,8 +53,8 @@ input[type=text]:focus:not([readonly]) {
     height: 50px;
 }
 
-#description-field {
-    height:150px;
+#item-post-description {
+    height: 150px;
 }
 
 
