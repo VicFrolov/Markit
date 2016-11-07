@@ -704,14 +704,12 @@
 	        // var itemTags = $("#item-post-tags").val().match(/\S+/g) || [];
 	        var itemPrice = $("#item-post-price").val();
 	        var itemHub = $("#item-post-hub").val();
-	        console.log(itemTitle);
-	        console.log(/^[a-zA-Z0-9]+$/.test(itemTitle))
 
 	        if (!/^[a-zA-Z0-9]+$/.test(itemTitle)|| itemTitle.length < 5 || itemTitle.length > 20) {
 	            Materialize.toast('Title must be at least 5 letters long, with alphanumeric characters', 3000, 'rounded');
 	        } else if (!/^[a-zA-Z0-9\.]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
-	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 15000) {
+	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
 	        } else if(!/^[a-zA-Z\s]+$/.itemHub) {
 	            console.log("fix items Hub search");
@@ -729,20 +727,13 @@
 	        }
 	    }
 
-
-	    $('input.autocomplete').autocomplete({
-	        data: {
-	            "Loyola Marymount University": null,
-	            "UC LA": null,
-	            "UC Berkley": 'http://placehold.it/250x250',
-	            "UC Riverside": null
-	        }
-	    });
-
 	    $("#post-preview").click(function () {
 	        var itemUid = auth.currentUser.uid;
-	        console.log(itemUid)
-	        
+
+	        var tags = $('#itemTags').textext()[0].tags()._formData;
+	  
+	        console.log(tags)
+
 	        if (checkBasicItems()) {
 	            $('ul.tabs').tabs('select_tab', 'photos');
 	        } else {
@@ -759,10 +750,12 @@
 	        }
 	    });
 
-	    var textArea = $('#textarea')
 
-	    if (textArea.length > 0) {
-	        $('#textarea').textext({plugins : 'tags autocomplete'})
+
+	    var itemTags = $('#itemTags')
+
+	    if (itemTags.length > 0) {
+	        $('#itemTags').textext({plugins : 'tags autocomplete'})
 	                .bind('getSuggestions', function(e, data){
 	                    var list = [
 	                            'Table',

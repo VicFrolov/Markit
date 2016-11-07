@@ -49,7 +49,7 @@ input[type=text]:focus:not([readonly]) {
     margin-top: 15px;
 }
 
-#textarea {
+#itemTags {
     height: 50px;
 }
 
