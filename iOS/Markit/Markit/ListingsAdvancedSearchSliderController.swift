@@ -7,25 +7,60 @@
 //
 
 import UIKit
-import QuartzCore
 
-class CustomSliderControl: UIControl {
+class ListingsAdvancedSearchSliderController: UIControl {
     
-//    var minimum = 0.0
-//    var maximum = 5000.0
-//    var lower = 10.0
-//    var upper = 50.0
+    var minimum: Double = 0.0 {
+        didSet {
+            updateLayerFrames()
+        }
+    }
+    var maximum: Double = 3000.0 {
+        didSet {
+            updateLayerFrames()
+        }
+    }
+    var lower: Double = 500.0 {
+        didSet {
+            updateLayerFrames()
+        }
+    }
+    var upper: Double = 2500.0 {
+        didSet {
+            updateLayerFrames()
+        }
+    }
     
-    var minimum = 0.0
-    var maximum = 1.0
-    var lower = 0.2
-    var upper = 0.8
+    var trackTintColor: UIColor = UIColor(white: 0.9, alpha: 1.0) {
+        didSet {
+            trackLayer.setNeedsDisplay()
+        }
+    }
+    var thumbTintColor: UIColor = UIColor.white {
+        didSet {
+            lowerThumbLayer.setNeedsDisplay()
+            upperThumbLayer.setNeedsDisplay()
+        }
+    }
+    var curvaceousness: CGFloat = 1.0 {
+        didSet {
+            trackLayer.setNeedsDisplay()
+            lowerThumbLayer.setNeedsDisplay()
+            upperThumbLayer.setNeedsDisplay()
+        }
+    }
+    
     var previousLocation = CGPoint()
-    var trackTinColor = UIColor(white: 0.9, alpha: 1.0)
     var trackHighlightTintColor = UIColor(red: 0.0, green: 0.45, blue: 0.94, alpha: 1.0)
-    var thumbTintColor = UIColor.whiteColor()
-    var curvaceousness: CGFloat = 1.0
 
+    let trackLayer = SliderTrackLayer()
+    let lowerThumbLayer = SliderThumbLayer()
+    let upperThumbLayer = SliderThumbLayer()
+    
+    var thumbWidth: CGFloat {
+        return CGFloat(bounds.height)
+    }
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -33,29 +68,18 @@ class CustomSliderControl: UIControl {
         // Drawing code
     }
     */
-
-    let trackLayer = RangeSliderTrackLayer()
-    let lowerThumbLayer = RangeSliderThumbLayer()
-    let upperThumbLayer = RangeSliderThumbLayer()
-    
-    var thumbWidth: CGFloat {
-        return CGFloat(bounds.height)
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        trackLayer.backgroundColor = UIColor.blue.cgColor
         trackLayer.rangeSlider = self
         trackLayer.contentsScale = UIScreen.main.scale
         layer.addSublayer(trackLayer)
         
-//        lowerThumbLayer.backgroundColor = UIColor.green.cgColor
         lowerThumbLayer.rangeSlider = self
         lowerThumbLayer.contentsScale = UIScreen.main.scale
         layer.addSublayer(lowerThumbLayer)
         
-//        upperThumbLayer.backgroundColor = UIColor.green.cgColor
         upperThumbLayer.rangeSlider = self
         upperThumbLayer.contentsScale = UIScreen.main.scale
         layer.addSublayer(upperThumbLayer)
@@ -71,6 +95,8 @@ class CustomSliderControl: UIControl {
     }
     
     func updateLayerFrames() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height / 3)
         trackLayer.setNeedsDisplay()
         
@@ -84,6 +110,7 @@ class CustomSliderControl: UIControl {
         upperThumbLayer.frame = CGRect(x: upperThumbCenter - thumbWidth / 2.0, y: 0.0,
                                        width: thumbWidth, height: thumbWidth)
         upperThumbLayer.setNeedsDisplay()
+        CATransaction.commit()
     }
     
     func positionForValue(value: Double) -> Double {
@@ -127,14 +154,7 @@ class CustomSliderControl: UIControl {
             upper += deltaValue
             upper = boundValue(value: upper, toLowerValue: lower, upperValue: maximum)
         }
-        
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        
-        updateLayerFrames()
-        
-        CATransaction.commit()
-        
+                
         sendActions(for: .valueChanged)
         
         return true

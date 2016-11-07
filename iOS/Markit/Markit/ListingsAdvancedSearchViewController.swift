@@ -11,15 +11,14 @@ import UIKit
 class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate {
 
     //  These are for the Advanced Search scene
-    let rangeSlider = CustomSliderControl(frame: CGRect.zero)
+    let rangeSlider = ListingsAdvancedSearchSliderController(frame: CGRect.zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        rangeSlider.backgroundColor = UIColor.red
         view.addSubview(rangeSlider)
-        rangeSlider.addTarget(self, action: "rangeSliderValueChanged", for: .valueChanged)
+        rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
     }
     
     override func viewDidLayoutSubviews() {
@@ -33,16 +32,14 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
     func autoFillTags () {
         
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
     }
     
-    func rangeSliderValueChanged(rangeSlider: CustomSliderControl) {
+    func rangeSliderValueChanged(rangeSlider: ListingsAdvancedSearchSliderController) {
         print("Range Slider value changed: (\(rangeSlider.lower) \(rangeSlider.upper))")
     }
 
