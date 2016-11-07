@@ -696,51 +696,55 @@
 	    var itemHub;
 	    var itemUid;
 
-	    var checkBasicItems = function(itemTitle, itemDescription, itemTags, 
-	        itemHub, itemPrice) {
+	    var checkBasicItems = function() {
 
-	        var itemTitle = $("#item-post-title").val();
-	        var itemDescription = $("#item-post-description").val();
-	        // var itemTags = $("#item-post-tags").val().match(/\S+/g) || [];
-	        var itemPrice = $("#item-post-price").val();
-	        var itemHub = $("#item-post-hub").val();
+	        var checksPassed = true;
+	        itemTitle = $("#item-post-title").val();
+	        itemDescription = $("#item-post-description").val();
+	        itemTags = $('#itemTags').textext()[0].tags()._formData;
+	        itemPrice = $("#item-post-price").val();
 
-	        if (!/^[a-zA-Z0-9]+$/.test(itemTitle)|| itemTitle.length < 5 || itemTitle.length > 20) {
-	            Materialize.toast('Title must be at least 5 letters long, with alphanumeric characters', 3000, 'rounded');
+	        // itemHub needs to be changed
+	        itemHub = "hardcodedForNow";
+
+	        itemUid = auth.currentUser.uid;
+
+	        if (!/^[a-zA-Z0-9]{5,20}$/.test(itemTitle)) {
+	            Materialize.toast('Title must be between 5 and 20 characters', 3000, 'rounded');
+	            checksPassed = false;
 	        } else if (!/^[a-zA-Z0-9\.]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
+	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
-	        } else if(!/^[a-zA-Z\s]+$/.itemHub) {
+	            checksPassed = false;
+	        } else if(!/^[a-zA-Z\s]+$/.test(itemHub)) {
 	            console.log("fix items Hub search");
+	            checksPassed = false;
+	        } else if (itemTags.length < 2 || itemTags.length > 5) {
+	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
+	            checksPassed = false;
 	        } else {
-	            if (itemTags.length === 0) {
-	                Materialize.toast('Please enter 3 to 5 tags', 3000, 'rounded');
-	            } else {
-	                for (tag in itemTags) {
-	                    console.log(tag)
-	                    if (!/^[a-zA-Z\s]+$/.test(tag) || tag.length > 15) {
-	                        Materialize.toast('tags can only contain letters, and must be under 15 characters', 3000, 'rounded');
-	                    }
+	            for (var i = 0; i < itemTags.length; i += 1) {
+	                if (!/^[a-zA-Z\s]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
+	                    Materialize.toast('tags can only contain letters and spaces, up to 15 characters', 3000, 'rounded');
+	                    checksPassed = false;
 	                }
 	            }   
 	        }
+	        return checksPassed;
 	    }
 
 	    $("#post-preview").click(function () {
-	        var itemUid = auth.currentUser.uid;
-
-	        var tags = $('#itemTags').textext()[0].tags()._formData;
-	  
-	        console.log(tags)
-
 	        if (checkBasicItems()) {
-	            $('ul.tabs').tabs('select_tab', 'photos');
-	        } else {
-	              Materialize.toast('invalid entry', 3000, 'rounded')
+	            $('#preview-submit-tab').removeClass('disabled');
+	            console.log($('#preview-submit-tab'))
+	            $('ul.tabs').tabs('select_tab', 'preview-submit');
 	        }
 	    });
 
+
+	    //add listing
 	    $("main").on('click', '#add-listing', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
 	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
@@ -752,10 +756,9 @@
 
 
 
-	    var itemTags = $('#itemTags')
-
-	    if (itemTags.length > 0) {
-	        $('#itemTags').textext({plugins : 'tags autocomplete'})
+	    var itemTagRef = $('#itemTags');
+	    if (itemTagRef.length > 0) {
+	        itemTagRef.textext({plugins : 'tags autocomplete'})
 	                .bind('getSuggestions', function(e, data){
 	                    var list = [
 	                            'Table',
@@ -786,7 +789,10 @@
 	    }
 
 
-	    // drophub
+	    /**
+	        drophub to add images by clicking
+	        or by dragging and dropping
+	    **/
 	    var reader;
 	    var drop;
 
@@ -818,7 +824,6 @@
 	            }
 	        }
 	    });
-
 
 	    $("#fileBox").change(function() {
 	        if (this.files && this.files[0]) {
