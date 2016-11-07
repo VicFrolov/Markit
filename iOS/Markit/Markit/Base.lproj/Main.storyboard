@@ -1565,6 +1565,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Advanced Search" id="Yif-6W-fTt"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="containerView" destination="KXg-oh-RZS" id="8wP-kX-xTh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NNl-kl-vTi" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dcx-Hm-CTp" userLabel="Exit" sceneMemberID="exit"/>

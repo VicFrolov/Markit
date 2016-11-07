@@ -13,6 +13,7 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
 
     //  These are for the Advanced Search scene
     let rangeSlider = MARKRangeSlider()
+    @IBOutlet var containerView: ListingsAdvancedSearchView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,7 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
         rangeSlider.setMinValue(0.0, maxValue: 3000.0)
         rangeSlider.setLeftValue(500.0, rightValue: 2500.0)
+        rangeSlider.rangeImage = UIImage(named: "slider.png")
         view.addSubview(rangeSlider)
 
     }
@@ -45,6 +47,8 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     
     func rangeSliderValueChanged(rangeSlider: MARKRangeSlider) {
         print("Range Slider value changed: (\(rangeSlider.leftValue) \(rangeSlider.rightValue))")
+        containerView.minPrice?.text = String(format: "%.2f", rangeSlider.leftValue)
+        containerView.maxPrice?.text = String(format: "%.2f", rangeSlider.rightValue)
     }
 
     /*
