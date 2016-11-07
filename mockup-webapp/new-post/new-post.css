@@ -55,6 +55,12 @@ input[type=text]:focus:not([readonly]) {
 
 #item-post-description {
     height: 150px;
+    resize: none;
+    padding-left: 10px;
+}
+
+#item-post-title {
+    padding-left: 10px;
 }
 
 
