@@ -7,22 +7,39 @@
 //
 
 import UIKit
+import Firebase
 import MARKRangeSlider
+import MLPAutoCompleteTextField
 
-class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate {
+class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
     //  These are for the Advanced Search scene
     let rangeSlider = MARKRangeSlider()
-    @IBOutlet var containerView: ListingsAdvancedSearchView!
+//    let autocompleteTextField = MLPAutoCompleteTextField()
+    var tagRef = FIRDatabaseReference()
+    @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//        advancedSearchContainerView.tags.delegate = self
+//        advancedSearchContainerView.keywords.delegate = self
+//        advancedSearchContainerView.hubs.delegate = self
+//        autocompleteTextField.delegate = self
+//        autocompleteTextField.autoCompleteDelegate = self
+//        autocompleteTextField.autoCompleteDataSource = self
+//        autocompleteTextField.autoCompleteTableView.delegate = self
+        
+//        tagRef = FIRDatabase.database().reference().child("tags")
+        
+        advancedSearchContainerView.minPrice?.text = "500.00"
+        advancedSearchContainerView.maxPrice?.text = "2500.00"
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
         rangeSlider.setMinValue(0.0, maxValue: 3000.0)
         rangeSlider.setLeftValue(500.0, rightValue: 2500.0)
-        rangeSlider.rangeImage = UIImage(named: "slider.png")
+        var image = UIImage(named: "slider")
+        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
         view.addSubview(rangeSlider)
 
     }
@@ -38,17 +55,27 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func autoFillTags () {
+    func autocomplete () {
         
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-    }
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        print("Some text here")
+//    }
+//    
+//    func textViewDidChange(_ textView: UITextView) {
+//        print(self.advancedSearchContainerView.tags.text)
+//    }
+    
+//    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, shouldConfigureCell cell: UITableViewCell!, withAutoComplete autocompleteString: String!, with boldedString: NSAttributedString!, forAutoComplete autocompleteObject: MLPAutoCompletionObject!, forRowAt indexPath: IndexPath!) -> Bool {
+//        print("WUUTT")
+//        return false
+//    }
     
     func rangeSliderValueChanged(rangeSlider: MARKRangeSlider) {
         print("Range Slider value changed: (\(rangeSlider.leftValue) \(rangeSlider.rightValue))")
-        containerView.minPrice?.text = String(format: "%.2f", rangeSlider.leftValue)
-        containerView.maxPrice?.text = String(format: "%.2f", rangeSlider.rightValue)
+        advancedSearchContainerView.minPrice?.text = String(format: "%.2f", rangeSlider.leftValue)
+        advancedSearchContainerView.maxPrice?.text = String(format: "%.2f", rangeSlider.rightValue)
     }
 
     /*

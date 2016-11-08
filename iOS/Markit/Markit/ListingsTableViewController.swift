@@ -18,6 +18,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var itemsRef: FIRDatabaseReference!
     var itemsByHubRef: FIRDatabaseReference!
     var itemsByUserRef: FIRDatabaseReference!
+    var tagRef: FIRDatabaseReference!
     var userRef: FIRDatabaseReference!
     var key: String!
     var itemList = [Item]()
@@ -25,6 +26,8 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
 //  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
+    
+    @IBAction func unwindAdvancedSearch (segue: UIStoryboardSegue) {}
 
     override func viewDidLoad() {
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
@@ -34,6 +37,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.itemsByHubRef = ref.child("itemsByHub")
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef = ref.child("usernames")
+        self.tagRef = ref.child("tags")
         fetchItems()
         searchItems()
     }
@@ -102,10 +106,6 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
             }
             self.tableView.reloadData()
         })
-        
-    }
-    
-    @IBAction func unwindAdvancedSearch (segue: UIStoryboardSegue) {
         
     }
     

@@ -11,4 +11,9 @@ target 'Markit' do
   pod 'Firebase/Auth'
   pod 'SwiftyJSON', '3.0.0'
   pod 'MARKRangeSlider'
+  pod 'MLPAutoCompleteTextField'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
+
 end
