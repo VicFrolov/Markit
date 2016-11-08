@@ -688,6 +688,8 @@
 	$(function() {
 	    var addListing = __webpack_require__(2)['addListing'];
 	    var auth = __webpack_require__(2)['auth'];
+	    $('.carousel.carousel-slider').carousel({full_width: true});
+
 
 	    var itemTitle;
 	    var itemDescription;
@@ -695,20 +697,26 @@
 	    var itemPrice;
 	    var itemHub;
 	    var itemUid;
+	    var itemImages = [];
 
 	    var checkBasicItems = function() {
-
 	        var checksPassed = true;
+	        itemUid = auth.currentUser.uid;
 	        itemTitle = $("#item-post-title").val();
 	        itemDescription = $("#item-post-description").val();
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
 	        itemPrice = $("#item-post-price").val();
-
+	        $('#dropzone').find('img').each(function(index){
+	            itemImages.push($(this).attr('src'));
+	        });
+	        
 	        // itemHub needs to be changed
 	        itemHub = "hardcodedForNow";
 
-	        itemUid = auth.currentUser.uid;
-
+	        
+	        
+	        console.log(itemImages.length);
+	        console.log(itemImages);
 	        if (!/^[a-zA-Z0-9]{5,20}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 20 characters', 3000, 'rounded');
 	            checksPassed = false;
@@ -719,10 +727,12 @@
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!/^[a-zA-Z\s]+$/.test(itemHub)) {
-	            console.log("fix items Hub search");
 	            checksPassed = false;
 	        } else if (itemTags.length < 2 || itemTags.length > 5) {
 	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
+	            checksPassed = false;
+	        } else if (itemImages.length < 1) {
+	            Materialize.toast('Please add at least one image', 3000, 'rounded');
 	            checksPassed = false;
 	        } else {
 	            for (var i = 0; i < itemTags.length; i += 1) {
@@ -738,7 +748,6 @@
 	    $("#post-preview").click(function () {
 	        if (checkBasicItems()) {
 	            $('#preview-submit-tab').removeClass('disabled');
-	            console.log($('#preview-submit-tab'))
 	            $('ul.tabs').tabs('select_tab', 'preview-submit');
 	        }
 	    });

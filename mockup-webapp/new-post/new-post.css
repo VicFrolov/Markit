@@ -63,15 +63,20 @@ input[type=text]:focus:not([readonly]) {
 
 #item-post-title {
     padding-left: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+}
+
+#item-post-price {
+    padding-left: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
 }
 
 
-#current-hub {
-    font-size: 12px;
-}
 /*drophub*/
-
-
 #dropzone {
     background-color: #fff;
     border: 3px dashed #F4A49D;
