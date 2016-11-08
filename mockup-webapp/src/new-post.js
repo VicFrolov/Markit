@@ -1,10 +1,7 @@
 $(function() {
+    
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
-    
-
-
-
 
 
     var itemTitle;
@@ -30,9 +27,6 @@ $(function() {
         itemHub = "hardcodedForNow";
 
         
-        
-        console.log(itemImages.length);
-        console.log(itemImages);
         if (!/^[a-zA-Z0-9]{5,20}$/.test(itemTitle)) {
             Materialize.toast('Title must be between 5 and 20 characters', 3000, 'rounded');
             checksPassed = false;
@@ -62,9 +56,10 @@ $(function() {
     }
 
     $("#post-preview").click(function () {
-        if (checkBasicItems()) {
+        if (true) {
             $('#preview-submit-tab').removeClass('disabled');
             $('ul.tabs').tabs('select_tab', 'preview-submit');
+            $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
         }
     });
 
@@ -160,6 +155,6 @@ $(function() {
         }
     });
 
-    $('.carousel.carousel-slider').carousel({full_width: true});
+    
 
 });
