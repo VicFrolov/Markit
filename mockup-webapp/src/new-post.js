@@ -19,7 +19,7 @@ $(function() {
         itemDescription = $("#item-post-description").val();
         itemTags = $('#itemTags').textext()[0].tags()._formData;
         itemPrice = $("#item-post-price").val();
-        $('#dropzone').find('img').each(function(index){
+        $('#dropzone').find('img').each(function(index) {
             itemImages.push($(this).attr('src'));
         });
         
@@ -28,8 +28,8 @@ $(function() {
         itemHub = "hardcodedForNow";
 
         
-        if (!/^[a-zA-Z0-9]{5,20}$/.test(itemTitle)) {
-            Materialize.toast('Title must be between 5 and 20 characters', 3000, 'rounded');
+        if (!/^[\w\s\!\@\#\[\]]{0,1}5,30}$/.test(itemTitle)) {
+            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
             checksPassed = false;
         } else if (!/^[a-zA-Z0-9\.]+$/.test(itemDescription) || itemDescription.length < 5) {
             Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
@@ -57,8 +57,9 @@ $(function() {
     }
 
     var addImagesToSlider = function() {
-        let imageCount = ['one', 'two', 'three', 'four']
+        let imageCount = ['one', 'two', 'three', 'four'];
         $('#carousel-wrapper').append('<div>').addClass('carousel carousel-slider');
+
         for (var i = 0; i < itemImages.length; i += 1) {    
             $('.carousel-slider').append(
                 $('<a>').addClass('carousel-item').attr('href', '#' + imageCount[i] + '!').append(
@@ -73,6 +74,7 @@ $(function() {
         if (checkBasicItems()) {
             $('#preview-submit-tab').removeClass('disabled');
             $('ul.tabs').tabs('select_tab', 'preview-submit');
+            $('#preview-title').append(itemTitle);
             addImagesToSlider();
 
         }
