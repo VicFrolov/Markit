@@ -81,7 +81,7 @@ input[type=text]:focus:not([readonly]) {
     background-color: #fff;
     border: 3px dashed #F4A49D;
     border-radius: 10px;
-    height: 450px;
+    height: 340px;
     display: -webkit-flex;
     display: flex;
     padding-bottom: 20px;
