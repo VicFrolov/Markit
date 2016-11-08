@@ -23,6 +23,7 @@ $(function() {
             itemImages.push($(this).attr('src'));
         });
         
+
         // itemHub needs to be changed
         itemHub = "hardcodedForNow";
 
@@ -55,15 +56,25 @@ $(function() {
         return checksPassed;
     }
 
+    var addImagesToSlider = function() {
+        let imageCount = ['one', 'two', 'three', 'four']
+        $('#carousel-wrapper').append('<div>').addClass('carousel carousel-slider');
+        for (var i = 0; i < itemImages.length; i += 1) {    
+            $('.carousel-slider').append(
+                $('<a>').addClass('carousel-item').attr('href', '#' + imageCount[i] + '!').append(
+                    $('<img>').attr('src', itemImages[i])
+                )
+            ); 
+        }
+        $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
+    }
+
     $("#post-preview").click(function () {
-        if (true) {
+        if (checkBasicItems()) {
             $('#preview-submit-tab').removeClass('disabled');
             $('ul.tabs').tabs('select_tab', 'preview-submit');
-            // setting custom fields for carousel
+            addImagesToSlider();
 
-            $('#carousel-wrapper').append('<div>').addClass('carousel carousel-slider');
-            $('.carousel-slider').append('<a class="carousel-item" href="#one!"><img src="http://lorempixel.com/800/400/food/1"></a');
-            $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
         }
     });
 
