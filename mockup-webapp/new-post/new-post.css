@@ -5,6 +5,10 @@ body {
     color: #000;
 }
 
+.container {
+    width: 80%;
+}
+
 #new-post-body .input-field label {
     color: #AAAAAA;
 }
@@ -28,8 +32,6 @@ body {
 }
 
 #new-post-main {
-    margin-left: 10%;
-    margin-right: 10%;
     padding: 20px 30px 20px 30px;
     background-color: white;
 }
@@ -72,7 +74,7 @@ input[type=text]:focus:not([readonly]) {
 
 #dropzone {
     background-color: #fff;
-    border: 3px dashed #f9c9cb;
+    border: 3px dashed #F4A49D;
     border-radius: 10px;
     height: 450px;
     display: -webkit-flex;
@@ -96,7 +98,7 @@ input[type=text]:focus:not([readonly]) {
 }
 
 #dropMain {
-    background-color: #f9c9cb;
+    background-color: #F4A49D;
     color: #fff;
     border-radius: 10px;
     height: 60%;
@@ -113,7 +115,7 @@ input[type=text]:focus:not([readonly]) {
 }
 
 .drop {
-    background-color: #f9c9cb;
+    background-color: #F4A49D;
     color: #fff;
     border-radius: 10px;
     height: 28%;
