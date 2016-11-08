@@ -1,7 +1,10 @@
 $(function() {
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
-    $('.carousel.carousel-slider').carousel({full_width: true});
+    
+
+
+
 
 
     var itemTitle;
@@ -156,5 +159,7 @@ $(function() {
             reader.readAsDataURL(this.files[0]);
         }
     });
+
+    $('.slider').slider({full_width: true});
 
 });
