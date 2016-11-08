@@ -8,12 +8,10 @@ body {
 
 #preview-title {
     font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-#carousel-wrapper {
-    width: 500px;
-    height: 400px;
-}
 
 .carousel.carousel-slider {
     width: 100%;

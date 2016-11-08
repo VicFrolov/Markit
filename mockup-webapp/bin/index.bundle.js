@@ -753,6 +753,10 @@
 	        if (true) {
 	            $('#preview-submit-tab').removeClass('disabled');
 	            $('ul.tabs').tabs('select_tab', 'preview-submit');
+	            // setting custom fields for carousel
+
+	            $('#carousel-wrapper').append('<div>').addClass('carousel carousel-slider');
+	            $('.carousel-slider').append('<a class="carousel-item" href="#one!"><img src="http://lorempixel.com/800/400/food/1"></a');
 	            $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
 	        }
 	    });
