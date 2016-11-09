@@ -137,6 +137,9 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.sign_out) {
+            FirebaseAuth.getInstance().signOut();
+        }
 
         return super.onOptionsItemSelected(item);
     }
