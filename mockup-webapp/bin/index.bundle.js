@@ -794,7 +794,9 @@
 	        $('#preview-title').empty();
 	        $('#preview-price').empty().text("$");
 	        $('#preview-description').empty();
-	        $('#preview-tags').empty();
+	        $('#preview-tags').empty().append(
+	            $('<span>').attr('id', 'preview-tag-blurb').text('Tags: ')
+	        );
 	        $('#carousel-wrapper').empty();
 	    });
 
