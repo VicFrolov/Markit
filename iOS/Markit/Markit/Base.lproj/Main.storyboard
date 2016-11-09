@@ -297,12 +297,17 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make an account to let you contact sellers, faorite and tag items, and securely sell your own goods!" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4K3-oH-Ja4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make an account to let you contact sellers, favorite and tag items, and securely sell your own goods!" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4K3-oH-Ja4">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="74" id="sVF-qj-gdk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3d-2g-5Ef">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -313,7 +318,9 @@
                             <constraint firstItem="cdW-Aj-kOc" firstAttribute="trailing" secondItem="r8f-zM-XU1" secondAttribute="trailing" id="Mkt-Xk-bE4"/>
                             <constraint firstItem="4K3-oH-Ja4" firstAttribute="trailing" secondItem="r8f-zM-XU1" secondAttribute="trailing" id="Pea-VV-LQZ"/>
                             <constraint firstItem="r8f-zM-XU1" firstAttribute="top" secondItem="cdW-Aj-kOc" secondAttribute="bottom" constant="23" id="TKS-F0-x9u"/>
+                            <constraint firstItem="T3d-2g-5Ef" firstAttribute="centerX" secondItem="4K3-oH-Ja4" secondAttribute="centerX" id="Wwa-z6-NRg"/>
                             <constraint firstItem="f5w-ws-kbt" firstAttribute="top" secondItem="Hid-P9-v2R" secondAttribute="bottom" constant="88" id="ZnN-0o-U8E"/>
+                            <constraint firstItem="T3d-2g-5Ef" firstAttribute="top" secondItem="4K3-oH-Ja4" secondAttribute="bottom" constant="8" symbolic="YES" id="a7c-2L-moh"/>
                             <constraint firstItem="cdW-Aj-kOc" firstAttribute="top" secondItem="f5w-ws-kbt" secondAttribute="bottom" constant="43" id="du4-gE-jgl"/>
                             <constraint firstItem="cdW-Aj-kOc" firstAttribute="leading" secondItem="r8f-zM-XU1" secondAttribute="leading" id="hH4-Vm-Frc"/>
                             <constraint firstItem="cdW-Aj-kOc" firstAttribute="trailing" secondItem="bzb-gj-vG3" secondAttribute="trailingMargin" id="hsW-SO-Cwl"/>
