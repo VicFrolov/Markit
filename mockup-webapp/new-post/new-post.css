@@ -5,6 +5,10 @@ body {
     color: #000;
 }
 
+#preview-right-side {
+    min-height: 200px;
+}
+
 
 #preview-title {
     font-size: 20px;
@@ -55,8 +59,10 @@ body {
     background-color: #AED581;
 }
 
-.carousel.carousel-slider {
-
+.carousel-wrapper {
+    margin-top: 20px;
+    height: 100%;
+    width: 100%;
 }
 
 .carousel .indicators .indicator-item.active {
