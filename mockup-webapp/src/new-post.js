@@ -145,6 +145,23 @@ $(function() {
         });
     }
 
+    var HubRef = $('#hubPopup');
+    if (HubRef.length > 0) {
+        HubRef.textext({plugins : 'tags autocomplete'})
+                .bind('getSuggestions', function(e, data){
+                    var list = [
+                            'Loyola Marymount University',
+                            'UCLA'
+                        ],
+                        textext = $(e.target).textext()[0],
+                        query = (data ? data.query : '') || '';
+
+                    $(this).trigger('setSuggestions',{
+                        result : textext.itemManager().filter(list, query) }
+                    );
+        });
+    }    
+
 
     /**
         drophub to add images by clicking
@@ -191,6 +208,17 @@ $(function() {
             reader.readAsDataURL(this.files[0]);
         }
     });
+
+    $('#show-hub-link').on('click', function () {
+        $('#hub-popup').fadeIn();
+    });
+
+    $(document).mouseup(function (e) {
+        var popup = $('#hub-popup');
+        if (popup.is(e.target)) {
+            popup.fadeOut();
+        }
+    });    
 
     
 
