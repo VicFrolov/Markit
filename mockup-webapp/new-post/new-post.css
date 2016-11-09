@@ -59,7 +59,7 @@ body {
     background-color: #AED581;
 }
 
-.carousel-wrapper {
+#carousel-wrapper {
     margin-top: 20px;
     height: 100%;
     width: 100%;
