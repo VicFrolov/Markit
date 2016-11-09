@@ -83,7 +83,10 @@ $(function() {
             $('#preview-description').append(itemDescription);
             
             for (tag of itemTags) {
-                $('#preview-tags').append($('<a></a>').attr('href', '#').text(tag + ' '));
+                $('#preview-tags').append(
+                    $('<a></a>').attr('href', '#').addClass('hub-card').text(tag)
+                );
+                $('#preview-tags').append(" ");
             }
         }
     });
