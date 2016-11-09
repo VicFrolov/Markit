@@ -921,7 +921,7 @@
 	            $("#current-hubs-signed-in").empty();
 	            for (var i = 0; i < hubs.length; i += 1) {
 	                $('#current-hubs-signed-in').append(
-	                    $('<span>').addClass('hub-card').append(hubs[i])
+	                    $('<span>').addClass('hub-card z-depth-1').append(hubs[i])
 	                    
 	                );
 	                $("#current-hubs-signed-in").append(" ");
