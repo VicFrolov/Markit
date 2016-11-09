@@ -704,7 +704,7 @@
 	    var itemPrice;
 	    var itemHub;
 	    var itemUid;
-	    var itemImages = [];
+	    var itemImages;
 
 	    var checkBasicItems = function() {
 	        var checksPassed = true;
@@ -713,6 +713,7 @@
 	        itemDescription = $("#item-post-description").val();
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
 	        itemPrice = $("#item-post-price").val();
+	        itemImages = [];
 	        $('#dropzone').find('img').each(function(index) {
 	            itemImages.push($(this).attr('src'));
 	        });
@@ -721,11 +722,10 @@
 	        // itemHub needs to be changed
 	        itemHub = "hardcodedForNow";
 
-	        
-	        if (!/^[\S\s^\<]{5,30}$/.test(itemTitle)) {
+	        if (!/^[\w\s]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if (!/^[a-zA-Z0-9\.]+$/.test(itemDescription) || itemDescription.length < 5) {
+	        } else if (!/^[\w\s\.]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
@@ -752,11 +752,11 @@
 
 	    var addImagesToSlider = function() {
 	        let imageCount = ['one', 'two', 'three', 'four'];
-	        $('#carousel-wrapper').append('<div>').addClass('carousel carousel-slider');
+	        $('#carousel-wrapper').append($('<div></div>').addClass('carousel carousel-slider'));
 
 	        for (var i = 0; i < itemImages.length; i += 1) {    
 	            $('.carousel-slider').append(
-	                $('<a>').addClass('carousel-item').attr('href', '#' + imageCount[i] + '!').append(
+	                $('<a></a>').addClass('carousel-item').attr('href', '#' + imageCount[i] + '!').append(
 	                    $('<img>').attr('src', itemImages[i])
 	                )
 	            ); 
@@ -766,14 +766,39 @@
 
 	    $("#post-preview").click(function () {
 	        if (checkBasicItems()) {
+	            addImagesToSlider();
+	            
 	            $('#preview-submit-tab').removeClass('disabled');
 	            $('ul.tabs').tabs('select_tab', 'preview-submit');
-	            $('#preview-title').append(itemTitle);
-	            addImagesToSlider();
+	            $('#basic-info-tab').addClass('disabled');
 
+	            $('#preview-title').append(itemTitle);
+	            $('#preview-price').append(itemPrice);
+	            $('#preview-description').append(itemDescription);
+	            
+	            for (tag of itemTags) {
+	                $('#preview-tags').append(
+	                    $('<a></a>').attr('href', '#').addClass('hub-card').text(tag)
+	                );
+	                $('#preview-tags').append(" ");
+	            }
 	        }
 	    });
 
+
+	    $('#back-to-preview').on('click', function (e) {
+	        $('#basic-info-tab').removeClass('disabled');
+	        $('ul.tabs').tabs('select_tab', 'basic-info');
+	        $('#preview-submit-tab').addClass('disabled');
+	        
+	        $('#preview-title').empty();
+	        $('#preview-price').empty().text("$");
+	        $('#preview-description').empty();
+	        $('#preview-tags').empty().append(
+	            $('<span>').attr('id', 'preview-tag-blurb').text('Tags: ')
+	        );
+	        $('#carousel-wrapper').empty();
+	    });
 
 	    //add listing
 	    $("main").on('click', '#add-listing', function (e) {
@@ -818,6 +843,23 @@
 	                    );
 	        });
 	    }
+
+	    var hubRef = $('#hub-selection');
+	    if (hubRef.length > 0) {
+	        hubRef.textext({plugins : 'tags autocomplete'})
+	                .bind('getSuggestions', function(e, data){
+	                    var list = [
+	                            'Loyola Marymount University',
+	                            'UCLA'
+	                        ],
+	                        textext = $(e.target).textext()[0],
+	                        query = (data ? data.query : '') || '';
+
+	                    $(this).trigger('setSuggestions',{
+	                        result : textext.itemManager().filter(list, query) }
+	                    );
+	        });
+	    }    
 
 
 	    /**
@@ -865,6 +907,38 @@
 	            reader.readAsDataURL(this.files[0]);
 	        }
 	    });
+
+	    $('#show-hub-link').on('click', function () {
+	        $('#hub-popup').fadeIn();
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#hub-popup');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    $('#submit-hub').on('click', function() {
+	        let hubs = $('#hub-selection').textext()[0].tags()._formData;
+	        
+	        if (hubs.length > 0 ) {
+	            $("#current-hubs-signed-in").empty();
+	            for (var i = 0; i < hubs.length; i += 1) {
+	                $('#current-hubs-signed-in').append(
+	                    $('<span>').addClass('hub-card z-depth-1').append(hubs[i])
+	                    
+	                );
+	                $("#current-hubs-signed-in").append(" ");
+	            }
+	            $('#hub-popup').fadeOut();
+	        }
+	    });
+
+	    $('#cancel-hub').on('click', function() {
+	        $('#hub-popup').fadeOut();
+	    })
+	        
 
 	    
 
