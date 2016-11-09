@@ -704,7 +704,7 @@
 	    var itemPrice;
 	    var itemHub;
 	    var itemUid;
-	    var itemImages = [];
+	    var itemImages;
 
 	    var checkBasicItems = function() {
 	        var checksPassed = true;
@@ -713,6 +713,7 @@
 	        itemDescription = $("#item-post-description").val();
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
 	        itemPrice = $("#item-post-price").val();
+	        itemImages = [];
 	        $('#dropzone').find('img').each(function(index) {
 	            itemImages.push($(this).attr('src'));
 	        });
@@ -721,11 +722,10 @@
 	        // itemHub needs to be changed
 	        itemHub = "hardcodedForNow";
 
-	        
-	        if (!/^[\S\s^\<]{5,30}$/.test(itemTitle)) {
+	        if (!/^[\w\s]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if (!/^[a-zA-Z0-9\.]+$/.test(itemDescription) || itemDescription.length < 5) {
+	        } else if (!/^[\w\s\.]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
@@ -766,11 +766,16 @@
 
 	    $("#post-preview").click(function () {
 	        if (checkBasicItems()) {
+	            addImagesToSlider();
 	            $('#preview-submit-tab').removeClass('disabled');
 	            $('ul.tabs').tabs('select_tab', 'preview-submit');
 	            $('#preview-title').append(itemTitle);
-	            addImagesToSlider();
-
+	            $('#preview-price').append(itemPrice);
+	            $('#preview-description').append(itemDescription);
+	            
+	            for (tag of itemTags) {
+	                $('#preview-tags').append($('<a></a>').attr('href', '#').text(tag + ' '));
+	            }
 	        }
 	    });
 
