@@ -119,10 +119,6 @@ input[type=text]:focus:not([readonly]) {
     height: 50px;
 }
 
-#itemHubs {
-    height: 50px;
-}
-
 #item-post-description {
     height: 150px;
     resize: none;
@@ -226,10 +222,42 @@ input[type=text]:focus:not([readonly]) {
 #hub-popup-inner {
     margin: 0 auto;
     margin-top: 10%;
-    width: 450px;
-    height: 70%;
+    width: 70%;
+    height: 30%;
     min-height: 550px;
     background-color: #fff;
     text-align: center;
-    padding: 30px 30px 30px 30px;
+    padding: 50px 30px 30px 30px;
+}
+
+#hub-popup-inner h4 {
+    color: #F4A49D;
+}
+
+#hubPopup {
+    height: 50px;
+    position: absolute;
+    left: 0;
+    font-size: 30px;
+    line-height: 30px;
+    margin-bottom: 40px;
+}
+
+#submit-hub {
+    background-color: #559BFF;
+    margin-top: 30px;
+}
+
+#submit-hub:hover {
+    background-color: #66ACFF;
+}
+
+#cancel-hub {
+    margin-top: 10px;
+    color: #000;
+    font-size: 12px;
+}
+
+#cancel-hub:hover {
+    color: #0000ff;
 }

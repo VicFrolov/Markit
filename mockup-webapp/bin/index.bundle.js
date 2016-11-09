@@ -841,7 +841,7 @@
 
 	    var HubRef = $('#hubPopup');
 	    if (HubRef.length > 0) {
-	        HubRef.textext({plugins : 'tags autocomplete'})
+	        HubRef.textext({plugins : 'autocomplete'})
 	                .bind('getSuggestions', function(e, data){
 	                    var list = [
 	                            'Loyola Marymount University',
