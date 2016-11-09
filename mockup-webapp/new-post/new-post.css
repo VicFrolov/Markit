@@ -234,7 +234,7 @@ input[type=text]:focus:not([readonly]) {
     color: #F4A49D;
 }
 
-#hubPopup {
+#hub-selection {
     height: 50px;
     position: absolute;
     left: 0;

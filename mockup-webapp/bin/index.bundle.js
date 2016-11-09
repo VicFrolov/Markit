@@ -839,9 +839,9 @@
 	        });
 	    }
 
-	    var HubRef = $('#hubPopup');
-	    if (HubRef.length > 0) {
-	        HubRef.textext({plugins : 'autocomplete'})
+	    var hubRef = $('#hub-selection');
+	    if (hubRef.length > 0) {
+	        hubRef.textext({plugins : 'tags autocomplete'})
 	                .bind('getSuggestions', function(e, data){
 	                    var list = [
 	                            'Loyola Marymount University',
@@ -912,7 +912,23 @@
 	        if (popup.is(e.target)) {
 	            popup.fadeOut();
 	        }
-	    });    
+	    });
+
+	    $('#submit-hub').on('click', function() {
+	        let hubs = $('#hub-selection').textext()[0].tags()._formData;
+	        
+	        if (hubs.length > 0 ) {
+	            $("current-hubs-signed-in").empty();
+	            for (var i = 0; i < hubs.length; i += 1) {
+	                var hubToAdd = hubs[i];
+	                if (i != hubs.length - 1) {
+	                    hubToAdd += ", "
+	                }
+	                $('#current-hubs-signed-in').append(hubToAdd);
+	            }
+	        }
+	    });
+	        
 
 	    
 
