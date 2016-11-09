@@ -243,6 +243,13 @@ input[type=text]:focus:not([readonly]) {
     margin-bottom: 40px;
 }
 
+.hub-card {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 #submit-hub {
     background-color: #559BFF;
     margin-top: 30px;

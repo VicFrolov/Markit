@@ -918,16 +918,21 @@
 	        let hubs = $('#hub-selection').textext()[0].tags()._formData;
 	        
 	        if (hubs.length > 0 ) {
-	            $("current-hubs-signed-in").empty();
+	            $("#current-hubs-signed-in").empty();
 	            for (var i = 0; i < hubs.length; i += 1) {
-	                var hubToAdd = hubs[i];
-	                if (i != hubs.length - 1) {
-	                    hubToAdd += ", "
-	                }
-	                $('#current-hubs-signed-in').append(hubToAdd);
+	                $('#current-hubs-signed-in').append(
+	                    $('<span>').addClass('hub-card').append(hubs[i])
+	                    
+	                );
+	                $("#current-hubs-signed-in").append(" ");
 	            }
+	            $('#hub-popup').fadeOut();
 	        }
 	    });
+
+	    $('#cancel-hub').on('click', function() {
+	        $('#hub-popup').fadeOut();
+	    })
 	        
 
 	    
