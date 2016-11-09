@@ -25,7 +25,6 @@ body {
 #preview-first-line {
     display: flex;
     justify-content: space-between;
-
 }
 
 #preview-description {
@@ -42,10 +41,22 @@ body {
     color: #AED581;
 }
 
+#preview-button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#back-to-preview {
+    background-color: #F44336;
+}
+
+#submit-post {
+    background-color: #AED581;
+}
+
 .carousel.carousel-slider {
-    margin-top: 20px;
-    width: 100%;
-    height: 100%;
+
 }
 
 .carousel .indicators .indicator-item.active {
