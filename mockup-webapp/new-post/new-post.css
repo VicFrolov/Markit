@@ -59,6 +59,10 @@ body {
     background-color: #AED581;
 }
 
+#show-hub-link {
+    cursor: pointer;
+}
+
 #carousel-wrapper {
     margin-top: 20px;
     height: 100%;
