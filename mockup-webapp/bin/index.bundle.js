@@ -767,8 +767,11 @@
 	    $("#post-preview").click(function () {
 	        if (checkBasicItems()) {
 	            addImagesToSlider();
+	            
 	            $('#preview-submit-tab').removeClass('disabled');
 	            $('ul.tabs').tabs('select_tab', 'preview-submit');
+	            $('#basic-info-tab').addClass('disabled');
+
 	            $('#preview-title').append(itemTitle);
 	            $('#preview-price').append(itemPrice);
 	            $('#preview-description').append(itemDescription);
@@ -781,8 +784,10 @@
 
 
 	    $('#back-to-preview').on('click', function (e) {
+	        $('#basic-info-tab').removeClass('disabled');
 	        $('ul.tabs').tabs('select_tab', 'basic-info');
 	        $('#preview-submit-tab').addClass('disabled');
+	        
 	        $('#preview-title').empty();
 	        $('#preview-price').empty().text("$");
 	        $('#preview-description').empty();
