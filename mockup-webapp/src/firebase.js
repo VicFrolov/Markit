@@ -42,7 +42,7 @@ var addListing = function (title, description, tags, price, hub, uid) {
 };
 
 var getListings = function (callback) {
-    listingsRef.once("value").then(function(snapshot) {
+    itemsRef.once("value").then(function(snapshot) {
         callback(snapshot.val())
     }, function (error) {
         console.log(error)
@@ -82,5 +82,6 @@ module.exports = {
     addListing,
     addHub,
     addCategory,
-    filterListings
+    filterListings,
+    createAccount
 };

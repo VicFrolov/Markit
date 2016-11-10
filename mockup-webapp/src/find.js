@@ -5,18 +5,20 @@ $(function() {
     if (slider.length > 0) {
         
         noUiSlider.create(slider[0], {
-            start: [0, 300],
+            start: [50, 1500],
             connect: true,
             step: 1,
             tooltips: true,
             range: {
                 'min': 0,
-                'max': 1500
+                'max': 5000
             }
         });
     }
 
     var newListing = function(currentItems) {
+        var imageSwitcher = true;
+        $("#find-content").empty();
         for (var item in currentItems) {
             
             var currentItem = currentItems[item];
@@ -27,7 +29,7 @@ $(function() {
 
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
-                    $("<div></div>").addClass("card find-result").append(
+                    $("<div></div>").addClass("card find-result hoverable").append(
                         $("<div></div>").addClass("find-result-favorite").append(
                             $("<img/>").addClass("find-result-favorite-image").attr({
                                 src: "../media/ic_heart.png",

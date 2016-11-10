@@ -1,6 +1,5 @@
 $(function () {
-    var fb = require('./firebase.js');
-    var signIn = fb["signIn"];
+    var signIn = require('./firebase.js')["signIn"];
 
     $('#navbar-placeholder').on('click', '#login-button', function () {
         $('#login-popup').fadeIn();

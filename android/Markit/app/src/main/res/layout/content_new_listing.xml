@@ -10,14 +10,17 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.markit.markit.NewListing"
+    tools:context="com.markit.android.NewListing"
     tools:showIn="@layout/activity_new_listing"
     android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:text="Add Photo"
@@ -38,13 +41,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:backgroundTint="@color/colorAccent"
             android:id="@+id/addTitle"
             android:layout_marginTop="0dp"
             android:layout_alignTop="@+id/addPhoto"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@color/colorAccent" />
+            android:background="@android:color/holo_orange_dark"
+            android:backgroundTint="@android:color/holo_orange_dark" />
 
         <Button
             android:text="Add Description"
@@ -64,15 +67,6 @@
             android:id="@+id/postListing"
             android:background="@android:color/holo_purple" />
 
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            app:srcCompat="@android:color/holo_blue_light"
-            android:id="@+id/imageButton"
-            app:layout_anchorGravity="bottom|center_horizontal"
-            android:layout_gravity="top|left"
-            android:background="@android:color/holo_blue_light"
-            android:src="@android:color/holo_blue_light" />
     </LinearLayout>
 
     <Button
@@ -85,12 +79,10 @@
         android:layout_column="0"
         android:textColor="@android:color/background_light"
         android:background="@android:color/holo_green_light"
-        android:layout_alignParentBottom="true"
+        android:elevation="0dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="300dp" />
+        android:layout_marginTop="141dp" />
 
 
 </RelativeLayout>

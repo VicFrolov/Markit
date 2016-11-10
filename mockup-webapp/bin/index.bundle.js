@@ -47,15 +47,15 @@
 	__webpack_require__(1);
 	__webpack_require__(6);
 	__webpack_require__(7);
-	module.exports = __webpack_require__(8);
+	__webpack_require__(8);
+	module.exports = __webpack_require__(9);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var fb = __webpack_require__(2);
-	var auth = fb["auth"];
+	var auth = __webpack_require__(2)["auth"];
 
 	auth.onAuthStateChanged(function(user) {
 	    if (user) {
@@ -122,7 +122,7 @@
 	};
 
 	var getListings = function (callback) {
-	    listingsRef.once("value").then(function(snapshot) {
+	    itemsRef.once("value").then(function(snapshot) {
 	        callback(snapshot.val())
 	    }, function (error) {
 	        console.log(error)
@@ -147,11 +147,23 @@
 	    });
 	};
 
+	var addHub = function (hub) {
+	    database.ref('hubs/' + hub).push();
+	};
+
+	var addCategory = function (category) {
+	    database.ref('categories/' + category).push();
+	};
+
 	module.exports = {
 	    auth,
 	    signIn,
 	    getListings,
-	    addListing
+	    addListing,
+	    addHub,
+	    addCategory,
+	    filterListings,
+	    createAccount
 	};
 
 /***/ },
@@ -676,8 +688,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
-	    var fb = __webpack_require__(2);
-	    var signIn = fb["signIn"];
+	    var signIn = __webpack_require__(2)["signIn"];
 
 	    $('#navbar-placeholder').on('click', '#login-button', function () {
 	        $('#login-popup').fadeIn();
@@ -706,14 +717,102 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function() {
+	    
 	    var addListing = __webpack_require__(2)['addListing'];
 	    var auth = __webpack_require__(2)['auth'];
+	    var itemTitle;
+	    var itemDescription;
+	    var itemTags;
+	    var itemPrice;
+	    var itemHub;
+	    var itemUid;
+	    var itemImages;
+
+	    var checkBasicItems = function() {
+	        var checksPassed = true;
+	        itemUid = auth.currentUser.uid;
+	        itemTitle = $("#item-post-title").val();
+	        itemDescription = $("#item-post-description").val();
+	        itemTags = $('#itemTags').textext()[0].tags()._formData;
+	        itemPrice = $("#item-post-price").val();
+	        itemImages = [];
+	        $('#dropzone').find('img').each(function(index) {
+	            itemImages.push($(this).attr('src'));
+	        });
+	        
+
+	        // itemHub needs to be changed
+	        itemHub = "hardcodedForNow";
+
+	        if (!/^[\w\s]{5,30}$/.test(itemTitle)) {
+	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
+	            checksPassed = false;
+	        } else if (!/^[\w\s\.]+$/.test(itemDescription) || itemDescription.length < 5) {
+	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
+	            checksPassed = false;
+	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
+	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
+	            checksPassed = false;
+	        } else if(!/^[a-zA-Z\s]+$/.test(itemHub)) {
+	            checksPassed = false;
+	        } else if (itemTags.length < 2 || itemTags.length > 5) {
+	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
+	            checksPassed = false;
+	        } else if (itemImages.length < 1) {
+	            Materialize.toast('Please add at least one image', 3000, 'rounded');
+	            checksPassed = false;
+	        } else {
+	            for (var i = 0; i < itemTags.length; i += 1) {
+	                if (!/^[a-zA-Z\s]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
+	                    Materialize.toast('tags can only contain letters and spaces, up to 15 characters', 3000, 'rounded');
+	                    checksPassed = false;
+	                }
+	            }   
+	        }
+	        return checksPassed;
+	    };
+
+	    var addImagesToSlider = function() {
+	        let imageCount = ['one', 'two', 'three', 'four'];
+	        $('#carousel-wrapper').append($('<div></div>').addClass('carousel carousel-slider'));
+
+	        for (var i = 0; i < itemImages.length; i += 1) {    
+	            $('.carousel-slider').append(
+	                $('<a></a>').addClass('carousel-item').attr('href', '#' + imageCount[i] + '!').append(
+	                    $('<img>').attr('src', itemImages[i])
+	                )
+	            ); 
+	        }
+	        $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
+	    };
+
+	    $("#post-preview").click(function () {
+	        if (checkBasicItems()) {
+	            addImagesToSlider();
+	            
+	            $('#preview-submit-tab').removeClass('disabled');
+	            $('ul.tabs').tabs('select_tab', 'preview-submit');
+	            $('#basic-info-tab').addClass('disabled');
+
+	            $('#preview-title').append(itemTitle);
+	            $('#preview-price').append(itemPrice);
+	            $('#preview-description').append(itemDescription);
+	            
+	            for (tag of itemTags) {
+	                $('#preview-tags').append(
+	                    $('<a></a>').attr('href', '#').addClass('hub-card').text(tag)
+	                );
+	                $('#preview-tags').append(" ");
+	            }
+	        }
+	    });
 
 	    $('input.autocomplete').autocomplete({
 	        data: {
 	            "Loyola Marymount University": null,
 	            "UCLA": null,
-	            "Berkley": 'http://placehold.it/250x250'
+	            "Berkeley": 'http://placehold.it/250x250',
+	            "Donglehorn University": null
 	        }
 	    });
 
@@ -726,7 +825,24 @@
 	        var itemHub = $("#autocomplete-input").val();
 	        var itemUid = auth.currentUser.uid;
 	        console.log(itemUid);
+	    });
 
+	    $('#back-to-preview').on('click', function (e) {
+	        $('#basic-info-tab').removeClass('disabled');
+	        $('ul.tabs').tabs('select_tab', 'basic-info');
+	        $('#preview-submit-tab').addClass('disabled');
+	        
+	        $('#preview-title').empty();
+	        $('#preview-price').empty().text("$");
+	        $('#preview-description').empty();
+	        $('#preview-tags').empty().append(
+	            $('<span>').attr('id', 'preview-tag-blurb').text('Tags: ')
+	        );
+	        $('#carousel-wrapper').empty();
+	    });
+
+	    //add listing
+	    $("main").on('click', '#add-listing', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
 	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
 	            $("main").text("Item has been Posted :)");
@@ -735,6 +851,134 @@
 	        }
 	    });
 
+
+
+	    var itemTagRef = $('#itemTags');
+	    if (itemTagRef.length > 0) {
+	        itemTagRef.textext({plugins : 'tags autocomplete'})
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Table',
+	                        'Desk',
+	                        'Computer',
+	                        'Electronics',
+	                        'iPhone',
+	                        'Cell Phone',
+	                        'Apple',
+	                        'Macbook',
+	                        'Chair',
+	                        'Leather',
+	                        'Clothing',
+	                        'Bedroom',
+	                        'Bathroom',
+	                        'Couch',
+	                        'Kitchen',
+	                        'Living Room',
+	                        'Dinner Table'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
+
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
+	        });
+	    }
+
+	    var hubRef = $('#hub-selection');
+	    if (hubRef.length > 0) {
+	        hubRef.textext({plugins : 'tags autocomplete'})
+	                .bind('getSuggestions', function(e, data){
+	                    var list = [
+	                            'Loyola Marymount University',
+	                            'UCLA'
+	                        ],
+	                        textext = $(e.target).textext()[0],
+	                        query = (data ? data.query : '') || '';
+
+	                    $(this).trigger('setSuggestions',{
+	                        result : textext.itemManager().filter(list, query) }
+	                    );
+	        });
+	    }; 
+
+
+	    /**
+	        drophub to add images by clicking
+	        or by dragging and dropping
+	    **/
+	    var reader;
+	    var drop;
+
+	    $('#dropMain, .drop').on({
+	        'click': function(e) {
+	            $('#fileBox').click();
+	            drop = this;
+	            reader = new FileReader();
+	        },
+	        'dragover dragenter': function(e) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	        },
+	        'drop': function(e) {
+	            var dropArea = this;
+	            var dataTransfer =  e.originalEvent.dataTransfer;
+	            if (dataTransfer && dataTransfer.files.length) {
+	                e.preventDefault();
+	                e.stopPropagation();
+	                $.each(dataTransfer.files, function(i, file) { 
+	                    reader = new FileReader();
+	                    reader.onload = $.proxy(function(file, $fileList, event) {
+	                        var img = file.type.match('image.*')
+	                            ? $("<img>").attr('src', event.target.result) : "";
+	                        $fileList.empty().append(img);
+	                    }, this, file, $(dropArea));
+	                    reader.readAsDataURL(file);
+	                });
+	            }
+	        }
+	    });
+
+	    $("#fileBox").change(function() {
+	        if (this.files && this.files[0]) {
+	            reader.onload = function (e) {
+	                $(drop).empty().append($("<img>").attr("src", reader.result));
+	                $(drop).css('background-color', '#fff');
+	            }
+	            reader.readAsDataURL(this.files[0]);
+	        }
+	    });
+
+	    $('#show-hub-link').on('click', function () {
+	        $('#hub-popup').fadeIn();
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#hub-popup');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    $('#submit-hub').on('click', function() {
+	        let hubs = $('#hub-selection').textext()[0].tags()._formData;
+	        
+	        if (hubs.length > 0 ) {
+	            $("#current-hubs-signed-in").empty();
+	            for (var i = 0; i < hubs.length; i += 1) {
+	                $('#current-hubs-signed-in').append(
+	                    $('<span>').addClass('hub-card z-depth-1').append(hubs[i])
+	                    
+	                );
+	                $("#current-hubs-signed-in").append(" ");
+	            }
+	            $('#hub-popup').fadeOut();
+	        }
+	    });
+
+	    $('#cancel-hub').on('click', function() {
+	        $('#hub-popup').fadeOut();
+	    });
 	});
 
 /***/ },
@@ -748,18 +992,20 @@
 	    if (slider.length > 0) {
 	        
 	        noUiSlider.create(slider[0], {
-	            start: [0, 300],
+	            start: [50, 1500],
 	            connect: true,
 	            step: 1,
 	            tooltips: true,
 	            range: {
 	                'min': 0,
-	                'max': 1500
+	                'max': 5000
 	            }
 	        });
 	    }
 
 	    var newListing = function(currentItems) {
+	        var imageSwitcher = true;
+	        $("#find-content").empty();
 	        for (var item in currentItems) {
 	            
 	            var currentItem = currentItems[item];
@@ -770,7 +1016,7 @@
 
 	            $("#find-content").append(
 	                $("<div></div>").addClass("col l4 m4 s12").append(
-	                    $("<div></div>").addClass("card find-result").append(
+	                    $("<div></div>").addClass("card find-result hoverable").append(
 	                        $("<div></div>").addClass("find-result-favorite").append(
 	                            $("<img/>").addClass("find-result-favorite-image").attr({
 	                                src: "../media/ic_heart.png",
@@ -824,6 +1070,167 @@
 	    $("#find-search-button").click(function () {
 	        getListings(newListing);
 	    });
+
+	});
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	$(function() {
+	    var createAccount = __webpack_require__(2)["createAccount"];
+
+	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
+	        $('#sign-up-popup1').fadeIn();
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#sign-up-popup1');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#sign-up-popup2');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    var next = function () {
+	        $('#sign-up-popup1').fadeOut();
+	        $('#sign-up-popup2').fadeIn();
+	    }
+
+	    var firstNameValid = false;
+	    var lastNameValid = false;
+	    var usernameValid = false;
+	    var hubValid = false;
+	    var emailValid = false;
+	    var passwordValid = false;
+
+
+	    $('body').on('click', '#create-account-next-button', function() {
+	        if (checkNames()) {
+	            next();
+	        } else {
+	            if (!firstNameValid) {
+	                $('#first-name-unavailable').show();
+	            }
+	            if (!lastNameValid) {
+	                $('#last-name-unavailable').show();
+	            }
+	            if (!usernameValid) {
+	                $('#username-unavailable').show();
+	            }
+	        }
+	    });    
+
+	    $('body').on('click', '#create-account-button', function() {
+	        if (checkInput()) {
+	            createAccount();
+	        } else {
+	            if (!hubValid) {
+	                $('#hub-unavailable').show();
+	            }
+	            if (!emailValid) {
+	                $('#email-unavailable').show();
+	            }
+	            if (!passwordValid) {
+	                $('#password-unavailable').show();
+	            }
+	        }
+	    });    
+
+	    var checkNames = function () {
+	        return firstNameValid && lastNameValid && usernameValid;
+	    }
+
+	    var checkInput = function () {
+	        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
+	    }
+
+	    var nameSizeLimit = 1;
+	    
+	    $('body').on('keyup', '#sign-up-first-name', function() {
+	        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
+	            firstNameValid = true;
+	            $('#first-name-unavailable').hide();
+	            $('#first-name-available').show();
+	        } else {
+	            firstNameValid = false;
+	            $('#first-name-available').hide();
+	        }
+	    });
+
+	     $('body').on('keyup', '#sign-up-last-name', function() {
+	        if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
+	            lastNameValid = true;
+	            $('#last-name-unavailable').hide();
+	            $('#last-name-available').show();
+	        } else {
+	            lastNameValid = false;
+	            $('#last-name-available').hide();
+	        }
+	    });
+
+	    $('body').on('keyup', '#sign-up-username', function() {
+	        if ($('#sign-up-username').val().length >= nameSizeLimit) {
+	            usernameValid = true;
+	            $('#username-unavailable').hide();
+	            $('#username-available').show();
+	        } else {
+	            usernameValid = false;
+	            $('#username-available').hide();
+	        }
+	    });
+
+	    $('body').on('keyup', '#sign-up-hub', function() {
+	        if ($('#sign-up-hub').val().length >= nameSizeLimit) {
+	            hubValid = true;
+	            $('#hub-unavailable').hide();
+	            $('#hub-available').show();
+	        } else {
+	            hubValid = false;
+	            $('#hub-available').hide();
+	        }
+	    });
+
+	    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
+	    var passwordSizeLimit = 8; 
+
+	    $('body').on('keyup', '#sign-up-email', function() {
+	        if (emailCheck.test($('#sign-up-email').val())) {
+	            // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
+	            //     var errorCode = error.code;
+	            //     var errorMessage = error.message;
+	            // });
+	            // console.log(testEmail);
+	            // if (testEmail != 0) {
+	                emailValid = true;
+	                $('#email-unavailable').hide();
+	                $('#email-available').show();
+	            //} else {
+	            //     emailValid = false;
+	            //     $('#email-available').hide();
+	            // }
+	        } else {
+	            emailValid = false;
+	            $('#email-available').hide();
+	        }
+	    });
+
+	    $('body').on('keyup', '#sign-up-password', function() {
+	        if ($('#sign-up-password').val().length >= passwordSizeLimit) {
+	            passwordValid = true;
+	            $('#password-unavailable').hide();
+	            $('#password-available').show();
+	        } else {
+	            passwordValid = false;
+	            $('#password-available').hide();
+	        }
+	    });    
 
 	});
 

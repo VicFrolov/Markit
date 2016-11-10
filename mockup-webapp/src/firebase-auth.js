@@ -1,5 +1,4 @@
-var fb = require('./firebase.js');
-var auth = fb["auth"];
+var auth = require('./firebase.js')["auth"];
 
 auth.onAuthStateChanged(function(user) {
     if (user) {

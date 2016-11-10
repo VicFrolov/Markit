@@ -3,31 +3,49 @@ package com.markit.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
-public class CardView extends AppCompatActivity {
+public class CardViewActivity extends BaseActivity {
 
     private boolean loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("CREATING CARD VIEW ACTIVITY");
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_view);
+        super.setContentView(R.layout.activity_card_view);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
+        hubPicture.setImageResource(R.drawable.sample_lmu_photo);
+        hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CardView.this, Profile.class));
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                startActivity(new Intent(CardViewActivity.this, Profile.class));
+            }
+        });
+
+
+
+        FloatingActionButton notifications = (FloatingActionButton) findViewById(R.id.notifications_button);
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = CardViewActivity.super.getDrawerLayout();
+                drawer.openDrawer(GravityCompat.END);
+                CardViewActivity.super.openNavDrawer();
             }
         });
     }
@@ -51,7 +69,7 @@ public class CardView extends AppCompatActivity {
             return true;
         }
         if (id == R.id.profile) {
-            startActivity(new Intent(CardView.this, Profile.class));
+            startActivity(new Intent(CardViewActivity.this, Profile.class));
             return true;
         }
         if (id == R.id.watching) {
@@ -61,19 +79,16 @@ public class CardView extends AppCompatActivity {
             return true;
         }
         if (id == R.id.edit_tags) {
-            Intent tagPage = new Intent(CardView.this, Profile.class);
+            Intent tagPage = new Intent(CardViewActivity.this, Profile.class);
             tagPage.putExtra("ARG_SECTION_NUMBER", 2);
             startActivity(tagPage);
             return true;
         }
         if (id == R.id.new_listing) {
-            startActivity(new Intent(CardView.this, NewListing.class));
+            startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
-        if (id == R.id.notifications) {
-            startActivity(new Intent(CardView.this, Notifications.class));
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
