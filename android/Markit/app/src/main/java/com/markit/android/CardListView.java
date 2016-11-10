@@ -1,81 +1,92 @@
-import android.support.v7.app.AppCompatActivity;
+import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.firebase.client.core.Context;
-import com.markit.android.RecyclerAdapter;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 
 public class CardListView extends AppCompatActivity {
-    private ArrayList<Item> items = new ArrayList<>();
-    private DatabaseReference itemDatabase;
-    private static RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    static View.OnClickListener myOnClickListener;
+    DatabaseReference db;
+    FirebaseHelper helper;
+    Adapter adapter;
+    RecyclerView rv;
+    EditText titleEditText;
+    EditText priceEditText;
+    EditText uidEditText;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_list_view);
-        RecyclerView cardList = (RecyclerView) findViewById(R.id.card_list_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        cardList.setLayoutManager(layoutManager);
-
-        myOnClickListener = new MyOnClickListener(this);
-
-        itemDatabase = FirebaseDatabase.getInstance().getReference().child("itemsByHub");
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("itemsByHub");
-        ValueEventListener itemListener = new ValueEventListener() {
+        setContentView(R.layout.activity_card_view);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        
+        rv = (RecyclerView) findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        
+        db = FirebaseDatabase.getInstance().getReference();
+        helper = new FirebaseHelper(db);
+        
+        adapter = new RecyclerAdapter(this, helper.retrieve());
+        rv.setAdapter(adapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot items : dataSnapshot.child("Loyola Marymount University").getChildren()) {
-                    String title = (String) items.child("title").getValue();
-                    String price = (String) items.child("price").getValue();
-                    String username = (String) items.child("username").getValue();
+            public void onClick(View view) {
+                displayInputDialog();
+            }
+        });
+    }
+
+    private void displayInputDialog()
+    {
+        Dialog d = new Dialog(this);
+        d.setTitle("Save To Firebase");
+        d.setContentView(R.layout.input_dialog);
+       	titleEditText= (EditText) d.findViewById(R.id.titleEditText);
+        priceEditText= (EditText) d.findViewById(R.id.priceEditText);
+        uidEditText= (EditText) d.findViewById(R.id.uidEditText);
+        Button saveBtn= (Button) d.findViewById(R.id.saveBtn);
+        //SAVE
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GET DATA
+                String title = titleEditText.getText().toString();
+                String price = priceEditText.getText().toString();
+                String uid = uidEditText.getText().toString();
+                //SET DATA
+                Item i = new Item();
+                i.setTitle(title);
+                i.setPrice(price);
+                i.setuid(uid);
+                //SIMPLE VALIDATION
+                if(title != null && title.length()>0)
+                {
+                    //THEN SAVE
+                    if(helper.save(i))
+                    {
+                        //IF SAVED CLEAR EDITXT
+                        titleEditText.setText("");
+                        priceEditText.setText("");
+                        uidEditText.setText("");
+                        adapter = new RecyclerAdapter(MainActivity.this, helper.retrieve());
+                        rv.setAdapter(adapter);
+                    }
+                }else
+                {
+                    Toast.makeText(MainActivity.this, "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            ImageView photo = (ImageView) findViewById(R.id.photo);
-            TextView title = (TextView) findViewById(R.id.title);
-            TextView price = (TextView) findViewById(R.id.price);
-            TextView username = (TextView) findViewById(R.id.username);
-
-        }
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(CardListView.this, items);
-        cardList = (RecyclerView) findViewById(R.id.card_view);
-        cardList.setAdapter(recyclerAdapter);
-
-
+        });
+        d.show();
     }
-
-    public static class MyOnClickListener implements View.OnClickListener {
-        private final Context context;
-
-        private MyOnClickListener(Context context) {
-            this.context = context;
-        }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-    }
-    itemDatabase.addListenerForSingleValueEvent(itemListener);
-
 }
