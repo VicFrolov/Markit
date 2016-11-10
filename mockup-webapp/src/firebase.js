@@ -13,7 +13,7 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var itemsRef = database.ref('items/');\
+var itemsRef = database.ref('items/');
 // var itemsByHub = database.ref('itemsByHub/' + hub);
 // var itemsByUser = database.ref('itemsByUser/' + uid);
 
