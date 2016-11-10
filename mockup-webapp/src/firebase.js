@@ -13,11 +13,27 @@ firebase.initializeApp({
 
 var database = firebase.database();
 var auth = firebase.auth();
-var itemsRef = firebase.database().ref('items/');
+var itemsRef = database.ref('items/');
+// var itemsByHub = database.ref('itemsByHub/' + hub);
+// var itemsByUser = database.ref('itemsByUser/' + uid);
 
-var addListing = function (item, description, tags, price, uid) {
-    database.ref('mockup-post/').push({
-        item: item,
+var addListing = function (title, description, tags, price, hub, uid) {
+    itemsRef.push({
+        title: title,
+        description: description,
+        tags: tags,
+        price: price,
+        uid: uid
+    });
+    database.ref('itemsByHub/' + hub).push({
+        title: title,
+        description: description,
+        tags: tags,
+        price: price,
+        uid: uid
+    });
+    database.ref('itemsByUser/' + uid).push({
+        title: title,
         description: description,
         tags: tags,
         price: price,
@@ -31,6 +47,10 @@ var getListings = function (callback) {
     }, function (error) {
         console.log(error)
     });
+};
+
+var filterListings = function (keywords, hubs, tags, price_range) {
+    listingsRef.orderByChild()
 };
 
 var signIn = function (email, password) {
@@ -47,10 +67,21 @@ var createAccount = function () {
     });
 };
 
+var addHub = function (hub) {
+    database.ref('hubs/' + hub).push();
+};
+
+var addCategory = function (category) {
+    database.ref('categories/' + category).push();
+};
+
 module.exports = {
     auth,
     signIn,
     getListings,
     addListing,
+    addHub,
+    addCategory,
+    filterListings,
     createAccount
 };

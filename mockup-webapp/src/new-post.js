@@ -2,8 +2,6 @@ $(function() {
     
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
-
-
     var itemTitle;
     var itemDescription;
     var itemTags;
@@ -54,7 +52,7 @@ $(function() {
             }   
         }
         return checksPassed;
-    }
+    };
 
     var addImagesToSlider = function() {
         let imageCount = ['one', 'two', 'three', 'four'];
@@ -68,7 +66,7 @@ $(function() {
             ); 
         }
         $('.carousel.carousel-slider').carousel({full_width: true, indicators: true});
-    }
+    };
 
     $("#post-preview").click(function () {
         if (checkBasicItems()) {
@@ -91,6 +89,25 @@ $(function() {
         }
     });
 
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Loyola Marymount University": null,
+            "UCLA": null,
+            "Berkeley": 'http://placehold.it/250x250',
+            "Donglehorn University": null
+        }
+    });
+
+    $("main").on('click', '#add-listing', function (e) {
+        e.preventDefault();
+        var itemTitle = $("#item-post-title").val();
+        var itemDescription = $("#item-post-description").val();
+        var itemTags = $("#item-post-tags").val();
+        var itemPrice = $("#item-post-price").val();
+        var itemHub = $("#autocomplete-input").val();
+        var itemUid = auth.currentUser.uid;
+        console.log(itemUid);
+    });
 
     $('#back-to-preview').on('click', function (e) {
         $('#basic-info-tab').removeClass('disabled');
@@ -109,7 +126,7 @@ $(function() {
     //add listing
     $("main").on('click', '#add-listing', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemUid);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
@@ -121,32 +138,32 @@ $(function() {
     var itemTagRef = $('#itemTags');
     if (itemTagRef.length > 0) {
         itemTagRef.textext({plugins : 'tags autocomplete'})
-                .bind('getSuggestions', function(e, data){
-                    var list = [
-                            'Table',
-                            'Desk',
-                            'Computer',
-                            'Electronics',
-                            'iPhone',
-                            'Cell Phone',
-                            'Apple',
-                            'Macbook',
-                            'Chair',
-                            'Leather',
-                            'Clothing',
-                            'Bedroom',
-                            'Bathroom',
-                            'Couch',
-                            'Kitchen',
-                            'Living Room',
-                            'Dinner Table'
-                        ],
-                        textext = $(e.target).textext()[0],
-                        query = (data ? data.query : '') || '';
+            .bind('getSuggestions', function(e, data){
+                var list = [
+                        'Table',
+                        'Desk',
+                        'Computer',
+                        'Electronics',
+                        'iPhone',
+                        'Cell Phone',
+                        'Apple',
+                        'Macbook',
+                        'Chair',
+                        'Leather',
+                        'Clothing',
+                        'Bedroom',
+                        'Bathroom',
+                        'Couch',
+                        'Kitchen',
+                        'Living Room',
+                        'Dinner Table'
+                    ],
+                    textext = $(e.target).textext()[0],
+                    query = (data ? data.query : '') || '';
 
-                    $(this).trigger('setSuggestions',{
-                        result : textext.itemManager().filter(list, query) }
-                    );
+                $(this).trigger('setSuggestions',{
+                    result : textext.itemManager().filter(list, query) }
+                );
         });
     }
 
@@ -165,7 +182,7 @@ $(function() {
                         result : textext.itemManager().filter(list, query) }
                     );
         });
-    }    
+    }; 
 
 
     /**
@@ -243,9 +260,5 @@ $(function() {
 
     $('#cancel-hub').on('click', function() {
         $('#hub-popup').fadeOut();
-    })
-        
-
-    
-
+    });
 });
