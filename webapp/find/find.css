@@ -148,3 +148,9 @@ html, body {
     width: 23.5%;
     height: 85%;
 }
+
+@media screen and (max-width: 993px) {
+    #find-favorite-panel {
+        display: none;
+    }
+}
