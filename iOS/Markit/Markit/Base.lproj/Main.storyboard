@@ -1076,7 +1076,7 @@
                                 <color key="backgroundColor" red="0.2666666667" green="0.54117647059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1098,7 +1098,7 @@
                                 <color key="backgroundColor" red="0.2666666667" green="0.54117647059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1308,30 +1308,112 @@
                         <outlet property="markedHub" destination="Qgb-aO-V29" id="nKx-aJ-ZuK"/>
                         <outlet property="markedUsername" destination="5d2-jr-IEp" id="NMS-l6-C3c"/>
                         <outlet property="username" destination="BcZ-fh-7tl" id="QaD-LT-dGs"/>
-                        <segue destination="DbP-Rm-Qih" kind="show" identifier="successCreateAccount" id="sTE-7j-1Tp"/>
+                        <segue destination="b2R-7H-qz5" kind="show" identifier="successCreateAccount" id="JBk-kr-tPL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3253.5999999999999" y="2399.5502248875564"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="SLS-eY-RqE">
+        <!--Profile View Controller-->
+        <scene sceneID="ErA-Yd-UnZ">
             <objects>
-                <viewController id="DbP-Rm-Qih" sceneMemberID="viewController">
+                <viewController id="b2R-7H-qz5" customClass="ProfileViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ppD-Ie-f5y"/>
-                        <viewControllerLayoutGuide type="bottom" id="TCG-OL-duH"/>
+                        <viewControllerLayoutGuide type="top" id="EJP-tW-8N1"/>
+                        <viewControllerLayoutGuide type="bottom" id="4tR-ds-QOY"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="H2W-Tg-LBk">
+                    <view key="view" contentMode="scaleToFill" id="QYF-8O-tXJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qrf-6I-nAj">
+                                <connections>
+                                    <segue destination="N9Q-xA-oth" kind="embed" id="zcS-2B-uDN"/>
+                                </connections>
+                            </containerView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0G1-Lm-HyH"/>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Qrf-6I-nAj" secondAttribute="trailing" id="Fxp-T9-nh3"/>
+                            <constraint firstItem="Qrf-6I-nAj" firstAttribute="leading" secondItem="QYF-8O-tXJ" secondAttribute="leading" id="KP4-us-Z4A"/>
+                            <constraint firstItem="0G1-Lm-HyH" firstAttribute="top" secondItem="EJP-tW-8N1" secondAttribute="bottom" constant="69" id="Ztm-eC-g2d"/>
+                            <constraint firstItem="Qrf-6I-nAj" firstAttribute="top" secondItem="EJP-tW-8N1" secondAttribute="bottom" constant="49" id="bW1-6w-WrL"/>
+                            <constraint firstItem="4tR-ds-QOY" firstAttribute="top" secondItem="Qrf-6I-nAj" secondAttribute="bottom" constant="60" id="dps-J0-8Ly"/>
+                            <constraint firstItem="0G1-Lm-HyH" firstAttribute="centerX" secondItem="Qrf-6I-nAj" secondAttribute="centerX" id="myM-VJ-ppZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="Qrf-6I-nAj" id="VKE-Ib-hQN"/>
+                        <outlet property="pageControl" destination="0G1-Lm-HyH" id="t4v-lw-09K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hTU-4M-TLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4167" y="2400"/>
+        </scene>
+        <!--Profile Page View Controller-->
+        <scene sceneID="7Jw-cG-5Dj">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="N9Q-xA-oth" customClass="ProfilePageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sop-L8-akk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4970" y="2342"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="5lh-d1-X7y">
+            <objects>
+                <viewController storyboardIdentifier="WatchListPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V2O-0Q-c9c" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5vC-J5-e4i"/>
+                        <viewControllerLayoutGuide type="bottom" id="A7p-rz-UnR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Aso-f3-vxC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.99108141660000004" green="0.94010901449999995" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qs2-Fb-9EW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TWY-VV-Wwn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3972" y="2015"/>
+            <point key="canvasLocation" x="5767" y="2400"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="aMl-UB-bfs">
+            <objects>
+                <viewController storyboardIdentifier="TagPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tUG-9i-sI1" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0BX-BH-IY6"/>
+                        <viewControllerLayoutGuide type="bottom" id="JbW-Zl-WdU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2oR-OU-g0W">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.65712041440000002" green="0.092114779250000001" blue="0.0083377800519999993" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mz1-Lq-vZe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5766" y="3092"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="E3D-0K-hTv">
+            <objects>
+                <viewController storyboardIdentifier="ProfilePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8dy-Tk-9V3" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RWI-OK-aeK"/>
+                        <viewControllerLayoutGuide type="bottom" id="9JD-NX-dgI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2pL-8I-JwU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sBD-th-yD0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5766" y="1655"/>
         </scene>
         <!--Account Login View Controller-->
         <scene sceneID="Vry-9N-IOP">
@@ -1358,7 +1440,7 @@
                                 <color key="backgroundColor" red="0.2666666667" green="0.54117647059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1381,7 +1463,7 @@
                                 <color key="backgroundColor" red="0.2666666667" green="0.54117647059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="5"/>
@@ -1428,7 +1510,7 @@
                         <outlet property="checkedPassword" destination="okH-yT-rl4" id="qyS-Og-Rgu"/>
                         <outlet property="emailTextField" destination="5Ns-Wg-8BX" id="XJ9-op-DvD"/>
                         <outlet property="passwordTextField" destination="Tlg-aN-MYG" id="zeZ-OR-oVS"/>
-                        <segue destination="DbP-Rm-Qih" kind="showDetail" identifier="userLoggedIn" id="p80-fq-MMt"/>
+                        <segue destination="b2R-7H-qz5" kind="show" identifier="userLoggedIn" id="LWp-3N-5dv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aep-1D-5vC" userLabel="First Responder" sceneMemberID="firstResponder"/>

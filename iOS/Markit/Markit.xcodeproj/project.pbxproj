@@ -12,6 +12,8 @@
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
+		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
+		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
 		381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 381C21A91D8D125500657D9D /* Assets.xcassets */; };
 		381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */; };
@@ -42,6 +44,8 @@
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
+		34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
 		381C21A91D8D125500657D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListingTableViewController.swift; sourceTree = "<group>"; };
@@ -134,9 +138,11 @@
 				3832CC511D98677300536451 /* AddPriceViewController.swift */,
 				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
+				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
 				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
+				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
 				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
@@ -308,7 +314,9 @@
 				129C2E991DAB1BFF00129143 /* Item.swift in Sources */,
 				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
+				34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
+				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
 				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
 				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
