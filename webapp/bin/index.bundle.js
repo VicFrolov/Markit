@@ -999,13 +999,10 @@
 	    var auth = __webpack_require__(2)["auth"];
 
 	    auth.onAuthStateChanged(function(user) {
-	        console.log('this ran')
 	        if (user) {
-	            console.log("and the logged in portion ran")
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
 	        } else {
-	            console.log('and the logged OUT portion ran');
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
 	        }
