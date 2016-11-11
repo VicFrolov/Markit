@@ -25,6 +25,7 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "firebase": "^3.5.2"
+    "firebase": "^3.5.2",
+    "wnumb": "^1.0.4"
   }
 }

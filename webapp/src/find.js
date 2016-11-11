@@ -1,17 +1,34 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
+    var wNumb = require('wNumb');
+    var auth = require('./firebase.js')["auth"];
+
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            $("#find-favorite-logged-in").css('display', 'block');
+            $("#find-favorite-logged-out").css('display', 'none');
+        } else {
+            $("#find-favorite-logged-in").css('display', 'none');
+            $("#find-favorite-logged-out").css('display', 'block');
+        }
+    });    
 
     var slider = $("#search-slider");
     if (slider.length > 0) {
         
         noUiSlider.create(slider[0], {
-            start: [50, 1500],
+            start: [1, 500],
             connect: true,
             step: 1,
             tooltips: true,
+            format: wNumb({
+                decimals: 0,
+                thousand: ',',
+                prefix: '$',
+            }),
             range: {
-                'min': 0,
-                'max': 5000
+                'min': 1,
+                'max': 3000
             }
         });
     }
@@ -24,7 +41,7 @@ $(function() {
             var currentItem = currentItems[item];
             var currentImage = imageSwitcher ? 
                 "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
-                "./iphone-sample.jpg"
+                "./iphone-sample.jpg";
             imageSwitcher = !imageSwitcher;
 
             $("#find-content").append(
@@ -80,8 +97,28 @@ $(function() {
         };
     };
 
+
     $("#find-search-button").click(function () {
         getListings(newListing);
+    });
+
+
+    $('body').on('mouseenter', '.find-result-favorite-image', function() {
+        $(this).attr('src', '../media/ic_heart_hover.png');
+        $(this).css('opacity', '0.7');
+    }).on('mouseout', '.find-result-favorite-image', function() {
+        if (!this.favorited) {
+            $(this).attr('src', '../media/ic_heart.png');
+            $(this).css('opacity', '0.3');
+        }
+    }).on('click', '.find-result-favorite-image', function() {
+        this.favorited = this.favorited || false;
+        if (!this.favorited) {
+            $(this).attr('src', '../media/ic_heart_hover.png');
+        } else {
+            $(this).attr('src', '../media/ic_heart.png');
+        }
+        this.favorited = !this.favorited;
     });
 
 });
