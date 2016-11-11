@@ -1,6 +1,20 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var wNumb = require('wNumb');
+    var auth = require('./firebase.js')["auth"];
+
+    auth.onAuthStateChanged(function(user) {
+        console.log('this ran')
+        if (user) {
+            console.log("and the logged in portion ran")
+            $("#find-favorite-logged-in").css('display', 'block');
+            $("#find-favorite-logged-out").css('display', 'none');
+        } else {
+            console.log('and the logged OUT portion ran');
+            $("#find-favorite-logged-in").css('display', 'none');
+            $("#find-favorite-logged-out").css('display', 'block');
+        }
+    });    
 
     var slider = $("#search-slider");
     if (slider.length > 0) {
@@ -30,7 +44,7 @@ $(function() {
             var currentItem = currentItems[item];
             var currentImage = imageSwitcher ? 
                 "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
-                "./iphone-sample.jpg"
+                "./iphone-sample.jpg";
             imageSwitcher = !imageSwitcher;
 
             $("#find-content").append(

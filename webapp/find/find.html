@@ -45,25 +45,23 @@
       <div class="row">
         <div id="find-content" class="col l9 m12 s12 z-depth-1">
           <div id="find-content-presearch">
-            <img id="find-search-image" src="../media/ic_search.png"></img>
+            <img id="find-search-image" src="../media/ic_search.png">
             <h6> Please enter some search criteria to see some results. <br><br>Only The Hub field is required, and you can add up to 3 hubs.</h6>
           </div>
         </div>
       </div>
-
-        <div class="z-depth-1" id="find-favorite-panel">
-          <!-- logged out -->
-<!--           <div id="find-favorite-logged-out">
-            <img id="find-search-image" src="../media/ic_id.png"></img>
-            <h6> Sign in to see your favorite items and tags.</h6>
-          </div>
-        </div> -->
+      <div class="z-depth-1" id="find-favorite-panel">
+        <!-- logged out -->
+        <div id="find-favorite-logged-out">
+          <img id="find-search-image" src="../media/ic_id.png" alt="profileicon">
+          <h6> Sign in to see your favorite items and tags.</h6>
+        </div>
         <!-- logged in -->
-        <div class="row">
+        <div class="row" id="find-favorite-logged-in">
           <div class="col s12">
             <ul class="tabs">
               <li class="tab col s6"><a href="#profile-favorites">Favorites</a></li>
-              <li class="tab col s6"><a class="active" href="#profile-tags">Tags</a></li>
+              <li class="tab col s6"><a href="#profile-tags">Tags</a></li>
             </ul>
           </div>
           <div id="profile-favorites" class="col s12">list of favorited items</div>
@@ -72,6 +70,7 @@
             all the relevant items you are tracking :)
           </div>
         </div>
+      </div>
     </main>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
