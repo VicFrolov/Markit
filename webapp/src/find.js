@@ -17,7 +17,7 @@ $(function() {
             }),
             range: {
                 'min': 1,
-                'max': 5000
+                'max': 3000
             }
         });
     }
@@ -96,8 +96,18 @@ $(function() {
         $(this).attr('src', '../media/ic_heart_hover.png');
         $(this).css('opacity', '0.7');
     }).on('mouseout', '.find-result-favorite-image', function() {
-        $(this).attr('src', '../media/ic_heart.png');
-        $(this).css('opacity', '0.3');
+        if (!this.favorited) {
+            $(this).attr('src', '../media/ic_heart.png');
+            $(this).css('opacity', '0.3');
+        }
+    }).on('click', '.find-result-favorite-image', function() {
+        this.favorited = this.favorited || false;
+        if (!this.favorited) {
+            $(this).attr('src', '../media/ic_heart_hover.png');
+        } else {
+            $(this).attr('src', '../media/ic_heart.png');
+        }
+        this.favorited = !this.favorited;
     });
 
 });
