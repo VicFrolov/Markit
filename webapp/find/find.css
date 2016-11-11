@@ -135,3 +135,16 @@ html, body {
     text-align: center;
     opacity: 0.6;
 }
+
+
+/*find right panel (favorites*/
+
+#find-favorite-panel {
+    background-color: #fff;
+    color: #eee;
+    position: fixed;
+    top: 84px;
+    right: 10px;
+    width: 23.5%;
+    height: 85%;
+}

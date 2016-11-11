@@ -1103,7 +1103,6 @@
 	            $(this).attr('src', '../media/ic_heart.png');
 	        }
 	        this.favorited = !this.favorited;
-	        console.log($(this))
 	    });
 
 	});
