@@ -1,5 +1,5 @@
 $(function() {
-    $('.slider').slider();
+    // $('.slider').slider();
     $('ul.tabs').tabs();
 
     /**

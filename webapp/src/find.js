@@ -1,16 +1,22 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
+    var wNumb = require('wNumb');
 
     var slider = $("#search-slider");
     if (slider.length > 0) {
         
         noUiSlider.create(slider[0], {
-            start: [50, 1500],
+            start: [1, 500],
             connect: true,
             step: 1,
             tooltips: true,
+            format: wNumb({
+                decimals: 0,
+                thousand: ',',
+                prefix: '$',
+            }),
             range: {
-                'min': 0,
+                'min': 1,
                 'max': 5000
             }
         });
@@ -80,8 +86,18 @@ $(function() {
         };
     };
 
+
     $("#find-search-button").click(function () {
         getListings(newListing);
+    });
+
+
+    $('body').on('mouseenter', '.find-result-favorite-image', function() {
+        $(this).attr('src', '../media/ic_heart_hover.png');
+        $(this).css('opacity', '0.7');
+    }).on('mouseout', '.find-result-favorite-image', function() {
+        $(this).attr('src', '../media/ic_heart.png');
+        $(this).css('opacity', '0.3');
     });
 
 });
