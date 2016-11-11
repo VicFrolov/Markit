@@ -52,9 +52,24 @@
       </div>
 
         <div class="z-depth-1" id="find-favorite-panel">
-          <div id="find-favorite-logged-out">
+          <!-- logged out -->
+<!--           <div id="find-favorite-logged-out">
             <img id="find-search-image" src="../media/ic_id.png"></img>
             <h6> Sign in to see your favorite items and tags.</h6>
+          </div>
+        </div> -->
+        <!-- logged in -->
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s6"><a href="#profile-favorites">Favorites</a></li>
+              <li class="tab col s6"><a class="active" href="#profile-tags">Tags</a></li>
+            </ul>
+          </div>
+          <div id="profile-favorites" class="col s12">list of favorited items</div>
+          <div id="profile-tags" class="col s12">
+            list of tags with red number. when clicked will display
+            all the relevant items you are tracking :)
           </div>
         </div>
     </main>
