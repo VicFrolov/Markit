@@ -141,16 +141,21 @@ html, body {
 
 #find-favorite-panel {
     background-color: #fff;
-    color: #eee;
     position: fixed;
     top: 84px;
     right: 10px;
     width: 23.5%;
-    height: 85%;
+    height: 84.5%;
 }
 
 @media screen and (max-width: 993px) {
     #find-favorite-panel {
         display: none;
     }
+}
+
+#find-favorite-logged-out {
+    margin-top: 50%;
+    text-align: center;
+    opacity: 0.6;
 }
