@@ -33,6 +33,8 @@ $(function() {
         });
     }
 
+
+
     var newListing = function(currentItems) {
         var imageSwitcher = true;
         $("#find-content").empty();
@@ -43,7 +45,7 @@ $(function() {
                 "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
                 "./iphone-sample.jpg";
             imageSwitcher = !imageSwitcher;
-
+            console.log("test");
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
                     $("<div></div>").addClass("card find-result hoverable").append(
@@ -97,12 +99,26 @@ $(function() {
         };
     };
 
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'http://placehold.it/250x250'
+        }
+    });
 
     $("#find-search-button").click(function () {
+        query = "key=";
+        keywords = $("#item-post-title").val();
+        keywords = $("#item-post-title").val();
+        
+        query += keywords === "" ? "none" : "" + keywords;
+        location.hash = query;
         getListings(newListing);
     });
 
 
+    // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {
         $(this).attr('src', '../media/ic_heart_hover.png');
         $(this).css('opacity', '0.7');
