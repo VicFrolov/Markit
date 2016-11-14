@@ -9,36 +9,55 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class NewListing extends AppCompatActivity {
     final int CAMERA_REQUEST = 1888;
-    TextView mTitleButton;
-    TextView mDescriptionButton;
-    TextView mPriceButton;
-    TextView mImageButton;
-    static final String TAGS = "mikesmessage";
+    Button mTitleButton;
+    Button mDescriptionButton;
+    Button mPriceButton;
+    Button mImageButton;
+    DatabaseReference mdatabase;
+    //DatabaseReference itemsRef;
+    FirebaseUser user;
+
+    static final String TAGS = "mikesMessage";
 
     EditText mTitleEdit;
     EditText mDescriptionEdit;
     EditText mPriceEdit;
     ImageView mImage;
+    Button mPostButton;
     //Matrix mImageMatrix;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_listing);
 
-        mTitleButton = (TextView) findViewById(R.id.add_title_TV);
+        Firebase.setAndroidContext(this);
+
+        mdatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        //writeNewListing("Big Bat", "2 pesos", "its fuckin sweet kehd", user.getUid(), "bat", "Loyola Marymount University");
+
+        mTitleButton = (Button) findViewById(R.id.add_title_TV);
         mTitleEdit = (EditText) findViewById(R.id.add_title_ET);
-        mDescriptionButton = (TextView) findViewById(R.id.add_description_TV);
+        mDescriptionButton = (Button) findViewById(R.id.add_description_TV);
         mDescriptionEdit = (EditText) findViewById(R.id.add_description_ET);
-        mPriceButton = (TextView) findViewById(R.id.price_TV);
+        mPriceButton = (Button) findViewById(R.id.price_TV);
         mPriceEdit = (EditText) findViewById(R.id.price_ET);
-        mImageButton = (TextView) findViewById(R.id.add_photo);
+        mImageButton = (Button) findViewById(R.id.add_photo);
         mImage = (ImageView) findViewById(R.id.imageView);
+        mPostButton = (Button) findViewById(R.id.post_listing);
         //mImageMatrix = new Matrix();
         Log.i(TAGS, "onCreate");
 
@@ -125,7 +144,86 @@ public class NewListing extends AppCompatActivity {
             }
         });
 
+        mPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTitleButton.getText().toString().equalsIgnoreCase("Add Title")) {
+                    Toast.makeText(NewListing.this, "No Title Added", Toast.LENGTH_LONG).show();
+
+                } else if (mPriceButton.getText().toString().equalsIgnoreCase("Price")) {
+                    Toast.makeText(NewListing.this, "No Price Added", Toast.LENGTH_LONG).show();
+
+                } else if (mDescriptionButton.getText().toString().equalsIgnoreCase("Add Description")) {
+                    Toast.makeText(NewListing.this, "No Description Added", Toast.LENGTH_LONG).show();
+                } else {
+                    String title = mTitleButton.getText().toString();
+                    String price = mPriceButton.getText().toString();
+                    String description = mDescriptionButton.getText().toString();
+                    String tags = "truck";
+                    writeNewListing(title, price, description, user.getUid(), tags, "Loyola Marymount University");
+                }
+
+            }
+        });
     }
+
+    //Constructor for a new listing, very simple right now.
+    public class Listing {
+
+        public String title;
+        public String description;
+        public String price;
+        public String uID;
+        public String tags;
+
+
+        public Listing()   {
+            //Default constructor for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public Listing(String title, String price, String description, String uID, String tags) {
+            this.title = title;
+            this.price = price;
+            this.description = description;
+            this.uID = uID;
+            this.tags = tags;
+        }
+    }
+
+    // very ugly way of doing it but only way I could find to post to all three, would not let me push an object
+    public void writeNewListing (String title, String price, String description, String uID, String tags, String hub) {
+        Listing listing1 = new Listing(title, price, description, uID, tags);
+        DatabaseReference myPostRef = mdatabase.child("items").push();
+        String myPostKey = myPostRef.getKey();
+        mdatabase.child("items").child(myPostKey).child("title").setValue(listing1.title);
+        mdatabase.child("items").child(myPostKey).child("description").setValue(listing1.description);
+        mdatabase.child("items").child(myPostKey).child("tags").setValue(listing1.tags);
+        mdatabase.child("items").child(myPostKey).child("price").setValue(listing1.price);
+        mdatabase.child("items").child(myPostKey).child("uid").setValue(listing1.uID);
+
+        myPostRef = mdatabase.child("itemsByHub").child(hub).push();
+        myPostKey = myPostRef.getKey();
+
+        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("title").setValue(listing1.title);
+        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("description").setValue(listing1.description);
+        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("tags").setValue(listing1.tags);
+        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("price").setValue(listing1.price);
+        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("uid").setValue(listing1.uID);
+
+        myPostKey = uID;
+
+        mdatabase.child("itemsByUser").child(myPostKey).child("title").setValue(listing1.title);
+        mdatabase.child("itemsByUser").child(myPostKey).child("description").setValue(listing1.description);
+        mdatabase.child("itemsByUser").child(myPostKey).child("tags").setValue(listing1.tags);
+        mdatabase.child("itemsByUser").child(myPostKey).child("price").setValue(listing1.price);
+        mdatabase.child("itemsByUser").child(myPostKey).child("uid").setValue(listing1.uID);
+
+
+
+
+    }
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -138,4 +236,5 @@ public class NewListing extends AppCompatActivity {
             mImage.setVisibility(View.VISIBLE);
         }
     }
+
 }
