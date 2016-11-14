@@ -1,0 +1,16 @@
+html, body {
+  font-family: "Oxygen", sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+
+/*Launch page*/
+
+.profile-dropdown-icon {
+    padding-left: -100px;
+}
+
+.slider .indicators {
+    display: none;
+}
