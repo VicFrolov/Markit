@@ -1,0 +1,32 @@
+body {
+    background-color: #eee;
+}
+
+.container {
+    width: 80%;
+    margin-top: 20px;
+}
+
+#detailed-item-card {
+    background-color: #fff;
+    
+    padding-left: 0px;
+}
+
+#detailed-item-card > .col:first-of-type {
+    padding: 0px;
+}
+
+.col .carousel {
+    height: 500px;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 100%;
+        margin-top: 0px;
+    }
+
+}

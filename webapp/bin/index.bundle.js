@@ -48,7 +48,8 @@
 	__webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
-	module.exports = __webpack_require__(10);
+	__webpack_require__(10);
+	module.exports = __webpack_require__(11);
 
 
 /***/ },
@@ -1632,6 +1633,14 @@
 	        }
 	    });    
 
+	});
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	$(function() {
+	    $('.carousel.carousel-slider').carousel({full_width: true});
 	});
 
 /***/ }

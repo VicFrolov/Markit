@@ -5,7 +5,8 @@ module.exports = {
             './src/navbar-login', 
             './src/new-post.js',
             './src/find.js',
-            './src/navbar-signup.js'
+            './src/navbar-signup.js',
+            './src/detailed-view.js'
         ]
      },
      output: {
