@@ -48,30 +48,34 @@
 	__webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
-	module.exports = __webpack_require__(10);
+	__webpack_require__(10);
+	module.exports = __webpack_require__(11);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var auth = __webpack_require__(2)["auth"];
+	$(function() {
+	    var auth = __webpack_require__(2)["auth"];
 
-	auth.onAuthStateChanged(function(user) {
-	    if (user) {
-	        console.log('user is signed in');
-	        $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
-	            $(".dropdown-button").dropdown();
-	            $("#navbar-logout-button").click(function () {
-	                auth.signOut();
-	            })
-	        });
-	    } else {
-	        console.log('user is NOT signed in');
-	        $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
-	            $(".dropdown-button").dropdown();
-	        });
-	    }
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            console.log('user is signed in');
+	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+	                $(".dropdown-button").dropdown();
+	                $("#navbar-logout-button").click(function () {
+	                    auth.signOut();
+	                })
+	            });
+	        } else {
+	            console.log('user is NOT signed in');
+	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
+	                $(".dropdown-button").dropdown();
+	            });
+	        }
+	    });
+
 	});
 
 /***/ },
@@ -815,26 +819,6 @@
 	        }
 	    });
 
-	    $('input.autocomplete').autocomplete({
-	        data: {
-	            "Loyola Marymount University": null,
-	            "UCLA": null,
-	            "Berkeley": 'http://placehold.it/250x250',
-	            "Donglehorn University": null
-	        }
-	    });
-
-	    $("main").on('click', '#add-listing', function (e) {
-	        e.preventDefault();
-	        var itemTitle = $("#item-post-title").val();
-	        var itemDescription = $("#item-post-description").val();
-	        var itemTags = $("#item-post-tags").val();
-	        var itemPrice = $("#item-post-price").val();
-	        var itemHub = $("#autocomplete-input").val();
-	        var itemUid = auth.currentUser.uid;
-	        console.log(itemUid);
-	    });
-
 	    $('#back-to-preview').on('click', function (e) {
 	        $('#basic-info-tab').removeClass('disabled');
 	        $('ul.tabs').tabs('select_tab', 'basic-info');
@@ -1028,6 +1012,8 @@
 	        });
 	    }
 
+
+
 	    var newListing = function(currentItems) {
 	        var imageSwitcher = true;
 	        $("#find-content").empty();
@@ -1038,7 +1024,7 @@
 	                "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
 	                "./iphone-sample.jpg";
 	            imageSwitcher = !imageSwitcher;
-
+	            console.log("test");
 	            $("#find-content").append(
 	                $("<div></div>").addClass("col l4 m4 s12").append(
 	                    $("<div></div>").addClass("card find-result hoverable").append(
@@ -1092,12 +1078,26 @@
 	        };
 	    };
 
+	    $('input.autocomplete').autocomplete({
+	        data: {
+	            "Apple": null,
+	            "Microsoft": null,
+	            "Google": 'http://placehold.it/250x250'
+	        }
+	    });
 
 	    $("#find-search-button").click(function () {
+	        query = "key=";
+	        keywords = $("#item-post-title").val();
+	        keywords = $("#item-post-title").val();
+	        
+	        query += keywords === "" ? "none" : "" + keywords;
+	        location.hash = query;
 	        getListings(newListing);
 	    });
 
 
+	    // favorite icon highlight/changes
 	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
 	        $(this).attr('src', '../media/ic_heart_hover.png');
 	        $(this).css('opacity', '0.7');
@@ -1636,6 +1636,14 @@
 	        }
 	    });    
 
+	});
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	$(function() {
+	    $('.carousel.carousel-slider').carousel({full_width: true});
 	});
 
 /***/ }
