@@ -51,7 +51,7 @@ $(function() {
                 }
             }   
         }
-        
+
         return checksPassed;
     };
 
@@ -106,7 +106,7 @@ $(function() {
 
 
     //add listing
-    $("main").on('click', '#add-listing', function (e) {
+    $("main").on('click', '#submit-post', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
             addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages[0]);
             $("main").text("Item has been Posted :)");

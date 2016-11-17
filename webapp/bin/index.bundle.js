@@ -102,7 +102,7 @@
 	var itemsRef = database.ref('items/');
 
 	//testing yo
-	var imageNewItemRef = firebase.storage().ref("images/itemImages");
+	var imageNewItemRef = firebase.storage().ref();
 	//end testing yo
 
 	// var itemsByHub = database.ref('itemsByHub/' + hub);
@@ -131,8 +131,41 @@
 	        uid: uid
 	    });
 	    
-	    var fileUpload = images;
+	    var nameTest = "image1";
+	    var uploadTask = imageNewItemRef.child('images/' + 'image1').put(images[0]);
 
+	    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+	      function(snapshot) {
+	        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+	        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	        console.log('Upload is ' + progress + '% done');
+	        switch (snapshot.state) {
+	          case firebase.storage.TaskState.PAUSED: // or 'paused'
+	            console.log('Upload is paused');
+	            break;
+	          case firebase.storage.TaskState.RUNNING: // or 'running'
+	            console.log('Upload is running');
+	            break;
+	        }
+	      }, function(error) {
+	      switch (error.code) {
+	        case 'storage/unauthorized':
+	          // User doesn't have permission to access the object
+	          break;
+
+	        case 'storage/canceled':
+	          // User canceled the upload
+	          break;
+
+	        case 'storage/unknown':
+	          // Unknown error occurred, inspect error.serverResponse
+	          break;
+	      }
+	    }, function() {
+	      // Upload completed successfully, now we can get the download URL
+	      var downloadURL = uploadTask.snapshot.downloadURL;
+	      console.log(downloadURL);
+	    });
 	};
 
 	var getListings = function (callback) {
@@ -904,7 +937,6 @@
 	            }   
 	        }
 
-	        console.log(itemImages[0].name);
 	        return checksPassed;
 	    };
 
@@ -959,7 +991,7 @@
 
 
 	    //add listing
-	    $("main").on('click', '#add-listing', function (e) {
+	    $("main").on('click', '#submit-post', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
 	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages[0]);
 	            $("main").text("Item has been Posted :)");
