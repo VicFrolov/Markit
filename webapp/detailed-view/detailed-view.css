@@ -8,8 +8,7 @@ body {
 }
 
 #detailed-item-card {
-    background-color: #fff;
-    
+    background-color: #eee;
     padding-left: 0px;
 }
 
@@ -21,6 +20,21 @@ body {
     height: 500px;
 }
 
+#item-seller-info .col {
+    height: 300px;
+}
+
+#item-info {
+    background-color: #00ff00;
+    width: 60%;
+    margin-right: 2%;
+}
+
+#seller-info {
+    background-color: #ff0000;
+    width: 38%;
+}
+
 @media (max-width: 1000px) {
     .container {
         margin-left: 0px;
@@ -29,4 +43,12 @@ body {
         margin-top: 0px;
     }
 
+    #item-info {
+        width: 100%;
+        margin-right: 0px;
+    }
+
+    #seller-info {
+        width: 100%;
+    }
 }
