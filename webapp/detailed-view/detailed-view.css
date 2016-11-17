@@ -19,6 +19,7 @@ body {
     height: 500px;
     max-height: 500px;
     position: relative;
+    border-radius: 20px;
 }
 
 #item-price {
@@ -57,6 +58,10 @@ body {
     position: absolute;
     left: 10px;
     bottom: 10px;
+}
+
+#item-description {
+    margin-left: 10px;
 }
 
 #user-stars {
