@@ -51,6 +51,7 @@ $(function() {
                 }
             }   
         }
+        
         return checksPassed;
     };
 
@@ -103,10 +104,11 @@ $(function() {
         $('#carousel-wrapper').empty();
     });
 
+
     //add listing
     $("main").on('click', '#add-listing', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages[0]);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");

@@ -1,6 +1,7 @@
 var firebase = require('firebase/app');
 require('firebase/auth');
-require('firebase/database');
+require('firebase/database')
+require('firebase/storage');
 
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
@@ -14,10 +15,15 @@ firebase.initializeApp({
 var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
+
+//testing yo
+var imageNewItemRef = firebase.storage().ref("images/itemImages/");
+//end testing yo
+
 // var itemsByHub = database.ref('itemsByHub/' + hub);
 // var itemsByUser = database.ref('itemsByUser/' + uid);
 
-var addListing = function (title, description, tags, price, hub, uid) {
+var addListing = function (title, description, tags, price, hub, uid, images) {
     itemsRef.push({
         title: title,
         description: description,
@@ -39,6 +45,8 @@ var addListing = function (title, description, tags, price, hub, uid) {
         price: price,
         uid: uid
     });
+    
+
 };
 
 var getListings = function (callback) {
