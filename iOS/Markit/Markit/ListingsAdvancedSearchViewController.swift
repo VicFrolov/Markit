@@ -16,34 +16,41 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     //  These are for the Advanced Search scene
     let rangeSlider = MARKRangeSlider()
 //    let autocompleteTextField = MLPAutoCompleteTextField()
-    var tagRef = FIRDatabaseReference()
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
+    
+    let listingsTableViewControllerContainer = ListingsTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        advancedSearchContainerView.tags.delegate = self
-//        advancedSearchContainerView.keywords.delegate = self
-//        advancedSearchContainerView.hubs.delegate = self
+        advancedSearchContainerView.tags.delegate = self
+        advancedSearchContainerView.keywords.delegate = self
+        advancedSearchContainerView.hubs.delegate = self
+        advancedSearchContainerView.minPrice.delegate = self
+        advancedSearchContainerView.maxPrice.delegate = self
 //        autocompleteTextField.delegate = self
 //        autocompleteTextField.autoCompleteDelegate = self
 //        autocompleteTextField.autoCompleteDataSource = self
 //        autocompleteTextField.autoCompleteTableView.delegate = self
         
-//        tagRef = FIRDatabase.database().reference().child("tags")
-        
         advancedSearchContainerView.minPrice?.text = "500.00"
         advancedSearchContainerView.maxPrice?.text = "2500.00"
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
+        advancedSearchContainerView.minPrice.addTarget(self, action: #selector(didEnterMin), for: .editingDidEnd)
+        advancedSearchContainerView.maxPrice.addTarget(self, action: #selector(didEnterMax), for: .editingDidEnd)
         rangeSlider.setMinValue(0.0, maxValue: 3000.0)
         rangeSlider.setLeftValue(500.0, rightValue: 2500.0)
-        var image = UIImage(named: "slider")
-        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
-        view.addSubview(rangeSlider)
-
+//        var image = UIImage(named: "slider")
+//        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
+        
+        view.insertSubview(rangeSlider, at: 1)
+        
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(searchButtonIsPressed))
+//        tapGesture.numberOfTapsRequired = 1
+//        advancedSearchContainerView.advancedSearchButton.addGestureRecognizer(tapGesture)
     }
-    
+        
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
         let width = view.bounds.width - 2.0 * margin
@@ -58,15 +65,57 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     func autocomplete () {
         
     }
+
+//    func searchButtonIsPressed(sender: UIButton) {
+//        print("Search button is pressed")
+//        performSegue(withIdentifier: "toAdvancedSearchSegue", sender: self)
+//    }
     
+//    Lots of boiler plate code for now. Will clean up later. Also will change so previous price range is kept even with error
+    func didEnterMin (min: UITextField) {
+        print("min value recognized")
+        var minValue: CGFloat = 500.0
+        let maxValue: CGFloat = CGFloat(NumberFormatter().number(from: advancedSearchContainerView.maxPrice.text!)!)
+        if let tempMin = NumberFormatter().number(from: min.text!) {
+            minValue = CGFloat(tempMin)
+        }
+        
+        if minValue > 3000.0 || maxValue > 3000.0 {
+            minValue = 500.0
+            let alertController: UIAlertController = UIAlertController(title: "Invalid Input", message: "Please enter a price range between 0.0 and 3000.0", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(okAction)
+            present(alertController, animated: true)
+        }
+        rangeSlider.setLeftValue(minValue, rightValue: maxValue)
+    }
+    
+    func didEnterMax (max: UITextField) {
+        print("max value recognized")
+        let minValue: CGFloat = CGFloat(NumberFormatter().number(from: advancedSearchContainerView.minPrice.text!)!)
+        var maxValue: CGFloat = 2500.0
+        if let tempMax = NumberFormatter().number(from: max.text!) {
+            maxValue = CGFloat(tempMax)
+        }
+        
+        if minValue > 3000.0 || maxValue > 3000.0 {
+            maxValue = 2500.0
+            let alertController: UIAlertController = UIAlertController(title: "Invalid Input", message: "Please enter a price range between 0.0 and 3000.0", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(okAction)
+            present(alertController, animated: true)
+        }
+        rangeSlider.setLeftValue(minValue, rightValue: maxValue)
+    }
+        
 //    func textViewDidBeginEditing(_ textView: UITextView) {
 //        print("Some text here")
 //    }
-//    
+
 //    func textViewDidChange(_ textView: UITextView) {
 //        print(self.advancedSearchContainerView.tags.text)
 //    }
-    
+//    
 //    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, shouldConfigureCell cell: UITableViewCell!, withAutoComplete autocompleteString: String!, with boldedString: NSAttributedString!, forAutoComplete autocompleteObject: MLPAutoCompletionObject!, forRowAt indexPath: IndexPath!) -> Bool {
 //        print("WUUTT")
 //        return false
@@ -77,15 +126,4 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         advancedSearchContainerView.minPrice?.text = String(format: "%.2f", rangeSlider.leftValue)
         advancedSearchContainerView.maxPrice?.text = String(format: "%.2f", rangeSlider.rightValue)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

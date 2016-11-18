@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1200AFFE1DDD4BD300BAF550 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */; };
 		123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */; };
 		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MARKRangeSlider.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/MARKRangeSlider/MARKRangeSlider.framework"; sourceTree = "<group>"; };
 		1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchView.swift; sourceTree = "<group>"; };
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				381C21A91D8D125500657D9D /* Assets.xcassets */,
 				384810B71D83984400830C95 /* Main.storyboard */,
 				384810BC1D83984400830C95 /* LaunchScreen.storyboard */,
+				1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */,
 				388B46A81D8A70F200B6717E /* GoogleService-Info.plist */,
 				384810BF1D83984400830C95 /* Info.plist */,
 			);
@@ -248,6 +251,7 @@
 			files = (
 				384810BE1D83984400830C95 /* LaunchScreen.storyboard in Resources */,
 				388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */,
+				1200AFFE1DDD4BD300BAF550 /* Chat.storyboard in Resources */,
 				381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */,
 				384810B91D83984400830C95 /* Main.storyboard in Resources */,
 			);

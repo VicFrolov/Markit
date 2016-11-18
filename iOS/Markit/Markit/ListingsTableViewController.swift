@@ -11,8 +11,7 @@ import Firebase
 import SwiftyJSON
 
 class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
-    var sampleItems = ["Xbox", "Table", "Golf Clubs", "iPhone 6s Plus", "blablabla", "blebleblo"]
-    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
+    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     var ref: FIRDatabaseReference!
     var refHandle: FIRDatabaseHandle?
     var itemsRef: FIRDatabaseReference!
@@ -20,15 +19,13 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var itemsByUserRef: FIRDatabaseReference!
     var tagRef: FIRDatabaseReference!
     var userRef: FIRDatabaseReference!
-    var key: String!
     var itemList = [Item]()
     
 //  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
+    var didReceiveAdvancedSearchQuery: Bool!
     
-    @IBAction func unwindAdvancedSearch (segue: UIStoryboardSegue) {}
-
     override func viewDidLoad() {
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
@@ -38,6 +35,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef = ref.child("usernames")
         self.tagRef = ref.child("tags")
+        self.didReceiveAdvancedSearchQuery = false
         fetchItems()
         searchItems()
     }
@@ -99,7 +97,11 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                     item.label = dictionary["title"] as! String?
                 }
                 
-                item.tags = dictionary["tags"] as! String?
+                if dictionary["tags"] is String {
+                    item.tags = dictionary["tags"] as! String?
+                } else if let tags = dictionary["tags"] as? Array as [String]? {
+                    item.tags = tags.joined(separator: ", ")
+                }
                 item.desc = dictionary["description"] as! String?
                 
                 self.itemList.append(item)
@@ -113,6 +115,31 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.tableView.contentOffset = CGPoint (x: 0, y: self.searchController.searchBar.frame.size.height)
         self.tableView.reloadData()
     }
+    
+    @IBAction func cancelAdvancedSearch (segue: UIStoryboardSegue) {}
+    
+    @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
+        self.didReceiveAdvancedSearchQuery = true
+        let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
+        let minPrice = advancedSearchVC.advancedSearchContainerView.minPrice.text
+        let maxPrice = advancedSearchVC.advancedSearchContainerView.maxPrice.text
+//        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+//        var tags = advancedSearchVC.advancedSearchContainerView.tags.text
+        let keywords = advancedSearchVC.advancedSearchContainerView.keywords.text
+        
+        self.filteredItems = itemList.filter { item in
+            let keywordQuery = item.label!.lowercased().contains((keywords?.lowercased())!)
+//            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
+//            let tagsQuery = item.tags!.lowercased().contains((keywords?.lowercased())!)
+            let minPriceQuery = NumberFormatter().number(from: minPrice!)?.floatValue
+            let maxPriceQuery = NumberFormatter().number(from: maxPrice!)?.floatValue
+            let withinPriceRange = item.price! <= maxPriceQuery! && item.price! >= minPriceQuery!
+            return (keywordQuery && withinPriceRange)
+//            return (keywordQuery && tagsQuery && withinPriceRange)
+        }
+//        self.tableView.reloadData()
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -124,7 +151,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
             return self.filteredItems.count
         }
         return self.itemList.count
@@ -137,8 +164,12 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                                                  for: indexPath) as! ListingsTableViewCell
         let item: Item
         
-        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
             item = self.filteredItems[indexPath.row]
+            
+            if indexPath.row >= self.filteredItems.count - 1 {
+                self.didReceiveAdvancedSearchQuery = false
+            }
         } else {
             item = itemList[indexPath.row]
         }
