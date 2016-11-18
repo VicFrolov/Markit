@@ -1,5 +1,4 @@
 $(function() {
-    
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
     var itemTitle;
@@ -51,6 +50,7 @@ $(function() {
                 }
             }   
         }
+
         return checksPassed;
     };
 
@@ -103,16 +103,16 @@ $(function() {
         $('#carousel-wrapper').empty();
     });
 
+
     //add listing
-    $("main").on('click', '#add-listing', function (e) {
+    $("main").on('click', '#submit-post', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
         }
     });
-
 
 
     var itemTagRef = $('#itemTags');
@@ -202,7 +202,11 @@ $(function() {
     });
 
     $("#fileBox").change(function() {
-        if (this.files && this.files[0]) {
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+
+        } else if (this.files && this.files[0]) {
             reader.onload = function (e) {
                 $(drop).empty().append($("<img>").attr("src", reader.result));
                 $(drop).css('background-color', '#fff');
