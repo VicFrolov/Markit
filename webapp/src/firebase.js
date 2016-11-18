@@ -21,6 +21,8 @@ var imageNewItemRef = firebase.storage().ref('images/itemImages');
 // var itemsByUser = database.ref('itemsByUser/' + uid);
 
 var addListing = function (title, description, tags, price, hub, uid, images) {
+    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
+
     itemsRef.push({
         title: title,
         description: description,
@@ -42,12 +44,8 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
         price: price,
         uid: uid
     });
-    
-    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-
 
     for (var i = 0; i < images.length; i += 1) {
-
         (function(x) {
             images[x] = images[x].replace(/^.*base64,/g, '');
             var uploadTask = imageNewItemRef.child('fakeUID' + '/' +  imageNames[x]).putString(images[x], 'base64');
@@ -67,11 +65,9 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
             }, function(error) {
                 console.log("error uploading image");
             }, function() {
-                console.log(x);
                 var downloadURL = uploadTask.snapshot.downloadURL;
                 console.log(downloadURL);
             });
-
         })(i);
     }
 
