@@ -115,6 +115,7 @@
 	        price: price,
 	        uid: uid
 	    });
+
 	    database.ref('itemsByHub/' + hub).push({
 	        title: title,
 	        description: description,
@@ -122,6 +123,7 @@
 	        price: price,
 	        uid: uid
 	    });
+	    
 	    database.ref('itemsByUser/' + uid).push({
 	        title: title,
 	        description: description,
