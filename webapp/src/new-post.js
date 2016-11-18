@@ -115,7 +115,6 @@ $(function() {
     });
 
 
-
     var itemTagRef = $('#itemTags');
     if (itemTagRef.length > 0) {
         itemTagRef.textext({plugins : 'tags autocomplete'})

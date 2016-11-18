@@ -132,27 +132,32 @@
 
 
 	    for (var i = 0; i < images.length; i += 1) {
-	        images[i] = images[i].replace(/^.*base64,/g, '');
-	        var uploadTask = imageNewItemRef.child('fakeUID' + '/' +  imageNames[i]).putString(images[i], 'base64');
 
-	        uploadTask.on('state_changed', function(snapshot) {
-	            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-	            console.log('Upload is ' + progress + '% done');
+	        (function(x) {
+	            images[x] = images[x].replace(/^.*base64,/g, '');
+	            var uploadTask = imageNewItemRef.child('fakeUID' + '/' +  imageNames[x]).putString(images[x], 'base64');
 
-	            switch (snapshot.state) {
-	                case firebase.storage.TaskState.PAUSED: // or 'paused'
-	                    console.log('Upload is paused');
-	                    break;
-	                case firebase.storage.TaskState.RUNNING: // or 'running'
-	                    console.log('Upload is running');
-	                    break;
-	            }
-	        }, function(error) {
-	            console.log("error uploading image");
-	        }, function() {
-	            var downloadURL = uploadTask.snapshot.downloadURL;
-	            console.log(downloadURL);
-	        });
+	            uploadTask.on('state_changed', function(snapshot) {
+	                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	                console.log('Upload is ' + progress + '% done');
+
+	                switch (snapshot.state) {
+	                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                        console.log('Upload is paused');
+	                        break;
+	                    case firebase.storage.TaskState.RUNNING: // or 'running'
+	                        console.log('Upload is running');
+	                        break;
+	                }
+	            }, function(error) {
+	                console.log("error uploading image");
+	            }, function() {
+	                console.log(x);
+	                var downloadURL = uploadTask.snapshot.downloadURL;
+	                console.log(downloadURL);
+	            });
+
+	        })(i);
 	    }
 
 	};
@@ -987,7 +992,6 @@
 	            alert("please enter a username and comment");
 	        }
 	    });
-
 
 
 	    var itemTagRef = $('#itemTags');
