@@ -15,10 +15,7 @@ firebase.initializeApp({
 var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
-
-//testing yo
 var imageNewItemRef = firebase.storage().ref('images/itemImages');
-//end testing yo
 
 // var itemsByHub = database.ref('itemsByHub/' + hub);
 // var itemsByUser = database.ref('itemsByUser/' + uid);
@@ -48,8 +45,25 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
     
     var nameTest = "image3";
     images[0] = images[0].substr(22);
-    imageNewItemRef.child(nameTest).putString(images[0], 'base64').then(function(snapshot){
-        console.log('image uploaded successfully');
+    var uploadTask = imageNewItemRef.child(nameTest).putString(images[0], 'base64');
+
+    uploadTask.on('state_changed', function(snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        
+        switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+        }
+    }, function(error) {
+        console.log("error uploading image");
+    }, function() {
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        console.log(downloadURL);
     });
 
 };
