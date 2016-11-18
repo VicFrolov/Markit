@@ -43,14 +43,16 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
         uid: uid
     });
     
-    var nameTest = "image3";
-    images[0] = images[0].substr(22);
-    var uploadTask = imageNewItemRef.child(nameTest).putString(images[0], 'base64');
+    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
+
+
+    images[0] = images[0].replace(/^.*base64,/g, '');
+    var uploadTask = imageNewItemRef.child('someUID' + '/' +  imageNames[0]).putString(images[0], 'base64');
 
     uploadTask.on('state_changed', function(snapshot) {
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log('Upload is ' + progress + '% done');
-        
+
         switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'
                 console.log('Upload is paused');

@@ -1,5 +1,4 @@
 $(function() {
-    
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
     var itemTitle;

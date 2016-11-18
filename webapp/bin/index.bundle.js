@@ -100,10 +100,7 @@
 	var database = firebase.database();
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
-
-	//testing yo
 	var imageNewItemRef = firebase.storage().ref('images/itemImages');
-	//end testing yo
 
 	// var itemsByHub = database.ref('itemsByHub/' + hub);
 	// var itemsByUser = database.ref('itemsByUser/' + uid);
@@ -131,30 +128,30 @@
 	        uid: uid
 	    });
 	    
-	    var nameTest = "image3";
-	    images[0] = images[0].substr(22);
-	    var uploadTask = imageNewItemRef.child(nameTest).putString(images[0], 'base64');
-	    uploadTask.on('state_changed', function(snapshot){
-	  // Observe state change events such as progress, pause, and resume
-	  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-	  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-	  console.log('Upload is ' + progress + '% done');
-	  switch (snapshot.state) {
-	    case firebase.storage.TaskState.PAUSED: // or 'paused'
-	      console.log('Upload is paused');
-	      break;
-	    case firebase.storage.TaskState.RUNNING: // or 'running'
-	      console.log('Upload is running');
-	      break;
-	  }
-	}, function(error) {
-	  // Handle unsuccessful uploads
-	}, function() {
-	  // Handle successful uploads on complete
-	  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-	  var downloadURL = uploadTask.snapshot.downloadURL;
-	  console.log(downloadURL);
-	});
+	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
+
+
+	    images[0] = images[0].replace(/^.*base64,/g, '');
+	    var uploadTask = imageNewItemRef.child('someUID' + '/' +  imageNames[0]).putString(images[0], 'base64');
+
+	    uploadTask.on('state_changed', function(snapshot) {
+	        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	        console.log('Upload is ' + progress + '% done');
+
+	        switch (snapshot.state) {
+	            case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                console.log('Upload is paused');
+	                break;
+	            case firebase.storage.TaskState.RUNNING: // or 'running'
+	                console.log('Upload is running');
+	                break;
+	        }
+	    }, function(error) {
+	        console.log("error uploading image");
+	    }, function() {
+	        var downloadURL = uploadTask.snapshot.downloadURL;
+	        console.log(downloadURL);
+	    });
 
 	};
 
@@ -874,7 +871,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function() {
-	    
 	    var addListing = __webpack_require__(2)['addListing'];
 	    var auth = __webpack_require__(2)['auth'];
 	    var itemTitle;
