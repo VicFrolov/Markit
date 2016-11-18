@@ -46,27 +46,29 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
 
 
-    images[0] = images[0].replace(/^.*base64,/g, '');
-    var uploadTask = imageNewItemRef.child('someUID' + '/' +  imageNames[0]).putString(images[0], 'base64');
+    for (var i = 0; i < images.length; i += 1) {
+        images[i] = images[i].replace(/^.*base64,/g, '');
+        var uploadTask = imageNewItemRef.child('fakeUID' + '/' +  imageNames[i]).putString(images[i], 'base64');
 
-    uploadTask.on('state_changed', function(snapshot) {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+        uploadTask.on('state_changed', function(snapshot) {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
 
-        switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
-                console.log('Upload is running');
-                break;
-        }
-    }, function(error) {
-        console.log("error uploading image");
-    }, function() {
-        var downloadURL = uploadTask.snapshot.downloadURL;
-        console.log(downloadURL);
-    });
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function(error) {
+            console.log("error uploading image");
+        }, function() {
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            console.log(downloadURL);
+        });
+    }
 
 };
 
