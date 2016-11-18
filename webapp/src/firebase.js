@@ -46,41 +46,51 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
         uid: uid
     });
     
-    var nameTest = "image1";
-    var uploadTask = imageNewItemRef.child('images/' + 'image1').put(images[0]);
+    var nameTest = "image2";
+    // var uploadTask = imageNewItemRef.child('images/' + 'image1').put(images[0]);
 
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-      function(snapshot) {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      }, function(error) {
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          break;
+    images[0] = images[0].substr(22);
+    console.log(images[0]);
 
-        case 'storage/canceled':
-          // User canceled the upload
-          break;
-
-        case 'storage/unknown':
-          // Unknown error occurred, inspect error.serverResponse
-          break;
-      }
-    }, function() {
-      // Upload completed successfully, now we can get the download URL
-      var downloadURL = uploadTask.snapshot.downloadURL;
-      console.log(downloadURL);
+    console.log('before')
+    var message = '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+    imageNewItemRef.child(nameTest).putString(images[0], 'base64').then(function(snapshot) {
+        console.log('Uploaded a base64 string!');
     });
+    console.log("lol")
+
+    // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+    //   function(snapshot) {
+    //     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    //     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     console.log('Upload is ' + progress + '% done');
+    //     switch (snapshot.state) {
+    //       case firebase.storage.TaskState.PAUSED: // or 'paused'
+    //         console.log('Upload is paused');
+    //         break;
+    //       case firebase.storage.TaskState.RUNNING: // or 'running'
+    //         console.log('Upload is running');
+    //         break;
+    //     }
+    //   }, function(error) {
+    //   switch (error.code) {
+    //     case 'storage/unauthorized':
+    //       // User doesn't have permission to access the object
+    //       break;
+
+    //     case 'storage/canceled':
+    //       // User canceled the upload
+    //       break;
+
+    //     case 'storage/unknown':
+    //       // Unknown error occurred, inspect error.serverResponse
+    //       break;
+    //   }
+    // }, function() {
+    //   // Upload completed successfully, now we can get the download URL
+    //   var downloadURL = uploadTask.snapshot.downloadURL;
+    //   console.log(downloadURL);
+    // });
 };
 
 var getListings = function (callback) {
