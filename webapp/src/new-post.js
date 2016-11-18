@@ -202,7 +202,11 @@ $(function() {
     });
 
     $("#fileBox").change(function() {
-        if (this.files && this.files[0]) {
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+
+        } else if (this.files && this.files[0]) {
             reader.onload = function (e) {
                 $(drop).empty().append($("<img>").attr("src", reader.result));
                 $(drop).css('background-color', '#fff');
