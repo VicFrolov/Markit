@@ -66,7 +66,7 @@ $(function() {
                     ).append(
                         $("<div></div>").addClass("card-content").append(
                             $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-                                    currentItem["item"]
+                                    currentItem["title"]
                             ).append(
                                 $("<i></i>").addClass("material-icons right").text("more_vert")
                             )
