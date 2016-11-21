@@ -822,12 +822,12 @@
 	    var itemTags;
 	    var itemPrice;
 	    var itemHub;
-	    var itemUid;
+	    var userID;
 	    var itemImages;
 
 	    var checkBasicItems = function() {
 	        var checksPassed = true;
-	        itemUid = auth.currentUser.uid;
+	        userID = auth.currentUser.uid;
 	        itemTitle = $("#item-post-title").val();
 	        itemDescription = $("#item-post-description").val();
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
@@ -923,7 +923,7 @@
 	    //add listing
 	    $("main").on('click', '#submit-post', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
-	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages);
+	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, userID, itemImages);
 	            $("main").text("Item has been Posted :)");
 	        } else {
 	            alert("please enter a username and comment");
@@ -1119,17 +1119,11 @@
 
 
 	    var newListing = function(currentItems) {
-	        var imageSwitcher = true;
 	        $("#find-content").empty();
+	        var imagePaths = []
 	        for (var item in currentItems) {
-	            
 	            var currentItem = currentItems[item];
-	            var currentImage = imageSwitcher ? 
-	                "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
-	                "./iphone-sample.jpg";
-	            imageSwitcher = !imageSwitcher;
-
-
+	            imagePaths.push(currentItem['id']);
 	            $("#find-content").append(
 	                $("<div></div>").addClass("col l4 m4 s12").append(
 	                    $("<div></div>").addClass("card find-result hoverable").append(
@@ -1144,7 +1138,7 @@
 	                            "$" + currentItem["price"])).append(
 	                        $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
 	                            $("<img/>").addClass("activator").attr({
-	                                src: currentImage
+	                                src: ''
 	                            })
 	                        )
 	                    ).append(
@@ -1182,9 +1176,18 @@
 	            );
 	        };
 
-	        getImage(currentItem['id'] + '/imageOne', function(url) {
-	            $(".activator").attr('src', url)
-	        });
+	        for (var i = 0; i < imagePaths.length; i += 1) {
+	            (function (x) {
+	                getImage(imagePaths[x] + '/imageOne', function(url) {
+	                    console.log(url)
+	                    console.log(x)
+	                    console.log(imagePaths[x])
+	                    console.log("FIRST IS DONE")
+	                    tagToAdd = "img.activator:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
 	    };
 
 	    $('input.autocomplete').autocomplete({

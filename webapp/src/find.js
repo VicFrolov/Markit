@@ -50,17 +50,11 @@ $(function() {
 
 
     var newListing = function(currentItems) {
-        var imageSwitcher = true;
         $("#find-content").empty();
+        var imagePaths = []
         for (var item in currentItems) {
-            
             var currentItem = currentItems[item];
-            var currentImage = imageSwitcher ? 
-                "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
-                "./iphone-sample.jpg";
-            imageSwitcher = !imageSwitcher;
-
-
+            imagePaths.push(currentItem['id']);
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
                     $("<div></div>").addClass("card find-result hoverable").append(
@@ -75,7 +69,7 @@ $(function() {
                             "$" + currentItem["price"])).append(
                         $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
                             $("<img/>").addClass("activator").attr({
-                                src: currentImage
+                                src: ''
                             })
                         )
                     ).append(
@@ -113,9 +107,18 @@ $(function() {
             );
         };
 
-        getImage(currentItem['id'] + '/imageOne', function(url) {
-            $(".activator").attr('src', url)
-        });
+        for (var i = 0; i < imagePaths.length; i += 1) {
+            (function (x) {
+                getImage(imagePaths[x] + '/imageOne', function(url) {
+                    console.log(url)
+                    console.log(x)
+                    console.log(imagePaths[x])
+                    console.log("FIRST IS DONE")
+                    tagToAdd = "img.activator:eq(" + x  + " )";
+                    $(tagToAdd).attr({src: url});
+                });
+            })(i);
+        }
     };
 
     $('input.autocomplete').autocomplete({

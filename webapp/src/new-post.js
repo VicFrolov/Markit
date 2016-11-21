@@ -6,12 +6,12 @@ $(function() {
     var itemTags;
     var itemPrice;
     var itemHub;
-    var itemUid;
+    var userID;
     var itemImages;
 
     var checkBasicItems = function() {
         var checksPassed = true;
-        itemUid = auth.currentUser.uid;
+        userID = auth.currentUser.uid;
         itemTitle = $("#item-post-title").val();
         itemDescription = $("#item-post-description").val();
         itemTags = $('#itemTags').textext()[0].tags()._formData;
@@ -107,7 +107,7 @@ $(function() {
     //add listing
     $("main").on('click', '#submit-post', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
-            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, itemUid, itemImages);
+            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, userID, itemImages);
             $("main").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
