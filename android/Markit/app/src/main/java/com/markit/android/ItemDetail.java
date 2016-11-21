@@ -13,6 +13,9 @@ import com.markit.android.R;
 
 public class ItemDetail extends AppCompatActivity {
     private String uid;
+    private String itemName;
+    private String itemPrice;
+    private String 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
