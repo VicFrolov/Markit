@@ -1,0 +1,23 @@
+html, body {
+    font-family: "Oxygen", sans-serif;
+    /*footer stuff*/
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/*Launch page*/
+
+.profile-dropdown-icon {
+    padding-left: -100px;
+}
+
+.slider .indicators {
+    display: none;
+}
+
+

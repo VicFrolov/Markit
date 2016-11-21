@@ -15,63 +15,69 @@
     tools:context="com.markit.android.MainActivity">
 
 
-    <Button
-    style="?android:attr/buttonStyleSmall"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Register"
-    android:id="@+id/profile_button"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:hint= "Enter in your .edu email"
-        android:layout_marginTop="69dp"
-        android:id="@+id/email"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Enter your username"
+            android:ems="10"
+            android:id="@+id/displayName"
+            android:layout_below="@+id/email"
+            android:layout_alignLeft="@+id/password"
+            android:layout_alignStart="@+id/password"
+            android:layout_marginTop="50dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint= "Retype your password"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password2"
-        android:layout_above="@+id/profile_button"
-        android:layout_alignLeft="@+id/profile_button"
-        android:layout_alignStart="@+id/profile_button"
-        android:layout_marginBottom="110dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:hint= "Enter in your .edu email"
+            android:layout_marginTop="69dp"
+            android:id="@+id/email"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/editText2"
+            android:layout_alignStart="@+id/editText2" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:imeActionLabel= "Enter in your password"
-        android:maxLines="1"
-        android:hint="Password"
-        android:id="@+id/password"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/password2"
-        android:layout_alignStart="@+id/password2" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:imeActionLabel= "Enter in your password"
+            android:maxLines="1"
+            android:hint="Password"
+            android:id="@+id/password"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/password2"
+            android:layout_alignStart="@+id/password2" />
 
-    <EditText
-        android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint= "Retype your password"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password2"
+            android:layout_above="@+id/profile_button"
+            android:layout_alignLeft="@+id/profile_button"
+            android:layout_alignStart="@+id/profile_button"
+            android:layout_marginBottom="110dp" />
+
+        <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Display Name"
-        android:ems="10"
-        android:id="@+id/displayName"
-        android:layout_below="@+id/email"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password"
-        android:layout_marginTop="50dp" />
+        android:text="Register"
+        android:id="@+id/profile_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    </LinearLayout>
 
 </RelativeLayout>

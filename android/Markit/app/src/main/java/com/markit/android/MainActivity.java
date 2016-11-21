@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordView;
     private EditText confirmPasswordView;
     private EditText displayNameView;
-    String displayName;
+    private String displayName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 String text  = "Account Registered " + displayName;
-                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, Registration2Activity.class));
 
                 }
             }
