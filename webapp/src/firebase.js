@@ -23,34 +23,26 @@ var imageNewItemRef = firebase.storage().ref('images/itemImages');
 var addListing = function (title, description, tags, price, hub, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
 
-    itemsRef.push({
-        title: title,
-        description: description,
-        tags: tags,
-        price: price,
-        uid: uid
-    });
+    var itemRef = itemsRef.push();
+    var itemKey = itemRef.key;
 
-    database.ref('itemsByHub/' + hub).push({
+    var itemData = {
         title: title,
         description: description,
         tags: tags,
         price: price,
-        uid: uid
-    });
+        uid: uid,
+        id: itemKey
+    }
 
-    database.ref('itemsByUser/' + uid).push({
-        title: title,
-        description: description,
-        tags: tags,
-        price: price,
-        uid: uid
-    });
+    itemsRef.push(itemData);
+    database.ref('itemsByHub/' + 'hardcodedHub/').push(itemData);
+    database.ref('itemsByUser/' + uid + '/').push(itemData);
 
     for (var i = 0; i < images.length; i += 1) {
         (function(x) {
             images[x] = images[x].replace(/^.*base64,/g, '');
-            var uploadTask = imageNewItemRef.child('fakeUID' + '/' +  imageNames[x]).putString(images[x], 'base64');
+            var uploadTask = imageNewItemRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
 
             uploadTask.on('state_changed', function(snapshot) {
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
