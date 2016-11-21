@@ -6,27 +6,39 @@ package com.markit.android;
 
 public class Item {
     private String description;
-    private String price;
+    private float price;
     private String [] tags;
     private String title;
     private String uid;
+    private int intValue;
 
     public Item () {
-        this.description = "No description";
-        this.price = "0";
-        this.tags = new String [1];
-        tags[0] = "None";
-        this.title = "No Title";
-        this.uid = "None";
+//        this.description = "No description";
+//        this.price = Long.valueOf("0");
+//        this.tags = new String [1];
+//        tags[0] = "None";
+//        this.title = "No Title";
+//        this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String [] tags, String uid) {
+    public Item(String title, String description, Float price, String [] tags, String uid) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.tags = tags;
         this.uid = uid;
     }
+
+//    @Exclude
+//    public Map<String,Object> toMap() {
+//        HashMap<String, Object> result = new HashMap<>();
+//        result.put("title", title);
+//        result.put("description", description);
+//        result.put("uid", uid);
+//        result.put("tags", tags);
+//
+//        return result;
+//    }
 
     public String getDescription() {
         return description;
@@ -36,11 +48,11 @@ public class Item {
         this.description = description;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
@@ -68,5 +80,8 @@ public class Item {
         this.uid = uid;
     }
 
-
+    //dataSnapshot.getValue(Item.class);
 }
+
+
+

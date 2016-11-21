@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.markit.android.Item;
-import com.markit.android.R;
-
 import java.util.ArrayList;
 
 /**
@@ -19,8 +16,8 @@ import java.util.ArrayList;
 
 public class ItemsAdapter extends ArrayAdapter<Item> {
     Context context;
-    public ItemsAdapter(Context context, ArrayList<Item> items) {
-        super(context, 0, items);
+    public ItemsAdapter(Context context, ArrayList<Item> currentItems) {
+        super(context, 0, currentItems);
         this.context = context;
     }
 

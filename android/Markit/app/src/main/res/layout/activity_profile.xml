@@ -54,7 +54,9 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_notifications_none_black_48px"
         app:backgroundTint="@android:color/white"
-        app:rippleColor="?attr/colorButtonNormal"
-        android:tint="@color/place_autocomplete_prediction_secondary_text" />
+        app:rippleColor="?attr/colorButtonNormal">
+
+    </android.support.design.widget.FloatingActionButton>
+        <!--android:tint="@color/place_autocomplete_prediction_secondary_text" />-->
 
 </android.support.design.widget.CoordinatorLayout>
