@@ -17,7 +17,6 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     let rangeSlider = MARKRangeSlider()
 //    let autocompleteTextField = MLPAutoCompleteTextField()
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
-    
     let listingsTableViewControllerContainer = ListingsTableViewController()
     
     override func viewDidLoad() {
@@ -34,21 +33,17 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
 //        autocompleteTextField.autoCompleteDataSource = self
 //        autocompleteTextField.autoCompleteTableView.delegate = self
         
-        advancedSearchContainerView.minPrice?.text = "500.00"
+        advancedSearchContainerView.minPrice?.text = "0.00"
         advancedSearchContainerView.maxPrice?.text = "2500.00"
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
         advancedSearchContainerView.minPrice.addTarget(self, action: #selector(didEnterMin), for: .editingDidEnd)
         advancedSearchContainerView.maxPrice.addTarget(self, action: #selector(didEnterMax), for: .editingDidEnd)
         rangeSlider.setMinValue(0.0, maxValue: 3000.0)
-        rangeSlider.setLeftValue(500.0, rightValue: 2500.0)
+        rangeSlider.setLeftValue(0.0, rightValue: 2500.0)
 //        var image = UIImage(named: "slider")
 //        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
         
         view.insertSubview(rangeSlider, at: 1)
-        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(searchButtonIsPressed))
-//        tapGesture.numberOfTapsRequired = 1
-//        advancedSearchContainerView.advancedSearchButton.addGestureRecognizer(tapGesture)
     }
         
     override func viewDidLayoutSubviews() {
@@ -66,22 +61,17 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         
     }
 
-//    func searchButtonIsPressed(sender: UIButton) {
-//        print("Search button is pressed")
-//        performSegue(withIdentifier: "toAdvancedSearchSegue", sender: self)
-//    }
-    
 //    Lots of boiler plate code for now. Will clean up later. Also will change so previous price range is kept even with error
     func didEnterMin (min: UITextField) {
         print("min value recognized")
-        var minValue: CGFloat = 500.0
+        var minValue: CGFloat = 0.0
         let maxValue: CGFloat = CGFloat(NumberFormatter().number(from: advancedSearchContainerView.maxPrice.text!)!)
         if let tempMin = NumberFormatter().number(from: min.text!) {
             minValue = CGFloat(tempMin)
         }
         
         if minValue > 3000.0 || maxValue > 3000.0 {
-            minValue = 500.0
+            minValue = 0.0
             let alertController: UIAlertController = UIAlertController(title: "Invalid Input", message: "Please enter a price range between 0.0 and 3000.0", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alertController.addAction(okAction)

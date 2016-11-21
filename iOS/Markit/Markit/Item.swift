@@ -15,5 +15,5 @@ class Item: NSObject {
     var desc: String?
     var label: String?
     var uid: String?
-    var tags: String?
+    var tags: [String]?
 }

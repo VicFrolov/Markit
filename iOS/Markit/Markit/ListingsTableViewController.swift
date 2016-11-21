@@ -36,6 +36,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.userRef = ref.child("usernames")
         self.tagRef = ref.child("tags")
         self.didReceiveAdvancedSearchQuery = false
+        self.searchController.loadViewIfNeeded()
         fetchItems()
         searchItems()
     }
@@ -97,11 +98,16 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                     item.label = dictionary["title"] as! String?
                 }
                 
-                if dictionary["tags"] is String {
-                    item.tags = dictionary["tags"] as! String?
-                } else if let tags = dictionary["tags"] as? Array as [String]? {
-                    item.tags = tags.joined(separator: ", ")
+                if let tags = dictionary["tags"] as? Array as [String]? {
+                    item.tags = tags
+                } else if dictionary["tags"] is String {
+                    let tag = dictionary["tags"] as! String
+                    item.tags = [tag]
+                    print("item.tags \(item.tags)")
+                } else {
+                    item.tags = [""]
                 }
+                
                 item.desc = dictionary["description"] as! String?
                 
                 self.itemList.append(item)
@@ -124,18 +130,35 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         let minPrice = advancedSearchVC.advancedSearchContainerView.minPrice.text
         let maxPrice = advancedSearchVC.advancedSearchContainerView.maxPrice.text
 //        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
-//        var tags = advancedSearchVC.advancedSearchContainerView.tags.text
+        let tags = advancedSearchVC.advancedSearchContainerView.tags.text
+        
+        var useTags: Bool = false
+        var tagList: [String] = []
+        if tags! != "" {
+            print("IM HERE")
+            tagList = (tags!.characters.split { $0 == " " }).map(String.init)
+            useTags = true
+        }
+        
         let keywords = advancedSearchVC.advancedSearchContainerView.keywords.text
         
         self.filteredItems = itemList.filter { item in
             let keywordQuery = item.label!.lowercased().contains((keywords?.lowercased())!)
 //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-//            let tagsQuery = item.tags!.lowercased().contains((keywords?.lowercased())!)
+            var hasTag: Bool  = false
             let minPriceQuery = NumberFormatter().number(from: minPrice!)?.floatValue
             let maxPriceQuery = NumberFormatter().number(from: maxPrice!)?.floatValue
             let withinPriceRange = item.price! <= maxPriceQuery! && item.price! >= minPriceQuery!
+            
+            if useTags {
+                for tag in tagList {
+                    if item.tags!.contains(tag.lowercased()) {
+                        hasTag = true
+                    }
+                }
+                return (keywordQuery && withinPriceRange && hasTag)
+            }
             return (keywordQuery && withinPriceRange)
-//            return (keywordQuery && tagsQuery && withinPriceRange)
         }
 //        self.tableView.reloadData()
     }
