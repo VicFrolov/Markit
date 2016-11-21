@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */; };
+		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
+		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
+		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
+		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
+		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
 		381C21AA1D8D125500657D9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 381C21A91D8D125500657D9D /* Assets.xcassets */; };
 		381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */; };
@@ -31,9 +37,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MARKRangeSlider.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/MARKRangeSlider/MARKRangeSlider.framework"; sourceTree = "<group>"; };
+		1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchView.swift; sourceTree = "<group>"; };
+		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
+		34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
 		381C21A91D8D125500657D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListingTableViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */,
 				5B0BE399A6B57513D8571D18 /* Pods_Markit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1243E50D1DD10EC400D716AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				129C2E981DAB1BFF00129143 /* Item.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		384810A71D83984400830C95 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +113,7 @@
 		384810B21D83984400830C95 /* Markit */ = {
 			isa = PBXGroup;
 			children = (
+				1243E50D1DD10EC400D716AA /* Model */,
 				345593551D98B24E00B82721 /* Markit.entitlements */,
 				384810CC1D84F49B00830C95 /* View */,
 				384810C51D83B9E600830C95 /* Controller */,
@@ -109,15 +131,18 @@
 			isa = PBXGroup;
 			children = (
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
+				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
 				3832CC511D98677300536451 /* AddPriceViewController.swift */,
 				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
+				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
 				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
+				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
 				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
@@ -130,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
+				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -146,6 +172,7 @@
 		B7FA343ECE81E67837A175CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */,
 				D14839011C015C617372EE7F /* Pods_Markit.framework */,
 			);
 			name = Frameworks;
@@ -283,9 +310,13 @@
 			files = (
 				347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */,
 				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
+				12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */,
+				129C2E991DAB1BFF00129143 /* Item.swift in Sources */,
 				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
+				34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
+				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
 				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
 				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
@@ -297,6 +328,7 @@
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
 				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
 				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
+				1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +357,7 @@
 		384810C01D83984400830C95 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -376,6 +409,7 @@
 		384810C11D83984400830C95 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
