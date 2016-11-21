@@ -2,6 +2,20 @@ $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
+    var itemImagesRef = require('./firebase.js')["itemImagesRef"];
+
+
+    var getImage = function(address, callback) {
+        itemImagesRef.child(address).getDownloadURL().then(function(url) {
+            callback(url);
+        }).catch(function(error) {
+            console.log("error image not found")
+            console.log("error either in item id, filename, or file doesn't exist")
+        });
+    };
+
+
+
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -33,17 +47,16 @@ $(function() {
         });
     }
 
-    var newListing = function(currentItems) {
-        var imageSwitcher = true;
-        $("#find-content").empty();
-        for (var item in currentItems) {
-            
-            var currentItem = currentItems[item];
-            var currentImage = imageSwitcher ? 
-                "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
-                "./iphone-sample.jpg";
-            imageSwitcher = !imageSwitcher;
 
+
+    var newListing = function(currentItems) {
+        $("#find-content").empty();
+        var imagePaths = []
+
+        for (var item in currentItems) {
+            var currentItem = currentItems[item];
+            imagePaths.push(currentItem['id']);
+        
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
                     $("<div></div>").addClass("card find-result hoverable").append(
@@ -58,13 +71,13 @@ $(function() {
                             "$" + currentItem["price"])).append(
                         $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
                             $("<img/>").addClass("activator").attr({
-                                src: currentImage
+                                src: ''
                             })
                         )
                     ).append(
                         $("<div></div>").addClass("card-content").append(
                             $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-                                    currentItem["item"]
+                                    currentItem["title"]
                             ).append(
                                 $("<i></i>").addClass("material-icons right").text("more_vert")
                             )
@@ -95,14 +108,37 @@ $(function() {
                 )
             );
         };
+
+        for (var i = 0; i < imagePaths.length; i += 1) {
+            (function (x) {
+                getImage(imagePaths[x] + '/imageOne', function(url) {
+                    tagToAdd = "img.activator:eq(" + x  + " )";
+                    $(tagToAdd).attr({src: url});
+                });
+            })(i);
+        }
     };
 
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'http://placehold.it/250x250'
+        }
+    });
 
     $("#find-search-button").click(function () {
+        query = "key=";
+        keywords = $("#item-post-title").val();
+        keywords = $("#item-post-title").val();
+        
+        query += keywords === "" ? "none" : "" + keywords;
+        location.hash = query;
         getListings(newListing);
     });
 
 
+    // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {
         $(this).attr('src', '../media/ic_heart_hover.png');
         $(this).css('opacity', '0.7');
