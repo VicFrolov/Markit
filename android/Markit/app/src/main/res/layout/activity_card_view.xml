@@ -55,8 +55,7 @@
             android:src="@drawable/ic_account_outline_black_24px"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
-            android:tint="#ffffff"
-            app:backgroundTint="#8c8c8c"
+            app:backgroundTint="@color/cast_expanded_controller_text_color"
             app:fabSize="normal"
             android:scaleType="center" />
 
@@ -69,6 +68,7 @@
             android:src="@drawable/ic_notifications_none_black_48px"
             android:scaleType="fitCenter"
             android:layout_marginRight="85dp"
+            app:backgroundTint="@color/cast_expanded_controller_text_color"
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
         <!--android:tint="@color/place_autocomplete_prediction_secondary_text"-->
