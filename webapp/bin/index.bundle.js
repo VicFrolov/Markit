@@ -100,14 +100,14 @@
 	var database = firebase.database();
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
-	var imageNewItemRef = firebase.storage().ref('images/itemImages');
+	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 
 	// var itemsByHub = database.ref('itemsByHub/' + hub);
 	// var itemsByUser = database.ref('itemsByUser/' + uid);
 
 	var addListing = function (title, description, tags, price, hub, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-
+	    var myDate = new Date();
 	    var itemRef = itemsRef.push();
 	    var itemKey = itemRef.key;
 
@@ -117,17 +117,18 @@
 	        tags: tags,
 	        price: price,
 	        uid: uid,
-	        id: itemKey
+	        id: itemKey,
+	        date: myDate
 	    }
 
 	    itemsRef.push(itemData);
-	    database.ref('itemsByHub/' + 'hardcodedTest').push(itemData);
-	    database.ref('itemsByUser/' + uid).push(itemData);
+	    database.ref('itemsByHub/' + 'hardcodedHub/').push(itemData);
+	    database.ref('itemsByUser/' + uid + '/').push(itemData);
 
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
 	            images[x] = images[x].replace(/^.*base64,/g, '');
-	            var uploadTask = imageNewItemRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
+	            var uploadTask = itemImagesRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
 
 	            uploadTask.on('state_changed', function(snapshot) {
 	                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -194,7 +195,8 @@
 	    addHub,
 	    addCategory,
 	    filterListings,
-	    createAccount
+	    createAccount,
+	    itemImagesRef
 	};
 
 /***/ },
@@ -1069,6 +1071,20 @@
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
+	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+
+
+	    var getImage = function(address, callback) {
+	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	            callback(url);
+	        }).catch(function(error) {
+	            console.log("error image not found")
+	            console.log("error either in item id, filename, or file doesn't exist")
+	        });
+	    };
+
+
+
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -1112,7 +1128,8 @@
 	                "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
 	                "./iphone-sample.jpg";
 	            imageSwitcher = !imageSwitcher;
-	            console.log("test");
+
+
 	            $("#find-content").append(
 	                $("<div></div>").addClass("col l4 m4 s12").append(
 	                    $("<div></div>").addClass("card find-result hoverable").append(
@@ -1164,6 +1181,10 @@
 	                )
 	            );
 	        };
+
+	        getImage(currentItem['id'] + '/imageOne', function(url) {
+	            $(".activator").attr('src', url)
+	        });
 	    };
 
 	    $('input.autocomplete').autocomplete({
