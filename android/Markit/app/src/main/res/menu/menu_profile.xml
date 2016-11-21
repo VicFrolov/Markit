@@ -30,6 +30,9 @@
         android:id="@+id/messages"
         android:title="Messages" />
     <item
+        android:id="@+id/new_tag_set"
+        android:title="New TagSet" />
+    <item
         android:id="@+id/sign_out"
         android:title="Sign Out"/>
 </menu>
