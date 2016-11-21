@@ -99,12 +99,15 @@ html, body {
 
 #find-search-button {
     color: #fff;
-    background-color: #546A76;
+    background-color: #559BFF;
     margin-top: 20px;
     margin-left: 10px;
     margin-bottom: 10px;
 }
 
+#find-search-button:hover {
+    background-color: #66ACFF;
+}
 /* label color */
 .input-field label {
     color: #546A76;
