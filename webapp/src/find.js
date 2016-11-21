@@ -52,9 +52,11 @@ $(function() {
     var newListing = function(currentItems) {
         $("#find-content").empty();
         var imagePaths = []
+
         for (var item in currentItems) {
             var currentItem = currentItems[item];
             imagePaths.push(currentItem['id']);
+        
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
                     $("<div></div>").addClass("card find-result hoverable").append(
@@ -110,10 +112,6 @@ $(function() {
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {
                 getImage(imagePaths[x] + '/imageOne', function(url) {
-                    console.log(url)
-                    console.log(x)
-                    console.log(imagePaths[x])
-                    console.log("FIRST IS DONE")
                     tagToAdd = "img.activator:eq(" + x  + " )";
                     $(tagToAdd).attr({src: url});
                 });
