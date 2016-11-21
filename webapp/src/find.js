@@ -2,6 +2,20 @@ $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
+    var itemImagesRef = require('./firebase.js')["itemImagesRef"];
+
+
+    var getImage = function(address, callback) {
+        itemImagesRef.child(address).getDownloadURL().then(function(url) {
+            callback(url);
+        }).catch(function(error) {
+            console.log("error image not found")
+            console.log("error either in item id, filename, or file doesn't exist")
+        });
+    };
+
+
+
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -45,7 +59,8 @@ $(function() {
                 "http://www.ikea.com/PIAimages/0122106_PE278491_S5.JPG" : 
                 "./iphone-sample.jpg";
             imageSwitcher = !imageSwitcher;
-            console.log("test");
+
+
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
                     $("<div></div>").addClass("card find-result hoverable").append(
@@ -97,6 +112,10 @@ $(function() {
                 )
             );
         };
+
+        getImage(currentItem['id'] + '/imageOne', function(url) {
+            $(".activator").attr('src', url)
+        });
     };
 
     $('input.autocomplete').autocomplete({
