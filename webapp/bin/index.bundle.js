@@ -108,11 +108,13 @@
 	    var myDate = Date();
 	    var itemRef = itemsRef.push();
 	    var itemKey = itemRef.key;
+	    var lowerCasedTags = $.map(tags, function(n,i){return n.toLowerCase();});
+
 
 	    var itemData = {
 	        title: title,
 	        description: description,
-	        tags: tags,
+	        tags: lowerCasedTags,
 	        price: price,
 	        uid: uid,
 	        id: itemKey,
@@ -122,7 +124,9 @@
 	    itemsRef.child(itemKey).set(itemData);
 	    database.ref('itemsByHub/' + 'hardcodedHub/').child(itemKey).set(itemData);
 	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
+	    addTags(lowerCasedTags);
 
+	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
 	            images[x] = images[x].replace(/^.*base64,/g, '');
@@ -173,8 +177,8 @@
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
 	        $("#sign-up-password").val()).then(function(user) {
-	            var user = firebase.auth().currentUser;
-	            newUserDBEntry(user);
+	            var newUser = firebase.auth().currentUser;
+	            newUserDBEntry(newUser);
 	        }, function(error) {
 	            var errorCode = error.code;
 	            var errorMessage = error.message;
@@ -207,10 +211,6 @@
 	    database.ref('hubs/' + hub).push();
 	};
 
-	// database.ref('tags/').child('a').set(999);
-
-	var tagsoo = ["a", "b", "c", "Apple", "haha", "bed"];
-
 	var addTags = function(itemTags) {
 	    database.ref('tags/').once('value', function(snapshot) {
 	        var tagsInDB = snapshot.val()
@@ -227,8 +227,6 @@
 	        console.log(errorObject.code);
 	    });
 	};
-
-	addTags(["ZZZZ", "bed"]);
 
 
 	module.exports = {
