@@ -883,16 +883,16 @@
 	        // itemHub needs to be changed
 	        itemHub = "hardcodedForNow";
 
-	        if (!/^[\w\s]{5,30}$/.test(itemTitle)) {
+	        if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if (!/^[\w\s\.]+$/.test(itemDescription) || itemDescription.length < 5) {
+	        } else if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if(!/^[a-zA-Z\s]+$/.test(itemHub)) {
+	        } else if(!/^[a-zA-Z\-]+$/.test(itemHub)) {
 	            checksPassed = false;
 	        } else if (itemTags.length < 2 || itemTags.length > 5) {
 	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
@@ -902,8 +902,8 @@
 	            checksPassed = false;
 	        } else {
 	            for (var i = 0; i < itemTags.length; i += 1) {
-	                if (!/^[a-zA-Z\s]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
-	                    Materialize.toast('tags can only contain letters and spaces, up to 15 characters', 3000, 'rounded');
+	                if (!/^[a-zA-Z\-]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
+	                    Materialize.toast('tags can only contain letters and hyphens, up to 15 characters', 3000, 'rounded');
 	                    checksPassed = false;
 	                }
 	            }   
