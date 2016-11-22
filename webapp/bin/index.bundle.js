@@ -110,7 +110,6 @@
 	    var itemKey = itemRef.key;
 	    var lowerCasedTags = $.map(tags, function(n,i){return n.toLowerCase();});
 
-
 	    var itemData = {
 	        title: title,
 	        description: description,
@@ -121,10 +120,15 @@
 	        date: myDate
 	    };
 
-	    itemsRef.child(itemKey).set(itemData);
-	    database.ref('itemsByHub/' + 'hardcodedHub/').child(itemKey).set(itemData);
-	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 	    addTags(lowerCasedTags);
+	    itemsRef.child(itemKey).set(itemData);
+	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
+
+	    hub.forEach(function(currentHub) {
+	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
+	    });
+	    
+	    
 
 	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
