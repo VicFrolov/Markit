@@ -20,7 +20,7 @@ var usersRef = database.ref('users/')
 
 var addListing = function (title, description, tags, price, hub, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-    var myDate = new Date();
+    var myDate = Date();
     var itemRef = itemsRef.push();
     var itemKey = itemRef.key;
 
