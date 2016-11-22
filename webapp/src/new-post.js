@@ -24,10 +24,10 @@ $(function() {
 
         console.log(itemHub);
 
-        if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
+        if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
             Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
             checksPassed = false;
-        } else if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
+        } else if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
             Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
             checksPassed = false;
         } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {

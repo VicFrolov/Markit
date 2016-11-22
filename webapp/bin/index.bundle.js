@@ -103,7 +103,7 @@
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 	var usersRef = database.ref('users/');
 
-	var addListing = function (title, description, tags, price, hub, uid, images) {
+	var addListing = function (title, description, tags, price, hubs, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
 	    var myDate = Date();
 	    var itemRef = itemsRef.push();
@@ -121,10 +121,11 @@
 	    };
 
 	    addTags(lowerCasedTags);
+	    addHubs(hubs)
 	    itemsRef.child(itemKey).set(itemData);
 	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
-	    hub.forEach(function(currentHub) {
+	    hubs.forEach(function(currentHub) {
 	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
 	    });
 	    
@@ -217,7 +218,7 @@
 
 	var addTags = function(itemTags) {
 	    database.ref('tags/').once('value', function(snapshot) {
-	        var tagsInDB = snapshot.val()
+	        var tagsInDB = snapshot.val();
 	        itemTags.forEach(function (tag) {
 	            if (tagsInDB.hasOwnProperty(tag)) {
 	                console.log('i have this tag' + tag);
@@ -225,6 +226,24 @@
 	            } else {
 	                console.log('i dont have this tag' + tag);
 	                database.ref('tags/').child(tag).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
+	    });
+	};
+
+
+	var addHubs = function(itemHubs) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        var hubsInDB = snapshot.val();
+	        itemHubs.forEach(function (hub) {
+	            if (hubsInDB.hasOwnProperty(hub)) {
+	                console.log('i have this tag' + hub);
+	                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
+	            } else {
+	                console.log('i dont have this tag' + hub);
+	                database.ref('hubs/').child(hub).set(1);
 	            }
 	        });
 	    }, function (errorObject) {
@@ -886,10 +905,10 @@
 
 	        console.log(itemHub);
 
-	        if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
+	        if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
+	        } else if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
