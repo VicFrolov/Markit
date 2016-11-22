@@ -18,9 +18,6 @@ var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var usersRef = database.ref('users/')
 
-// var itemsByHub = database.ref('itemsByHub/' + hub);
-// var itemsByUser = database.ref('itemsByUser/' + uid);
-
 var addListing = function (title, description, tags, price, hub, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
     var myDate = new Date();
@@ -37,9 +34,9 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
         date: myDate
     }
 
-    itemsRef.push(itemData);
-    database.ref('itemsByHub/' + 'hardcodedHub/').push(itemData);
-    database.ref('itemsByUser/' + uid + '/').push(itemData);
+    itemsRef.child(itemKey).set(itemData);
+    database.ref('itemsByHub/' + 'hardcodedHub/').child(itemKey).set(itemData);
+    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
     for (var i = 0; i < images.length; i += 1) {
         (function(x) {
@@ -99,7 +96,6 @@ var createAccount = function () {
             console.log(errorMessage)
     });    
 };
-
 
 
 function newUserDBEntry(user) {
