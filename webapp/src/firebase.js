@@ -128,12 +128,13 @@ var tagsoo = ["a", "b", "c", "Apple", "haha", "bed"];
 
 var addTags = function(itemTags) {
     database.ref('tags/').once('value', function(snapshot) {
+        var tagsInDB = snapshot.val()
         itemTags.forEach(function (tag) {
-            if (snapshot.val().hasOwnProperty(tag)) {
+            if (tagsInDB.hasOwnProperty(tag)) {
                 console.log('i have this tag' + tag);
+                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
             } else {
                 console.log('i dont have this tag' + tag);
-
                 database.ref('tags/').child(tag).set(1);
             }
         });
