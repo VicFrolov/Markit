@@ -23,7 +23,7 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     var myDate = Date();
     var itemRef = itemsRef.push();
     var itemKey = itemRef.key;
-    var lowerCasedTags = $.map(tags, function(n,i){return n.toLowerCase();});
+    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
 
     var itemData = {
         title: title,
@@ -36,7 +36,7 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     };
 
     addTags(lowerCasedTags);
-    addHubs(hubs)
+    addHubs(hubs);
     itemsRef.child(itemKey).set(itemData);
     database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
@@ -45,7 +45,6 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     });
     
     
-
     // adding images to storage
     for (var i = 0; i < images.length; i += 1) {
         (function(x) {
@@ -72,7 +71,6 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
             });
         })(i);
     }
-
 };
 
 var getListings = function (callback) {
@@ -106,7 +104,6 @@ var createAccount = function () {
     });    
 };
 
-
 var newUserDBEntry = function (user) {
     var firstName = $("#sign-up-first-name").val();
     var lastName = $("#sign-up-last-name").val();
@@ -126,20 +123,13 @@ var newUserDBEntry = function (user) {
     usersRef.child(user.uid).set(userInfo);
 };
 
-
-var addHub = function (hub) {
-    database.ref('hubs/' + hub).push();
-};
-
 var addTags = function(itemTags) {
     database.ref('tags/').once('value', function(snapshot) {
         var tagsInDB = snapshot.val();
         itemTags.forEach(function (tag) {
             if (tagsInDB.hasOwnProperty(tag)) {
-                console.log('i have this tag' + tag);
                 database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
             } else {
-                console.log('i dont have this tag' + tag);
                 database.ref('tags/').child(tag).set(1);
             }
         });
@@ -148,16 +138,13 @@ var addTags = function(itemTags) {
     });
 };
 
-
 var addHubs = function(itemHubs) {
     database.ref('tags/').once('value', function(snapshot) {
         var hubsInDB = snapshot.val();
         itemHubs.forEach(function (hub) {
             if (hubsInDB.hasOwnProperty(hub)) {
-                console.log('i have this tag' + hub);
                 database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
             } else {
-                console.log('i dont have this tag' + hub);
                 database.ref('hubs/').child(hub).set(1);
             }
         });
@@ -165,7 +152,6 @@ var addHubs = function(itemHubs) {
         console.log(errorObject.code);
     });
 };
-
 
 module.exports = {
     auth,
