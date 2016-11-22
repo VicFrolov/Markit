@@ -108,7 +108,7 @@
 	    var myDate = Date();
 	    var itemRef = itemsRef.push();
 	    var itemKey = itemRef.key;
-	    var lowerCasedTags = $.map(tags, function(n,i){return n.toLowerCase();});
+	    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
 
 	    var itemData = {
 	        title: title,
@@ -121,7 +121,8 @@
 	    };
 
 	    addTags(lowerCasedTags);
-	    addHubs(hubs)
+	    addHubs(hubs);
+	    addItemToUserProfile(uid, itemKey);
 	    itemsRef.child(itemKey).set(itemData);
 	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
@@ -130,7 +131,6 @@
 	    });
 	    
 	    
-
 	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
@@ -157,7 +157,6 @@
 	            });
 	        })(i);
 	    }
-
 	};
 
 	var getListings = function (callback) {
@@ -179,6 +178,10 @@
 	    });
 	};
 
+	var addItemToUserProfile = function(uid, itemID) {
+	    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+	}
+
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
 	        $("#sign-up-password").val()).then(function(user) {
@@ -190,7 +193,6 @@
 	            console.log(errorMessage);
 	    });    
 	};
-
 
 	var newUserDBEntry = function (user) {
 	    var firstName = $("#sign-up-first-name").val();
@@ -211,20 +213,13 @@
 	    usersRef.child(user.uid).set(userInfo);
 	};
 
-
-	var addHub = function (hub) {
-	    database.ref('hubs/' + hub).push();
-	};
-
 	var addTags = function(itemTags) {
 	    database.ref('tags/').once('value', function(snapshot) {
 	        var tagsInDB = snapshot.val();
 	        itemTags.forEach(function (tag) {
 	            if (tagsInDB.hasOwnProperty(tag)) {
-	                console.log('i have this tag' + tag);
 	                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
 	            } else {
-	                console.log('i dont have this tag' + tag);
 	                database.ref('tags/').child(tag).set(1);
 	            }
 	        });
@@ -233,16 +228,13 @@
 	    });
 	};
 
-
 	var addHubs = function(itemHubs) {
 	    database.ref('tags/').once('value', function(snapshot) {
 	        var hubsInDB = snapshot.val();
 	        itemHubs.forEach(function (hub) {
 	            if (hubsInDB.hasOwnProperty(hub)) {
-	                console.log('i have this tag' + hub);
 	                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
 	            } else {
-	                console.log('i dont have this tag' + hub);
 	                database.ref('hubs/').child(hub).set(1);
 	            }
 	        });
@@ -251,13 +243,12 @@
 	    });
 	};
 
-
 	module.exports = {
 	    auth,
 	    signIn,
 	    getListings,
 	    addListing,
-	    addHub,
+	    addHubs,
 	    addTags,
 	    filterListings,
 	    createAccount,
@@ -895,15 +886,15 @@
 	        userID = auth.currentUser.uid;
 	        itemTitle = $("#item-post-title").val();
 	        itemDescription = $("#item-post-description").val();
+
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
 	        itemPrice = $("#item-post-price").val();
 	        itemImages = [];
 	        $('#dropzone').find('img').each(function(index) {
 	            itemImages.push($(this).attr('src'));
 	        });
-	        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
-	        console.log(itemHub);
+	        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
 	        if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
@@ -937,7 +928,6 @@
 	                    checksPassed = false;
 	                } 
 	            });
-	            
 	        }
 
 	        return checksPassed;
@@ -992,7 +982,6 @@
 	        $('#carousel-wrapper').empty();
 	    });
 
-
 	    //add listing
 	    $("main").on('click', '#submit-post', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
@@ -1002,7 +991,6 @@
 	            alert("please enter a username and comment");
 	        }
 	    });
-
 
 	    var itemTagRef = $('#itemTags');
 	    if (itemTagRef.length > 0) {

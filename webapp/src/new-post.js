@@ -14,15 +14,15 @@ $(function() {
         userID = auth.currentUser.uid;
         itemTitle = $("#item-post-title").val();
         itemDescription = $("#item-post-description").val();
+
         itemTags = $('#itemTags').textext()[0].tags()._formData;
         itemPrice = $("#item-post-price").val();
         itemImages = [];
         $('#dropzone').find('img').each(function(index) {
             itemImages.push($(this).attr('src'));
         });
-        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
-        console.log(itemHub);
+        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
         if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
             Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
@@ -56,7 +56,6 @@ $(function() {
                     checksPassed = false;
                 } 
             });
-            
         }
 
         return checksPassed;
@@ -111,7 +110,6 @@ $(function() {
         $('#carousel-wrapper').empty();
     });
 
-
     //add listing
     $("main").on('click', '#submit-post', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
@@ -121,7 +119,6 @@ $(function() {
             alert("please enter a username and comment");
         }
     });
-
 
     var itemTagRef = $('#itemTags');
     if (itemTagRef.length > 0) {

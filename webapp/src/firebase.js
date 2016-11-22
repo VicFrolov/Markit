@@ -32,11 +32,13 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
         price: price,
         uid: uid,
         id: itemKey,
+        hubs: hubs,
         date: myDate
     };
 
     addTags(lowerCasedTags);
     addHubs(hubs);
+    addItemToUserProfile(uid, itemKey);
     itemsRef.child(itemKey).set(itemData);
     database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
@@ -91,6 +93,10 @@ var signIn = function (email, password) {
         var errorMessage = error.message;
     });
 };
+
+var addItemToUserProfile = function(uid, itemID) {
+    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+}
 
 var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -158,7 +164,7 @@ module.exports = {
     signIn,
     getListings,
     addListing,
-    addHub,
+    addHubs,
     addTags,
     filterListings,
     createAccount,
