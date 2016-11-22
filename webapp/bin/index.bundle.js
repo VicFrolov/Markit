@@ -878,10 +878,9 @@
 	        $('#dropzone').find('img').each(function(index) {
 	            itemImages.push($(this).attr('src'));
 	        });
-	        
+	        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
-	        // itemHub needs to be changed
-	        itemHub = "hardcodedForNow";
+	        console.log(itemHub);
 
 	        if (!/^[\w\s\.\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
@@ -892,8 +891,9 @@
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if(!/^[a-zA-Z\-]+$/.test(itemHub)) {
+	        } else if(itemHub.length < 1 || itemHub.length > 3) {
 	            checksPassed = false;
+	            Materialize.toast('Please enter up to 3 hubs', 3000, 'rounded');
 	        } else if (itemTags.length < 2 || itemTags.length > 5) {
 	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
 	            checksPassed = false;
@@ -907,6 +907,14 @@
 	                    checksPassed = false;
 	                }
 	            }   
+
+	            itemHub.forEach(function(currentHub) {
+	                if (!/^[a-zA-Z\-\s]+$/.test(currentHub)) {
+	                    Materialize.toast('Hubs can only contain letters, hyphens and spaces', 3000, 'rounded');
+	                    checksPassed = false;
+	                } 
+	            });
+	            
 	        }
 
 	        return checksPassed;
@@ -1008,19 +1016,22 @@
 	    var hubRef = $('#hub-selection');
 	    if (hubRef.length > 0) {
 	        hubRef.textext({plugins : 'tags autocomplete'})
-	                .bind('getSuggestions', function(e, data){
-	                    var list = [
-	                            'Loyola Marymount University',
-	                            'UCLA'
-	                        ],
-	                        textext = $(e.target).textext()[0],
-	                        query = (data ? data.query : '') || '';
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Loyola Marymount University',
+	                        'UCLA',
+	                        'l',
+	                        'la',
+	                        'lalala'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
 
-	                    $(this).trigger('setSuggestions',{
-	                        result : textext.itemManager().filter(list, query) }
-	                    );
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
 	        });
-	    }; 
+	    }
 
 
 	    /**
@@ -1049,8 +1060,7 @@
 	                $.each(dataTransfer.files, function(i, file) { 
 	                    reader = new FileReader();
 	                    reader.onload = $.proxy(function(file, $fileList, event) {
-	                        var img = file.type.match('image.*')
-	                            ? $("<img>").attr('src', event.target.result) : "";
+	                        var img = file.type.match('image.*') ? $("<img>").attr('src', event.target.result) : "";
 	                        $fileList.empty().append(img);
 	                    }, this, file, $(dropArea));
 	                    reader.readAsDataURL(file);
@@ -1068,7 +1078,7 @@
 	            reader.onload = function (e) {
 	                $(drop).empty().append($("<img>").attr("src", reader.result));
 	                $(drop).css('background-color', '#fff');
-	            }
+	            };
 	            reader.readAsDataURL(this.files[0]);
 	        }
 	    });
