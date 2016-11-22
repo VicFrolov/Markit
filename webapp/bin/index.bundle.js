@@ -101,6 +101,7 @@
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
+	var usersRef = database.ref('users/')
 
 	// var itemsByHub = database.ref('itemsByHub/' + hub);
 	// var itemsByUser = database.ref('itemsByUser/' + uid);
@@ -173,11 +174,38 @@
 	};
 
 	var createAccount = function () {
-	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
-	        var errorCode = error.code;
-	        var errorMessage = error.message;
-	    });
+	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+	        $("#sign-up-password").val()).then(function(user) {
+	            var user = firebase.auth().currentUser;
+	            newUserDBEntry(user)
+	        }, function(error) {
+	            var errorCode = error.code;
+	            var errorMessage = error.message;
+	            console.log(errorMessage)
+	    });    
 	};
+
+
+
+	function newUserDBEntry(user) {
+	    var firstName = $("#sign-up-first-name").val();
+	    var lastName = $("#sign-up-last-name").val();
+	    var username = $("#sign-up-username").val();
+	    var userHub = $("#sign-up-hub").val();
+	    var date =  Date();
+
+	    var userInfo = {
+	        uid: user.uid,
+	        email: user.email,
+	        username: username,
+	        userHub: userHub,
+	        firstName: firstName,
+	        lastName: lastName,
+	        dateCreated: date
+	    };
+	    usersRef.push(userInfo);
+	}
+
 
 	var addHub = function (hub) {
 	    database.ref('hubs/' + hub).push();
