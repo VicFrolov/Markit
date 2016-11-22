@@ -17,9 +17,14 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.markit.android.dummy.DummyContent;
 
 
-public class CardViewActivity extends BaseActivity {
+public class CardViewActivity extends BaseActivity implements CardItemFragment.OnListFragmentInteractionListener {
+
+    public void onListFragmentInteraction(DummyContent.DummyItem d) {
+//        TODO figure out what the fuck this thing is supposed to do
+    }
 
     private boolean loggedIn;
     private RecyclerView recList;
