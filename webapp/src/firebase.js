@@ -1,6 +1,6 @@
 var firebase = require('firebase/app');
 require('firebase/auth');
-require('firebase/database')
+require('firebase/database');
 require('firebase/storage');
 
 firebase.initializeApp({
@@ -16,7 +16,7 @@ var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
-var usersRef = database.ref('users/')
+var usersRef = database.ref('users/');
 
 var addListing = function (title, description, tags, price, hub, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
@@ -32,7 +32,7 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
         uid: uid,
         id: itemKey,
         date: myDate
-    }
+    };
 
     itemsRef.child(itemKey).set(itemData);
     database.ref('itemsByHub/' + 'hardcodedHub/').child(itemKey).set(itemData);
@@ -68,14 +68,14 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
 
 var getListings = function (callback) {
     itemsRef.once("value").then(function(snapshot) {
-        callback(snapshot.val())
+        callback(snapshot.val());
     }, function (error) {
-        console.log(error)
+        console.log(error);
     });
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
-    listingsRef.orderByChild()
+    listingsRef.orderByChild();
 };
 
 var signIn = function (email, password) {
@@ -89,16 +89,16 @@ var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
         $("#sign-up-password").val()).then(function(user) {
             var user = firebase.auth().currentUser;
-            newUserDBEntry(user)
+            newUserDBEntry(user);
         }, function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            console.log(errorMessage)
+            console.log(errorMessage);
     });    
 };
 
 
-function newUserDBEntry(user) {
+var newUserDBEntry = function (user) {
     var firstName = $("#sign-up-first-name").val();
     var lastName = $("#sign-up-last-name").val();
     var username = $("#sign-up-username").val();
@@ -115,16 +115,35 @@ function newUserDBEntry(user) {
         dateCreated: date
     };
     usersRef.child(user.uid).set(userInfo);
-}
+};
 
 
 var addHub = function (hub) {
     database.ref('hubs/' + hub).push();
 };
 
-var addCategory = function (category) {
-    database.ref('categories/' + category).push();
+// database.ref('tags/').child('a').set(999);
+
+var tagsoo = ["a", "b", "c", "Apple", "haha", "bed"];
+
+var addTags = function(itemTags) {
+    database.ref('tags/').once('value', function(snapshot) {
+        itemTags.forEach(function (tag) {
+            if (snapshot.val().hasOwnProperty(tag)) {
+                console.log('i have this tag' + tag);
+            } else {
+                console.log('i dont have this tag' + tag);
+
+                database.ref('tags/').child(tag).set(1);
+            }
+        });
+    }, function (errorObject) {
+        console.log(errorObject.code);
+    });
 };
+
+addTags(["ZZZZ", "bed"]);
+
 
 module.exports = {
     auth,
@@ -132,7 +151,7 @@ module.exports = {
     getListings,
     addListing,
     addHub,
-    addCategory,
+    addTags,
     filterListings,
     createAccount,
     itemImagesRef

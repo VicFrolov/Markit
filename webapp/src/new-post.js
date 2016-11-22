@@ -55,7 +55,7 @@ $(function() {
     };
 
     var addImagesToSlider = function() {
-        let imageCount = ['one', 'two', 'three', 'four'];
+        var imageCount = ['one', 'two', 'three', 'four'];
         $('#carousel-wrapper').append($('<div></div>').addClass('carousel carousel-slider'));
 
         for (var i = 0; i < itemImages.length; i += 1) {    

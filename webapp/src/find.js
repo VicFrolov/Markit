@@ -9,8 +9,8 @@ $(function() {
         itemImagesRef.child(address).getDownloadURL().then(function(url) {
             callback(url);
         }).catch(function(error) {
-            console.log("error image not found")
-            console.log("error either in item id, filename, or file doesn't exist")
+            console.log("error image not found");
+            console.log("error either in item id, filename, or file doesn't exist");
         });
     };
 
@@ -51,7 +51,7 @@ $(function() {
 
     var newListing = function(currentItems) {
         $("#find-content").empty();
-        var imagePaths = []
+        var imagePaths = [];
 
         for (var item in currentItems) {
             var currentItem = currentItems[item];
@@ -107,7 +107,7 @@ $(function() {
                     )
                 )
             );
-        };
+        }
 
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {

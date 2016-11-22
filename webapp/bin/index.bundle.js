@@ -67,7 +67,7 @@
 	                $(".dropdown-button").dropdown();
 	                $("#navbar-logout-button").click(function () {
 	                    auth.signOut();
-	                })
+	                });
 	            });
 	        } else {
 	            console.log('user is NOT signed in');
@@ -85,7 +85,7 @@
 
 	var firebase = __webpack_require__(3);
 	__webpack_require__(4);
-	__webpack_require__(5)
+	__webpack_require__(5);
 	__webpack_require__(6);
 
 	firebase.initializeApp({
@@ -101,11 +101,11 @@
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
-	var usersRef = database.ref('users/')
+	var usersRef = database.ref('users/');
 
 	var addListing = function (title, description, tags, price, hub, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-	    var myDate = new Date();
+	    var myDate = Date();
 	    var itemRef = itemsRef.push();
 	    var itemKey = itemRef.key;
 
@@ -117,7 +117,7 @@
 	        uid: uid,
 	        id: itemKey,
 	        date: myDate
-	    }
+	    };
 
 	    itemsRef.child(itemKey).set(itemData);
 	    database.ref('itemsByHub/' + 'hardcodedHub/').child(itemKey).set(itemData);
@@ -153,14 +153,14 @@
 
 	var getListings = function (callback) {
 	    itemsRef.once("value").then(function(snapshot) {
-	        callback(snapshot.val())
+	        callback(snapshot.val());
 	    }, function (error) {
-	        console.log(error)
+	        console.log(error);
 	    });
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
-	    listingsRef.orderByChild()
+	    listingsRef.orderByChild();
 	};
 
 	var signIn = function (email, password) {
@@ -174,16 +174,16 @@
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
 	        $("#sign-up-password").val()).then(function(user) {
 	            var user = firebase.auth().currentUser;
-	            newUserDBEntry(user)
+	            newUserDBEntry(user);
 	        }, function(error) {
 	            var errorCode = error.code;
 	            var errorMessage = error.message;
-	            console.log(errorMessage)
+	            console.log(errorMessage);
 	    });    
 	};
 
 
-	function newUserDBEntry(user) {
+	var newUserDBEntry = function (user) {
 	    var firstName = $("#sign-up-first-name").val();
 	    var lastName = $("#sign-up-last-name").val();
 	    var username = $("#sign-up-username").val();
@@ -200,16 +200,35 @@
 	        dateCreated: date
 	    };
 	    usersRef.child(user.uid).set(userInfo);
-	}
+	};
 
 
 	var addHub = function (hub) {
 	    database.ref('hubs/' + hub).push();
 	};
 
-	var addCategory = function (category) {
-	    database.ref('categories/' + category).push();
+	// database.ref('tags/').child('a').set(999);
+
+	var tagsoo = ["a", "b", "c", "Apple", "haha", "bed"];
+
+	var addTags = function(itemTags) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        itemTags.forEach(function (tag) {
+	            if (snapshot.val().hasOwnProperty(tag)) {
+	                console.log('i have this tag' + tag);
+	            } else {
+	                console.log('i dont have this tag' + tag);
+
+	                database.ref('tags/').child(tag).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
+	    });
 	};
+
+	addTags(["ZZZZ", "bed"]);
+
 
 	module.exports = {
 	    auth,
@@ -217,7 +236,7 @@
 	    getListings,
 	    addListing,
 	    addHub,
-	    addCategory,
+	    addTags,
 	    filterListings,
 	    createAccount,
 	    itemImagesRef
@@ -826,7 +845,7 @@
 	    $('body').on('keypress', '#login-popup-inner', function(e) {
 	        if (e.which === 13) {
 	            signIn($('#email').val(), $('#password').val());
-	        };
+	        }
 	    });
 
 	    $('body').on('click', '#sign-in-button', function() {
@@ -895,7 +914,7 @@
 	    };
 
 	    var addImagesToSlider = function() {
-	        let imageCount = ['one', 'two', 'three', 'four'];
+	        var imageCount = ['one', 'two', 'three', 'four'];
 	        $('#carousel-wrapper').append($('<div></div>').addClass('carousel carousel-slider'));
 
 	        for (var i = 0; i < itemImages.length; i += 1) {    
@@ -1102,8 +1121,8 @@
 	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
 	            callback(url);
 	        }).catch(function(error) {
-	            console.log("error image not found")
-	            console.log("error either in item id, filename, or file doesn't exist")
+	            console.log("error image not found");
+	            console.log("error either in item id, filename, or file doesn't exist");
 	        });
 	    };
 
@@ -1144,7 +1163,7 @@
 
 	    var newListing = function(currentItems) {
 	        $("#find-content").empty();
-	        var imagePaths = []
+	        var imagePaths = [];
 
 	        for (var item in currentItems) {
 	            var currentItem = currentItems[item];
@@ -1200,7 +1219,7 @@
 	                    )
 	                )
 	            );
-	        };
+	        }
 
 	        for (var i = 0; i < imagePaths.length; i += 1) {
 	            (function (x) {
@@ -1639,7 +1658,7 @@
 	    var next = function () {
 	        $('#sign-up-popup1').fadeOut();
 	        $('#sign-up-popup2').fadeIn();
-	    }
+	    };
 
 	    var firstNameValid = false;
 	    var lastNameValid = false;
@@ -1683,11 +1702,11 @@
 
 	    var checkNames = function () {
 	        return firstNameValid && lastNameValid && usernameValid;
-	    }
+	    };
 
 	    var checkInput = function () {
 	        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
-	    }
+	    };
 
 	    var nameSizeLimit = 1;
 	    
@@ -1892,7 +1911,7 @@
 	                )
 	            ]);
 	        }
-	    }
+	    };
 
 	    var updateSettings = function () {
 
@@ -1922,7 +1941,7 @@
 
 	    $('#liked-tab').click(function () {
 	        loadLikedCardList();
-	    })
+	    });
 
 	    $('#notifications-tab').click(function () {
 	        loadNotifications();
@@ -1953,7 +1972,7 @@
 	        emailNotifications.attr("disabled", true);
 	        password.attr("disabled", true);
 	        updateSettings();
-	    })
+	    });
 
 	});
 
