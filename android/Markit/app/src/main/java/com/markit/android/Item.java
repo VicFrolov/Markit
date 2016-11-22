@@ -10,8 +10,9 @@ public class Item {
     //private String[] tags;
     private String title;
     private String uid;
+    //private String username;
 
-    public Item () {
+    public Item() {
 //        this.description = "No description";
 //        this.price = "0";
 //        this.tags = new String[1];
@@ -47,7 +48,7 @@ public class Item {
 //    public String[] getTags() {
 //        return tags;
 //    }
-//
+
 //    public void setTags(String[] tags) {
 //        this.tags = tags;
 //    }

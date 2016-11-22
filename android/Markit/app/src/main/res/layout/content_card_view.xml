@@ -15,11 +15,11 @@
             android:id="@+id/recList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="200dp"
-            android:textSize="18sp"/>
-        <include layout="@layout/card_item"></include>
+            android:layout_marginTop="20dp"
+            android:textSize="18sp" />
+
+        <!--<include layout="@layout/card_item"></include>-->
+
     </FrameLayout>
-
-
 
 </android.support.v4.widget.NestedScrollView>

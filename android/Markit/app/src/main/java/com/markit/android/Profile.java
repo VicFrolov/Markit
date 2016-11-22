@@ -146,19 +146,19 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
-        if (id == R.id.new_tag_set) {
-            addTagSet();
-        }
+//        if (id == R.id.new_tag_set) {
+//            addTagSet();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public String[] addTagSet() {
-//TODO bring up a dialog modal and parse user input into individual tag strings
-        NewTagSetDialog dialog = new NewTagSetDialog();
-        dialog.show(getFragmentManager(), "NewTagSet");
-        return null;
-    }
+//    public String[] addTagSet() {
+////TODO bring up a dialog modal and parse user input into individual tag strings
+//        NewTagSetDialog dialog = new NewTagSetDialog();
+//        dialog.show(getFragmentManager(), "NewTagSet");
+//        return null;
+//    }
 
 
     /**
