@@ -118,7 +118,7 @@ function newUserDBEntry(user) {
         lastName: lastName,
         dateCreated: date
     };
-    usersRef.push(userInfo);
+    usersRef.child(user.uid).set(userInfo);
 }
 
 
