@@ -3,19 +3,16 @@ $(function() {
     var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
-
+    var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
 
     var getImage = function(address, callback) {
         itemImagesRef.child(address).getDownloadURL().then(function(url) {
             callback(url);
         }).catch(function(error) {
-            console.log("error image not found")
-            console.log("error either in item id, filename, or file doesn't exist")
+            console.log("error image not found");
+            console.log("error either in item id, filename, or file doesn't exist");
         });
     };
-
-
-
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -51,11 +48,12 @@ $(function() {
 
     var newListing = function(currentItems) {
         $("#find-content").empty();
-        var imagePaths = []
+        var imagePaths = [];
 
         for (var item in currentItems) {
             var currentItem = currentItems[item];
-            imagePaths.push(currentItem['id']);
+            var itemID = currentItem['id'];
+            imagePaths.push(itemID);
         
             $("#find-content").append(
                 $("<div></div>").addClass("col l4 m4 s12").append(
@@ -63,7 +61,8 @@ $(function() {
                         $("<div></div>").addClass("find-result-favorite").append(
                             $("<img/>").addClass("find-result-favorite-image").attr({
                                 src: "../media/ic_heart.png",
-                                alt: "heart"
+                                alt: "heart",
+                                uid: itemID
                             })
                         )
                     ).append(
@@ -107,7 +106,7 @@ $(function() {
                     )
                 )
             );
-        };
+        }
 
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {
@@ -117,6 +116,7 @@ $(function() {
                 });
             })(i);
         }
+
     };
 
     $('input.autocomplete').autocomplete({
@@ -151,6 +151,7 @@ $(function() {
         this.favorited = this.favorited || false;
         if (!this.favorited) {
             $(this).attr('src', '../media/ic_heart_hover.png');
+            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
         } else {
             $(this).attr('src', '../media/ic_heart.png');
         }

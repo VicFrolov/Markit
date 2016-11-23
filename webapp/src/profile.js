@@ -106,7 +106,7 @@ $(function () {
                 )
             ]);
         }
-    }
+    };
 
     var updateSettings = function () {
 
@@ -136,7 +136,7 @@ $(function () {
 
     $('#liked-tab').click(function () {
         loadLikedCardList();
-    })
+    });
 
     $('#notifications-tab').click(function () {
         loadNotifications();
@@ -167,6 +167,6 @@ $(function () {
         emailNotifications.attr("disabled", true);
         password.attr("disabled", true);
         updateSettings();
-    })
+    });
 
 });

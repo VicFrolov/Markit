@@ -1,6 +1,6 @@
 var firebase = require('firebase/app');
 require('firebase/auth');
-require('firebase/database')
+require('firebase/database');
 require('firebase/storage');
 
 firebase.initializeApp({
@@ -16,30 +16,38 @@ var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
+var usersRef = database.ref('users/');
 
-// var itemsByHub = database.ref('itemsByHub/' + hub);
-// var itemsByUser = database.ref('itemsByUser/' + uid);
-
-var addListing = function (title, description, tags, price, hub, uid, images) {
+var addListing = function (title, description, tags, price, hubs, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-    var myDate = new Date();
+    var myDate = Date();
     var itemRef = itemsRef.push();
     var itemKey = itemRef.key;
+    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
 
     var itemData = {
         title: title,
         description: description,
-        tags: tags,
+        tags: lowerCasedTags,
         price: price,
         uid: uid,
         id: itemKey,
+        hubs: hubs,
         date: myDate
-    }
+    };
 
-    itemsRef.push(itemData);
-    database.ref('itemsByHub/' + 'hardcodedHub/').push(itemData);
-    database.ref('itemsByUser/' + uid + '/').push(itemData);
+    addTags(lowerCasedTags);
+    addHubs(hubs);
+    addNewListingToProfile(uid, itemKey);
+    itemsRef.child(itemKey).set(itemData);
+    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
+    hubs.forEach(function(currentHub) {
+        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
+    });
+    
+    
+    // adding images to storage
     for (var i = 0; i < images.length; i += 1) {
         (function(x) {
             images[x] = images[x].replace(/^.*base64,/g, '');
@@ -65,19 +73,18 @@ var addListing = function (title, description, tags, price, hub, uid, images) {
             });
         })(i);
     }
-
 };
 
 var getListings = function (callback) {
     itemsRef.once("value").then(function(snapshot) {
-        callback(snapshot.val())
+        callback(snapshot.val());
     }, function (error) {
-        console.log(error)
+        console.log(error);
     });
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
-    listingsRef.orderByChild()
+    listingsRef.orderByChild();
 };
 
 var signIn = function (email, password) {
@@ -87,19 +94,73 @@ var signIn = function (email, password) {
     });
 };
 
+var addNewListingToProfile = function(uid, itemID) {
+    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+};
+
+var addFavoriteToProfile = function(uid, itemID) {
+    usersRef.child(uid + '/favorites/' + itemID).set(true);
+};
+
 var createAccount = function () {
-    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+        $("#sign-up-password").val()).then(function(user) {
+            var newUser = firebase.auth().currentUser;
+            newUserDBEntry(newUser);
+        }, function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage);
+    });    
+};
+
+var newUserDBEntry = function (user) {
+    var firstName = $("#sign-up-first-name").val();
+    var lastName = $("#sign-up-last-name").val();
+    var username = $("#sign-up-username").val();
+    var userHub = $("#sign-up-hub").val();
+    var date =  Date();
+
+    var userInfo = {
+        uid: user.uid,
+        email: user.email,
+        username: username,
+        userHub: userHub,
+        firstName: firstName,
+        lastName: lastName,
+        dateCreated: date
+    };
+    usersRef.child(user.uid).set(userInfo);
+};
+
+var addTags = function(itemTags) {
+    database.ref('tags/').once('value', function(snapshot) {
+        var tagsInDB = snapshot.val();
+        itemTags.forEach(function (tag) {
+            if (tagsInDB.hasOwnProperty(tag)) {
+                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
+            } else {
+                database.ref('tags/').child(tag).set(1);
+            }
+        });
+    }, function (errorObject) {
+        console.log(errorObject.code);
     });
 };
 
-var addHub = function (hub) {
-    database.ref('hubs/' + hub).push();
-};
-
-var addCategory = function (category) {
-    database.ref('categories/' + category).push();
+var addHubs = function(itemHubs) {
+    database.ref('tags/').once('value', function(snapshot) {
+        var hubsInDB = snapshot.val();
+        itemHubs.forEach(function (hub) {
+            if (hubsInDB.hasOwnProperty(hub)) {
+                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
+            } else {
+                database.ref('hubs/').child(hub).set(1);
+            }
+        });
+    }, function (errorObject) {
+        console.log(errorObject.code);
+    });
 };
 
 module.exports = {
@@ -107,9 +168,10 @@ module.exports = {
     signIn,
     getListings,
     addListing,
-    addHub,
-    addCategory,
+    addHubs,
+    addTags,
     filterListings,
     createAccount,
-    itemImagesRef
+    itemImagesRef,
+    addFavoriteToProfile
 };
