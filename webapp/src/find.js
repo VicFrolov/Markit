@@ -51,7 +51,7 @@ $(function() {
             var  currentImageID = $(this).attr('uid');
             if(currentFavorites && currentFavorites[currentImageID]) {
                 $(this).attr('src', '../media/ic_heart_hover.png');
-                $(this).css('opacity', '1');
+                $(this).css('opacity', 1);
                 this.favorited = true;
             }
 
@@ -156,7 +156,7 @@ $(function() {
     // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {
         $(this).attr('src', '../media/ic_heart_hover.png');
-        $(this).css('opacity', '0.7');
+        $(this).css('opacity', 1);
     }).on('mouseout', '.find-result-favorite-image', function() {
         if (!this.favorited) {
             $(this).attr('src', '../media/ic_heart.png');

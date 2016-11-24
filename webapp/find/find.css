@@ -148,7 +148,8 @@ html, body {
     top: 84px;
     right: 10px;
     width: 23.5%;
-    height: 84.5%;
+    height: 89%;
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 993px) {

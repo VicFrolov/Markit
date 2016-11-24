@@ -96,6 +96,7 @@ var getFavorites = function (callback) {
 
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 }
 
 var filterListings = function (keywords, hubs, tags, price_range) {
@@ -115,7 +116,9 @@ var addNewListingToProfile = function(uid, itemID) {
 
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
+    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
 };
+
 
 var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
