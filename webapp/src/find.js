@@ -45,14 +45,31 @@ $(function() {
         });
     }
 
-    var getUserFavorites = function(currentFavorites) {
+    var showUserFavorites = function(currentFavorites) {
         console.log(currentFavorites);
+
+
+        $('.find-result-favorite-image').each(function() {
+            var  currentImageID = $(this).attr('uid')
+            if(currentFavorites[currentImageID]) {
+                $(this).attr('src', '../media/ic_heart_hover.png');
+                $(this).css('opacity', '1');
+            }
+        });
+        // for everyFavoritePic {
+        //     check if part of currentFavorites
+
+        //     if () {
+        //         the src changes
+        //         also change some status to like.. "favorited" for click change
+        //     }
+        // }
     }
 
     var newListing = function(currentItems) {
         $("#find-content").empty();
         var imagePaths = [];
-
+        
         for (var item in currentItems) {
             var currentItem = currentItems[item];
             var itemID = currentItem['id'];
@@ -111,6 +128,8 @@ $(function() {
             );
         }
 
+        getFavorites(showUserFavorites);
+
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {
                 getImage(imagePaths[x] + '/imageOne', function(url) {
@@ -138,7 +157,6 @@ $(function() {
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
         getListings(newListing);
-        getFavorites(getUserFavorites);
     });
 
 
