@@ -88,6 +88,8 @@
 	__webpack_require__(5);
 	__webpack_require__(6);
 
+
+
 	firebase.initializeApp({
 	    // serviceAccount: "./MarkIt-3489756f4a28.json",
 	    apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -162,6 +164,14 @@
 
 	var getListings = function (callback) {
 	    itemsRef.once("value").then(function(snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var getFavorites = function (callback) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function(snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
@@ -258,7 +268,8 @@
 	    filterListings,
 	    createAccount,
 	    itemImagesRef,
-	    addFavoriteToProfile
+	    addFavoriteToProfile,
+	    getFavorites
 	};
 
 /***/ },
@@ -1138,6 +1149,7 @@
 
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
+	    var getFavorites = __webpack_require__(2)['getFavorites'];
 	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
@@ -1182,7 +1194,9 @@
 	        });
 	    }
 
-
+	    var getUserFavorites = function(currentFavorites) {
+	        console.log(currentFavorites);
+	    }
 
 	    var newListing = function(currentItems) {
 	        $("#find-content").empty();
@@ -1273,6 +1287,7 @@
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
 	        getListings(newListing);
+	        getFavorites(getUserFavorites);
 	    });
 
 

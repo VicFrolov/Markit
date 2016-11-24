@@ -3,6 +3,8 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 
+
+
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
     apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -77,6 +79,14 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
 
 var getListings = function (callback) {
     itemsRef.once("value").then(function(snapshot) {
+        callback(snapshot.val());
+    }, function (error) {
+        console.log(error);
+    });
+};
+
+var getFavorites = function (callback) {
+    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function(snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);
@@ -173,5 +183,6 @@ module.exports = {
     filterListings,
     createAccount,
     itemImagesRef,
-    addFavoriteToProfile
+    addFavoriteToProfile,
+    getFavorites
 };

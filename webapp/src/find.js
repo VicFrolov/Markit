@@ -1,5 +1,6 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
+    var getFavorites = require('./firebase.js')['getFavorites'];
     var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
@@ -44,7 +45,9 @@ $(function() {
         });
     }
 
-
+    var getUserFavorites = function(currentFavorites) {
+        console.log(currentFavorites);
+    }
 
     var newListing = function(currentItems) {
         $("#find-content").empty();
@@ -135,6 +138,7 @@ $(function() {
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
         getListings(newListing);
+        getFavorites(getUserFavorites);
     });
 
 
