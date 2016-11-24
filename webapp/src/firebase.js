@@ -93,6 +93,11 @@ var getFavorites = function (callback) {
     });
 };
 
+
+var removeFavorite = function (item) {
+    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+}
+
 var filterListings = function (keywords, hubs, tags, price_range) {
     listingsRef.orderByChild();
 };
@@ -184,5 +189,6 @@ module.exports = {
     createAccount,
     itemImagesRef,
     addFavoriteToProfile,
-    getFavorites
+    getFavorites,
+    removeFavorite
 };

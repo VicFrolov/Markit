@@ -5,6 +5,7 @@ $(function() {
     var auth = require('./firebase.js')["auth"];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
+    var removeFavorite = require('./firebase.js')['removeFavorite'];
 
     var getImage = function(address, callback) {
         itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -46,25 +47,17 @@ $(function() {
     }
 
     var showUserFavorites = function(currentFavorites) {
-        console.log(currentFavorites);
-
-
         $('.find-result-favorite-image').each(function() {
-            var  currentImageID = $(this).attr('uid')
-            if(currentFavorites[currentImageID]) {
+            var  currentImageID = $(this).attr('uid');
+            if(currentFavorites && currentFavorites[currentImageID]) {
                 $(this).attr('src', '../media/ic_heart_hover.png');
                 $(this).css('opacity', '1');
+                this.favorited = true;
             }
-        });
-        // for everyFavoritePic {
-        //     check if part of currentFavorites
 
-        //     if () {
-        //         the src changes
-        //         also change some status to like.. "favorited" for click change
-        //     }
-        // }
-    }
+            // add sideBar functionality here for favorites
+        });
+    };
 
     var newListing = function(currentItems) {
         $("#find-content").empty();
@@ -176,6 +169,7 @@ $(function() {
             addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
         } else {
             $(this).attr('src', '../media/ic_heart.png');
+            removeFavorite($(this).attr('uid'));
         }
         this.favorited = !this.favorited;
     });

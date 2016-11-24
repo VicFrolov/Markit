@@ -178,6 +178,11 @@
 	    });
 	};
 
+
+	var removeFavorite = function (item) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+	}
+
 	var filterListings = function (keywords, hubs, tags, price_range) {
 	    listingsRef.orderByChild();
 	};
@@ -269,7 +274,8 @@
 	    createAccount,
 	    itemImagesRef,
 	    addFavoriteToProfile,
-	    getFavorites
+	    getFavorites,
+	    removeFavorite
 	};
 
 /***/ },
@@ -1154,6 +1160,7 @@
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
+	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
 
 	    var getImage = function(address, callback) {
 	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -1195,25 +1202,17 @@
 	    }
 
 	    var showUserFavorites = function(currentFavorites) {
-	        console.log(currentFavorites);
-
-
 	        $('.find-result-favorite-image').each(function() {
-	            var  currentImageID = $(this).attr('uid')
-	            if(currentFavorites[currentImageID]) {
+	            var  currentImageID = $(this).attr('uid');
+	            if(currentFavorites && currentFavorites[currentImageID]) {
 	                $(this).attr('src', '../media/ic_heart_hover.png');
 	                $(this).css('opacity', '1');
+	                this.favorited = true;
 	            }
-	        });
-	        // for everyFavoritePic {
-	        //     check if part of currentFavorites
 
-	        //     if () {
-	        //         the src changes
-	        //         also change some status to like.. "favorited" for click change
-	        //     }
-	        // }
-	    }
+	            // add sideBar functionality here for favorites
+	        });
+	    };
 
 	    var newListing = function(currentItems) {
 	        $("#find-content").empty();
@@ -1325,6 +1324,7 @@
 	            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
 	        } else {
 	            $(this).attr('src', '../media/ic_heart.png');
+	            removeFavorite($(this).attr('uid'));
 	        }
 	        this.favorited = !this.favorited;
 	    });
