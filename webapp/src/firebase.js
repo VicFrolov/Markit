@@ -3,6 +3,8 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 
+
+
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
     apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -76,11 +78,50 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
 };
 
 var getListings = function (callback) {
-    itemsRef.once("value").then(function(snapshot) {
+    itemsRef.once("value").then(function (snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);
     });
+};
+
+var getFavorites = function (callback) {
+    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+        callback(snapshot.val());
+    }, function (error) {
+        console.log(error);
+    });
+};
+
+var getFavoriteObjects = function (callback) {
+    auth.onAuthStateChanged(function(user) {
+        // get user favorites
+        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+            var favorites = snapshot.val();
+            // pull object of items that user has favorited
+            itemsRef.once('value').then(function (snapshotItems) {
+                var allItems = snapshotItems.val();
+                var userFavoritesMatch = [];
+                for (var item in allItems) {
+                    if (favorites && favorites.hasOwnProperty(item)) {
+                        userFavoritesMatch.push(allItems[item]);
+                    }
+                }
+                callback(userFavoritesMatch);
+            }, function (error) {
+                console.log(error);
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    });
+};
+
+
+
+var removeFavorite = function (item) {
+    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
@@ -100,7 +141,9 @@ var addNewListingToProfile = function(uid, itemID) {
 
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
+    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
 };
+
 
 var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -173,5 +216,8 @@ module.exports = {
     filterListings,
     createAccount,
     itemImagesRef,
-    addFavoriteToProfile
+    addFavoriteToProfile,
+    getFavorites,
+    getFavoriteObjects,
+    removeFavorite
 };

@@ -88,6 +88,8 @@
 	__webpack_require__(5);
 	__webpack_require__(6);
 
+
+
 	firebase.initializeApp({
 	    // serviceAccount: "./MarkIt-3489756f4a28.json",
 	    apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -161,11 +163,50 @@
 	};
 
 	var getListings = function (callback) {
-	    itemsRef.once("value").then(function(snapshot) {
+	    itemsRef.once("value").then(function (snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
 	    });
+	};
+
+	var getFavorites = function (callback) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var getFavoriteObjects = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        // get user favorites
+	        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	            var favorites = snapshot.val();
+	            // pull object of items that user has favorited
+	            itemsRef.once('value').then(function (snapshotItems) {
+	                var allItems = snapshotItems.val();
+	                var userFavoritesMatch = [];
+	                for (var item in allItems) {
+	                    if (favorites && favorites.hasOwnProperty(item)) {
+	                        userFavoritesMatch.push(allItems[item]);
+	                    }
+	                }
+	                callback(userFavoritesMatch);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    });
+	};
+
+
+
+	var removeFavorite = function (item) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
@@ -185,7 +226,9 @@
 
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
+	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
 	};
+
 
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -258,7 +301,10 @@
 	    filterListings,
 	    createAccount,
 	    itemImagesRef,
-	    addFavoriteToProfile
+	    addFavoriteToProfile,
+	    getFavorites,
+	    getFavoriteObjects,
+	    removeFavorite
 	};
 
 /***/ },
@@ -1138,10 +1184,13 @@
 
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
+	    var getFavorites = __webpack_require__(2)['getFavorites'];
 	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
+	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 
 	    var getImage = function(address, callback) {
 	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -1151,6 +1200,7 @@
 	            console.log("error either in item id, filename, or file doesn't exist");
 	        });
 	    };
+
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -1182,12 +1232,44 @@
 	        });
 	    }
 
+	    var showFavoritesInSearches = function(currentFavorites) {
+	        $('.find-result-favorite-image').each(function() {
+	            var  currentImageID = $(this).attr('uid');
+	            if(currentFavorites && currentFavorites[currentImageID]) {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	                this.favorited = true;
+
+	            }
+
+	        });
+	    };
+
+	    var showFavoritesInSidebar = function(favorites) {
+	        var favoriteTemplate = $('#favorite-template');
+	        var str = $('#favorite-template').text();
+	        var compiled = _.template(str);
+
+	        $('#favorite-holder').empty();
+	        $('#favorite-holder').append(compiled({favorites: favorites}));
+
+	        for (var i = 0; i < favorites.length; i += 1) {
+	            (function (x) {
+	                getImage(favorites[x]['id'] + '/imageOne', function(url) {
+	                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
+	    };
 
 
-	    var newListing = function(currentItems) {
+	    getFavoriteObjects(showFavoritesInSidebar);
+
+	    var newSearch = function(currentItems) {
 	        $("#find-content").empty();
 	        var imagePaths = [];
-
+	        
 	        for (var item in currentItems) {
 	            var currentItem = currentItems[item];
 	            var itemID = currentItem['id'];
@@ -1246,6 +1328,8 @@
 	            );
 	        }
 
+	        getFavorites(showFavoritesInSearches);
+
 	        for (var i = 0; i < imagePaths.length; i += 1) {
 	            (function (x) {
 	                getImage(imagePaths[x] + '/imageOne', function(url) {
@@ -1266,20 +1350,20 @@
 	    });
 
 	    $("#find-search-button").click(function () {
-	        query = "key=";
-	        keywords = $("#item-post-title").val();
-	        keywords = $("#item-post-title").val();
+	        var query = "key=";
+	        var keywords = $("#item-post-title").val();
+	        var tags = $("#item-post-tags").val();
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
-	        getListings(newListing);
+	        getListings(newSearch);
 	    });
 
 
 	    // favorite icon highlight/changes
 	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
 	        $(this).attr('src', '../media/ic_heart_hover.png');
-	        $(this).css('opacity', '0.7');
+	        $(this).css('opacity', 1);
 	    }).on('mouseout', '.find-result-favorite-image', function() {
 	        if (!this.favorited) {
 	            $(this).attr('src', '../media/ic_heart.png');
@@ -1290,8 +1374,12 @@
 	        if (!this.favorited) {
 	            $(this).attr('src', '../media/ic_heart_hover.png');
 	            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+	            getFavoriteObjects(showFavoritesInSidebar);
+
 	        } else {
 	            $(this).attr('src', '../media/ic_heart.png');
+	            removeFavorite($(this).attr('uid'));
+	            getFavoriteObjects(showFavoritesInSidebar);
 	        }
 	        this.favorited = !this.favorited;
 	    });
