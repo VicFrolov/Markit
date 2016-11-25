@@ -103,7 +103,7 @@ var getFavoriteObjects = function (callback) {
                 var allItems = snapshotItems.val();
                 var userFavoritesMatch = [];
                 for (var item in allItems) {
-                    if (favorites.hasOwnProperty(item)) {
+                    if (favorites && favorites.hasOwnProperty(item)) {
                         userFavoritesMatch.push(allItems[item]);
                     }
                 }
