@@ -104,30 +104,10 @@ var getFavoriteObjects = function (callback) {
                 var userFavoritesMatch = [];
                 for (var item in allItems) {
                     if (favorites.hasOwnProperty(item)) {
-                        var currentItem = allItems[item];
-                        console.log(currentItem['title']);
+                        userFavoritesMatch.push(allItems[item]);
                     }
                 }
-
-
-
-            // loading favorites in side-bar
-            var favoriteTemplate = $('#favorite-template');
-            var users = [
-              {name: "vic", age: 10},
-              {name: "tor", age: 15},
-              {name: "fro", age: 20},
-              {name: "lov", age: 25},
-              {name: "ski", age: 30},
-            ];
-
-            var str = $('#favorite-template').text();
-            var compiled = _.template(str);
-            
-            $('#favorite-holder').append(compiled({users: users}));
-            
-
-
+                callback(userFavoritesMatch);
             }, function (error) {
                 console.log(error);
             });

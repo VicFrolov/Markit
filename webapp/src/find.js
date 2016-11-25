@@ -6,7 +6,7 @@ $(function() {
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
     var removeFavorite = require('./firebase.js')['removeFavorite'];
-    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects']
+    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
 
     var getImage = function(address, callback) {
         itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -62,8 +62,16 @@ $(function() {
     };
 
     var showFavoritesInSidebar = function(favorites) {
-
+        // loading favorites in side-bar
+        var favoriteTemplate = $('#favorite-template');
+        var str = $('#favorite-template').text();
+        var compiled = _.template(str);
+        
+        $('#favorite-holder').empty()
+        $('#favorite-holder').append(compiled({favorites: favorites}));
     };
+
+    getFavoriteObjects(showFavoritesInSidebar);
 
     var newSearch = function(currentItems) {
         $("#find-content").empty();
@@ -159,24 +167,6 @@ $(function() {
     });
 
 
-    // loading favorites in side-bar
-    var favoriteTemplate = $('#favorite-template');
-    if (favoriteTemplate.length > 0) {
-        var users = [
-          {name: "vic", age: 10},
-          {name: "tor", age: 15},
-          {name: "fro", age: 20},
-          {name: "lov", age: 25},
-          {name: "ski", age: 30},
-        ];
-
-        var str = $('#favorite-template').text();
-        var compiled = _.template(str);
-        
-        $('#favorite-holder').append(compiled({users: users}));
-    }
-    getFavoriteObjects();
-
     // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {
         $(this).attr('src', '../media/ic_heart_hover.png');
@@ -191,9 +181,12 @@ $(function() {
         if (!this.favorited) {
             $(this).attr('src', '../media/ic_heart_hover.png');
             addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+            getFavoriteObjects(showFavoritesInSidebar);
+
         } else {
             $(this).attr('src', '../media/ic_heart.png');
             removeFavorite($(this).attr('uid'));
+            getFavoriteObjects(showFavoritesInSidebar);
         }
         this.favorited = !this.favorited;
     });

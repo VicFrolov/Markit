@@ -68,17 +68,17 @@
             <div id="favorite-holder"></div>
             
             <script type="text/template" id="favorite-template">
-              <%for (var user of users) { %>
+              <%for (var favorite of favorites) { %>
                 <div class="favorite-element">
                   <div class="favorite-image">
                     <img class="responsive-img" src="../media/collegeStudents.jpg">
                   </div>
                   <div class="favorite-body">
                     <div class="favorite-title">
-                      <%- user['name'] %>
+                      <%- favorite['title'] %>
                     </div>
                     <div class="favorite-description">
-                      Brand new iPhone 6s, absolutely epic design blablabla
+                      <%- favorite['description'] %>
                     </div>
                     <div class="favorite-timeRemaining">
                     </div>

@@ -189,30 +189,10 @@
 	                var userFavoritesMatch = [];
 	                for (var item in allItems) {
 	                    if (favorites.hasOwnProperty(item)) {
-	                        var currentItem = allItems[item];
-	                        console.log(currentItem['title']);
+	                        userFavoritesMatch.push(allItems[item]);
 	                    }
 	                }
-
-
-
-	            // loading favorites in side-bar
-	            var favoriteTemplate = $('#favorite-template');
-	            var users = [
-	              {name: "vic", age: 10},
-	              {name: "tor", age: 15},
-	              {name: "fro", age: 20},
-	              {name: "lov", age: 25},
-	              {name: "ski", age: 30},
-	            ];
-
-	            var str = $('#favorite-template').text();
-	            var compiled = _.template(str);
-	            
-	            $('#favorite-holder').append(compiled({users: users}));
-	            
-
-
+	                callback(userFavoritesMatch);
 	            }, function (error) {
 	                console.log(error);
 	            });
@@ -1210,7 +1190,7 @@
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
 	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
-	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects']
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 
 	    var getImage = function(address, callback) {
 	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -1266,8 +1246,16 @@
 	    };
 
 	    var showFavoritesInSidebar = function(favorites) {
-
+	        // loading favorites in side-bar
+	        var favoriteTemplate = $('#favorite-template');
+	        var str = $('#favorite-template').text();
+	        var compiled = _.template(str);
+	        
+	        $('#favorite-holder').empty()
+	        $('#favorite-holder').append(compiled({favorites: favorites}));
 	    };
+
+	    getFavoriteObjects(showFavoritesInSidebar);
 
 	    var newSearch = function(currentItems) {
 	        $("#find-content").empty();
@@ -1363,24 +1351,6 @@
 	    });
 
 
-	    // loading favorites in side-bar
-	    var favoriteTemplate = $('#favorite-template');
-	    if (favoriteTemplate.length > 0) {
-	        var users = [
-	          {name: "vic", age: 10},
-	          {name: "tor", age: 15},
-	          {name: "fro", age: 20},
-	          {name: "lov", age: 25},
-	          {name: "ski", age: 30},
-	        ];
-
-	        var str = $('#favorite-template').text();
-	        var compiled = _.template(str);
-	        
-	        $('#favorite-holder').append(compiled({users: users}));
-	    }
-	    getFavoriteObjects();
-
 	    // favorite icon highlight/changes
 	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
 	        $(this).attr('src', '../media/ic_heart_hover.png');
@@ -1395,9 +1365,12 @@
 	        if (!this.favorited) {
 	            $(this).attr('src', '../media/ic_heart_hover.png');
 	            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+	            getFavoriteObjects(showFavoritesInSidebar);
+
 	        } else {
 	            $(this).attr('src', '../media/ic_heart.png');
 	            removeFavorite($(this).attr('uid'));
+	            getFavoriteObjects(showFavoritesInSidebar);
 	        }
 	        this.favorited = !this.favorited;
 	    });
