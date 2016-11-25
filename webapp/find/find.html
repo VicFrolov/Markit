@@ -65,46 +65,28 @@
             </ul>
           </div>
           <div id="profile-favorites"> 
-
-
-
-            <div class="favorite-element">
-              <div class="favorite-image">
-                <img class="responsive-img" src="../media/collegeStudents.jpg">
-              </div>
-              <div class="favorite-body">
-                <div class="favorite-title">
-                  iPhone 6s Plus
+            <div id="favorite-holder"></div>
+            
+            <script type="text/template" id="favorite-template">
+              <%for (var user of users) { %>
+                <div class="favorite-element">
+                  <div class="favorite-image">
+                    <img class="responsive-img" src="../media/collegeStudents.jpg">
+                  </div>
+                  <div class="favorite-body">
+                    <div class="favorite-title">
+                      <%- user['name'] %>
+                    </div>
+                    <div class="favorite-description">
+                      Brand new iPhone 6s, absolutely epic design blablabla
+                    </div>
+                    <div class="favorite-timeRemaining">
+                    </div>
+                  </div>
                 </div>
-                <div class="favorite-description">
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                </div>
-                <div class="favorite-timeRemaining">
-                </div>
-              </div>
-            </div>
-
-            <div class="favorite-element">
-              <div class="favorite-image">
-                <img class="responsive-img" src="../media/collegeStudents.jpg">
-              </div>
-              <div class="favorite-body">
-                <div class="favorite-title">
-                  iPhone 6s Plus
-                </div>
-                <div class="favorite-description">
-                  Brand new iPhone 6s, absolutely epic design blablabla
-                </div>
-                <div class="favorite-timeRemaining">
-                </div>
-              </div>
-            </div>
-
+                <div class="divider"></div>
+              <% }; %>
+            </script>
 
           </div>
           <div id="profile-tags" class="col s12">
@@ -119,5 +101,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script type="text/javascript" src="../bin/index.bundle.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/0.9.0/lodash.js"></script>
   </body>
 </html>

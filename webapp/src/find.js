@@ -153,6 +153,20 @@ $(function() {
         getListings(newListing);
     });
 
+    var users = [
+      {name: "Вася", age: 10},
+      {name: "Петя", age: 15},
+      {name: "Женя", age: 20},
+      {name: "Маша", age: 25},
+      {name: "Даша", age: 30},
+    ];
+
+    // ваш код, чтобы сгенерировать таблицу с юзерами (table/tr/td) по шаблону и данным users
+    // выведите таблицу внутри #grid-holder
+    var str = document.querySelector('#favorite-template').textContent;
+    var compiled = _.template(str, {users: users});
+    document.querySelector('#favorite-holder').innerHTML = compiled;
+
 
     // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {

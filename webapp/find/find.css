@@ -10,7 +10,7 @@ html, body {
 
 #find-content {
     background-color: #fff;
-    min-height: 400px
+    min-height: 570px;
 }
 
 /*results of search*/
@@ -167,10 +167,10 @@ html, body {
 #find-favorite-logged-in ul.tabs {
     margin-bottom: 10px;
 }
+
 /*Favorite element */
 .favorite-element {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 10px 10px 0px 10px;
+    padding: 20px 10px 10px 10px;
     display: flex;
 }
 
@@ -187,7 +187,7 @@ html, body {
 }
 
 .favorite-title {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .favorite-description {
