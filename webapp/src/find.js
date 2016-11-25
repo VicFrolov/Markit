@@ -6,6 +6,7 @@ $(function() {
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
     var removeFavorite = require('./firebase.js')['removeFavorite'];
+    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects']
 
     var getImage = function(address, callback) {
         itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -46,7 +47,7 @@ $(function() {
         });
     }
 
-    var showUserFavorites = function(currentFavorites) {
+    var showFavoritesInSearches = function(currentFavorites) {
         $('.find-result-favorite-image').each(function() {
             var  currentImageID = $(this).attr('uid');
             if(currentFavorites && currentFavorites[currentImageID]) {
@@ -60,7 +61,11 @@ $(function() {
         });
     };
 
-    var newListing = function(currentItems) {
+    var showFavoritesInSidebar = function(favorites) {
+
+    };
+
+    var newSearch = function(currentItems) {
         $("#find-content").empty();
         var imagePaths = [];
         
@@ -122,7 +127,7 @@ $(function() {
             );
         }
 
-        getFavorites(showUserFavorites);
+        getFavorites(showFavoritesInSearches);
 
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {
@@ -150,7 +155,7 @@ $(function() {
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        getListings(newListing);
+        getListings(newSearch);
     });
 
 
@@ -170,6 +175,7 @@ $(function() {
         
         $('#favorite-holder').append(compiled({users: users}));
     }
+    getFavoriteObjects();
 
     // favorite icon highlight/changes
     $('body').on('mouseenter', '.find-result-favorite-image', function() {

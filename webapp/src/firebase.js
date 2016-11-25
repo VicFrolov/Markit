@@ -78,7 +78,7 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
 };
 
 var getListings = function (callback) {
-    itemsRef.once("value").then(function(snapshot) {
+    itemsRef.once("value").then(function (snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);
@@ -86,12 +86,57 @@ var getListings = function (callback) {
 };
 
 var getFavorites = function (callback) {
-    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function(snapshot) {
+    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);
     });
 };
+
+var getFavoriteObjects = function (callback) {
+    auth.onAuthStateChanged(function(user) {
+        // get user favorites
+        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+            var favorites = snapshot.val();
+            // pull object of items that user has favorited
+            itemsRef.once('value').then(function (snapshotItems) {
+                var allItems = snapshotItems.val();
+                var userFavoritesMatch = [];
+                for (var item in allItems) {
+                    if (favorites.hasOwnProperty(item)) {
+                        var currentItem = allItems[item];
+                        console.log(currentItem['title']);
+                    }
+                }
+
+
+
+            // loading favorites in side-bar
+            var favoriteTemplate = $('#favorite-template');
+            var users = [
+              {name: "vic", age: 10},
+              {name: "tor", age: 15},
+              {name: "fro", age: 20},
+              {name: "lov", age: 25},
+              {name: "ski", age: 30},
+            ];
+
+            var str = $('#favorite-template').text();
+            var compiled = _.template(str);
+            
+            $('#favorite-holder').append(compiled({users: users}));
+            
+
+
+            }, function (error) {
+                console.log(error);
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    });
+};
+
 
 
 var removeFavorite = function (item) {
@@ -193,5 +238,6 @@ module.exports = {
     itemImagesRef,
     addFavoriteToProfile,
     getFavorites,
+    getFavoriteObjects,
     removeFavorite
 };
