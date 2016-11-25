@@ -17,6 +17,7 @@ $(function() {
         });
     };
 
+
     auth.onAuthStateChanged(function(user) {
         if (user) {
             $("#find-favorite-logged-in").css('display', 'block');
@@ -57,19 +58,27 @@ $(function() {
 
             }
 
-            // add sideBar functionality here for favorites
         });
     };
 
     var showFavoritesInSidebar = function(favorites) {
-        // loading favorites in side-bar
         var favoriteTemplate = $('#favorite-template');
         var str = $('#favorite-template').text();
         var compiled = _.template(str);
-        
-        $('#favorite-holder').empty()
+
+        $('#favorite-holder').empty();
         $('#favorite-holder').append(compiled({favorites: favorites}));
+
+        for (var i = 0; i < favorites.length; i += 1) {
+            (function (x) {
+                getImage(favorites[x]['id'] + '/imageOne', function(url) {
+                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+                    $(tagToAdd).attr({src: url});
+                });
+            })(i);
+        }
     };
+
 
     getFavoriteObjects(showFavoritesInSidebar);
 
