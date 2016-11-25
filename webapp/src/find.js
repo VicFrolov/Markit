@@ -53,6 +53,7 @@ $(function() {
                 $(this).attr('src', '../media/ic_heart_hover.png');
                 $(this).css('opacity', 1);
                 this.favorited = true;
+
             }
 
             // add sideBar functionality here for favorites
@@ -143,9 +144,9 @@ $(function() {
     });
 
     $("#find-search-button").click(function () {
-        query = "key=";
-        keywords = $("#item-post-title").val();
-        keywords = $("#item-post-title").val();
+        var query = "key=";
+        var keywords = $("#item-post-title").val();
+        var tags = $("#item-post-tags").val();
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
