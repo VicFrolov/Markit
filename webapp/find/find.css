@@ -169,6 +169,10 @@ html, body {
 }
 
 /*Favorite element */
+
+#find-favorite-panel {
+    overflow: scroll;
+}
 .favorite-element {
     padding: 20px 10px 10px 10px;
     display: flex;
