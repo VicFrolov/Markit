@@ -193,3 +193,7 @@ html, body {
 .favorite-description {
     font-size: 0.7em;
 }
+
+.divider {
+    margin: 0px 10px 0px 10px;
+}

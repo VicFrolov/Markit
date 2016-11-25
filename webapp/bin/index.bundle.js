@@ -1311,20 +1311,23 @@
 	        getListings(newListing);
 	    });
 
-	    var users = [
-	      {name: "Вася", age: 10},
-	      {name: "Петя", age: 15},
-	      {name: "Женя", age: 20},
-	      {name: "Маша", age: 25},
-	      {name: "Даша", age: 30},
-	    ];
 
-	    // ваш код, чтобы сгенерировать таблицу с юзерами (table/tr/td) по шаблону и данным users
-	    // выведите таблицу внутри #grid-holder
-	    var str = document.querySelector('#favorite-template').textContent;
-	    var compiled = _.template(str, {users: users});
-	    document.querySelector('#favorite-holder').innerHTML = compiled;
+	    // loading favorites in side-bar
+	    var favoriteTemplate = $('#favorite-template');
+	    if (favoriteTemplate.length > 0) {
+	        var users = [
+	          {name: "vic", age: 10},
+	          {name: "tor", age: 15},
+	          {name: "fro", age: 20},
+	          {name: "lov", age: 25},
+	          {name: "ski", age: 30},
+	        ];
 
+	        var str = $('#favorite-template').text();
+	        var compiled = _.template(str);
+	        
+	        $('#favorite-holder').append(compiled({users: users}));
+	    }
 
 	    // favorite icon highlight/changes
 	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
