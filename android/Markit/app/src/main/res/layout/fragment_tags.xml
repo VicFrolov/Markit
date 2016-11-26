@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/id"
         android:layout_width="wrap_content"
@@ -17,4 +21,23 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="#tag"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="#tag"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="#tag"/>
+
 </LinearLayout>

@@ -14,6 +14,7 @@ import com.markit.android.R;
 import com.markit.android.dummy.DummyContent;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ import java.util.List;
  * interface.
  */
 public class TagsFragment extends Fragment {
+
+    private ArrayList<String[]> tagSets = new ArrayList<String[]>();
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
