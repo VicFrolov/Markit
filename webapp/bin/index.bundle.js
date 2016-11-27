@@ -50,7 +50,8 @@
 	__webpack_require__(9);
 	__webpack_require__(11);
 	__webpack_require__(12);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -2090,6 +2091,14 @@
 	    });
 
 	});
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	$(function () {
+		$('.parallax').parallax();
+	})
 
 /***/ }
 /******/ ]);
