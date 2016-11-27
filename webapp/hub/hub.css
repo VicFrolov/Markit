@@ -4,6 +4,7 @@
 
 #hub-change-button {
     position: absolute;
+    background-color: #F4A49D;
     right: -5%;
     top: -30px;
 }
