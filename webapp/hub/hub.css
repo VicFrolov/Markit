@@ -1,0 +1,19 @@
+#hub-school-splash {
+	background: url('http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg') 50% 70%;
+	height: 400px;
+	background-size: cover;
+}
+
+#hub-top-part {
+	position: relative;
+}
+
+#hub-change-button {
+	position: absolute;
+	right: 200px;
+	bottom: -30px;
+}
+
+#hub-welcome {
+	margin-left: 50px;
+}

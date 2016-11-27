@@ -7,93 +7,21 @@
     <link type="text/css" rel="stylesheet" href="../navbar/navbar.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css">
-    <link type="text/css" rel="stylesheet" href="./find.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="./hub.css"  media="screen,projection"/>
   </head>
 
-  <body id="find-body">
+  <body>
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
 
     <main>
-      <!-- search card -->
-      <div class="row">
-        <div id="find-search" class="col l9 m12 s12 z-depth-1">
-          <div class="row search-top">
-            <div class="input-field col l4 m4 s12">
-              <input id="item-post-title" type="text" class="validate" length="24" placeholder="Enter a few words">
-              <label for="item-post-title">Keywords</label>
-            </div>
-            <div class="input-field col l4 m4 s12">
-              <input id="item-post-tag" type="text" class="validate" placeholder="Enter relevant tags">
-              <label for="item-post-tag">Tags</label>
-            </div>  
-            <div class="input-field col l4 m4 s12">
-              <input type="text" id="autocomplete-input" class="autocomplete" placeholder="Specify any college (blank for all)">
-              <label for="autocomplete-input">Hub</label>
-            </div>                 
-          </div>
-          <div class="search-slider-title">
-            Price Range
-          </div>
-          <div id="search-slider">
-          </div>  
-          <a id="find-search-button" class="waves-effect waves-light btn">Search</a>      
-        </div>
+      <div id="hub-top-part">
+        <div id="hub-school-splash"> </div>
+        <a id="hub-change-button" class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">add</i></a>
       </div>
-      <!-- results card -->
-      <div class="row">
-        <div id="find-content" class="col l9 m12 s12 z-depth-1">
-          <div id="find-content-presearch">
-            <img id="find-search-image" src="../media/ic_search.png">
-            <h6> Please enter some search criteria to see some results. <br><br>Only The Hub field is required, and you can add up to 3 hubs.</h6>
-          </div>
-        </div>
-      </div>
-      <div class="z-depth-1" id="find-favorite-panel">
-        <!-- logged out -->
-        <div id="find-favorite-logged-out">
-          <img id="find-search-image" src="../media/ic_id.png" alt="profileicon">
-          <h6> Sign in to see your favorite items and tags.</h6>
-        </div>
-        <!-- logged in -->
-        <div class="row" id="find-favorite-logged-in">
-          <div class="col s12">
-            <ul class="tabs">
-              <li class="tab col s6"><a href="#profile-favorites">Favorites</a></li>
-              <li class="tab col s6"><a href="#profile-tags">Tags</a></li>
-            </ul>
-          </div>
-          <div id="profile-favorites"> 
-            <div id="favorite-holder"></div>
-            
-            <script type="text/template" id="favorite-template">
-              <%for (var favorite of favorites) { %>
-                <div class="favorite-element">
-                  <div class="favorite-image">
-                    <img class="responsive-img" src=<%- favorite['imageURL'] %>>
-                  </div>
-                  <div class="favorite-body">
-                    <div class="favorite-title">
-                      <%- favorite['title'] %>
-                    </div>
-                    <div class="favorite-description">
-                      <%- favorite['description'] %>
-                    </div>
-                    <div class="favorite-timeRemaining">
-                    </div>
-                  </div>
-                </div>
-                <div class="divider"></div>
-              <% }; %>
-            </script>
-
-          </div>
-          <div id="profile-tags" class="col s12">
-            list of tags with red number. when clicked will display
-            all the relevant items you are tracking :)
-          </div>
-        </div>
+      <div id="hub-main">
+        <h1 id="hub-welcome">Hi, <span id="hub-username"> </span> </h1>
       </div>
     </main>
 
