@@ -1,0 +1,118 @@
+main, body {
+    height: 100%;
+    background-color: #eeeeee;
+}
+
+#profile-body {
+    height: 100%;
+    width: 100%;
+}
+
+.profile {
+    background-color: #fff;
+    margin-top: 20px;
+    padding: 20px 10px 10px 10px;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.profile-name {
+    margin-top: 20px;
+}
+
+#my-profile {
+    margin-top: 20px;
+    vertical-align: middle;
+}
+
+.tabs {
+    overflow: hidden;
+}
+
+.center-icon{
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.container-margin {
+    margin-top: 20px;
+}
+
+.card .card-title {
+    font-size: 16px;
+}
+
+.card .card-image {
+    height: 200px;
+}
+
+
+.card {
+    margin: 20px 10px 20px 10px;
+    position: relative;
+}
+
+.my-profile-email {
+    font-size: 26px;
+    position: relative;
+    vertical-align: baseline;
+    bottom: 35px;
+    margin: 12px;
+}
+
+.profile-card-view {
+    background-color: #fff;
+    min-height: 400px;
+}
+
+.profile-favorite {
+    position: absolute;
+    top: 1%;
+    right: -3%;
+    z-index: 3;
+}
+
+.profile-favorite-image {
+    width: 75%;
+    height: auto;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.profile-price {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-size: 1.1rem;
+    z-index: 3;
+    color: #fff;
+    pointer-events: none;
+}
+
+.notification {
+    margin: 12px;
+}
+
+.buttons {
+    
+}
+
+.settings {
+    background-color: #fff;
+}
+
+.single-setting {
+    padding-bottom: 20px;
+}
+
+.settings-button {
+    position: relative;
+    padding: 20px;
+}
+
+.final-setting {
+    padding-bottom: 450px;
+}

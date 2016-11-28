@@ -9,26 +9,35 @@ import java.util.Date;
 public class Item {
     private String description;
     private String price;
-    private String [] tags;
+    //private String[] tags;
     private String title;
     private String uid;
     private String itemID;
     private String date;
 
     public Item () {
-        this.description = "No description";
-        this.price = "0";
-        this.tags = new String [1];
-        tags[0] = "None";
-        this.title = "No Title";
-        this.uid = "None";
+        // this.description = "No description";
+        // this.price = "0";
+        // this.tags = new String [1];
+        // tags[0] = "None";
+        // this.title = "No Title";
+        // this.uid = "None";
+    //private String username;
+
+    // public Item() {
+//        this.description = "No description";
+//        this.price = "0";
+//        this.tags = new String[1];
+//        tags[0] = "None";
+//        this.title = "No Title";
+//        this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String [] tags, String uid, String itemID) {
+    public Item(String title, String description, String price, String uid, String itemID) {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.tags = tags;
+        //this.tags = tags;
         this.uid = uid;
         this.itemID = itemID;
         date = new Date().toString();
@@ -51,13 +60,13 @@ public class Item {
         this.price = price;
     }
 
-    public String[] getTags() {
-        return tags;
-    }
+//    public String[] getTags() {
+//        return tags;
+//    }
 
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
+//    public void setTags(String[] tags) {
+//        this.tags = tags;
+//    }
 
     public String getTitle() {
         return title;
