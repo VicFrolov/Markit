@@ -2,24 +2,64 @@ package com.markit.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ListView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public DrawerLayout layout;
     public FrameLayout drawerFrame;
+    private DatabaseReference itemDatabase;
+    private ArrayList<Item> itemObjectArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("CREATING BASE ACTIVITY");
         super.onCreate(savedInstanceState);
+        itemDatabase = FirebaseDatabase.getInstance().getReference().child("itemsByHub");
+        ValueEventListener itemListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //@TODO Make it not hard-coded, Also tags needs to retrieve list from database
+                for (DataSnapshot items : dataSnapshot.child("Loyola Marymount University").getChildren()) {
+                    String itemName = (String) items.child("title").getValue();
+                    String itemDescription = (String) items.child("description").getValue();
+                    String itemPrice = (String) items.child("price").getValue();
+                    //String [] itemTags = {(String) items.child("tags").getValue()};
+                    String itemUID = (String) items.child("uid").getValue();
+                    String itemID = (String) items.child("id").getValue();
+                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    itemObjectArray.add(newItem);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
     }
 
     @Override
@@ -49,6 +89,18 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    public boolean isLoggedIn() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            return true;
+        } else {
+            return false;
+            }
+        }
+
+    public ArrayList <Item> getItemsByHub() {
+        return itemObjectArray;
+    }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,7 +138,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(BaseActivity.this, NewListing.class));
             return true;
         }
-        if (id ==- R.id.nav_card_view) {
+        if (id == R.id.nav_card_view) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
         }
 
@@ -95,6 +147,7 @@ public class BaseActivity extends AppCompatActivity
 
 
     @Override
+    //TODO set Title as a string resource -Peyton
     public void setTitle(CharSequence title) {
         super.setTitle("Markeet");
     }

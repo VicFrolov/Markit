@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.markit.android.CardViewActivity">
+    android:background="#dcdbdb">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="?attr/colorAccent">
+        tools:context="com.markit.android.CardViewActivity">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/app_bar_height"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/cardview_light_background"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="@color/cardview_light_background">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:background="?attr/colorAccent">
 
-            <ImageView
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:scaleType="center"
-                app:layout_collapseMode="parallax"
-                android:id="@+id/hub_image" />
+                app:contentScrim="@color/cardview_light_background"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:background="@color/cardview_light_background">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="center"
+                    app:layout_collapseMode="parallax"
+                    android:id="@+id/hub_image" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/nav_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_account_outline_black_24px"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:backgroundTint="@color/cast_expanded_controller_text_color"
+            app:fabSize="normal"
+            android:scaleType="center" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/notifications_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/app_bar"
+            android:layout_gravity="center_vertical|left"
+            android:src="@drawable/ic_notifications_none_black_48px"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="85dp"
+            app:backgroundTint="@color/cast_expanded_controller_text_color"
+            app:fabSize="normal"
+            app:layout_anchorGravity="bottom|right" />
+        <!--android:tint="@color/place_autocomplete_prediction_secondary_text"-->
+        <!--app:backgroundTint="@color/cast_expanded_controller_text_color"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:layout_marginRight="85dp"-->
+        <!--app:fabSize="normal"-->
+        <!--app:layout_anchorGravity="bottom|right" />-->
 
 
+        <include layout="@layout/content_card_view" />
 
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/nav_menu_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_account_outline_black_24px"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        android:tint="@color/place_autocomplete_prediction_secondary_text"
-        app:backgroundTint="@color/cast_expanded_controller_text_color"
-        android:scaleType="center"
-        app:fabSize="normal" />
-
-
-    <include layout="@layout/content_card_view"
-        android:src="@drawable/ic_account_outline_black_24px" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/notifications_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@+id/app_bar"
-        android:layout_gravity="center_vertical|left"
-        android:src="@drawable/ic_notifications_none_black_48px"
-        android:tint="@color/place_autocomplete_prediction_secondary_text"
-        app:backgroundTint="@color/cast_expanded_controller_text_color"
-        android:scaleType="fitCenter"
-        android:layout_marginRight="85dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|right" />
-
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

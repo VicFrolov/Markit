@@ -10,7 +10,7 @@ html, body {
 
 #find-content {
     background-color: #fff;
-    min-height: 400px
+    min-height: 570px;
 }
 
 /*results of search*/
@@ -99,12 +99,15 @@ html, body {
 
 #find-search-button {
     color: #fff;
-    background-color: #546A76;
+    background-color: #559BFF;
     margin-top: 20px;
     margin-left: 10px;
     margin-bottom: 10px;
 }
 
+#find-search-button:hover {
+    background-color: #66ACFF;
+}
 /* label color */
 .input-field label {
     color: #546A76;
@@ -145,7 +148,8 @@ html, body {
     top: 84px;
     right: 10px;
     width: 23.5%;
-    height: 84.5%;
+    height: 89%;
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 993px) {
@@ -158,4 +162,42 @@ html, body {
     margin-top: 50%;
     text-align: center;
     opacity: 0.6;
+}
+
+#find-favorite-logged-in ul.tabs {
+    margin-bottom: 10px;
+}
+
+/*Favorite element */
+
+#find-favorite-panel {
+    overflow: scroll;
+}
+.favorite-element {
+    padding: 20px 10px 10px 10px;
+    display: flex;
+}
+
+.favorite-image {
+    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
+    border-radius: 30px;
+    margin-right: 10px;
+}
+
+.favorite-image img {
+    border-radius: 8px;
+}
+
+.favorite-title {
+    font-weight: 500;
+}
+
+.favorite-description {
+    font-size: 0.7em;
+}
+
+.divider {
+    margin: 0px 10px 0px 10px;
 }

@@ -1,6 +1,9 @@
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
+require('firebase/storage');
+
+
 
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
@@ -14,43 +17,119 @@ firebase.initializeApp({
 var database = firebase.database();
 var auth = firebase.auth();
 var itemsRef = database.ref('items/');
-// var itemsByHub = database.ref('itemsByHub/' + hub);
-// var itemsByUser = database.ref('itemsByUser/' + uid);
+var itemImagesRef = firebase.storage().ref('images/itemImages/');
+var usersRef = database.ref('users/');
 
-var addListing = function (title, description, tags, price, hub, uid) {
-    itemsRef.push({
+var addListing = function (title, description, tags, price, hubs, uid, images) {
+    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
+    var myDate = Date();
+    var itemRef = itemsRef.push();
+    var itemKey = itemRef.key;
+    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
+
+    var itemData = {
         title: title,
         description: description,
-        tags: tags,
+        tags: lowerCasedTags,
         price: price,
-        uid: uid
+        uid: uid,
+        id: itemKey,
+        hubs: hubs,
+        date: myDate
+    };
+
+    addTags(lowerCasedTags);
+    addHubs(hubs);
+    addNewListingToProfile(uid, itemKey);
+    itemsRef.child(itemKey).set(itemData);
+    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
+
+    hubs.forEach(function(currentHub) {
+        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
     });
-    database.ref('itemsByHub/' + hub).push({
-        title: title,
-        description: description,
-        tags: tags,
-        price: price,
-        uid: uid
-    });
-    database.ref('itemsByUser/' + uid).push({
-        title: title,
-        description: description,
-        tags: tags,
-        price: price,
-        uid: uid
-    });
+    
+    
+    // adding images to storage
+    for (var i = 0; i < images.length; i += 1) {
+        (function(x) {
+            images[x] = images[x].replace(/^.*base64,/g, '');
+            var uploadTask = itemImagesRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
+
+            uploadTask.on('state_changed', function(snapshot) {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function(error) {
+                console.log("error uploading image");
+            }, function() {
+                var downloadURL = uploadTask.snapshot.downloadURL;
+                console.log(downloadURL);
+            });
+        })(i);
+    }
 };
 
 var getListings = function (callback) {
-    itemsRef.once("value").then(function(snapshot) {
-        callback(snapshot.val())
+    itemsRef.once("value").then(function (snapshot) {
+        callback(snapshot.val());
     }, function (error) {
-        console.log(error)
+        console.log(error);
     });
 };
 
+var getFavorites = function (callback) {
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+                callback(snapshot.val());
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    });
+};
+
+var getFavoriteObjects = function (callback) {
+    auth.onAuthStateChanged(function(user) {
+        // get user favorites
+        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+            var favorites = snapshot.val();
+            // pull object of items that user has favorited
+            itemsRef.once('value').then(function (snapshotItems) {
+                var allItems = snapshotItems.val();
+                var userFavoritesMatch = [];
+                for (var item in allItems) {
+                    if (favorites && favorites.hasOwnProperty(item)) {
+                        userFavoritesMatch.push(allItems[item]);
+                    }
+                }
+                callback(userFavoritesMatch);
+            }, function (error) {
+                console.log(error);
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    });
+};
+
+
+
+var removeFavorite = function (item) {
+    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+};
+
 var filterListings = function (keywords, hubs, tags, price_range) {
-    listingsRef.orderByChild()
+    listingsRef.orderByChild();
 };
 
 var signIn = function (email, password) {
@@ -60,19 +139,75 @@ var signIn = function (email, password) {
     });
 };
 
+var addNewListingToProfile = function(uid, itemID) {
+    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+};
+
+var addFavoriteToProfile = function(uid, itemID) {
+    usersRef.child(uid + '/favorites/' + itemID).set(true);
+    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+};
+
+
 var createAccount = function () {
-    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+        $("#sign-up-password").val()).then(function(user) {
+            var newUser = firebase.auth().currentUser;
+            newUserDBEntry(newUser);
+        }, function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage);
+    });    
+};
+
+var newUserDBEntry = function (user) {
+    var firstName = $("#sign-up-first-name").val();
+    var lastName = $("#sign-up-last-name").val();
+    var username = $("#sign-up-username").val();
+    var userHub = $("#sign-up-hub").val();
+    var date =  Date();
+
+    var userInfo = {
+        uid: user.uid,
+        email: user.email,
+        username: username,
+        userHub: userHub,
+        firstName: firstName,
+        lastName: lastName,
+        dateCreated: date
+    };
+    usersRef.child(user.uid).set(userInfo);
+};
+
+var addTags = function(itemTags) {
+    database.ref('tags/').once('value', function(snapshot) {
+        var tagsInDB = snapshot.val();
+        itemTags.forEach(function (tag) {
+            if (tagsInDB.hasOwnProperty(tag)) {
+                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
+            } else {
+                database.ref('tags/').child(tag).set(1);
+            }
+        });
+    }, function (errorObject) {
+        console.log(errorObject.code);
     });
 };
 
-var addHub = function (hub) {
-    database.ref('hubs/' + hub).push();
-};
-
-var addCategory = function (category) {
-    database.ref('categories/' + category).push();
+var addHubs = function(itemHubs) {
+    database.ref('tags/').once('value', function(snapshot) {
+        var hubsInDB = snapshot.val();
+        itemHubs.forEach(function (hub) {
+            if (hubsInDB.hasOwnProperty(hub)) {
+                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
+            } else {
+                database.ref('hubs/').child(hub).set(1);
+            }
+        });
+    }, function (errorObject) {
+        console.log(errorObject.code);
+    });
 };
 
 module.exports = {
@@ -80,8 +215,13 @@ module.exports = {
     signIn,
     getListings,
     addListing,
-    addHub,
-    addCategory,
+    addHubs,
+    addTags,
     filterListings,
-    createAccount
+    createAccount,
+    itemImagesRef,
+    addFavoriteToProfile,
+    getFavorites,
+    getFavoriteObjects,
+    removeFavorite
 };

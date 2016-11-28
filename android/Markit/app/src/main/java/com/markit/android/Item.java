@@ -1,5 +1,7 @@
 package com.markit.android;
 
+import java.util.Date;
+
 /**
  * Created by pcross on 10/15/16.
  */
@@ -7,25 +9,39 @@ package com.markit.android;
 public class Item {
     private String description;
     private String price;
-    private String [] tags;
+    //private String[] tags;
     private String title;
     private String uid;
+    private String id;
+    private String date;
 
     public Item () {
-        this.description = "No description";
-        this.price = "0";
-        this.tags = new String [1];
-        tags[0] = "None";
-        this.title = "No Title";
-        this.uid = "None";
+        // this.description = "No description";
+        // this.price = "0";
+        // this.tags = new String [1];
+        // tags[0] = "None";
+        // this.title = "No Title";
+        // this.uid = "None";
+    //private String username;
+
+    // public Item() {
+//        this.description = "No description";
+//        this.price = "0";
+//        this.tags = new String[1];
+//        tags[0] = "None";
+//        this.title = "No Title";
+//        this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String [] tags, String uid) {
+    public Item(String title, String description, String price, String uid, String id) {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.tags = tags;
+        //this.tags = tags;
         this.uid = uid;
+        this.id = id;
+        date = new Date().toString();
+
     }
 
     public String getDescription() {
@@ -44,13 +60,13 @@ public class Item {
         this.price = price;
     }
 
-    public String[] getTags() {
-        return tags;
-    }
+//    public String[] getTags() {
+//        return tags;
+//    }
 
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
+//    public void setTags(String[] tags) {
+//        this.tags = tags;
+//    }
 
     public String getTitle() {
         return title;
@@ -68,5 +84,20 @@ public class Item {
         this.uid = uid;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

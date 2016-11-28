@@ -22,7 +22,7 @@ $(function() {
     var next = function () {
         $('#sign-up-popup1').fadeOut();
         $('#sign-up-popup2').fadeIn();
-    }
+    };
 
     var firstNameValid = false;
     var lastNameValid = false;
@@ -66,11 +66,11 @@ $(function() {
 
     var checkNames = function () {
         return firstNameValid && lastNameValid && usernameValid;
-    }
+    };
 
     var checkInput = function () {
         return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
-    }
+    };
 
     var nameSizeLimit = 1;
     
