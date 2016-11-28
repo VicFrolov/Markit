@@ -15,7 +15,7 @@ import android.widget.MultiAutoCompleteTextView;
  * Created by Joseph on 11/19/2016.
  */
 
-public class NewTagSetDialog extends DialogFragment {
+public class newTagSetDialog extends DialogFragment {
 
     private String[] tags;
 
