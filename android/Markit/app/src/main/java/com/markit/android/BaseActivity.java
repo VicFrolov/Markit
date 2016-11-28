@@ -147,6 +147,7 @@ public class BaseActivity extends AppCompatActivity
 
 
     @Override
+    //TODO set Title as a string resource -Peyton
     public void setTitle(CharSequence title) {
         super.setTitle("Markeet");
     }

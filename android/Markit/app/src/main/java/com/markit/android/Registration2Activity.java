@@ -39,30 +39,7 @@ public class Registration2Activity extends AppCompatActivity {
     private String email;
     private boolean IsconfigChange ;
 
-    @IgnoreExtraProperties
-    public class User {
-        public String firstName;
-        public String lastName;
-        public String hub;
-        public String username;
-        public String email;
 
-        public User(){
-            firstName = "";
-            lastName = "";
-            username = "";
-            hub = "";
-            email = "";
-        }
-
-        public User(String firstname, String lastname, String username, String email, String hub) {
-            firstName = firstname;
-            lastName = lastname;
-            username = this.username;
-            email = this.email;
-            hub = this.hub;
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,16 +80,11 @@ public class Registration2Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
-                User user = new User(firstName,lastName,username,email,hub);
                 firstName = firstNameView.getText().toString();
                 lastName = lastNameView.getText().toString();
                 hub = hubView.getText().toString();
-                //mDatabase.child("usernames").child(uid).setValue(user);
-                mDatabase.child("usernames").child(uid).child("firstName").setValue(firstName);
-                mDatabase.child("usernames").child(uid).child("lastName").setValue(lastName);
-                mDatabase.child("usernames").child(uid).child("hub").setValue(hub);
-                mDatabase.child("usernames").child(uid).child("email").setValue(email);
-                mDatabase.child("usernames").child(uid).child("username").setValue(username);
+                User user = new User(email,firstName,lastName,hub,username);
+                mDatabase.child("usernames").child(uid).setValue(user);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
             }
         });
