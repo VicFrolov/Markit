@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -19,9 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Registration2Activity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -31,13 +39,14 @@ public class Registration2Activity extends AppCompatActivity {
     private String firstName;
     private EditText lastNameView;
     private String lastName;
-    private AutoCompleteTextView hubView;
+    private Spinner dropdown;
     private String hub;
     private Button finishRegistrationView;
     private DatabaseReference mDatabase;
     private String username;
     private String email;
     private boolean IsconfigChange ;
+    private DatabaseReference hubList;
 
 
     @Override
@@ -62,16 +71,34 @@ public class Registration2Activity extends AppCompatActivity {
                 }
             }
         };
+        hubList = FirebaseDatabase.getInstance().getReference().child("hubs");
+        ValueEventListener hubEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> hubList = new ArrayList<String>();
+                for(DataSnapshot hubs :dataSnapshot.getChildren()) {
+                   hubList.add(hubs.getKey());
+                }
+                dropdown = (Spinner) findViewById(R.id.hubSpinner);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Registration2Activity.this, android.R.layout.simple_spinner_dropdown_item, hubList);
+                dropdown.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        hubList.addListenerForSingleValueEvent(hubEventListener);
+
         firstNameView = (EditText)findViewById(R.id.firstName);
         lastNameView = (EditText)findViewById(R.id.lastName);
-        hubView = (AutoCompleteTextView)findViewById(R.id.hub);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = fUser.getUid();
         String displayName = fUser.getDisplayName();
         String email = fUser.getEmail();
         postUserInfo(uid,displayName,email);
     }
-
 
 
     public void postUserInfo(final String uid, final String username, final String email) {
@@ -82,7 +109,7 @@ public class Registration2Activity extends AppCompatActivity {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
                 firstName = firstNameView.getText().toString();
                 lastName = lastNameView.getText().toString();
-                hub = hubView.getText().toString();
+                hub = dropdown.getSelectedItem().toString();
                 User user = new User(email,firstName,lastName,hub,username);
                 mDatabase.child("usernames").child(uid).setValue(user);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
