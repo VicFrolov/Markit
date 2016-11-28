@@ -183,6 +183,15 @@
 	    });
 	};
 
+	var getImage = function(address, callback) {
+	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	};
+
 	var getFavoriteObjects = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        // get user favorites
@@ -309,7 +318,8 @@
 	    addFavoriteToProfile,
 	    getFavorites,
 	    getFavoriteObjects,
-	    removeFavorite
+	    removeFavorite,
+	    getImage
 	};
 
 /***/ },
@@ -1196,15 +1206,7 @@
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
 	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
-
-	    var getImage = function(address, callback) {
-	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-	            callback(url);
-	        }).catch(function(error) {
-	            console.log("error image not found");
-	            console.log("error either in item id, filename, or file doesn't exist");
-	        });
-	    };
+	    var getImage = __webpack_require__(2)['getImage'];
 
 
 	    var favoriteTemplate = $('#favorite-template');
@@ -2105,16 +2107,10 @@
 	    $('.parallax').parallax();
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+	    var auth = __webpack_require__(2)["auth"];
+	    var getImage = __webpack_require__(2)["getImage"];
 
 
-	    var getImage = function(address, callback) {
-	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-	            callback(url);
-	        }).catch(function(error) {
-	            console.log("error image not found");
-	            console.log("error either in item id, filename, or file doesn't exist");
-	        });
-	    };
 
 	    var mostRecentItems = $('#hub-most-recent');
 	    var showFavoritesInSidebar = function(items) {
@@ -2134,7 +2130,15 @@
 	        }
 	    };
 
-	    getFavoriteObjects(showFavoritesInSidebar);
+	    auth.onAuthStateChanged(function(user) {
+	        if (user && $(mostRecentItems).length > 0) {
+	            getFavoriteObjects(showFavoritesInSidebar);
+	        } else if (!user && $(mostRecentItems).length > 0) {
+	            window.location.href = "../index.html";
+
+	        }
+	    }); 
+	    
 
 	});
 

@@ -7,15 +7,7 @@ $(function() {
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
     var removeFavorite = require('./firebase.js')['removeFavorite'];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
-
-    var getImage = function(address, callback) {
-        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-            callback(url);
-        }).catch(function(error) {
-            console.log("error image not found");
-            console.log("error either in item id, filename, or file doesn't exist");
-        });
-    };
+    var getImage = require('./firebase.js')['getImage'];
 
 
     var favoriteTemplate = $('#favorite-template');

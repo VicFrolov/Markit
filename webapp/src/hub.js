@@ -2,16 +2,10 @@ $(function () {
     $('.parallax').parallax();
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
+    var auth = require('./firebase.js')["auth"];
+    var getImage = require('./firebase.js')["getImage"];
 
 
-    var getImage = function(address, callback) {
-        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-            callback(url);
-        }).catch(function(error) {
-            console.log("error image not found");
-            console.log("error either in item id, filename, or file doesn't exist");
-        });
-    };
 
     var mostRecentItems = $('#hub-most-recent');
     var showFavoritesInSidebar = function(items) {
@@ -31,6 +25,14 @@ $(function () {
         }
     };
 
-    getFavoriteObjects(showFavoritesInSidebar);
+    auth.onAuthStateChanged(function(user) {
+        if (user && $(mostRecentItems).length > 0) {
+            getFavoriteObjects(showFavoritesInSidebar);
+        } else if (!user && $(mostRecentItems).length > 0) {
+            window.location.href = "../index.html";
+
+        }
+    }); 
+    
 
 });
