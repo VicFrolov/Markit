@@ -51,8 +51,19 @@ public class CardViewActivity extends BaseActivity {
             @Override
             public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
+                final String itemID = model.getId();
+                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        CardViewActivity.this.startActivity(itemDetail);
+                    }
+                });
                 cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getUid());
+                cardViewHolder.uid.setText(model.getId());
             }
         };
         recList.setAdapter(adapter);

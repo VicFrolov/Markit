@@ -12,7 +12,7 @@ public class Item {
     //private String[] tags;
     private String title;
     private String uid;
-    private String itemID;
+    private String id;
     private String date;
 
     public Item () {
@@ -33,13 +33,13 @@ public class Item {
 //        this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String uid, String itemID) {
+    public Item(String title, String description, String price, String uid, String id) {
         this.title = title;
         this.description = description;
         this.price = price;
         //this.tags = tags;
         this.uid = uid;
-        this.itemID = itemID;
+        this.id = id;
         date = new Date().toString();
 
     }
@@ -84,7 +84,20 @@ public class Item {
         this.uid = uid;
     }
 
-    public String getItemID() {return itemID; }
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -44,10 +44,10 @@ public class BaseActivity extends AppCompatActivity
                     String itemName = (String) items.child("title").getValue();
                     String itemDescription = (String) items.child("description").getValue();
                     String itemPrice = (String) items.child("price").getValue();
-                    String [] itemTags = {(String) items.child("tags").getValue()};
+                    //String [] itemTags = {(String) items.child("tags").getValue()};
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
-                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemTags, itemUID, itemID);
+                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemUID, itemID);
                     itemObjectArray.add(newItem);
                 }
 
@@ -138,7 +138,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(BaseActivity.this, NewListing.class));
             return true;
         }
-        if (id ==- R.id.nav_card_view) {
+        if (id == R.id.nav_card_view) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
         }
 

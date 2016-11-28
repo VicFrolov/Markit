@@ -36,7 +36,7 @@ public class ItemDetail extends AppCompatActivity {
         if (uidInfo != null) {
             uid = uidInfo.getString("uid");
         } else{
-            uid = "00000";
+            uid = "-KX9d_FL3zJVZgvnl8TW";
         }
         itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
 
@@ -55,7 +55,7 @@ public class ItemDetail extends AppCompatActivity {
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
-                String className = dataSnapshot.child("tags").getValue().getClass().getName();
+                //String className = dataSnapshot.child("tags").getValue().getClass().getName();
                 ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
                 String tagString = "Tags: ";
                 for(String tag : tagList) {
