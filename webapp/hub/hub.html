@@ -33,105 +33,48 @@
             categories that will be shown for your hub, by clicking the settings button.
           </p>
         </div>
-
         <div class="divider"> </div>
+        <!-- Most Recent items -->
         <p class="hub-categories"> Most Recent Items</p>
         <div class="row">
-          <div class="col l3 m4 s12">
-            <div class="card find-result hoverable">
-              <div class="find-result-favorite">
-                <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid="-KX9VmJ19Y8zpIjItajK">
+
+          <div id="hub-recent-holder"></div>
+          <script type="text/template" id="hub-most-recent">
+            <% for (var item of items) { %>
+              <div class="col l3 m4 s12">
+                <div class="card find-result hoverable">
+                  <div class="find-result-favorite">
+                    <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid="-KX9VmJ19Y8zpIjItajK">
+                  </div>
+                  <div class="find-result-price">
+                    $ <%- item['price'] %>
+                  </div>
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src=<%- item['imageURL'] %>>
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4"> <%- item['title'] %> <i class="material-icons right">more_vert</i></span>
+                    <p><a href="#">view item</a></p>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                      Description<i class="material-icons right">close</i>
+                      <p> <%- item['description'] %> </p>
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div class="find-result-price">
-                $150
-              </div>
-              <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/images%2FitemImages%2F-KX9VmJ19Y8zpIjItajK%2FimageOne?alt=media&amp;token=88489237-0762-4658-9c2f-090b9d8ed97c">
-              </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Kanye West Ticket<i class="material-icons right">more_vert</i></span>
-                <p><a href="#">view item</a></p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                  Description<i class="material-icons right">close</i>
-                  <p>he is gonna bail on the next concert anyway</p>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col l3 m4 s12">
-            <div class="card find-result hoverable">
-              <div class="find-result-favorite">
-                <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid="-KX9VmJ19Y8zpIjItajK">
-              </div>
-              <div class="find-result-price">
-                $150
-              </div>
-              <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/images%2FitemImages%2F-KX9VmJ19Y8zpIjItajK%2FimageOne?alt=media&amp;token=88489237-0762-4658-9c2f-090b9d8ed97c">
-              </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Kanye West Ticket<i class="material-icons right">more_vert</i></span>
-                <p><a href="#">view item</a></p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                  Description<i class="material-icons right">close</i>
-                  <p>he is gonna bail on the next concert anyway</p>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col l3 m4 s12">
-            <div class="card find-result hoverable">
-              <div class="find-result-favorite">
-                <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid="-KX9VmJ19Y8zpIjItajK">
-              </div>
-              <div class="find-result-price">
-                $150
-              </div>
-              <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/images%2FitemImages%2F-KX9VmJ19Y8zpIjItajK%2FimageOne?alt=media&amp;token=88489237-0762-4658-9c2f-090b9d8ed97c">
-              </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Kanye West Ticket<i class="material-icons right">more_vert</i></span>
-                <p><a href="#">view item</a></p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                  Description<i class="material-icons right">close</i>
-                  <p>he is gonna bail on the next concert anyway</p>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col l3 m4 s12">
-            <div class="card find-result hoverable">
-              <div class="find-result-favorite">
-                <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid="-KX9VmJ19Y8zpIjItajK">
-              </div>
-              <div class="find-result-price">
-                $150
-              </div>
-              <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/images%2FitemImages%2F-KX9VmJ19Y8zpIjItajK%2FimageOne?alt=media&amp;token=88489237-0762-4658-9c2f-090b9d8ed97c">
-              </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Kanye West Ticket<i class="material-icons right">more_vert</i></span>
-                <p><a href="#">view item</a></p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                  Description<i class="material-icons right">close</i>
-                  <p>he is gonna bail on the next concert anyway</p>
-                </span>
-              </div>
-            </div>
-          </div>                    
+            <% }; %>
+          </script>
+
+
         </div>
+
         <div class="see-more right-align" id="see-new-items"> <a href="">See More...</a></div>
         <div class="divider"> </div>
+
+
+
         <p class="hub-categories"> Most Popular Items</p>
         <div class="row">
           <div class="col l3 m4 s12">
