@@ -35,9 +35,10 @@ public class MobileView extends AppCompatActivity {
                     String itemName = (String) items.child("title").getValue();
                     String itemDescription = (String) items.child("description").getValue();
                     String itemPrice = (String) items.child("price").getValue();
-                    String [] itemTags = {(String) items.child("tags").getValue()};
+                    String [] itemTags = {"desk"};//{(String) items.child("tags").getValue()};
                     String itemUID = (String) items.child("uid").getValue();
-                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemTags, itemUID);
+                    String itemID = (String) items.child("id").getValue();
+                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemTags, itemUID, itemID);
                     Log.i(TAG,itemName+"");
                     itemObjectArray.add(newItem);
                 }

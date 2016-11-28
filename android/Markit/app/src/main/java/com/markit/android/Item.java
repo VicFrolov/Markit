@@ -1,5 +1,7 @@
 package com.markit.android;
 
+import java.util.Date;
+
 /**
  * Created by pcross on 10/15/16.
  */
@@ -10,6 +12,8 @@ public class Item {
     private String [] tags;
     private String title;
     private String uid;
+    private String itemID;
+    private String date;
 
     public Item () {
         this.description = "No description";
@@ -20,12 +24,15 @@ public class Item {
         this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String [] tags, String uid) {
+    public Item(String title, String description, String price, String [] tags, String uid, String itemID) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.tags = tags;
         this.uid = uid;
+        this.itemID = itemID;
+        date = new Date().toString();
+
     }
 
     public String getDescription() {
@@ -67,6 +74,8 @@ public class Item {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+    public String getItemID() {return itemID; }
 
 
 }

@@ -41,7 +41,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         itemPrice.setText("$ "+item.getPrice());
         itemDescription.setText(item.getDescription());
         //Adding Listener to name and tag
-        itemTitle.setTag(item.getUid());
+        itemTitle.setTag(item.getItemID());
         itemTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
