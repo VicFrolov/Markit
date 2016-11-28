@@ -86,10 +86,14 @@ var getListings = function (callback) {
 };
 
 var getFavorites = function (callback) {
-    usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
-        callback(snapshot.val());
-    }, function (error) {
-        console.log(error);
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+                callback(snapshot.val());
+            }, function (error) {
+                console.log(error);
+            });
+        }
     });
 };
 
