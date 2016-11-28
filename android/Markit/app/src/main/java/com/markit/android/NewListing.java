@@ -3,8 +3,10 @@ package com.markit.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,10 +17,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 public class NewListing extends AppCompatActivity {
     final int CAMERA_REQUEST = 1888;
@@ -27,8 +36,11 @@ public class NewListing extends AppCompatActivity {
     Button mPriceButton;
     Button mImageButton;
     DatabaseReference mdatabase;
-    //DatabaseReference itemsRef;
+
+    StorageReference mstorageRef;
+    FirebaseStorage mStorage;
     FirebaseUser user;
+    String itemKey;
 
     static final String TAGS = "mikesMessage";
 
@@ -37,6 +49,7 @@ public class NewListing extends AppCompatActivity {
     EditText mPriceEdit;
     ImageView mImage;
     Button mPostButton;
+    Bitmap mPhotoBitmap;
     //Matrix mImageMatrix;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +60,13 @@ public class NewListing extends AppCompatActivity {
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        //writeNewListing("Big Bat", "2 pesos", "its fuckin sweet kehd", user.getUid(), "bat", "Loyola Marymount University");
+        mStorage = FirebaseStorage.getInstance();
+        mstorageRef = mStorage.getReferenceFromUrl("gs://markit-80192.appspot.com/");
+        //StorageReference itemsImageRef = mstorageRef.child("images/itemImages/");
+
+        //mstorageRef.child("images/itemImages/" + uploadedFile.getlastimagesegment());
+
+        //Log.i(TAGS, itemsImageRef.toString());
 
         mTitleButton = (Button) findViewById(R.id.add_title_TV);
         mTitleEdit = (EditText) findViewById(R.id.add_title_ET);
@@ -58,7 +77,7 @@ public class NewListing extends AppCompatActivity {
         mImageButton = (Button) findViewById(R.id.add_photo);
         mImage = (ImageView) findViewById(R.id.imageView);
         mPostButton = (Button) findViewById(R.id.post_listing);
-        //mImageMatrix = new Matrix();
+
         Log.i(TAGS, "onCreate");
 
 
@@ -161,6 +180,30 @@ public class NewListing extends AppCompatActivity {
                     String description = mDescriptionButton.getText().toString();
                     String tags = "truck";
                     writeNewListing(title, price, description, user.getUid(), tags, "Loyola Marymount University");
+
+                    if (mPhotoBitmap != null) {
+                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey);
+                        mImage.setDrawingCacheEnabled(true);
+                        mImage.buildDrawingCache();
+                        Bitmap bitmap = mImage.getDrawingCache();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
+
+                        UploadTask uploadTask = pictureRef.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(NewListing.this, "Could not upload to Database", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            }
+                        });
+                    }
+
                 }
 
             }
@@ -195,14 +238,16 @@ public class NewListing extends AppCompatActivity {
         Listing listing1 = new Listing(title, price, description, uID, tags);
         DatabaseReference myPostRef = mdatabase.child("items").push();
         String myPostKey = myPostRef.getKey();
+        itemKey = myPostKey;
         mdatabase.child("items").child(myPostKey).child("title").setValue(listing1.title);
         mdatabase.child("items").child(myPostKey).child("description").setValue(listing1.description);
         mdatabase.child("items").child(myPostKey).child("tags").setValue(listing1.tags);
         mdatabase.child("items").child(myPostKey).child("price").setValue(listing1.price);
         mdatabase.child("items").child(myPostKey).child("uid").setValue(listing1.uID);
 
-        myPostRef = mdatabase.child("itemsByHub").child(hub).push();
-        myPostKey = myPostRef.getKey();
+        //myPostRef = mdatabase.child("itemsByHub").child(hub).push();
+        //myPostKey = myPostRef.getKey();
+
 
         mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("title").setValue(listing1.title);
         mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("description").setValue(listing1.description);
@@ -210,13 +255,13 @@ public class NewListing extends AppCompatActivity {
         mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("price").setValue(listing1.price);
         mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("uid").setValue(listing1.uID);
 
-        myPostKey = uID;
+        String myUserID = uID;
 
-        mdatabase.child("itemsByUser").child(myPostKey).child("title").setValue(listing1.title);
-        mdatabase.child("itemsByUser").child(myPostKey).child("description").setValue(listing1.description);
-        mdatabase.child("itemsByUser").child(myPostKey).child("tags").setValue(listing1.tags);
-        mdatabase.child("itemsByUser").child(myPostKey).child("price").setValue(listing1.price);
-        mdatabase.child("itemsByUser").child(myPostKey).child("uid").setValue(listing1.uID);
+        mdatabase.child("itemsByUser").child(myUserID).child(myPostKey).child("title").setValue(listing1.title);
+        mdatabase.child("itemsByUser").child(myUserID).child(myPostKey).child("description").setValue(listing1.description);
+        mdatabase.child("itemsByUser").child(myUserID).child(myPostKey).child("tags").setValue(listing1.tags);
+        mdatabase.child("itemsByUser").child(myUserID).child(myPostKey).child("price").setValue(listing1.price);
+        mdatabase.child("itemsByUser").child(myUserID).child(myPostKey).child("uid").setValue(listing1.uID);
 
 
 
@@ -229,9 +274,7 @@ public class NewListing extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             mImage.setImageBitmap(photo);
-//            mImage.setScaleType(ImageView.ScaleType.MATRIX);
-//            mImageMatrix.postRotate(90);
-//            mImage.setImageMatrix(mImageMatrix);
+            mPhotoBitmap = photo;
             mImageButton.setVisibility(View.INVISIBLE);
             mImage.setVisibility(View.VISIBLE);
         }
