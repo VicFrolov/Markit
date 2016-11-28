@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 //import com.markit.android.WatchListFragment.OnListFragmentInteractionListener;
-import com.markit.android.WatchListFragment.OnWatchListSelectedListener;
+import com.markit.android.WatchListFragment.OnFragmentInteractionListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnWatchListSelectedListener}.
+ * specified {@link OnFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyWatchListRecyclerViewAdapter extends RecyclerView.Adapter<MyWatchListRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
-    private final OnWatchListSelectedListener mListener;
+    private final OnFragmentInteractionListener mListener;
 
-    public MyWatchListRecyclerViewAdapter(List<DummyItem> items, OnWatchListSelectedListener listener) {
+    public MyWatchListRecyclerViewAdapter(List<DummyItem> items, OnFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
