@@ -40,7 +40,8 @@
 
           <div id="hub-recent-holder"></div>
           <script type="text/template" id="hub-most-recent">
-            <% for (var item of items) { %>
+            <% for (var specificItem in items) { %>
+            <%     var item = items[specificItem] %> 
               <div class="col l3 m4 s12">
                 <div class="card find-result hoverable">
                   <div class="find-result-favorite">
@@ -49,7 +50,7 @@
                   <div class="find-result-price">
                     $ <%- item['price'] %>
                   </div>
-                  <div class="card-image waves-effect waves-block waves-light">
+                  <div class="hub-recent card-image waves-effect waves-block waves-light">
                     <img class="activator" src=<%- item['imageURL'] %>>
                   </div>
                   <div class="card-content">

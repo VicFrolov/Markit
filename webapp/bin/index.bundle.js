@@ -171,6 +171,14 @@
 	    });
 	};
 
+	var getRecentItemsInHub = function (hub, callback) {
+	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -319,7 +327,8 @@
 	    getFavorites,
 	    getFavoriteObjects,
 	    removeFavorite,
-	    getImage
+	    getImage,
+	    getRecentItemsInHub
 	};
 
 /***/ },
@@ -2105,7 +2114,7 @@
 
 	$(function () {
 	    $('.parallax').parallax();
-	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
@@ -2113,26 +2122,33 @@
 
 
 	    var mostRecentItems = $('#hub-most-recent');
-	    var showFavoritesInSidebar = function(items) {
+	    var showMostRecentItems = function(items) {
+	        var imagePaths = []
 	        var str = $('#hub-most-recent').text();
 	        var compiled = _.template(str);
 
 	        $('#hub-recent-holder').empty();
 	        $('#hub-recent-holder').append(compiled({items: items}));
 
-	        for (var i = 0; i < items.length; i += 1) {
+
+	        for (var item in items) {
+	            imagePaths.push(items[item]['id']);
+	        }
+
+	        for (var i = 0; i < imagePaths.length; i += 1) {
 	            (function (x) {
-	                getImage(items[x]['id'] + '/imageOne', function(url) {
-	                    tagToAdd = ".card-image img:eq(" + x  + " )";
+	                getImage(imagePaths[x] + '/imageOne', function(url) {
+	                    tagToAdd = ".hub-recent img:eq(" + x  + " )";
 	                    $(tagToAdd).attr({src: url});
 	                });
 	            })(i);
 	        }
+
 	    };
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
-	            getFavoriteObjects(showFavoritesInSidebar);
+	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 

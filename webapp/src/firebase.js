@@ -85,6 +85,14 @@ var getListings = function (callback) {
     });
 };
 
+var getRecentItemsInHub = function (hub, callback) {
+    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+        callback(snapshot.val());
+    }, function (error) {
+        console.log(error);
+    });
+};
+
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -233,5 +241,6 @@ module.exports = {
     getFavorites,
     getFavoriteObjects,
     removeFavorite,
-    getImage
+    getImage,
+    getRecentItemsInHub
 };
