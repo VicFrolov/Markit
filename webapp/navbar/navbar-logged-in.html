@@ -1,0 +1,58 @@
+<ul id="profile-drop" class="dropdown-content">
+  <li><a href="#!">Notifications</a></li>
+  <li><a href="#!">Messages</a></li>
+  <li><a href="#!">Settings</a></li>
+  <li><a href="#!">Help</a></li>
+  <li class="divider"></li>
+  <li><a href="#!" id="navbar-logout-button">Logout</a></li>
+</ul>
+<!-- start nav -->
+<nav class="z-depth-1">
+    <div class="nav-wrapper">
+      <a href="../index.html" class="brand-logo left">Markyt</a>
+      <ul class="right hide-on-med-and-down navbar-buttons">
+        <li id="navbar-searchbar">
+          <form>
+            <div class="input-field">
+              <input id="search" type="search" placeholder="find an item" required>
+              <label for="search"><i class="material-icons">search</i></label>
+              <i class="material-icons">close</i>
+            </div>
+          </form>
+        </li>
+        <li><a href="../new-post/new-post.html">Sell Now</a></li>
+        <li><a href="../find/find.html">Find</a></li>
+        <li><a href="../hub/hub.html">My Hub</a></li>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-button" data-activates="profile-drop" href="../profile/profile.html" 
+          data-hover="true" data-belowOrigin="true" data-constrainwidth="false"><img src="../media/temp-profile.png" id="navbar-user-photo"/>Profile</a></li>
+      </ul>
+    </div>
+</nav>    
+<!-- end nav -->
+
+<!-- custom login pop up -->
+<div id="login-popup">
+  <div id="login-popup-inner">
+    <fb:login-button class="login-popup-inner-items" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+    <a class="waves-effect waves-light btn login-popup-inner-items"><i class="material-icons left"></i>Log in with Google</a>
+    <div class="crossline-wrapper">
+      <div> or </div>
+    </div>
+    <div class="row">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate">
+            <label for="email">Username</label>
+          </div>
+        </div>    
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+        </div>
+    </div>
+    <a class="waves-effect waves-light btn login-popup-inner-items" id="sign-in-button">Log in</a>
+  </div>
+</div>
