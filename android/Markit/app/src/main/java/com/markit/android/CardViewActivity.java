@@ -5,22 +5,68 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 public class CardViewActivity extends BaseActivity {
 
     private boolean loggedIn;
+    private RecyclerView recList;
+    private static final String TAG = "CardView";
+    private LinearLayoutManager llm;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseReference = database.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("CREATING CARD VIEW ACTIVITY");
-
+        //System.out.println("CREATING CARD VIEW ACTIVITY");
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_card_view);
+        //startActivity(new Intent(CardViewActivity.this, CardActivity.class));
+
+        recList = (RecyclerView) findViewById(R.id.recList);
+        if (recList != null) {
+            recList.setHasFixedSize(true);
+        }
+        llm = new LinearLayoutManager(this);
+        recList.setLayoutManager(llm);
+
+        FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder>(
+                Item.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
+                mDatabaseReference.child("items")) {
+            @Override
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
+                cardViewHolder.title.setText(model.getTitle());
+                final String itemID = model.getId();
+                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        CardViewActivity.this.startActivity(itemDetail);
+                    }
+                });
+                cardViewHolder.price.setText("$ " + model.getPrice());
+                cardViewHolder.uid.setText(model.getId());
+            }
+        };
+        recList.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -28,7 +74,6 @@ public class CardViewActivity extends BaseActivity {
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,8 +81,6 @@ public class CardViewActivity extends BaseActivity {
                 startActivity(new Intent(CardViewActivity.this, Profile.class));
             }
         });
-
-
 
         FloatingActionButton notifications = (FloatingActionButton) findViewById(R.id.notifications_button);
         notifications.setOnClickListener(new View.OnClickListener() {
@@ -88,17 +131,36 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
-
+        if (id == R.id.listview) {
+            startActivity(new Intent(CardViewActivity.this, MobileView.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isLoggedIn(){
+
+    public boolean isLoggedIn() {
         return loggedIn;
     }
 
-    public void setLoggedIn(boolean b) {
-        loggedIn = b;
-    }
 
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView price;
+        TextView uid;
+        TextView tags;
+        ImageView photo;
+        //CardView cardView;
+        //CardRecyclerAdapter.ItemClickListener itemClickListener;
+
+        public CardViewHolder(View itemView) {
+            super(itemView);
+            //cardView = (CardView) itemView.findViewById(R.id.card_view);
+            photo = (ImageView) itemView.findViewById(R.id.photo);
+            title = (TextView) itemView.findViewById(R.id.title);
+            price = (TextView) itemView.findViewById(R.id.price);
+            uid = (TextView) itemView.findViewById(R.id.uid);
+        }
+    }
 }

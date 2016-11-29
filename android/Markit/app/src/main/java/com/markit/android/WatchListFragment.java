@@ -10,16 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.markit.android.R;
 import com.markit.android.dummy.DummyContent;
 import com.markit.android.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnWatchListSelectedListener}
+ * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
 public class WatchListFragment extends Fragment {
@@ -28,7 +25,7 @@ public class WatchListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnWatchListSelectedListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,8 +76,8 @@ public class WatchListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnWatchListSelectedListener) {
-            mListener = (OnWatchListSelectedListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -103,7 +100,7 @@ public class WatchListFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnWatchListSelectedListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
     }

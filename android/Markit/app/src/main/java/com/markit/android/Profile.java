@@ -29,7 +29,7 @@ import com.markit.android.dummy.DummyContent.DummyItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends BaseActivity implements WatchListFragment.OnWatchListSelectedListener, ProfilePageFragment.OnFragmentInteractionListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener, ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
 
     public void onListFragmentInteraction(DummyItem d) {
 //        TODO figure out what the fuck this thing is supposed to do
@@ -55,6 +55,8 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
     private ViewPager mViewPager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private int currentPage;
+    protected static String[] inputTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +73,17 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton notificationsButton = (FloatingActionButton) findViewById(R.id.profileNotificationsButton);
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Profile.super.openNavDrawer();
             }
         });
+
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -140,9 +146,20 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
+//        if (id == R.id.new_tag_set) {
+//            addTagSet();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
+
+//    public String[] addTagSet() {
+////TODO bring up a dialog modal and parse user input into individual tag strings
+//        NewTagSetDialog dialog = new NewTagSetDialog();
+//        dialog.show(getFragmentManager(), "NewTagSet");
+//        return null;
+//    }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -211,15 +228,18 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
+            currentPage = position;
+            System.out.println(position);
+            System.out.println(currentPage);
 
             switch (position) {
                 case 0:
-                    return ProfilePageFragment.newInstance("what", "theFuck");
-//                    return PlaceholderFragment.newInstance(position + 1);
+                    return ProfilePageFragment.newInstance();
                 case 1:
                     return WatchListFragment.newInstance(1);
                 case 2:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    int COLUMN_COUNT = 1;
+                    return TagsFragment.newInstance(COLUMN_COUNT);
             }
             return null;
 //            return PlaceholderFragment.newInstance(position + 1);
@@ -235,13 +255,16 @@ public class Profile extends BaseActivity implements WatchListFragment.OnWatchLi
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "My Profile";
                 case 1:
-                    return "SECTION 2";
+                    return "Watch List";
                 case 2:
-                    return "SECTION 3";
+                    return "Tags";
             }
             return null;
         }
+
     }
+
+
 }
