@@ -105,6 +105,20 @@ var getFavorites = function (callback) {
     });
 };
 
+var getUserInfo = function(uid, callback) {
+    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+        var userInfo = snapshot.val();
+        var userInfoArray = [];
+        userInfoArray.push(userInfo['username']);
+        userInfoArray.push(userInfo['firstName']);
+        userInfoArray.push(userInfo['lastName']);
+        userInfoArray.push(userInfo['userHub']);
+        userInfoArray.push(userInfo['favorites']);
+        userInfoArray.push(userInfo['itemsForSale']);
+        callback(userInfoArray);
+    });
+};
+
 var getImage = function(address, callback) {
     itemImagesRef.child(address).getDownloadURL().then(function(url) {
         callback(url);
@@ -242,5 +256,6 @@ module.exports = {
     getFavoriteObjects,
     removeFavorite,
     getImage,
-    getRecentItemsInHub
+    getRecentItemsInHub,
+    getUserInfo
 };

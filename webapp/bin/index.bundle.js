@@ -191,6 +191,20 @@
 	    });
 	};
 
+	var getUserInfo = function(uid, callback) {
+	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        var userInfo = snapshot.val();
+	        var userInfoArray = [];
+	        userInfoArray.push(userInfo['username']);
+	        userInfoArray.push(userInfo['firstName']);
+	        userInfoArray.push(userInfo['lastName']);
+	        userInfoArray.push(userInfo['userHub']);
+	        userInfoArray.push(userInfo['favorites']);
+	        userInfoArray.push(userInfo['itemsForSale']);
+	        callback(userInfoArray);
+	    });
+	};
+
 	var getImage = function(address, callback) {
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
 	        callback(url);
@@ -328,7 +342,8 @@
 	    getFavoriteObjects,
 	    removeFavorite,
 	    getImage,
-	    getRecentItemsInHub
+	    getRecentItemsInHub,
+	    getUserInfo
 	};
 
 /***/ },
@@ -1243,6 +1258,31 @@
 	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
+
+
+	            // favorite icon highlight/changes
+	            $('body').on('mouseenter', '.find-result-favorite-image', function() {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	            }).on('mouseout', '.find-result-favorite-image', function() {
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    $(this).css('opacity', '0.3');
+	                }
+	            }).on('click', '.find-result-favorite-image', function() {
+	                this.favorited = this.favorited || false;
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart_hover.png');
+	                    addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+
+	                } else {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    removeFavorite($(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+	                }
+	                this.favorited = !this.favorited;
+	            });            
 	        } else {
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
@@ -1377,29 +1417,7 @@
 	    });
 
 
-	    // favorite icon highlight/changes
-	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
-	        $(this).attr('src', '../media/ic_heart_hover.png');
-	        $(this).css('opacity', 1);
-	    }).on('mouseout', '.find-result-favorite-image', function() {
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart.png');
-	            $(this).css('opacity', '0.3');
-	        }
-	    }).on('click', '.find-result-favorite-image', function() {
-	        this.favorited = this.favorited || false;
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart_hover.png');
-	            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
-	            getFavoriteObjects(showFavoritesInSidebar);
 
-	        } else {
-	            $(this).attr('src', '../media/ic_heart.png');
-	            removeFavorite($(this).attr('uid'));
-	            getFavoriteObjects(showFavoritesInSidebar);
-	        }
-	        this.favorited = !this.favorited;
-	    });
 
 	});
 
@@ -2153,7 +2171,7 @@
 	            window.location.href = "../index.html";
 
 	        }
-	    }); 
+	    });    
 	    
 
 	});
