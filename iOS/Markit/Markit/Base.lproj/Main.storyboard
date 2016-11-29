@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="268"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EYM-dT-830" id="c6Z-xq-EeS">
-                                    <frame key="frameInset" width="375" height="267.5"/>
+                                    <frame key="frameInset" width="375" height="267"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u9C-aR-BNb"/>
@@ -222,7 +222,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4BR-hl-N6a" id="DFi-k0-q0I">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -336,7 +336,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzp-dz-xvA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1080.8" y="1917.3913043478262"/>
+            <point key="canvasLocation" x="1908" y="1909"/>
+        </scene>
+        <!--Logged In Or Not Logged In View Controller-->
+        <scene sceneID="Ch4-a8-8hE">
+            <objects>
+                <viewController id="8gJ-vK-eCe" customClass="LoggedInOrNotLoggedInViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gb6-u6-FiE"/>
+                        <viewControllerLayoutGuide type="bottom" id="jhc-9I-pkl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ndP-az-ZQa" customClass="Log">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="brZ-EE-kl1"/>
+                    <connections>
+                        <segue destination="Kwb-x3-mN0" kind="show" identifier="segueToAccountNotLoggedIn" id="biR-z8-LEd"/>
+                        <segue destination="b2R-7H-qz5" kind="presentation" identifier="segueToProfileView" modalPresentationStyle="currentContext" id="dF4-FU-EiN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QGJ-YQ-nkM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1126" y="1918"/>
         </scene>
         <!--Account Create Name View Controller-->
         <scene sceneID="dKD-t3-KTi">
@@ -439,7 +462,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75E-Fp-imR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1871" y="2400"/>
+            <point key="canvasLocation" x="2697" y="2391"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5fr-WQ-Dlb">
@@ -495,7 +518,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gdS-S0-T7l" id="Aez-1m-hfd">
-                                    <frame key="frameInset" width="375" height="43.5"/>
+                                    <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -872,7 +895,7 @@
                                         <rect key="frame" x="0.0" y="64" width="375" height="191"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4HH-cq-7LS" id="Acu-DP-WwC">
-                                            <frame key="frameInset" width="375" height="190.5"/>
+                                            <frame key="frameInset" width="375" height="190"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barrafina" translatesAutoresizingMaskIntoConstraints="NO" id="GfW-0x-Xkp"/>
@@ -928,7 +951,7 @@
                                         <rect key="frame" x="0.0" y="255" width="375" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gEq-Nk-YIJ" id="YS5-41-TIx">
-                                            <frame key="frameInset" width="375" height="66.5"/>
+                                            <frame key="frameInset" width="375" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pO6-Or-1bl">
@@ -965,7 +988,7 @@
                                         <rect key="frame" x="0.0" y="322" width="375" height="149"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a7A-cP-g1s" id="dwp-wv-jwy">
-                                            <frame key="frameInset" width="375" height="148.5"/>
+                                            <frame key="frameInset" width="375" height="148"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjF-fW-z3Q">
@@ -991,7 +1014,7 @@
                                         <rect key="frame" x="0.0" y="471" width="375" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uwg-cV-XGQ" id="xmD-aZ-MeD">
-                                            <frame key="frameInset" width="375" height="76.5"/>
+                                            <frame key="frameInset" width="375" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhU-hG-Qck">
@@ -1048,7 +1071,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="Kwb-x3-mN0" kind="relationship" relationship="rootViewController" id="rRU-Qg-zav"/>
+                        <segue destination="8gJ-vK-eCe" kind="relationship" relationship="rootViewController" id="JbR-4i-9cD"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yuu-tc-1VH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1174,7 +1197,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1k0-Um-6Sa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2560.8000000000002" y="2399.5502248875564"/>
+            <point key="canvasLocation" x="3388" y="2391"/>
         </scene>
         <!--Account Create Hub View Controller-->
         <scene sceneID="fUz-1Q-kTV">
@@ -1308,12 +1331,12 @@
                         <outlet property="markedHub" destination="Qgb-aO-V29" id="nKx-aJ-ZuK"/>
                         <outlet property="markedUsername" destination="5d2-jr-IEp" id="NMS-l6-C3c"/>
                         <outlet property="username" destination="BcZ-fh-7tl" id="QaD-LT-dGs"/>
-                        <segue destination="b2R-7H-qz5" kind="show" identifier="successCreateAccount" id="JBk-kr-tPL"/>
+                        <segue destination="b2R-7H-qz5" kind="presentation" identifier="successCreateAccount" modalPresentationStyle="currentContext" id="JBk-kr-tPL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3253.5999999999999" y="2399.5502248875564"/>
+            <point key="canvasLocation" x="4081" y="2391"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="ErA-Yd-UnZ">
@@ -1325,36 +1348,52 @@
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="QYF-8O-tXJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qrf-6I-nAj">
-                                <frame key="frameInset" minY="362" width="375" height="256"/>
+                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qrf-6I-nAj">
+                                <frame key="frameInset" minX="-10" minY="362" width="385" height="256"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="N9Q-xA-oth" kind="embed" id="zcS-2B-uDN"/>
                                 </connections>
                             </containerView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profilebg" translatesAutoresizingMaskIntoConstraints="NO" id="FIz-JA-TKo">
-                                <frame key="frameInset" minY="64" width="375" height="106"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profilebg" translatesAutoresizingMaskIntoConstraints="NO" id="FIz-JA-TKo">
+                                <frame key="frameInset" width="375" height="126"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </imageView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0G1-Lm-HyH">
-                                <frame key="frameInset" minX="168" minY="372" width="39" height="37"/>
+                            <pageControl opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0G1-Lm-HyH">
+                                <frame key="frameInset" minX="168" minY="317" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pageControl>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profilepicture" translatesAutoresizingMaskIntoConstraints="NO" id="z76-9G-A8v">
-                                <frame key="frameInset" minX="137" minY="114" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AsU-AX-2jh">
-                                <frame key="frameInset" minX="122" minY="222" width="130" height="23"/>
+                                <frame key="frameInset" minX="122" minY="180" width="130" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hub" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VmU-cX-bJn">
+                                <frame key="frameInset" minX="122" minY="201" width="130" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
+                                <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMF-d4-G26">
+                                <frame key="frameInset" minX="122" minY="219" width="130" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
+                                <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profilepicture" translatesAutoresizingMaskIntoConstraints="NO" id="z76-9G-A8v">
+                                <frame key="frameInset" minX="137" minY="72" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="tintColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="containerView" destination="Qrf-6I-nAj" id="VKE-Ib-hQN"/>
@@ -1365,7 +1404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hTU-4M-TLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4165.6000000000004" y="2399.5502248875564"/>
+            <point key="canvasLocation" x="5004" y="2391"/>
         </scene>
         <!--Profile Page View Controller-->
         <scene sceneID="7Jw-cG-5Dj">
@@ -1373,7 +1412,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="N9Q-xA-oth" customClass="ProfilePageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sop-L8-akk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4970" y="2342"/>
+            <point key="canvasLocation" x="5796" y="2390"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="5lh-d1-X7y">
@@ -1391,7 +1430,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TWY-VV-Wwn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5767" y="2400"/>
+            <point key="canvasLocation" x="6593" y="2391"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="aMl-UB-bfs">
@@ -1409,25 +1448,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mz1-Lq-vZe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5766" y="3092"/>
+            <point key="canvasLocation" x="6593" y="3083"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="E3D-0K-hTv">
+        <!--Table View Controller-->
+        <scene sceneID="yE7-Z5-1mZ">
             <objects>
-                <viewController storyboardIdentifier="ProfilePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8dy-Tk-9V3" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="RWI-OK-aeK"/>
-                        <viewControllerLayoutGuide type="bottom" id="9JD-NX-dgI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2pL-8I-JwU">
+                <tableViewController storyboardIdentifier="ProfilePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QGM-8v-Jph" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="FSG-v3-CwL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sBD-th-yD0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="hzq-0V-Dy1">
+                                <rect key="frame" x="0.0" y="92" width="375" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hzq-0V-Dy1" id="TQE-WX-zwO">
+                                    <frame key="frameInset" width="375" height="49"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="QGM-8v-Jph" id="hFX-k3-00S"/>
+                            <outlet property="delegate" destination="QGM-8v-Jph" id="MAS-fc-qDe"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RIl-Be-pB2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5766" y="1655"/>
+            <point key="canvasLocation" x="6593" y="1718"/>
         </scene>
         <!--Account Login View Controller-->
         <scene sceneID="Vry-9N-IOP">
@@ -1524,12 +1575,12 @@
                         <outlet property="checkedPassword" destination="okH-yT-rl4" id="qyS-Og-Rgu"/>
                         <outlet property="emailTextField" destination="5Ns-Wg-8BX" id="XJ9-op-DvD"/>
                         <outlet property="passwordTextField" destination="Tlg-aN-MYG" id="zeZ-OR-oVS"/>
-                        <segue destination="b2R-7H-qz5" kind="show" identifier="userLoggedIn" id="LWp-3N-5dv"/>
+                        <segue destination="b2R-7H-qz5" kind="presentation" identifier="userLoggedIn" modalPresentationStyle="currentContext" id="LWp-3N-5dv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aep-1D-5vC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1870" y="1655"/>
+            <point key="canvasLocation" x="2697" y="1647"/>
         </scene>
         <!--Advanced Search-->
         <scene sceneID="7E6-0E-RvZ">
@@ -1710,6 +1761,6 @@
         <image name="profilepicture" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LWp-3N-5dv"/>
+        <segue reference="dF4-FU-EiN"/>
     </inferredMetricsTieBreakers>
 </document>

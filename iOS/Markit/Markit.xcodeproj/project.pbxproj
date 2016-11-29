@@ -11,6 +11,7 @@
 		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
+		345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
 		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
 		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
@@ -43,6 +44,7 @@
 		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
+		345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInOrNotLoggedInViewController.swift; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
 		34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
 				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
+				345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
 				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
 				1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */,
+				345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
