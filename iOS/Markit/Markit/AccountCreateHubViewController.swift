@@ -24,16 +24,38 @@ class AccountCreateHubViewController: UIViewController {
     @IBAction func finishSignup(_ sender: AnyObject) {
         if !markedHub.isHidden && !markedUsername.isHidden {
             FIRAuth.auth()?.createUser(withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
+                
+                // *** Create date ***
+                let date = NSDate()
+                
+                // *** create calendar object ***
+                var calendar = NSCalendar.current
+                
+                // *** Get components using current Local & Timezone ***
+                print(calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date as Date))
+                
+                // *** define calendar components to use as well Timezone to UTC ***
+                let unitFlags = Set<Calendar.Component>([.hour, .year, .minute])
+                calendar.timeZone = TimeZone(identifier: "UTC")!
+                
+                // *** Get components from date ***
+                let components = calendar.dateComponents(unitFlags, from: date as Date)
+                print("Components : \(components)")
+                
+                //let currentTime =
                     
-                    NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
-                    let uidRef = self.ref.child("/users/" + user!.uid)
-                    let userJson = ["username"  : self.username.text!,
-                                    "email"     : self.userInfo[2],
-                                    "firstName" : self.userInfo[0],
-                                    "lastName"  : self.userInfo[1],
-                                    "hub"       : self.hub.text!]
-                    uidRef.setValue(userJson)
                     
+                
+                NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
+                let uidRef = self.ref.child("/users/" + user!.uid)
+                let userJson = ["dateCreated" : "fas",
+                                "username"    : self.username.text!,
+                                "email"       : self.userInfo[2],
+                                "firstName"   : self.userInfo[0],
+                                "lastName"    : self.userInfo[1],
+                                "hub"         : self.hub.text!]
+                uidRef.setValue(userJson)
+                
             }
             
             self.performSegue(withIdentifier: "successCreateAccount", sender: self)
