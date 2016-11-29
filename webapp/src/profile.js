@@ -1,7 +1,10 @@
 $(function () {
 
     var auth = require('./firebase.js')['auth'];
+    var getUserInfo = require('./firebase.js')['getUserInfo'];
+    //var updateUserInfo = require('./firebase.js')['updateUserInfo'];
     var user;
+    var uid;
     var likedCardList = $('#profile-liked-card-list');
     var sellingCardList = $('#profile-selling-card-list');
     var notificationsList = $('#profile-notification-group');
@@ -9,7 +12,7 @@ $(function () {
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
     var lastName = $('#profile-last-name');
-    var userName = $('#profile-user-name');
+    var username = $('#profile-user-name');
     var hub = $('#profile-hub-name');
     var paymentPreference;
     var emailNotifications = $('#email-notifications');
@@ -108,13 +111,37 @@ $(function () {
         }
     };
 
-    var updateSettings = function () {
-
+    var loadSettings = function () {
+        getUserInfo(uid, loadUserInfo);
     };
+
+    var loadUserInfo = function (userInfo) {
+        firstName.val(userInfo.firstName);
+        lastName.val(userInfo.lastName);
+        username.val(userInfo.username);
+        hub.val(userInfo.userHub);
+        for (preference in userInfo.paymentPreferences) {
+            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
+        }
+        $('select').material_select();
+    };
+
+    var updateSettings = function () {
+        var updatedInfo = {
+            username: username.val(),
+            firstName: firstName.val(),
+            lastName: lastName.val(),
+            userHub: hub.val()
+        };
+        console.log(updatedInfo);
+        //updateUserInfo(uid, updatedInfo);
+    };
+
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
             user = auth.currentUser.email;
+            uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
                 $('#my-profile').empty().append([
                     $('<img>').addClass('img-fluid circle').attr({
@@ -126,6 +153,7 @@ $(function () {
                 loadLikedCardList();
                 $('select').material_select();
                 paymentPreference = $('#profile-payment-preference');
+                loadSettings();
             }
         }
     });
@@ -147,7 +175,7 @@ $(function () {
         editButton.attr("disabled", true);
         firstName.attr("disabled", false);
         lastName.attr("disabled", false);
-        userName.attr("disabled", false);
+        username.attr("disabled", false);
         hub.attr("disabled", false);
         paymentPreference.attr("disabled", false);
         $('select').material_select();
@@ -160,7 +188,7 @@ $(function () {
         saveButton.attr("disabled", true);
         firstName.attr("disabled", true);
         lastName.attr("disabled", true);
-        userName.attr("disabled", true);
+        username.attr("disabled", true);
         hub.attr("disabled", true);
         paymentPreference.attr("disabled", true);
         $('select').material_select();
