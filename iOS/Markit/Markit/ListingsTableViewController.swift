@@ -8,11 +8,9 @@
 
 import UIKit
 import Firebase
-import FirebaseStorage
 import SwiftyJSON
 
 class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
-    var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
     var ref:            FIRDatabaseReference!
     var refHandle:      FIRDatabaseHandle?
     var itemsRef:       FIRDatabaseReference!
@@ -22,8 +20,10 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var userRef:        FIRDatabaseReference!
     var usernameRef:    FIRDatabaseReference!
     var hubsRef:        FIRDatabaseReference!
-    let itemImageRef  = FIRStorage.storage().reference().child("images/").child("itemImages/")
+    var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
+    
+
     
 //  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
@@ -34,9 +34,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
         self.ref            = FIRDatabase.database().reference()
-//        let itemImageRef   = FIRStorage.storage().reference()
-//                                                  .child("images/")
-//                                                  .child("itemImages/")
+        self.itemImageRef   = FIRStorage.storage().reference()
         self.itemsRef       = ref.child("items")
         self.itemsByHubRef  = ref.child("itemsByHub")
         self.itemsByUserRef = ref.child("itemsByUser")
@@ -126,12 +124,8 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                     item.username = snapshot.value as! String?
                 })
                 
-                self.imageRef.child(dictionary["id"] as! String)
-                             .observe(.value, with: { (snapshot) in
-                                print("SOMETHING \(snapshot.value)")
-//                    item.imagePath = snapshot.value as! String?
-                 })
-                
+                self.getImage(imageID: item.imageID!, item: item)
+
                 self.itemList.append(item)
             }
             self.tableView.reloadData()
@@ -139,6 +133,26 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         
     }
     
+    func getImage (imageID: String, item: Item) {
+//        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").downloadURL(completion: { (url, error) -> Void in
+        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 200 * 1024) { (data, error) in
+            DispatchQueue.main.async(execute: {
+                if (error != nil) {
+                    print("Image download failed: \(error?.localizedDescription)")
+                    return
+                }
+                print("HERE?")
+//                let imageURL = url
+//                let imageData = NSData(contentsOf: imageURL! as URL)
+//                item.image = UIImage(data: imageData! as Data)
+                item.image = UIImage(data: data!)
+                self.tableView.reloadData()
+                return
+            })
+//        })
+        }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.contentOffset = CGPoint (x: 0, y: self.searchController.searchBar.frame.size.height)
         self.tableView.reloadData()
@@ -240,7 +254,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         
         // Configure the cell...
         cell.itemLabel?.text = item.title
-        cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
+        cell.thumbnailImageView?.image = item.image
 //        cell.priceLabel?.text = String(format: "%.2f", item.price!)
         cell.priceLabel?.text = item.price
         cell.userLabel?.text = item.username
