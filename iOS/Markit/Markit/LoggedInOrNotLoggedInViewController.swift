@@ -17,12 +17,12 @@ class LoggedInOrNotLoggedInViewController: UIViewController {
         if FIRAuth.auth()?.currentUser != nil {
             // User is signed in.
             // ...
-            print("hiifdsaifjasoijfas")
+            print("Logged in")
             performSegue(withIdentifier: "segueToProfileView", sender: nil)
         } else {
             // No user is signed in.
             // ...
-            print("No useR")
+            print("No user logged in")
             performSegue(withIdentifier: "segueToAccountNotLoggedIn", sender: nil)
         }
         
