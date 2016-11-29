@@ -11,12 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.R.drawable.btn_star;
 
 
 public class CardViewActivity extends BaseActivity {
@@ -35,7 +39,6 @@ public class CardViewActivity extends BaseActivity {
         //System.out.println("CREATING CARD VIEW ACTIVITY");
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_card_view);
-        //startActivity(new Intent(CardViewActivity.this, CardActivity.class));
 
         recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
@@ -120,6 +123,10 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
+        if (id == R.id.chat) {
+            startActivity(new Intent(CardViewActivity.this, ChatListView.class));
+            return true;
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -139,8 +146,7 @@ public class CardViewActivity extends BaseActivity {
         TextView uid;
         TextView tags;
         ImageView photo;
-        //CardView cardView;
-        //CardRecyclerAdapter.ItemClickListener itemClickListener;
+//        ImageButton likeItem;
 
         public CardViewHolder(View itemView) {
             super(itemView);
@@ -149,6 +155,23 @@ public class CardViewActivity extends BaseActivity {
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.uid);
+//            likeItem = (ImageButton) itemView.findViewById(R.id.likeImageButton);
+//
+//            likeItem.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int id = (int)likeItem.getTag();
+//                    if(id == R.drawable.quantum_ic_play_arrow_white_24){
+//                        likeItem.setTag(R.drawable.quantum_ic_play_arrow_white_24);
+//                        likeItem.setImageResource(R.drawable.quantum_ic_play_arrow_grey600_48);
+//                        Toast.makeText(getActivity(),titleTextView.getText()+" added to favorites", Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        likeItem.setTag(R.drawable.quantum_ic_play_arrow_grey600_48);
+//                        likeItem.setImageResource(R.drawable.quantum_ic_play_arrow_white_24);
+//                        Toast.makeText(getActivity(),titleTextView.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
         }
     }
 }

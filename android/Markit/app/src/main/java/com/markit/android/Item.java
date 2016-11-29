@@ -61,6 +61,7 @@ public class Item {
         this.title = title;
     }
 
+    //fix path to get username not userID, check firebase for that
     public String getUid() {
         return uid;
     }
