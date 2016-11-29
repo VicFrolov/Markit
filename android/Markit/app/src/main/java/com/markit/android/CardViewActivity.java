@@ -19,6 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 public class CardViewActivity extends BaseActivity {
 
     private boolean loggedIn;
@@ -50,6 +57,7 @@ public class CardViewActivity extends BaseActivity {
             @Override
             public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
+
                 cardViewHolder.price.setText("$ " + model.getPrice());
                 cardViewHolder.uid.setText(model.getUid());
             }
@@ -62,7 +70,6 @@ public class CardViewActivity extends BaseActivity {
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +127,10 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
-
+        if (id == R.id.listview) {
+            startActivity(new Intent(CardViewActivity.this, MobileView.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -129,9 +139,6 @@ public class CardViewActivity extends BaseActivity {
         return loggedIn;
     }
 
-    public void setLoggedIn(boolean b) {
-        loggedIn = b;
-    }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         TextView title;

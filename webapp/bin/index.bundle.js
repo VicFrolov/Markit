@@ -50,7 +50,8 @@
 	__webpack_require__(9);
 	__webpack_require__(11);
 	__webpack_require__(12);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -87,6 +88,8 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
+
+
 
 	firebase.initializeApp({
 	    // serviceAccount: "./MarkIt-3489756f4a28.json",
@@ -161,11 +164,85 @@
 	};
 
 	var getListings = function (callback) {
-	    itemsRef.once("value").then(function(snapshot) {
+	    itemsRef.once("value").then(function (snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
 	    });
+	};
+
+	var getRecentItemsInHub = function (hub, callback) {
+	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var getFavorites = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	                callback(snapshot.val());
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    });
+	};
+
+	var getUserInfo = function(uid, callback) {
+	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        var userInfo = snapshot.val();
+	        var userInfoArray = [];
+	        userInfoArray.push(userInfo['username']);
+	        userInfoArray.push(userInfo['firstName']);
+	        userInfoArray.push(userInfo['lastName']);
+	        userInfoArray.push(userInfo['userHub']);
+	        userInfoArray.push(userInfo['favorites']);
+	        userInfoArray.push(userInfo['itemsForSale']);
+	        callback(userInfoArray);
+	    });
+	};
+
+	var getImage = function(address, callback) {
+	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	};
+
+	var getFavoriteObjects = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        // get user favorites
+	        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	            var favorites = snapshot.val();
+	            // pull object of items that user has favorited
+	            itemsRef.once('value').then(function (snapshotItems) {
+	                var allItems = snapshotItems.val();
+	                var userFavoritesMatch = [];
+	                for (var item in allItems) {
+	                    if (favorites && favorites.hasOwnProperty(item)) {
+	                        userFavoritesMatch.push(allItems[item]);
+	                    }
+	                }
+	                callback(userFavoritesMatch);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    });
+	};
+
+
+
+	var removeFavorite = function (item) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
@@ -185,7 +262,9 @@
 
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
+	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
 	};
+
 
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -258,7 +337,13 @@
 	    filterListings,
 	    createAccount,
 	    itemImagesRef,
-	    addFavoriteToProfile
+	    addFavoriteToProfile,
+	    getFavorites,
+	    getFavoriteObjects,
+	    removeFavorite,
+	    getImage,
+	    getRecentItemsInHub,
+	    getUserInfo
 	};
 
 /***/ },
@@ -1138,24 +1223,66 @@
 
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
+	    var getFavorites = __webpack_require__(2)['getFavorites'];
 	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
+	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+	    var getImage = __webpack_require__(2)['getImage'];
 
-	    var getImage = function(address, callback) {
-	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-	            callback(url);
-	        }).catch(function(error) {
-	            console.log("error image not found");
-	            console.log("error either in item id, filename, or file doesn't exist");
-	        });
-	    };
+
+	    var favoriteTemplate = $('#favorite-template');
+	    var showFavoritesInSidebar = function(favorites) {
+	        
+	        var str = $('#favorite-template').text();
+	        var compiled = _.template(str);
+
+	        $('#favorite-holder').empty();
+	        $('#favorite-holder').append(compiled({favorites: favorites}));
+
+	        for (var i = 0; i < favorites.length; i += 1) {
+	            (function (x) {
+	                getImage(favorites[x]['id'] + '/imageOne', function(url) {
+	                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
+	    };    
+
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && $(favoriteTemplate).length > 0) {
+	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
+
+
+	            // favorite icon highlight/changes
+	            $('body').on('mouseenter', '.find-result-favorite-image', function() {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	            }).on('mouseout', '.find-result-favorite-image', function() {
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    $(this).css('opacity', '0.3');
+	                }
+	            }).on('click', '.find-result-favorite-image', function() {
+	                this.favorited = this.favorited || false;
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart_hover.png');
+	                    addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+
+	                } else {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    removeFavorite($(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+	                }
+	                this.favorited = !this.favorited;
+	            });            
 	        } else {
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
@@ -1182,12 +1309,24 @@
 	        });
 	    }
 
+	    var showFavoritesInSearches = function(currentFavorites) {
+	        $('.find-result-favorite-image').each(function() {
+	            var  currentImageID = $(this).attr('uid');
+	            if(currentFavorites && currentFavorites[currentImageID]) {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	                this.favorited = true;
+
+	            }
+
+	        });
+	    };
 
 
-	    var newListing = function(currentItems) {
+	    var newSearch = function(currentItems) {
 	        $("#find-content").empty();
 	        var imagePaths = [];
-
+	        
 	        for (var item in currentItems) {
 	            var currentItem = currentItems[item];
 	            var itemID = currentItem['id'];
@@ -1246,6 +1385,8 @@
 	            );
 	        }
 
+	        getFavorites(showFavoritesInSearches);
+
 	        for (var i = 0; i < imagePaths.length; i += 1) {
 	            (function (x) {
 	                getImage(imagePaths[x] + '/imageOne', function(url) {
@@ -1266,35 +1407,17 @@
 	    });
 
 	    $("#find-search-button").click(function () {
-	        query = "key=";
-	        keywords = $("#item-post-title").val();
-	        keywords = $("#item-post-title").val();
+	        var query = "key=";
+	        var keywords = $("#item-post-title").val();
+	        var tags = $("#item-post-tags").val();
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
-	        getListings(newListing);
+	        getListings(newSearch);
 	    });
 
 
-	    // favorite icon highlight/changes
-	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
-	        $(this).attr('src', '../media/ic_heart_hover.png');
-	        $(this).css('opacity', '0.7');
-	    }).on('mouseout', '.find-result-favorite-image', function() {
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart.png');
-	            $(this).css('opacity', '0.3');
-	        }
-	    }).on('click', '.find-result-favorite-image', function() {
-	        this.favorited = this.favorited || false;
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart_hover.png');
-	            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
-	        } else {
-	            $(this).attr('src', '../media/ic_heart.png');
-	        }
-	        this.favorited = !this.favorited;
-	    });
+
 
 	});
 
@@ -2000,6 +2123,56 @@
 	        password.attr("disabled", true);
 	        updateSettings();
 	    });
+
+	});
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	$(function () {
+	    $('.parallax').parallax();
+	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
+	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+	    var auth = __webpack_require__(2)["auth"];
+	    var getImage = __webpack_require__(2)["getImage"];
+
+
+
+	    var mostRecentItems = $('#hub-most-recent');
+	    var showMostRecentItems = function(items) {
+	        var imagePaths = []
+	        var str = $('#hub-most-recent').text();
+	        var compiled = _.template(str);
+
+	        $('#hub-recent-holder').empty();
+	        $('#hub-recent-holder').append(compiled({items: items}));
+
+
+	        for (var item in items) {
+	            imagePaths.push(items[item]['id']);
+	        }
+
+	        for (var i = 0; i < imagePaths.length; i += 1) {
+	            (function (x) {
+	                getImage(imagePaths[x] + '/imageOne', function(url) {
+	                    tagToAdd = ".hub-recent img:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
+
+	    };
+
+	    auth.onAuthStateChanged(function(user) {
+	        if (user && $(mostRecentItems).length > 0) {
+	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	        } else if (!user && $(mostRecentItems).length > 0) {
+	            window.location.href = "../index.html";
+
+	        }
+	    });    
+	    
 
 	});
 

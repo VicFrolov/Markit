@@ -1,23 +1,65 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
+    var getFavorites = require('./firebase.js')['getFavorites'];
     var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
+    var removeFavorite = require('./firebase.js')['removeFavorite'];
+    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
+    var getImage = require('./firebase.js')['getImage'];
 
-    var getImage = function(address, callback) {
-        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-            callback(url);
-        }).catch(function(error) {
-            console.log("error image not found");
-            console.log("error either in item id, filename, or file doesn't exist");
-        });
-    };
+
+    var favoriteTemplate = $('#favorite-template');
+    var showFavoritesInSidebar = function(favorites) {
+        
+        var str = $('#favorite-template').text();
+        var compiled = _.template(str);
+
+        $('#favorite-holder').empty();
+        $('#favorite-holder').append(compiled({favorites: favorites}));
+
+        for (var i = 0; i < favorites.length; i += 1) {
+            (function (x) {
+                getImage(favorites[x]['id'] + '/imageOne', function(url) {
+                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+                    $(tagToAdd).attr({src: url});
+                });
+            })(i);
+        }
+    };    
+
 
     auth.onAuthStateChanged(function(user) {
-        if (user) {
+        if (user && $(favoriteTemplate).length > 0) {
+            getFavoriteObjects(showFavoritesInSidebar);
             $("#find-favorite-logged-in").css('display', 'block');
             $("#find-favorite-logged-out").css('display', 'none');
+
+
+            // favorite icon highlight/changes
+            $('body').on('mouseenter', '.find-result-favorite-image', function() {
+                $(this).attr('src', '../media/ic_heart_hover.png');
+                $(this).css('opacity', 1);
+            }).on('mouseout', '.find-result-favorite-image', function() {
+                if (!this.favorited) {
+                    $(this).attr('src', '../media/ic_heart.png');
+                    $(this).css('opacity', '0.3');
+                }
+            }).on('click', '.find-result-favorite-image', function() {
+                this.favorited = this.favorited || false;
+                if (!this.favorited) {
+                    $(this).attr('src', '../media/ic_heart_hover.png');
+                    addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+                    getFavoriteObjects(showFavoritesInSidebar);
+
+                } else {
+                    $(this).attr('src', '../media/ic_heart.png');
+                    removeFavorite($(this).attr('uid'));
+                    getFavoriteObjects(showFavoritesInSidebar);
+                }
+                this.favorited = !this.favorited;
+            });            
         } else {
             $("#find-favorite-logged-in").css('display', 'none');
             $("#find-favorite-logged-out").css('display', 'block');
@@ -44,12 +86,24 @@ $(function() {
         });
     }
 
+    var showFavoritesInSearches = function(currentFavorites) {
+        $('.find-result-favorite-image').each(function() {
+            var  currentImageID = $(this).attr('uid');
+            if(currentFavorites && currentFavorites[currentImageID]) {
+                $(this).attr('src', '../media/ic_heart_hover.png');
+                $(this).css('opacity', 1);
+                this.favorited = true;
+
+            }
+
+        });
+    };
 
 
-    var newListing = function(currentItems) {
+    var newSearch = function(currentItems) {
         $("#find-content").empty();
         var imagePaths = [];
-
+        
         for (var item in currentItems) {
             var currentItem = currentItems[item];
             var itemID = currentItem['id'];
@@ -108,6 +162,8 @@ $(function() {
             );
         }
 
+        getFavorites(showFavoritesInSearches);
+
         for (var i = 0; i < imagePaths.length; i += 1) {
             (function (x) {
                 getImage(imagePaths[x] + '/imageOne', function(url) {
@@ -128,34 +184,16 @@ $(function() {
     });
 
     $("#find-search-button").click(function () {
-        query = "key=";
-        keywords = $("#item-post-title").val();
-        keywords = $("#item-post-title").val();
+        var query = "key=";
+        var keywords = $("#item-post-title").val();
+        var tags = $("#item-post-tags").val();
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        getListings(newListing);
+        getListings(newSearch);
     });
 
 
-    // favorite icon highlight/changes
-    $('body').on('mouseenter', '.find-result-favorite-image', function() {
-        $(this).attr('src', '../media/ic_heart_hover.png');
-        $(this).css('opacity', '0.7');
-    }).on('mouseout', '.find-result-favorite-image', function() {
-        if (!this.favorited) {
-            $(this).attr('src', '../media/ic_heart.png');
-            $(this).css('opacity', '0.3');
-        }
-    }).on('click', '.find-result-favorite-image', function() {
-        this.favorited = this.favorited || false;
-        if (!this.favorited) {
-            $(this).attr('src', '../media/ic_heart_hover.png');
-            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
-        } else {
-            $(this).attr('src', '../media/ic_heart.png');
-        }
-        this.favorited = !this.favorited;
-    });
+
 
 });
