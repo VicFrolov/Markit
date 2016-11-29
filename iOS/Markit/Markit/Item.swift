@@ -11,9 +11,14 @@ import UIKit
 class Item: NSObject {
     
     var username: String?
-    var price: Float?
+    var price: String?
     var desc: String?
-    var label: String?
+    var title: String?
     var uid: String?
+    var date: String?
+    var imageID: String?
+    var favorites: [String]?
+    var hubs: [String]?
     var tags: [String]?
+    var image: UIImage?
 }

@@ -8,18 +8,22 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 import SwiftyJSON
 
 class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     var restaurantImages = ["cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "cafedeadend.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg", "homei.jpg", "teakha.jpg", "cafeloisl.jpg", "petiteoyster.jpg", "forkeerestaurant.jpg"]
-    var ref: FIRDatabaseReference!
-    var refHandle: FIRDatabaseHandle?
-    var itemsRef: FIRDatabaseReference!
-    var itemsByHubRef: FIRDatabaseReference!
+    var ref:            FIRDatabaseReference!
+    var refHandle:      FIRDatabaseHandle?
+    var itemsRef:       FIRDatabaseReference!
+    var itemsByHubRef:  FIRDatabaseReference!
     var itemsByUserRef: FIRDatabaseReference!
-    var tagRef: FIRDatabaseReference!
-    var userRef: FIRDatabaseReference!
-    var itemList = [Item]()
+    var tagRef:         FIRDatabaseReference!
+    var userRef:        FIRDatabaseReference!
+    var usernameRef:    FIRDatabaseReference!
+    var hubsRef:        FIRDatabaseReference!
+    let itemImageRef  = FIRStorage.storage().reference().child("images/").child("itemImages/")
+    var itemList      = [Item]()
     
 //  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
@@ -29,12 +33,18 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     override func viewDidLoad() {
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
-        self.ref = FIRDatabase.database().reference()
-        self.itemsRef = ref.child("items")
-        self.itemsByHubRef = ref.child("itemsByHub")
+        self.ref            = FIRDatabase.database().reference()
+//        let itemImageRef   = FIRStorage.storage().reference()
+//                                                  .child("images/")
+//                                                  .child("itemImages/")
+        self.itemsRef       = ref.child("items")
+        self.itemsByHubRef  = ref.child("itemsByHub")
         self.itemsByUserRef = ref.child("itemsByUser")
-        self.userRef = ref.child("usernames")
-        self.tagRef = ref.child("tags")
+        self.userRef        = ref.child("users")
+        self.usernameRef    = ref.child("usernames")
+        self.tagRef         = ref.child("tags")
+        self.hubsRef        = ref.child("hubs")
+        
         self.didReceiveAdvancedSearchQuery = false
         self.searchController.loadViewIfNeeded()
         fetchItems()
@@ -47,7 +57,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         self.filteredItems = itemList.filter { item in
-            return (item.label!.lowercased().contains(searchText.lowercased()))
+            return (item.title!.lowercased().contains(searchText.lowercased()))
         }
         self.tableView.reloadData()
     }
@@ -73,42 +83,54 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     }
     
     func fetchItems() {
-        refHandle = itemsRef!.observe(.childAdded, with: { (snapshot) -> Void in
+        self.refHandle = self.itemsRef!.queryOrdered(byChild: "title")
+                                       .observe(.childAdded, with: { (snapshot) -> Void in
 
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 print("The dict is \(dictionary)")
                 
                 let item = Item()
                 item.uid = dictionary["uid"] as! String?
-                item.username = dictionary["seller"] as! String?
-                
-                // This is temporary since we have inconsistent data
-                if dictionary["price"] is Float {
-                    item.price = dictionary["price"] as! Float?
-                } else if dictionary["price"] is String {
-                    item.price = Float((dictionary["price"] as! String?)!)
+                item.date = dictionary["date"] as! String?
+                item.desc = dictionary["description"] as! String?
+                item.imageID = dictionary["id"] as! String?
+                item.title = dictionary["title"] as! String?
+
+                if let price = dictionary["price"] as! String? {
+                    item.price = price
                 } else {
-                    item.price = 0.01
-                }
-                
-                // This is temporary since we have inconsistent data.
-                if let label = dictionary["item"] as! String? {
-                    item.label = label
-                } else {
-                    item.label = dictionary["title"] as! String?
+                    item.price = "0.01"
                 }
                 
                 if let tags = dictionary["tags"] as? Array as [String]? {
                     item.tags = tags
-                } else if dictionary["tags"] is String {
-                    let tag = dictionary["tags"] as! String
-                    item.tags = [tag]
-                    print("item.tags \(item.tags)")
                 } else {
                     item.tags = [""]
                 }
                 
-                item.desc = dictionary["description"] as! String?
+                if let hub = dictionary["hubs"] as? Array as [String]? {
+                    item.hubs = hub
+                } else {
+                    item.hubs = [""]
+                }
+                
+                if let favorites = dictionary["favorites"] as? Array as [String]? {
+                    item.favorites = favorites
+                } else {
+                    item.favorites = [""]
+                }
+                
+                self.userRef.child(dictionary["uid"] as! String)
+                            .child("username")
+                            .observe(.value, with: { (snapshot) in
+                    item.username = snapshot.value as! String?
+                })
+                
+                self.imageRef.child(dictionary["id"] as! String)
+                             .observe(.value, with: { (snapshot) in
+                                print("SOMETHING \(snapshot.value)")
+//                    item.imagePath = snapshot.value as! String?
+                 })
                 
                 self.itemList.append(item)
             }
@@ -126,29 +148,48 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     
     @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
         self.didReceiveAdvancedSearchQuery = true
+        
+        let searchQuery = self.itemsRef.queryOrdered(byChild: "title").observe(.value, with: { (snapshot) in
+            for childSnapshot in snapshot.children {
+                print("Search \(snapshot)")
+            }
+        })
+
+        
+        var hasTag: Bool  = false
+        var useTags: Bool = false
+        var tagList: [String] = []
+
+        var hasKeyWord: Bool = false
+        var hasHub: Bool = false
         let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
         let minPrice = advancedSearchVC.advancedSearchContainerView.minPrice.text
         let maxPrice = advancedSearchVC.advancedSearchContainerView.maxPrice.text
-//        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+        let keywords = advancedSearchVC.advancedSearchContainerView.keywords.text
         let tags = advancedSearchVC.advancedSearchContainerView.tags.text
         
-        var useTags: Bool = false
-        var tagList: [String] = []
+        if keywords! != "" {
+            hasKeyWord = true
+        }
+        
         if tags! != "" {
-            print("IM HERE")
             tagList = (tags!.characters.split { $0 == " " }).map(String.init)
             useTags = true
         }
         
-        let keywords = advancedSearchVC.advancedSearchContainerView.keywords.text
+        if hubs! != "" {
+            hasHub = true
+        }
+        
         
         self.filteredItems = itemList.filter { item in
-            let keywordQuery = item.label!.lowercased().contains((keywords?.lowercased())!)
+            let keywordQuery = item.title!.lowercased().contains((keywords?.lowercased())!)
 //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-            var hasTag: Bool  = false
             let minPriceQuery = NumberFormatter().number(from: minPrice!)?.floatValue
             let maxPriceQuery = NumberFormatter().number(from: maxPrice!)?.floatValue
-            let withinPriceRange = item.price! <= maxPriceQuery! && item.price! >= minPriceQuery!
+            let itemPriceFloat = NumberFormatter().number(from: item.price!)?.floatValue
+            let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
             
             if useTags {
                 for tag in tagList {
@@ -198,9 +239,10 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         }
         
         // Configure the cell...
-        cell.itemLabel?.text = item.label
+        cell.itemLabel?.text = item.title
         cell.thumbnailImageView?.image = UIImage(named: restaurantImages[indexPath.row])
-        cell.priceLabel?.text = String(format: "%.2f", item.price!)
+//        cell.priceLabel?.text = String(format: "%.2f", item.price!)
+        cell.priceLabel?.text = item.price
         cell.userLabel?.text = item.username
         return cell
     }

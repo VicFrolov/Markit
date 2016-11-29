@@ -17,7 +17,6 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     let rangeSlider = MARKRangeSlider()
 //    let autocompleteTextField = MLPAutoCompleteTextField()
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
-    let listingsTableViewControllerContainer = ListingsTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
