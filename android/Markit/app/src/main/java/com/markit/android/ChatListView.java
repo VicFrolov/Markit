@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -30,6 +31,7 @@ public class ChatListView extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private DatabaseReference chatRef;
     private ListView listView;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class ChatListView extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_of_messages);
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        chatRef = databaseRef.child("chats");
+        chatRef = databaseRef.child("chat").child("users");
 
         final ListAdapter adapter = new FirebaseListAdapter<Chat>(this, Chat.class, R.layout.list_item, chatRef) {
             protected void populateView(View view, Chat chat, int position) {
@@ -54,14 +56,25 @@ public class ChatListView extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Chat entry = (Chat) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
-                String message = entry.getMessage();
-                startActivity(intent);
+                String uid = firebaseAuth.getCurrentUser().getUid();
+                String user = "User " + uid.substring(0, 6);
 
-//                String message = (String) adapterView.getItemAtPosition(position);
+                //Chat entry = (Chat)parent.getItemAtPosition(position);
+                //String message = entry.getMessage();
+
+               /// Chat entry = (Chat) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
+                //String message = entry.getMessage();
+                //startActivity(intent);
+
+                String messageClicked = (String) adapter.getItem(position);
 //                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
 //                startActivity(intent);
+
+                //String messageClicked = (Chat) parent.getAdapter().getItem(position);
+                intent.putExtra("message", messageClicked);
+                intent.putExtra("username", user);
+                startActivity(intent);
 
             }
         });

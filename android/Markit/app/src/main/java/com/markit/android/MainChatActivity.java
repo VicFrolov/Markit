@@ -1,8 +1,10 @@
 package com.markit.android;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import static com.markit.android.R.id.backButton;
 import static com.markit.android.R.id.message_text;
 
 public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
@@ -45,6 +48,7 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
     private DatabaseReference chatRef;
     private Button sendButton;
     private EditText editMessage;
+    private Button backButton;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
@@ -58,11 +62,20 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
+        backButton = (Button) findViewById(R.id.backButton);
+
         sendButton = (Button) findViewById(R.id.sendButton);
         editMessage = (EditText) findViewById(R.id.messageEdit);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainChatActivity.this, ChatListView.class));
+            }
+        });
+
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        chatRef = databaseRef.child("chats");
+        chatRef = databaseRef.child("chats").child("messages");
 
 //        chatRef.addChildEventListener(new ChildEventListener() {
 //            @Override
@@ -87,6 +100,7 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
                 String user = "User " + uid.substring(0, 6);
 
@@ -188,7 +202,7 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         String uid;
         private long messageTime;
 
-        public Chat(String s, String displayName) {
+        public Chat() {
         }
 
         public Chat(String user, String uid, String message) {
