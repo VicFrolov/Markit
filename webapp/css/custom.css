@@ -20,4 +20,10 @@ main {
     display: none;
 }
 
+#tagging-system {
+    margin-right: 50%;
+}
 
+.tagging-system-image {
+    margin-right: 50%;
+}
