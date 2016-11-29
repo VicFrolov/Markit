@@ -16,7 +16,6 @@ class AccountCreateHubViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var markedHub:UIImageView!
     @IBOutlet weak var markedUsername: UIImageView!
-    
     @IBOutlet weak var badUsername: UILabel!
     
     var userInfo: [String]!
@@ -25,40 +24,34 @@ class AccountCreateHubViewController: UIViewController {
         if !markedHub.isHidden && !markedUsername.isHidden {
             FIRAuth.auth()?.createUser(withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
                 
-                // *** Create date ***
-                let date = NSDate()
-                
-                // *** create calendar object ***
-                var calendar = NSCalendar.current
-                
-                // *** Get components using current Local & Timezone ***
-                print(calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date as Date))
-                
-                // *** define calendar components to use as well Timezone to UTC ***
-                let unitFlags = Set<Calendar.Component>([.hour, .year, .minute])
-                calendar.timeZone = TimeZone(identifier: "UTC")!
-                
-                // *** Get components from date ***
-                let components = calendar.dateComponents(unitFlags, from: date as Date)
-                print("Components : \(components)")
-                
-                //let currentTime =
-                    
-                    
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss +zzzz"
+                let currentDate = dateFormatter.string(from: date as Date)
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
                 let uidRef = self.ref.child("/users/" + user!.uid)
-                let userJson = ["dateCreated" : "fas",
-                                "username"    : self.username.text!,
+                let userJson = ["dateCreated" : currentDate,
                                 "email"       : self.userInfo[2],
+                                "favorites"   : "",
                                 "firstName"   : self.userInfo[0],
                                 "lastName"    : self.userInfo[1],
-                                "hub"         : self.hub.text!]
+                                "uid"         : user!.uid,
+                                "userHub"     : self.hub.text!,
+                                "username"    : self.username.text!] as [String : Any]
                 uidRef.setValue(userJson)
                 
+                FIRAuth.auth()!.signIn(withEmail: self.userInfo[2], password: self.userInfo[3]){ (user, error) in
+                    if let error = error {
+                        print("Sign in failed:", error.localizedDescription)
+                    } else {
+                        print("user signed in")
+                        self.performSegue(withIdentifier: "successCreateAccount", sender: self)
+                    }
+                }
+                
+                
             }
-            
-            self.performSegue(withIdentifier: "successCreateAccount", sender: self)
         }
     }
 
@@ -83,13 +76,6 @@ class AccountCreateHubViewController: UIViewController {
         let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
         return usernameTest.evaluate(with: testStr)
     }
-    /*
-    let usernameRef = self.ref.child("/usernames")
-    let meh = ["firstName" : self.userInfo[0],
-               "lastName"  : self.userInfo[1],
-               "uid"       : self.userInfo[2]]
-    print(user!.uid) 
-    */
     
     func textViewDidChange(textView: UITextView) {
         

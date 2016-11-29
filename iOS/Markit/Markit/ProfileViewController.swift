@@ -31,8 +31,9 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let userID = FIRAuth.auth()?.currentUser?.uid
         ref = FIRDatabase.database().reference()
+        let userID = FIRAuth.auth()?.currentUser?.uid
+
 
         profilePicture.layer.borderWidth = 3
         profilePicture.layer.masksToBounds = false
@@ -45,17 +46,15 @@ class ProfileViewController: UIViewController {
         editButton.layer.borderWidth = 1
         editButton.layer.borderColor = UIColor.white.cgColor
         
-        ref.child("usernames").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
-            print("FDASFASF")
-            print(value?["username"])
             let username = value?["username"] as? String ?? ""
             let firstName = value?["firstName"] as? String ?? ""
             let lastName = value?["lastName"] as? String ?? ""
             let name = "\(firstName) \(lastName)"
             let email = value?["email"] as? String ?? ""
-            let hub = value?["hub"] as? String ?? ""
+            let hub = value?["userHub"] as? String ?? ""
             
             self.firstLastNameTextField.text = name
             self.usernameTextField.text = username
