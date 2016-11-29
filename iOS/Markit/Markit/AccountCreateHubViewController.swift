@@ -23,11 +23,10 @@ class AccountCreateHubViewController: UIViewController {
     
     @IBAction func finishSignup(_ sender: AnyObject) {
         if !markedHub.isHidden && !markedUsername.isHidden {
-            FIRAuth.auth()?.createUser(
-                withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
+            FIRAuth.auth()?.createUser(withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
                     
                     NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
-                    let uidRef = self.ref.child("/usernames/" + user!.uid)
+                    let uidRef = self.ref.child("/users/" + user!.uid)
                     let userJson = ["username"  : self.username.text!,
                                     "email"     : self.userInfo[2],
                                     "firstName" : self.userInfo[0],
