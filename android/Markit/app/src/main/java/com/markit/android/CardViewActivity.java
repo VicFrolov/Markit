@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import android.widget.TextView;
 
@@ -51,19 +57,9 @@ public class CardViewActivity extends BaseActivity {
             @Override
             public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
-                final String itemID = model.getId();
-                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View view) {
-                        Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
-                        //final String itemID = model.getItemID();
-                        itemDetail.putExtra("uid", itemID);
-                        CardViewActivity.this.startActivity(itemDetail);
-                    }
-                });
                 cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getId());
+                cardViewHolder.uid.setText(model.getUid());
             }
         };
         recList.setAdapter(adapter);
@@ -138,7 +134,6 @@ public class CardViewActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     public boolean isLoggedIn() {
         return loggedIn;
