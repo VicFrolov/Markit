@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class EditProfileViewController: UIViewController {
     @IBOutlet weak var profilePicture: UIImageView!
@@ -17,6 +18,8 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var hubTextField: UITextField!
     @IBOutlet weak var preferedPaymentTextField: UITextField!
+    var firstName = "", lastName = "", email = "", username = "", hub = "", preferedPayment = ""
+    var ref: FIRDatabaseReference!
     
     override func viewDidLoad() {
         for view in self.view.subviews as [UIView] {
@@ -24,9 +27,23 @@ class EditProfileViewController: UIViewController {
                 drawBottomBorder(textField: textField)
             }
         }
+        firstNameTextField.text = self.firstName
+        lastNameTextField.text  = self.lastName
+        emailTextField.text     = self.email
+        usernameTextField.text  = self.username
+        hubTextField.text       = self.hub
     }
     
     @IBAction func updateProfile(sender: UIButton) {
+        ref = FIRDatabase.database().reference()
+        let userID = FIRAuth.auth()?.currentUser?.uid
+        let updatedProfile = ["email"             : self.emailTextField.text as String!,
+                              "firstName"         : self.firstNameTextField.text as String!,
+                              "lastName"          : self.lastNameTextField.text as String!,
+                              "userHub"           : self.hubTextField.text as String!,
+                              "username"          : self.usernameTextField.text as String!,
+                              "paymentPreference" : "cash"] as [String : Any]
+        ref.child("/users/\(userID!)").updateChildValues(updatedProfile)
         
     }
     

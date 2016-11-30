@@ -26,38 +26,30 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var emailTextField: UILabel!
     @IBOutlet weak var hubTextField: UILabel!
     var ref: FIRDatabaseReference!
+    var firstName = "", lastName = ""
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ref = FIRDatabase.database().reference()
-        let userID = FIRAuth.auth()?.currentUser?.uid
-        
         drawButtonWhiteBorder(button: editButton)
-        
-        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
-            let value = snapshot.value as? NSDictionary
-            let username = value?["username"] as? String ?? ""
-            let firstName = value?["firstName"] as? String ?? ""
-            let lastName = value?["lastName"] as? String ?? ""
-            let name = "\(firstName) \(lastName)"
-            let email = value?["email"] as? String ?? ""
-            let hub = value?["userHub"] as? String ?? ""
-            
-            self.firstLastNameTextField.text = name
-            self.usernameTextField.text = username
-            self.emailTextField.text = email
-            self.hubTextField.text = hub
-            
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-
+        self.star1.isHidden = true
+        self.star2.isHidden = true
+        self.star3.isHidden = true
+        self.star4.isHidden = true
+        self.star5.isHidden = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueToEditProfile" {
+            if let destination = segue.destination as? EditProfileViewController {
+                destination.firstName = self.firstName
+                destination.lastName  = self.lastName
+                destination.email     = self.emailTextField.text!
+                destination.username  = self.usernameTextField.text!
+                destination.hub       = self.hubTextField.text!
+            }
+        }
         if let profilePageViewController = segue.destination as? ProfilePageViewController {
             profilePageViewController.profileDelegate = self
         }
@@ -69,6 +61,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         makeProfilePicCircular()
+        updateProfile()
     }
     
     func makeProfilePicCircular() {
@@ -86,7 +79,32 @@ class ProfileViewController: UIViewController {
         button.layer.borderColor = UIColor.white.cgColor
     }
     
+    func updateProfile() {
+        ref = FIRDatabase.database().reference()
+        let userID = FIRAuth.auth()?.currentUser?.uid
+        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            let username = value?["username"] as? String ?? ""
+            self.firstName = value?["firstName"] as? String ?? ""
+            self.lastName = value?["lastName"] as? String ?? ""
+            let name = "\(self.firstName) \(self.lastName)"
+            let email = value?["email"] as? String ?? ""
+            let hub = value?["userHub"] as? String ?? ""
+            
+            self.firstLastNameTextField.text = name
+            self.usernameTextField.text = username
+            self.emailTextField.text = email
+            self.hubTextField.text = hub
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    
 }
+
 
 
 extension ProfileViewController: ProfilePageViewControllerDelegate {
