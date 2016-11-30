@@ -38,6 +38,8 @@ class ProfileViewController: UIViewController {
         self.star3.isHidden = true
         self.star4.isHidden = true
         self.star5.isHidden = true
+        self.pageControl.currentPageIndicatorTintColor = UIColor.red
+        self.pageControl.pageIndicatorTintColor = UIColor.black
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
