@@ -85,6 +85,14 @@ var getListings = function (callback) {
     });
 };
 
+var getRecentItemsInHub = function (hub, callback) {
+    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+        callback(snapshot.val());
+    }, function (error) {
+        console.log(error);
+    });
+};
+
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -94,6 +102,28 @@ var getFavorites = function (callback) {
                 console.log(error);
             });
         }
+    });
+};
+
+var getUserInfo = function(uid, callback) {
+    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+        var userInfo = snapshot.val();
+        callback(userInfo);
+    });
+};
+
+var updateUserInfo = function(uid, updatedInfo) {
+    for (update in updatedInfo) {
+        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+    }
+}
+
+var getImage = function(address, callback) {
+    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+        callback(url);
+    }).catch(function(error) {
+        console.log("error image not found");
+        console.log("error either in item id, filename, or file doesn't exist");
     });
 };
 
@@ -166,6 +196,7 @@ var newUserDBEntry = function (user) {
     var lastName = $("#sign-up-last-name").val();
     var username = $("#sign-up-username").val();
     var userHub = $("#sign-up-hub").val();
+    var defaultPreference = ["cash"];
     var date =  Date();
 
     var userInfo = {
@@ -175,6 +206,7 @@ var newUserDBEntry = function (user) {
         userHub: userHub,
         firstName: firstName,
         lastName: lastName,
+        paymentPreferences: defaultPreference,
         dateCreated: date
     };
     usersRef.child(user.uid).set(userInfo);
@@ -223,5 +255,9 @@ module.exports = {
     addFavoriteToProfile,
     getFavorites,
     getFavoriteObjects,
-    removeFavorite
+    removeFavorite,
+    getImage,
+    getRecentItemsInHub,
+    getUserInfo,
+    updateUserInfo
 };

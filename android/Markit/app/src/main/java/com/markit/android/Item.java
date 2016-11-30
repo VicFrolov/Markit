@@ -16,15 +16,6 @@ public class Item {
     private String date;
 
     public Item () {
-        // this.description = "No description";
-        // this.price = "0";
-        // this.tags = new String [1];
-        // tags[0] = "None";
-        // this.title = "No Title";
-        // this.uid = "None";
-    //private String username;
-
-    // public Item() {
 //        this.description = "No description";
 //        this.price = "0";
 //        this.tags = new String[1];

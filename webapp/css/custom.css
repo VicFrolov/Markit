@@ -20,4 +20,12 @@ main {
     display: none;
 }
 
+.tagging-system-image {
+    margin-right: 50%;
+}
 
+/*footer*/
+
+footer.page-footer {
+    margin-top: 0px;
+}

@@ -7,15 +7,7 @@ $(function() {
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
     var removeFavorite = require('./firebase.js')['removeFavorite'];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
-
-    var getImage = function(address, callback) {
-        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-            callback(url);
-        }).catch(function(error) {
-            console.log("error image not found");
-            console.log("error either in item id, filename, or file doesn't exist");
-        });
-    };
+    var getImage = require('./firebase.js')['getImage'];
 
 
     var favoriteTemplate = $('#favorite-template');
@@ -43,6 +35,31 @@ $(function() {
             getFavoriteObjects(showFavoritesInSidebar);
             $("#find-favorite-logged-in").css('display', 'block');
             $("#find-favorite-logged-out").css('display', 'none');
+
+
+            // favorite icon highlight/changes
+            $('body').on('mouseenter', '.find-result-favorite-image', function() {
+                $(this).attr('src', '../media/ic_heart_hover.png');
+                $(this).css('opacity', 1);
+            }).on('mouseout', '.find-result-favorite-image', function() {
+                if (!this.favorited) {
+                    $(this).attr('src', '../media/ic_heart.png');
+                    $(this).css('opacity', '0.3');
+                }
+            }).on('click', '.find-result-favorite-image', function() {
+                this.favorited = this.favorited || false;
+                if (!this.favorited) {
+                    $(this).attr('src', '../media/ic_heart_hover.png');
+                    addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+                    getFavoriteObjects(showFavoritesInSidebar);
+
+                } else {
+                    $(this).attr('src', '../media/ic_heart.png');
+                    removeFavorite($(this).attr('uid'));
+                    getFavoriteObjects(showFavoritesInSidebar);
+                }
+                this.favorited = !this.favorited;
+            });            
         } else {
             $("#find-favorite-logged-in").css('display', 'none');
             $("#find-favorite-logged-out").css('display', 'block');
@@ -177,28 +194,6 @@ $(function() {
     });
 
 
-    // favorite icon highlight/changes
-    $('body').on('mouseenter', '.find-result-favorite-image', function() {
-        $(this).attr('src', '../media/ic_heart_hover.png');
-        $(this).css('opacity', 1);
-    }).on('mouseout', '.find-result-favorite-image', function() {
-        if (!this.favorited) {
-            $(this).attr('src', '../media/ic_heart.png');
-            $(this).css('opacity', '0.3');
-        }
-    }).on('click', '.find-result-favorite-image', function() {
-        this.favorited = this.favorited || false;
-        if (!this.favorited) {
-            $(this).attr('src', '../media/ic_heart_hover.png');
-            addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
-            getFavoriteObjects(showFavoritesInSidebar);
 
-        } else {
-            $(this).attr('src', '../media/ic_heart.png');
-            removeFavorite($(this).attr('uid'));
-            getFavoriteObjects(showFavoritesInSidebar);
-        }
-        this.favorited = !this.favorited;
-    });
 
 });

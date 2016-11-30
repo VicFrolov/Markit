@@ -151,6 +151,10 @@ $(function() {
             passwordValid = false;
             $('#password-available').hide();
         }
-    });    
+    });
+
+    module.exports = {
+        nameSizeLimit
+    }    
 
 });
