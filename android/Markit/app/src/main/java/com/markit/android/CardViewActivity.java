@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CardViewActivity extends BaseActivity {
 
-    private boolean loggedIn;
+    private Bundle uidInfo;
     private RecyclerView recList;
     private static final String TAG = "CardView";
     private LinearLayoutManager llm;
@@ -40,10 +40,9 @@ public class CardViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //System.out.println("CREATING CARD VIEW ACTIVITY");
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_card_view);
-        //startActivity(new Intent(CardViewActivity.this, CardActivity.class));
+        
 
         recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
@@ -139,9 +138,7 @@ public class CardViewActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
+
 
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
