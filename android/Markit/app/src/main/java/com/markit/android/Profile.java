@@ -128,6 +128,13 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
         return true;
     }
 
+    public String[] addTagSet() {
+//TODO bring up a dialog modal and parse user input into individual tag strings
+        NewTagSetDialog dialog = new NewTagSetDialog();
+        dialog.show(getFragmentManager(), "NewTagSet");
+        return null;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -146,9 +153,9 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
-//        if (id == R.id.new_tag_set) {
-//            addTagSet();
-//        }
+        if (id == R.id.new_tag_set) {
+            addTagSet();
+        }
         if (id == R.id.watching) {
             startActivity(new Intent(Profile.this, FavoritesListView.class));
             return true;
@@ -164,13 +171,6 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
 
             return super.onOptionsItemSelected(item);
 
-
-        //public String[] addTagSet() {
-//TODO bring up a dialog modal and parse user input into individual tag strings
-//        NewTagSetDialog dialog = new NewTagSetDialog();
-//        dialog.show(getFragmentManager(), "NewTagSet");
-//        return null;
-//    }
     }
 
 
