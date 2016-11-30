@@ -10,6 +10,7 @@ public class Item {
     private String[] tags;
     private String title;
     private String uid;
+    private String id;
     //private String username;
     private String imageUrl;
 
@@ -22,12 +23,13 @@ public class Item {
         this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String [] tags, String uid) {
+    public Item(String title, String description, String price, String [] tags, String id, String uid) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.tags = tags;
         this.uid = uid;
+        this.id = id;
     }
 
     public String getDescription() {
@@ -73,6 +75,15 @@ public class Item {
 
     public String getImageUrl(){
         return imageUrl;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 

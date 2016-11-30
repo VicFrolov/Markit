@@ -11,6 +11,7 @@ public class ItemObject {
     private String uid;
     private String username;
     private String imageUrl;
+    private String id;
 
     public ItemObject() {
 //        this.price = "0";
@@ -19,11 +20,12 @@ public class ItemObject {
 //        this.username = "None";
     }
 
-    public ItemObject(String title, String price, String uid, String username) {
+    public ItemObject(String title, String price, String uid, String username, String id) {
         this.title = title;
         this.price = price;
         this.uid = uid;
         this.username = username;
+        this.id = id;
     }
 
     public String getPrice() {
@@ -49,5 +51,14 @@ public class ItemObject {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
