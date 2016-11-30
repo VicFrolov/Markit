@@ -23,8 +23,6 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
-
-    
 //  These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
@@ -85,14 +83,14 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                                        .observe(.childAdded, with: { (snapshot) -> Void in
 
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                print("The dict is \(dictionary)")
+//                print("The dict is \(dictionary)")
                 
-                let item = Item()
-                item.uid = dictionary["uid"] as! String?
-                item.date = dictionary["date"] as! String?
-                item.desc = dictionary["description"] as! String?
+                let item     = Item()
+                item.uid     = dictionary["uid"] as! String?
+                item.date    = dictionary["date"] as! String?
+                item.desc    = dictionary["description"] as! String?
                 item.imageID = dictionary["id"] as! String?
-                item.title = dictionary["title"] as! String?
+                item.title   = dictionary["title"] as! String?
 
                 if let price = dictionary["price"] as! String? {
                     item.price = price
@@ -135,13 +133,12 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     
     func getImage (imageID: String, item: Item) {
 //        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").downloadURL(completion: { (url, error) -> Void in
-        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 200 * 1024) { (data, error) in
+        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
             DispatchQueue.main.async(execute: {
                 if (error != nil) {
                     print("Image download failed: \(error?.localizedDescription)")
                     return
                 }
-                print("HERE?")
 //                let imageURL = url
 //                let imageData = NSData(contentsOf: imageURL! as URL)
 //                item.image = UIImage(data: imageData! as Data)
@@ -163,28 +160,28 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
         self.didReceiveAdvancedSearchQuery = true
         
-        let searchQuery = self.itemsRef.queryOrdered(byChild: "title").observe(.value, with: { (snapshot) in
-            for childSnapshot in snapshot.children {
-                print("Search \(snapshot)")
-            }
-        })
+//        let searchQuery = self.itemsRef.queryOrdered(byChild: "title").observe(.value, with: { (snapshot) in
+//            for childSnapshot in snapshot.children {
+//                print("Search \(snapshot)")
+//            }
+//        })
 
         
         var hasTag: Bool  = false
         var useTags: Bool = false
         var tagList: [String] = []
 
-        var hasKeyWord: Bool = false
-        var hasHub: Bool = false
+//        var hasKeyWord: Bool = false
+//        var hasHub: Bool = false
         let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
-        let minPrice = advancedSearchVC.advancedSearchContainerView.minPrice.text
-        let maxPrice = advancedSearchVC.advancedSearchContainerView.maxPrice.text
-        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
-        let keywords = advancedSearchVC.advancedSearchContainerView.keywords.text
-        let tags = advancedSearchVC.advancedSearchContainerView.tags.text
+        let minPrice         = advancedSearchVC.advancedSearchContainerView.minPrice.text
+        let maxPrice         = advancedSearchVC.advancedSearchContainerView.maxPrice.text
+//        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+        let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
+        let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
         
         if keywords! != "" {
-            hasKeyWord = true
+//            hasKeyWord = true
         }
         
         if tags! != "" {
@@ -192,17 +189,17 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
             useTags = true
         }
         
-        if hubs! != "" {
-            hasHub = true
-        }
+//        if hubs! != "" {
+//            hasHub = true
+//        }
         
         
         self.filteredItems = itemList.filter { item in
-            let keywordQuery = item.title!.lowercased().contains((keywords?.lowercased())!)
+            let keywordQuery     = item.title!.lowercased().contains((keywords?.lowercased())!)
 //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-            let minPriceQuery = NumberFormatter().number(from: minPrice!)?.floatValue
-            let maxPriceQuery = NumberFormatter().number(from: maxPrice!)?.floatValue
-            let itemPriceFloat = NumberFormatter().number(from: item.price!)?.floatValue
+            let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
+            let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
+            let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
             let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
             
             if useTags {
@@ -253,11 +250,10 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         }
         
         // Configure the cell...
-        cell.itemLabel?.text = item.title
+        cell.itemLabel?.text           = item.title
         cell.thumbnailImageView?.image = item.image
-//        cell.priceLabel?.text = String(format: "%.2f", item.price!)
-        cell.priceLabel?.text = item.price
-        cell.userLabel?.text = item.username
+        cell.priceLabel?.text          = item.price
+        cell.userLabel?.text           = item.username
         return cell
     }
 }
