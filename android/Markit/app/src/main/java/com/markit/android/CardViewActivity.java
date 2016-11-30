@@ -43,9 +43,10 @@ public class CardViewActivity extends BaseActivity {
         recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
             recList.setHasFixedSize(true);
-            }
-           llm = new LinearLayoutManager(this);
-           recList.setLayoutManager(llm);
+        }
+
+        llm = new LinearLayoutManager(this);
+        recList.setLayoutManager(llm);
 
           FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
              ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {

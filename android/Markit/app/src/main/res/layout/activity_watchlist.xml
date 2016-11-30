@@ -11,12 +11,18 @@
     android:paddingTop="16dp"
     tools:context = ".FavoritesListView">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/watchlistRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/watchlistView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textSize="18sp"/>
+
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/watchlistView"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
 
 </RelativeLayout>
