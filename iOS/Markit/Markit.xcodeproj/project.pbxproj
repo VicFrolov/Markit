@@ -134,6 +134,7 @@
 		384810C51D83B9E600830C95 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
@@ -143,6 +144,7 @@
 				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
+				345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
 				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
@@ -151,8 +153,6 @@
 				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
 				345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */,
-				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
-				345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

@@ -33,18 +33,8 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
-
-
-        profilePicture.layer.borderWidth = 3
-        profilePicture.layer.masksToBounds = false
-        profilePicture.layer.borderColor = UIColor.green.cgColor
-        profilePicture.layer.cornerRadius = profilePicture.frame.height/2
-        profilePicture.clipsToBounds = true
         
-        editButton.backgroundColor = .clear
-        editButton.layer.cornerRadius = 3
-        editButton.layer.borderWidth = 1
-        editButton.layer.borderColor = UIColor.white.cgColor
+        drawButtonWhiteBorder(button: editButton)
         
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
@@ -64,14 +54,6 @@ class ProfileViewController: UIViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
-        
-        //makes navbar invisible with no text
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clear
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
     }
     
@@ -79,6 +61,29 @@ class ProfileViewController: UIViewController {
         if let profilePageViewController = segue.destination as? ProfilePageViewController {
             profilePageViewController.profileDelegate = self
         }
+    }
+    
+    @IBAction func unwindEditProfile(segue: UIStoryboardSegue) {
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        makeProfilePicCircular()
+    }
+    
+    func makeProfilePicCircular() {
+        profilePicture.layer.borderWidth = 3
+        profilePicture.layer.masksToBounds = false
+        profilePicture.layer.borderColor = UIColor.clear.cgColor
+        profilePicture.layer.cornerRadius = profilePicture.frame.height/2
+        profilePicture.clipsToBounds = true
+    }
+    
+    func drawButtonWhiteBorder(button: UIButton) {
+        button.backgroundColor = .clear
+        button.layer.cornerRadius = 3
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
     }
     
 }

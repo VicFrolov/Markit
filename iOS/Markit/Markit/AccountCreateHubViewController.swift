@@ -31,14 +31,15 @@ class AccountCreateHubViewController: UIViewController {
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
                 let uidRef = self.ref.child("/users/" + user!.uid)
-                let userJson = ["dateCreated" : currentDate,
-                                "email"       : self.userInfo[2],
-                                "favorites"   : "",
-                                "firstName"   : self.userInfo[0],
-                                "lastName"    : self.userInfo[1],
-                                "uid"         : user!.uid,
-                                "userHub"     : self.hub.text!,
-                                "username"    : self.username.text!] as [String : Any]
+                let userJson = ["dateCreated"       : currentDate,
+                                "email"             : self.userInfo[2],
+                                "favorites"         : "",
+                                "firstName"         : self.userInfo[0],
+                                "lastName"          : self.userInfo[1],
+                                "uid"               : user!.uid,
+                                "userHub"           : self.hub.text!,
+                                "username"          : self.username.text!,
+                                "paymentPreference" : "cash"] as [String : Any]
                 uidRef.setValue(userJson)
                 
                 FIRAuth.auth()!.signIn(withEmail: self.userInfo[2], password: self.userInfo[3]){ (user, error) in
