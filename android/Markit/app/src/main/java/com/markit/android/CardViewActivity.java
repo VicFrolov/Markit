@@ -1,10 +1,14 @@
 package com.markit.android;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -14,37 +18,63 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.bumptech.glide.Glide;
 
 
 public class CardViewActivity extends BaseActivity {
 
     private boolean loggedIn;
     private ListView cardListView;
+    private RecyclerView recList;
+    private LinearLayoutManager llm;
+    //private Context context;
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_view);
 
-        cardListView = (ListView) findViewById(R.id.cardListView);
-
-        FirebaseListAdapter<ItemObject> firebaseListAdapter = new FirebaseListAdapter<ItemObject>(
-                this, ItemObject.class, R.layout.card_item, mDatabaseReference) {
-            @Override
-            protected void populateView(View v, ItemObject model, int position) {
-                ((TextView) v.findViewById(R.id.title)).setText(model.getTitle());
-                ((TextView) v.findViewById(R.id.price)).setText("$ " + model.getPrice());
-                ((TextView) v.findViewById(R.id.uid)).setText(model.getUid());
+        recList = (RecyclerView) findViewById(R.id.recList);
+        if (recList != null) {
+            recList.setHasFixedSize(true);
             }
-        };
-        cardListView.setAdapter(firebaseListAdapter);
+           llm = new LinearLayoutManager(this);
+           recList.setLayoutManager(llm);
 
+          FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
+             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+             @Override
+                 public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
+                 cardViewHolder.title.setText(model.getTitle());
+                 cardViewHolder.price.setText("$ " + model.getPrice());
+                 cardViewHolder.uid.setText(model.getUid());
+//                 Glide.with(activity).load(model.getImageUrl()).into(cardViewHolder.photo);
+                }
+             };
+             recList.setAdapter(adapter);
+
+//        cardListView = (ListView) findViewById(R.id.cardListView);
+//
+//        FirebaseListAdapter<ItemObject> firebaseListAdapter = new FirebaseListAdapter<ItemObject>(
+//                this, ItemObject.class, R.layout.card_item, mDatabaseReference) {
+//            @Override
+//            protected void populateView(View v, ItemObject model, int position) {
+//                ((TextView) v.findViewById(R.id.title)).setText(model.getTitle());
+//                ((TextView) v.findViewById(R.id.price)).setText("$ " + model.getPrice());
+//                ((TextView) v.findViewById(R.id.username)).setText(model.getUsername());
+//                ImageView imageUrl = (ImageView) v.findViewById(R.id.photo);
+//                    Picasso.with(context).load.getImageUrl().into(imageUrl);
+//            }
+//        };
+//        cardListView.setAdapter(firebaseListAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,5 +162,21 @@ public class CardViewActivity extends BaseActivity {
     public void setLoggedIn(boolean b) {
         loggedIn = b;
     }
+
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView price;
+        TextView uid;
+        TextView tags;
+        ImageView photo;
+
+        public CardViewHolder(View itemView) {
+            super(itemView);
+            photo = (ImageView) itemView.findViewById(R.id.photo);
+            title = (TextView) itemView.findViewById(R.id.title);
+            price = (TextView) itemView.findViewById(R.id.price);
+            uid = (TextView) itemView.findViewById(R.id.username);
+               }
+         }
 
 }

@@ -9,19 +9,21 @@ public class ItemObject {
     private String price;
     private String title;
     private String uid;
-    //private String username;
-    //private String imageUrl;
+    private String username;
+    private String imageUrl;
 
     public ItemObject() {
         this.price = "0";
         this.title = "No Title";
         this.uid = "None";
+        this.username = "None";
     }
 
-    public ItemObject(String title, String price, String uid) {
+    public ItemObject(String title, String price, String uid, String username) {
         this.title = title;
         this.price = price;
         this.uid = uid;
+        this.username = username;
     }
 
     public String getPrice() {
@@ -37,8 +39,15 @@ public class ItemObject {
         return uid;
     }
 
-//    public String getImageUrl(){
-//        return imageUrl;
-//    }
+    public String getUsername() {
+        return username;
+    }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+//    public String setImageUrl() {
+//        this.imageUrl = imageUrl;
+//    }
 }
