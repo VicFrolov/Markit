@@ -71,6 +71,7 @@ public class BaseActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.watching) {
+            startActivity(new Intent(BaseActivity.this, FavoritesListView.class));
             return true;
         }
         if (id == R.id.change_hub) {

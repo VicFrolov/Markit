@@ -37,7 +37,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
 
     public void onFragmentInteraction(Uri uri) {
 //        TODO also figure out what the fuck this thing is supposed to do
-        }
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -82,9 +82,6 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
         });
 
 
-
-
-
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -124,7 +121,6 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -143,22 +139,39 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.nav_card_view) {
+            startActivity(new Intent(Profile.this, CardViewActivity.class));
+            return true;
+        }
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
 //        if (id == R.id.new_tag_set) {
 //            addTagSet();
 //        }
+        if (id == R.id.watching) {
+            startActivity(new Intent(Profile.this, FavoritesListView.class));
+            return true;
+        }
+        if (id == R.id.chat) {
+            startActivity(new Intent(Profile.this, ChatListView.class));
+            return true;
+        }
+        if (id == R.id.new_listing) {
+            startActivity(new Intent(Profile.this, NewListing.class));
+            return true;
+        }
 
-        return super.onOptionsItemSelected(item);
-    }
+            return super.onOptionsItemSelected(item);
 
-//    public String[] addTagSet() {
-////TODO bring up a dialog modal and parse user input into individual tag strings
+
+        //public String[] addTagSet() {
+//TODO bring up a dialog modal and parse user input into individual tag strings
 //        NewTagSetDialog dialog = new NewTagSetDialog();
 //        dialog.show(getFragmentManager(), "NewTagSet");
 //        return null;
 //    }
+    }
 
 
     /**

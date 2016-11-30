@@ -7,25 +7,26 @@ package com.markit.android;
 public class Item {
     private String description;
     private String price;
-    //private String[] tags;
+    private String[] tags;
     private String title;
     private String uid;
     //private String username;
+    private String imageUrl;
 
     public Item() {
-//        this.description = "No description";
-//        this.price = "0";
-//        this.tags = new String[1];
-//        tags[0] = "None";
-//        this.title = "No Title";
-//        this.uid = "None";
+        this.description = "No description";
+        this.price = "0";
+        this.tags = new String[1];
+        tags[0] = "None";
+        this.title = "No Title";
+        this.uid = "None";
     }
 
     public Item(String title, String description, String price, String [] tags, String uid) {
         this.title = title;
         this.description = description;
         this.price = price;
-        //this.tags = tags;
+        this.tags = tags;
         this.uid = uid;
     }
 
@@ -45,13 +46,13 @@ public class Item {
         this.price = price;
     }
 
-//    public String[] getTags() {
-//        return tags;
-//    }
+    public String[] getTags() {
+        return tags;
+    }
 
-//    public void setTags(String[] tags) {
-//        this.tags = tags;
-//    }
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
 
     public String getTitle() {
         return title;
@@ -68,6 +69,10 @@ public class Item {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getImageUrl(){
+        return imageUrl;
     }
 
 

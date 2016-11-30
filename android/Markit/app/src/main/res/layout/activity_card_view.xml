@@ -71,15 +71,17 @@
             app:backgroundTint="@color/cast_expanded_controller_text_color"
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
-        <!--android:tint="@color/place_autocomplete_prediction_secondary_text"-->
-        <!--app:backgroundTint="@color/cast_expanded_controller_text_color"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:layout_marginRight="85dp"-->
-        <!--app:fabSize="normal"-->
-        <!--app:layout_anchorGravity="bottom|right" />-->
+
+                <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/cardListView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="200dp" />
 
 
-        <include layout="@layout/content_card_view" />
+        <!--<include layout="@layout/content_card_view" />-->
 
 
     </android.support.design.widget.CoordinatorLayout>

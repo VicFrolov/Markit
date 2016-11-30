@@ -27,8 +27,8 @@
         android:id="@+id/notifications"
         android:title="Notifications" />
     <item
-        android:id="@+id/messages"
-        android:title="Messages" />
+        android:id="@+id/chat"
+        android:title="Chat" />
     <item
         android:id="@+id/new_tag_set"
         android:title="New TagSet" />

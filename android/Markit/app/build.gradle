@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 24
     buildToolsVersion "21.1.1"
@@ -28,6 +29,12 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+    sourceSets {
+        main {
+            resources.srcDirs = ['src/main/resources', 'src/main/java/com/markit/android/models']
+            java.srcDirs = ['src/main/java', 'src/main/java/com/markit/android/models']
+        }
+    }
 }
 
 dependencies {
@@ -46,3 +53,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
+

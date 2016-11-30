@@ -8,18 +8,19 @@
     tools:context="com.markit.android.CardViewActivity"
     tools:showIn="@layout/activity_card_view"
     android:background="@color/cardview_light_background">
-    <FrameLayout
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_light_background">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp" />
+    <!--<FrameLayout-->
+        <!--android:id="@+id/frame_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/cardview_light_background">-->
 
-    </FrameLayout>
+        <!--&lt;!&ndash;<ListView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/cardListView"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentEnd="true" />&ndash;&gt;-->
+
+    <!--</FrameLayout>-->
 
 </android.support.v4.widget.NestedScrollView>

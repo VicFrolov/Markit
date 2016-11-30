@@ -31,5 +31,5 @@
         android:layout_alignBottom="@+id/itemTitle"
         android:layout_alignLeft="@+id/itemTitle"
         android:layout_alignStart="@+id/itemTitle"
-        android:layout_marginStart="250dp" />
+        android:layout_marginStart="180dp" />
 </RelativeLayout>
