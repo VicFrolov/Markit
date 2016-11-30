@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by pcross on 10/15/16.
  */
 
-public class Item {
+public class MarketItem {
     private String description;
     private String price;
     //private String[] tags;
@@ -15,7 +15,7 @@ public class Item {
     private String id;
     private String date;
 
-    public Item () {
+    public MarketItem () {
         // this.description = "No description";
         // this.price = "0";
         // this.tags = new String [1];
@@ -33,7 +33,7 @@ public class Item {
 //        this.uid = "None";
     }
 
-    public Item(String title, String description, String price, String uid, String id) {
+    public MarketItem(String title, String description, String price, String uid, String id) {
         this.title = title;
         this.description = description;
         this.price = price;

@@ -46,11 +46,11 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder>(
-                Item.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
+        FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
                 mDatabaseReference.child("items")) {
             @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
                 final String itemID = model.getId();
                 cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
