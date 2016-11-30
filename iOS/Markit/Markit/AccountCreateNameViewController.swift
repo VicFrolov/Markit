@@ -39,7 +39,7 @@ class AccountCreateNameViewController: UIViewController {
     }
     
     func textViewDidChange(textView: UITextView) {
-        let minLength = 2
+        let minLength = 1
         if first.text!.characters.count > minLength {
             checkmarkName.isHidden = false
         } else {
