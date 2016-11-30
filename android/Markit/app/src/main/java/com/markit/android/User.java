@@ -16,6 +16,7 @@ public class User {
     private String userHub;
     private String username;
     private String[] favorites;
+    private String[] itemsForSale;
 
     public User() {
         this.email = "none";
@@ -26,9 +27,11 @@ public class User {
         this.username = "none";
         this.favorites = new String[1];
         favorites[0] = "none";
+        this.itemsForSale = new String[1];
+        itemsForSale[0] = "none";
     }
 
-    public User(String email, String firstName, String lastName, String uid, String userHub, String [] favorites, String username) {
+    public User(String email, String firstName, String lastName, String uid, String userHub, String [] favorites,String [] itemsForSale, String username) {
         dateCreated = new Date().toString();
         this.email = email;
         this.firstName = firstName;
@@ -37,6 +40,7 @@ public class User {
         this.uid = uid;
         this.userHub = userHub;
         this.username = username;
+        this.itemsForSale = itemsForSale;
 
     }
 
@@ -86,6 +90,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String[] getItemsForSale() {
+        return itemsForSale;
+    }
+
+    public void setItemsForSale(String[] itemsForSale) {
+        this.itemsForSale = itemsForSale;
     }
 
     public String[] getFavorites() {

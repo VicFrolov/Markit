@@ -13,10 +13,10 @@ public class ItemObject {
     private String imageUrl;
 
     public ItemObject() {
-        this.price = "0";
-        this.title = "No Title";
-        this.uid = "None";
-        this.username = "None";
+//        this.price = "0";
+//        this.title = "No Title";
+//        this.uid = "None";
+//        this.username = "None";
     }
 
     public ItemObject(String title, String price, String uid, String username) {

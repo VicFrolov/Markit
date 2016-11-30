@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="#dcdbdb">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -71,14 +72,6 @@
             app:backgroundTint="@color/cast_expanded_controller_text_color"
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
-
-                <!--<ListView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/cardListView"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_marginTop="200dp" />-->
 
         <android.support.v7.widget.RecyclerView
         android:id="@+id/recList"
