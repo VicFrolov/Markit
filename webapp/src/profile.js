@@ -2,7 +2,7 @@ $(function () {
 
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
-    //var updateUserInfo = require('./firebase.js')['updateUserInfo'];
+    var updateUserInfo = require('./firebase.js')['updateUserInfo'];
     var user;
     var uid;
     var likedCardList = $('#profile-liked-card-list');
@@ -127,14 +127,23 @@ $(function () {
     };
 
     var updateSettings = function () {
+        var paymentPreferences = [];
+        for (preference in paymentPreference.val()) {
+            paymentPreferences.push(paymentPreference.val()[preference]);
+        }
+
+        if (!paymentPreferences.length) {
+            paymentPreferences.push("none");
+        }
+
         var updatedInfo = {
             username: username.val(),
             firstName: firstName.val(),
             lastName: lastName.val(),
-            userHub: hub.val()
+            userHub: hub.val(),
+            paymentPreferences: paymentPreferences
         };
-        console.log(updatedInfo);
-        //updateUserInfo(uid, updatedInfo);
+        updateUserInfo(uid, updatedInfo);
     };
 
 

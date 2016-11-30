@@ -199,9 +199,9 @@
 	};
 
 	var updateUserInfo = function(uid, updatedInfo) {
-	    // for (update in updatedInfo) {
-	    //     usersRef.child(uid + '/' + update).set(update.val());
-	    // }
+	    for (update in updatedInfo) {
+	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+	    }
 	}
 
 	var getImage = function(address, callback) {
@@ -1959,7 +1959,7 @@
 
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
-	    //var updateUserInfo = require('./firebase.js')['updateUserInfo'];
+	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
 	    var user;
 	    var uid;
 	    var likedCardList = $('#profile-liked-card-list');
@@ -2084,14 +2084,23 @@
 	    };
 
 	    var updateSettings = function () {
+	        var paymentPreferences = [];
+	        for (preference in paymentPreference.val()) {
+	            paymentPreferences.push(paymentPreference.val()[preference]);
+	        }
+
+	        if (!paymentPreferences.length) {
+	            paymentPreferences.push("none");
+	        }
+
 	        var updatedInfo = {
 	            username: username.val(),
 	            firstName: firstName.val(),
 	            lastName: lastName.val(),
-	            userHub: hub.val()
+	            userHub: hub.val(),
+	            paymentPreferences: paymentPreferences
 	        };
-	        console.log(updatedInfo);
-	        //updateUserInfo(uid, updatedInfo);
+	        updateUserInfo(uid, updatedInfo);
 	    };
 
 
