@@ -6,6 +6,7 @@ $(function () {
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
     var user;
     var uid;
+    var firebaseUsername;
     var likedCardList = $('#profile-liked-card-list');
     var sellingCardList = $('#profile-selling-card-list');
     var notificationsList = $('#profile-notification-group');
@@ -120,10 +121,28 @@ $(function () {
         firstName.val(userInfo.firstName);
         lastName.val(userInfo.lastName);
         username.val(userInfo.username);
+        firebaseUsername = userInfo.username;
         hub.val(userInfo.userHub);
+        $('#my-profile').empty().append([
+            $('<img>').addClass('my-profile-hub').attr({
+                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
+            }),
+            $('<img>').addClass('my-profile-picture circle').attr({
+                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
+            }),
+            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
+            $('<div></div>').addClass('my-profile-stars').append([
+                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
+                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
+                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
+                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
+                $('<i></i>').addClass('material-icons star-5').text('star_rate')
+            ])
+        ]);
         for (preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
+
         $('select').material_select();
     };
 
@@ -148,6 +167,7 @@ $(function () {
             userHub: hub.val(),
             paymentPreferences: paymentPreferences
         };
+        $('.my-profile-username').text(username.val());
         updateUserInfo(uid, updatedInfo);
     };
 
@@ -157,18 +177,13 @@ $(function () {
             user = auth.currentUser.email;
             uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
-                $('#my-profile').empty().append([
-                    $('<img>').addClass('img-fluid circle').attr({
-                        src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg',
-                        width: '100px'
-                    }),
-                    $('<span></span>').addClass('title my-profile-email text-responsive').text(user)
-                ]);
-                loadLikedCardList();
                 $('select').material_select();
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
+                loadLikedCardList();
             }
+        } else if (!user && window.location.pathname === '/profile/profile.html'){
+            window.location.href = "../index.html";
         }
     });
 
@@ -199,8 +214,8 @@ $(function () {
 
     saveButton.click(function () {
         if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
-            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded')
-            return
+            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
+            return;
         }
 
         editButton.attr("disabled", false);
