@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    startActivity(new Intent(MainActivity.this, Registration2Activity.class));
+
 
                 }
             }
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else{
-
+                                startActivity(new Intent(MainActivity.this, Registration2Activity.class));
 
                             }
 
