@@ -47,7 +47,7 @@ public class ItemObject {
         return imageUrl;
     }
 
-//    public String setImageUrl() {
-//        this.imageUrl = imageUrl;
-//    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

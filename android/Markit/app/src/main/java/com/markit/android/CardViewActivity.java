@@ -17,12 +17,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 
 public class CardViewActivity extends BaseActivity {
@@ -31,7 +29,7 @@ public class CardViewActivity extends BaseActivity {
     private ListView cardListView;
     private RecyclerView recList;
     private LinearLayoutManager llm;
-    //private Context context;
+    private Context context = this;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -56,25 +54,10 @@ public class CardViewActivity extends BaseActivity {
                  cardViewHolder.title.setText(model.getTitle());
                  cardViewHolder.price.setText("$ " + model.getPrice());
                  cardViewHolder.uid.setText(model.getUid());
-//                 Glide.with(activity).load(model.getImageUrl()).into(cardViewHolder.photo);
+                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
                 }
              };
              recList.setAdapter(adapter);
-
-//        cardListView = (ListView) findViewById(R.id.cardListView);
-//
-//        FirebaseListAdapter<ItemObject> firebaseListAdapter = new FirebaseListAdapter<ItemObject>(
-//                this, ItemObject.class, R.layout.card_item, mDatabaseReference) {
-//            @Override
-//            protected void populateView(View v, ItemObject model, int position) {
-//                ((TextView) v.findViewById(R.id.title)).setText(model.getTitle());
-//                ((TextView) v.findViewById(R.id.price)).setText("$ " + model.getPrice());
-//                ((TextView) v.findViewById(R.id.username)).setText(model.getUsername());
-//                ImageView imageUrl = (ImageView) v.findViewById(R.id.photo);
-//                    Picasso.with(context).load.getImageUrl().into(imageUrl);
-//            }
-//        };
-//        cardListView.setAdapter(firebaseListAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -169,14 +152,15 @@ public class CardViewActivity extends BaseActivity {
         TextView uid;
         TextView tags;
         ImageView photo;
+        Context context;
 
         public CardViewHolder(View itemView) {
             super(itemView);
+            context = itemView.getContext();
             photo = (ImageView) itemView.findViewById(R.id.photo);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
-               }
-         }
-
+        }
+    }
 }
