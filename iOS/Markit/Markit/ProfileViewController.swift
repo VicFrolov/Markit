@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var star3: UIImageView!
     @IBOutlet weak var star2: UIImageView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var profileBackGround: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
@@ -27,12 +28,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var hubTextField: UILabel!
     var ref: FIRDatabaseReference!
     var firstName = "", lastName = ""
-
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         drawButtonWhiteBorder(button: editButton)
+        drawButtonWhiteBorder(button: logOutButton)
         self.star1.isHidden = true
         self.star2.isHidden = true
         self.star3.isHidden = true
@@ -60,6 +61,12 @@ class ProfileViewController: UIViewController {
     @IBAction func unwindEditProfile(segue: UIStoryboardSegue) {
         
     }
+    
+    @IBAction func logOut(sender: UIButton) {
+        try! FIRAuth.auth()!.signOut()
+        self.performSegue(withIdentifier: "segueBackToLogin", sender: self)
+    }
+    
     
     override func viewDidLayoutSubviews() {
         makeProfilePicCircular()
