@@ -3,6 +3,7 @@ $(function () {
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
+    var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
     var user;
     var uid;
     var likedCardList = $('#profile-liked-card-list');
@@ -126,6 +127,10 @@ $(function () {
         $('select').material_select();
     };
 
+    var checkInput = function (input) {
+        return input.val().length > nameSizeLimit;
+    }
+
     var updateSettings = function () {
         var paymentPreferences = [];
         for (preference in paymentPreference.val()) {
@@ -193,6 +198,11 @@ $(function () {
     });
 
     saveButton.click(function () {
+        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded')
+            return
+        }
+
         editButton.attr("disabled", false);
         saveButton.attr("disabled", true);
         firstName.attr("disabled", true);

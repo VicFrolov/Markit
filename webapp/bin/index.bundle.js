@@ -1939,7 +1939,11 @@
 	            passwordValid = false;
 	            $('#password-available').hide();
 	        }
-	    });    
+	    });
+
+	    module.exports = {
+	        nameSizeLimit
+	    }    
 
 	});
 
@@ -1960,6 +1964,7 @@
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var user;
 	    var uid;
 	    var likedCardList = $('#profile-liked-card-list');
@@ -2083,6 +2088,10 @@
 	        $('select').material_select();
 	    };
 
+	    var checkInput = function (input) {
+	        return input.val().length > nameSizeLimit;
+	    }
+
 	    var updateSettings = function () {
 	        var paymentPreferences = [];
 	        for (preference in paymentPreference.val()) {
@@ -2150,6 +2159,11 @@
 	    });
 
 	    saveButton.click(function () {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded')
+	            return
+	        }
+
 	        editButton.attr("disabled", false);
 	        saveButton.attr("disabled", true);
 	        firstName.attr("disabled", true);
