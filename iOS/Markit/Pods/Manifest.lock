@@ -62,7 +62,6 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - MARKRangeSlider (1.1.0)
-  - MLPAutoCompleteTextField (1.5)
   - SwiftyJSON (3.0.0)
 
 DEPENDENCIES:
@@ -75,7 +74,6 @@ DEPENDENCIES:
   - Firebase/Storage
   - JSQMessagesViewController
   - MARKRangeSlider
-  - MLPAutoCompleteTextField
   - SwiftyJSON (= 3.0.0)
 
 SPEC CHECKSUMS:
@@ -97,9 +95,8 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MARKRangeSlider: decd9efaf827d443579d698f3c740f3cd6a13fbf
-  MLPAutoCompleteTextField: ba4d507bbff2bd4f139d4197814fc8dd39caf77e
   SwiftyJSON: f57b2b44bc166617372d1c70773591fe9f0f5fd4
 
-PODFILE CHECKSUM: b127c08e23b838306b06991c6d298439771dd7ab
+PODFILE CHECKSUM: 5ff245f770e96c1390d83381ec908b7955b40775
 
 COCOAPODS: 1.1.0.rc.2
