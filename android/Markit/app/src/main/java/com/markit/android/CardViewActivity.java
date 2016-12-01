@@ -20,18 +20,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-<<<<<<< HEAD
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-=======
 import com.google.firebase.auth.FirebaseAuth;
->>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
-
-
-<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-=======
->>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
+
 public class CardViewActivity extends BaseActivity {
 
     private Bundle hubInfo;
@@ -106,21 +99,8 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-<<<<<<< HEAD
-          FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
-             @Override
-                 public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
-                 cardViewHolder.title.setText(model.getTitle());
-                 cardViewHolder.price.setText("$ " + model.getPrice());
-                 cardViewHolder.uid.setText(model.getUid());
-                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-                }
-             };
-             recList.setAdapter(adapter);
-=======
         FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
             @Override
             public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
@@ -142,7 +122,6 @@ public class CardViewActivity extends BaseActivity {
             }
         };
         recList.setAdapter(adapter);
->>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -209,13 +188,8 @@ public class CardViewActivity extends BaseActivity {
         }
         if (id == R.id.change_hub) {
             FragmentManager fm = getSupportFragmentManager();
-<<<<<<< HEAD
             ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
             changeHubFragment.show(fm,"fragment_change_hub");
-=======
-//            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
-//            changeHubFragment.show(fm,"fragment_change_hub");
->>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
             return true;
         }
         if (id == R.id.edit_tags) {
