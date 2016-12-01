@@ -1,5 +1,4 @@
 $(function () {
-
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
@@ -18,11 +17,44 @@ $(function () {
     var hub = $('#profile-hub-name');
     var paymentPreference;
     var emailNotifications = $('#email-notifications');
-    var password = $('#profile-password'); 
+    var password = $('#profile-password');
+    var getImage = require('./firebase.js')["getImage"];
+    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
+
+
+
+    var profileLikedItems = $('#profile-liked-items');
+
+    if ($(profileLikedItems).length > 0) {
+        var showFavoritedItems = function(items) {
+            var imagePaths = []
+            var str = $('#profile-liked-items').text();
+            var compiled = _.template(str);
+
+            $('#profile-liked-holder').empty();
+            $('#profile-liked-holder').append(compiled({items: items}));
+
+
+            for (var item in items) {
+                imagePaths.push(items[item]['id']);
+            }
+
+            for (var i = 0; i < imagePaths.length; i += 1) {
+                (function (x) {
+                    console.log(imagePaths[x]);
+                    getImage(imagePaths[x] + '/imageOne', function(url) {
+                        tagToAdd = "img.activator:eq(" + x  + " )";
+                        $(tagToAdd).attr({src: url});
+                    });
+                })(i);
+            }
+
+        };
+    }
 
     var loadLikedCardList = function () {
         likedCardList.empty();
-        for (var i = 0; i < 42; i++) {
+        for (var i = 0; i < 1; i++) {
             likedCardList.append([
                 $('<div></div>').addClass('col l4 m4 s12').append(
                     $('<div></div>').addClass('card hoverable profile-card').append([
@@ -128,7 +160,7 @@ $(function () {
                 src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
             }),
             $('<img>').addClass('my-profile-picture circle').attr({
-                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
+                src: '../media/temp-profile.png'
             }),
             $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
             $('<div></div>').addClass('my-profile-stars').append([
@@ -181,6 +213,9 @@ $(function () {
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
                 loadLikedCardList();
+                getFavoriteObjects(showFavoritedItems);
+
+
             }
         } else if (!user && window.location.pathname === '/profile/profile.html'){
             window.location.href = "../index.html";
