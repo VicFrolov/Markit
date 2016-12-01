@@ -114,7 +114,7 @@ $(function() {
     $("main").on('click', '#submit-post', function (e) {
         if (itemTitle && itemDescription && itemTags && itemPrice) {
             addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, userID, itemImages);
-            $("main").text("Item has been Posted :)");
+            $("#submit-post").text("Item has been Posted :)");
         } else {
             alert("please enter a username and comment");
         }
