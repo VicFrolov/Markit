@@ -32,4 +32,5 @@
     <include layout="@layout/content_item_detail"
         android:layout_width="match_parent" />
 
+
 </android.support.design.widget.CoordinatorLayout>

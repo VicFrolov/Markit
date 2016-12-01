@@ -51,29 +51,29 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-          FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
-             @Override
-                 public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
-                 cardViewHolder.title.setText(model.getTitle());
+        FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
+                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+            @Override
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
+                cardViewHolder.title.setText(model.getTitle());
 
-                 final String itemID = model.getId();
-                 cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                      public void onClick(View view) {
-                         Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
-                         //final String itemID = model.getItemID();
-                         itemDetail.putExtra("uid", itemID);
-                         CardViewActivity.this.startActivity(itemDetail);
-                     }
-                 });
-                 cardViewHolder.price.setText("$ " + model.getPrice());
-                 cardViewHolder.uid.setText(model.getUid());
-                 //cardViewHolder.id.setText(model.getId());
-                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-                }
-             };
-             recList.setAdapter(adapter);
+                final String itemID = model.getId();
+                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        CardViewActivity.this.startActivity(itemDetail);
+                    }
+                });
+                cardViewHolder.price.setText("$ " + model.getPrice());
+                cardViewHolder.uid.setText(model.getUid());
+                //cardViewHolder.id.setText(model.getId());
+                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+            }
+        };
+        recList.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

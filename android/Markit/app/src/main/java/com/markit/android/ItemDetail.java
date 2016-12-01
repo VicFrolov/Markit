@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
+
 public class ItemDetail extends AppCompatActivity {
     private String uid;
     private String itemName;

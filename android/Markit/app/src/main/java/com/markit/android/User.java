@@ -1,8 +1,5 @@
 package com.markit.android;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Date;
 
 /**
@@ -44,8 +41,6 @@ public class User {
         this.uid = uid;
         //this.hub = hub;
         this.username = username;
-//        this.itemsForSale = itemsForSale;
-
     }
 
     public String getEmail() {

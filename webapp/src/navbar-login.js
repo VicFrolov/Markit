@@ -15,7 +15,7 @@ $(function () {
     $('body').on('keypress', '#login-popup-inner', function(e) {
         if (e.which === 13) {
             signIn($('#email').val(), $('#password').val());
-        };
+        }
     });
 
     $('body').on('click', '#sign-in-button', function() {

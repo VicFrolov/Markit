@@ -8,7 +8,7 @@ $(function() {
                 $(".dropdown-button").dropdown();
                 $("#navbar-logout-button").click(function () {
                     auth.signOut();
-                })
+                });
             });
         } else {
             console.log('user is NOT signed in');

@@ -2,7 +2,7 @@
 //  LoginViewController.swift
 //  Markit
 //
-//  Created by rrao on 9/25/16.
+//  Created by Bryan Ku on 9/25/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
 

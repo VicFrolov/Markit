@@ -12,9 +12,6 @@
         android:id="@+id/change_hub"
         android:title="@string/change_hub" />
     <item
-        android:id="@+id/edit_tags"
-        android:title="@string/edit_tags" />
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
@@ -29,14 +26,13 @@
         android:id="@+id/messages"
         android:title="Messages" />
     <item
-        android:id="@+id/listview"
-        android:title="List View" />
-    <item
         android:id="@+id/chat"
         android:title="Chat"/>
     <item
+
         android:id="@+id/sign_out"
         android:title="Sign Out"/>
+
     <item
         android:id="@+id/search_listings"
         android:title="Search"

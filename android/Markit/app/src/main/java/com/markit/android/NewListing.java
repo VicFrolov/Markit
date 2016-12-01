@@ -141,8 +141,8 @@ public class NewListing extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.i(TAGS, "tags couldn't load");
-                throw databaseError.toException();
+                    Log.i(TAGS, "tags couldn't load");
+                    throw databaseError.toException();
             }
         };
 

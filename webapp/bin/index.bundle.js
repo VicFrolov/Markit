@@ -50,7 +50,8 @@
 	__webpack_require__(9);
 	__webpack_require__(11);
 	__webpack_require__(12);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -67,7 +68,7 @@
 	                $(".dropdown-button").dropdown();
 	                $("#navbar-logout-button").click(function () {
 	                    auth.signOut();
-	                })
+	                });
 	            });
 	        } else {
 	            console.log('user is NOT signed in');
@@ -85,8 +86,10 @@
 
 	var firebase = __webpack_require__(3);
 	__webpack_require__(4);
-	__webpack_require__(5)
+	__webpack_require__(5);
 	__webpack_require__(6);
+
+
 
 	firebase.initializeApp({
 	    // serviceAccount: "./MarkIt-3489756f4a28.json",
@@ -101,30 +104,38 @@
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
+	var usersRef = database.ref('users/');
 
-	// var itemsByHub = database.ref('itemsByHub/' + hub);
-	// var itemsByUser = database.ref('itemsByUser/' + uid);
-
-	var addListing = function (title, description, tags, price, hub, uid, images) {
+	var addListing = function (title, description, tags, price, hubs, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-	    var myDate = new Date();
+	    var myDate = Date();
 	    var itemRef = itemsRef.push();
 	    var itemKey = itemRef.key;
+	    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
 
 	    var itemData = {
 	        title: title,
 	        description: description,
-	        tags: tags,
+	        tags: lowerCasedTags,
 	        price: price,
 	        uid: uid,
 	        id: itemKey,
+	        hubs: hubs,
 	        date: myDate
-	    }
+	    };
 
-	    itemsRef.push(itemData);
-	    database.ref('itemsByHub/' + 'hardcodedHub/').push(itemData);
-	    database.ref('itemsByUser/' + uid + '/').push(itemData);
+	    addTags(lowerCasedTags);
+	    addHubs(hubs);
+	    addNewListingToProfile(uid, itemKey);
+	    itemsRef.child(itemKey).set(itemData);
+	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
 
+	    hubs.forEach(function(currentHub) {
+	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
+	    });
+	    
+	    
+	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
 	            images[x] = images[x].replace(/^.*base64,/g, '');
@@ -150,19 +161,91 @@
 	            });
 	        })(i);
 	    }
-
 	};
 
 	var getListings = function (callback) {
-	    itemsRef.once("value").then(function(snapshot) {
-	        callback(snapshot.val())
+	    itemsRef.once("value").then(function (snapshot) {
+	        callback(snapshot.val());
 	    }, function (error) {
-	        console.log(error)
+	        console.log(error);
 	    });
 	};
 
+	var getRecentItemsInHub = function (hub, callback) {
+	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var getFavorites = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	                callback(snapshot.val());
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    });
+	};
+
+	var getUserInfo = function(uid, callback) {
+	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        var userInfo = snapshot.val();
+	        callback(userInfo);
+	    });
+	};
+
+	var updateUserInfo = function(uid, updatedInfo) {
+	    for (update in updatedInfo) {
+	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+	    }
+	}
+
+	var getImage = function(address, callback) {
+	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	};
+
+	var getFavoriteObjects = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        // get user favorites
+	        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	            var favorites = snapshot.val();
+	            // pull object of items that user has favorited
+	            itemsRef.once('value').then(function (snapshotItems) {
+	                var allItems = snapshotItems.val();
+	                var userFavoritesMatch = [];
+	                for (var item in allItems) {
+	                    if (favorites && favorites.hasOwnProperty(item)) {
+	                        userFavoritesMatch.push(allItems[item]);
+	                    }
+	                }
+	                callback(userFavoritesMatch);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    });
+	};
+
+
+
+	var removeFavorite = function (item) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+	};
+
 	var filterListings = function (keywords, hubs, tags, price_range) {
-	    listingsRef.orderByChild()
+	    listingsRef.orderByChild();
 	};
 
 	var signIn = function (email, password) {
@@ -172,19 +255,77 @@
 	    });
 	};
 
+	var addNewListingToProfile = function(uid, itemID) {
+	    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+	};
+
+	var addFavoriteToProfile = function(uid, itemID) {
+	    usersRef.child(uid + '/favorites/' + itemID).set(true);
+	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+	};
+
+
 	var createAccount = function () {
-	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), $("#sign-up-password").val()).catch(function(error) {
-	        var errorCode = error.code;
-	        var errorMessage = error.message;
+	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+	        $("#sign-up-password").val()).then(function(user) {
+	            var newUser = firebase.auth().currentUser;
+	            newUserDBEntry(newUser);
+	        }, function(error) {
+	            var errorCode = error.code;
+	            var errorMessage = error.message;
+	            console.log(errorMessage);
+	    });    
+	};
+
+	var newUserDBEntry = function (user) {
+	    var firstName = $("#sign-up-first-name").val();
+	    var lastName = $("#sign-up-last-name").val();
+	    var username = $("#sign-up-username").val();
+	    var userHub = $("#sign-up-hub").val();
+	    var defaultPreference = ["cash"];
+	    var date =  Date();
+
+	    var userInfo = {
+	        uid: user.uid,
+	        email: user.email,
+	        username: username,
+	        userHub: userHub,
+	        firstName: firstName,
+	        lastName: lastName,
+	        paymentPreferences: defaultPreference,
+	        dateCreated: date
+	    };
+	    usersRef.child(user.uid).set(userInfo);
+	};
+
+	var addTags = function(itemTags) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        var tagsInDB = snapshot.val();
+	        itemTags.forEach(function (tag) {
+	            if (tagsInDB.hasOwnProperty(tag)) {
+	                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
+	            } else {
+	                database.ref('tags/').child(tag).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
 	    });
 	};
 
-	var addHub = function (hub) {
-	    database.ref('hubs/' + hub).push();
-	};
-
-	var addCategory = function (category) {
-	    database.ref('categories/' + category).push();
+	var addHubs = function(itemHubs) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        var hubsInDB = snapshot.val();
+	        itemHubs.forEach(function (hub) {
+	            if (hubsInDB.hasOwnProperty(hub)) {
+	                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
+	            } else {
+	                database.ref('hubs/').child(hub).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
+	    });
 	};
 
 	module.exports = {
@@ -192,11 +333,19 @@
 	    signIn,
 	    getListings,
 	    addListing,
-	    addHub,
-	    addCategory,
+	    addHubs,
+	    addTags,
 	    filterListings,
 	    createAccount,
-	    itemImagesRef
+	    itemImagesRef,
+	    addFavoriteToProfile,
+	    getFavorites,
+	    getFavoriteObjects,
+	    removeFavorite,
+	    getImage,
+	    getRecentItemsInHub,
+	    getUserInfo,
+	    updateUserInfo
 	};
 
 /***/ },
@@ -802,7 +951,7 @@
 	    $('body').on('keypress', '#login-popup-inner', function(e) {
 	        if (e.which === 13) {
 	            signIn($('#email').val(), $('#password').val());
-	        };
+	        }
 	    });
 
 	    $('body').on('click', '#sign-in-button', function() {
@@ -830,28 +979,28 @@
 	        userID = auth.currentUser.uid;
 	        itemTitle = $("#item-post-title").val();
 	        itemDescription = $("#item-post-description").val();
+
 	        itemTags = $('#itemTags').textext()[0].tags()._formData;
 	        itemPrice = $("#item-post-price").val();
 	        itemImages = [];
 	        $('#dropzone').find('img').each(function(index) {
 	            itemImages.push($(this).attr('src'));
 	        });
-	        
 
-	        // itemHub needs to be changed
-	        itemHub = "hardcodedForNow";
+	        itemHub = $('#hub-selection').textext()[0].tags()._formData;
 
-	        if (!/^[\w\s]{5,30}$/.test(itemTitle)) {
+	        if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]{5,30}$/.test(itemTitle)) {
 	            Materialize.toast('Title must be between 5 and 30 characters', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if (!/^[\w\s\.]+$/.test(itemDescription) || itemDescription.length < 5) {
+	        } else if (!/^[\w\s\.\,\'\"\!\?\$\#\@\!\%\^\&\*\(\)\-\+\=\/\\]+$/.test(itemDescription) || itemDescription.length < 5) {
 	            Materialize.toast('Description can only contain letters and numbers', 3000, 'rounded');
 	            checksPassed = false;
 	        } else if(!itemPrice.match(/^[0-9]+([.][0-9]{0,2})?$/) || itemPrice < 0.01 || itemPrice > 3000) {
 	            Materialize.toast('only enter numbers, and an optional decimal', 3000, 'rounded');
 	            checksPassed = false;
-	        } else if(!/^[a-zA-Z\s]+$/.test(itemHub)) {
+	        } else if(itemHub.length < 1 || itemHub.length > 3) {
 	            checksPassed = false;
+	            Materialize.toast('Please enter up to 3 hubs', 3000, 'rounded');
 	        } else if (itemTags.length < 2 || itemTags.length > 5) {
 	            Materialize.toast('Please enter 2 to 5 tags', 3000, 'rounded');
 	            checksPassed = false;
@@ -860,18 +1009,25 @@
 	            checksPassed = false;
 	        } else {
 	            for (var i = 0; i < itemTags.length; i += 1) {
-	                if (!/^[a-zA-Z\s]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
-	                    Materialize.toast('tags can only contain letters and spaces, up to 15 characters', 3000, 'rounded');
+	                if (!/^[a-zA-Z\-]+$/.test(itemTags[i]) || itemTags[i].length > 15) {
+	                    Materialize.toast('tags can only contain letters and hyphens, up to 15 characters', 3000, 'rounded');
 	                    checksPassed = false;
 	                }
 	            }   
+
+	            itemHub.forEach(function(currentHub) {
+	                if (!/^[a-zA-Z\-\s]+$/.test(currentHub)) {
+	                    Materialize.toast('Hubs can only contain letters, hyphens and spaces', 3000, 'rounded');
+	                    checksPassed = false;
+	                } 
+	            });
 	        }
 
 	        return checksPassed;
 	    };
 
 	    var addImagesToSlider = function() {
-	        let imageCount = ['one', 'two', 'three', 'four'];
+	        var imageCount = ['one', 'two', 'three', 'four'];
 	        $('#carousel-wrapper').append($('<div></div>').addClass('carousel carousel-slider'));
 
 	        for (var i = 0; i < itemImages.length; i += 1) {    
@@ -919,7 +1075,6 @@
 	        $('#carousel-wrapper').empty();
 	    });
 
-
 	    //add listing
 	    $("main").on('click', '#submit-post', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
@@ -929,7 +1084,6 @@
 	            alert("please enter a username and comment");
 	        }
 	    });
-
 
 	    var itemTagRef = $('#itemTags');
 	    if (itemTagRef.length > 0) {
@@ -966,19 +1120,22 @@
 	    var hubRef = $('#hub-selection');
 	    if (hubRef.length > 0) {
 	        hubRef.textext({plugins : 'tags autocomplete'})
-	                .bind('getSuggestions', function(e, data){
-	                    var list = [
-	                            'Loyola Marymount University',
-	                            'UCLA'
-	                        ],
-	                        textext = $(e.target).textext()[0],
-	                        query = (data ? data.query : '') || '';
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Loyola Marymount University',
+	                        'UCLA',
+	                        'l',
+	                        'la',
+	                        'lalala'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
 
-	                    $(this).trigger('setSuggestions',{
-	                        result : textext.itemManager().filter(list, query) }
-	                    );
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
 	        });
-	    }; 
+	    }
 
 
 	    /**
@@ -1007,8 +1164,7 @@
 	                $.each(dataTransfer.files, function(i, file) { 
 	                    reader = new FileReader();
 	                    reader.onload = $.proxy(function(file, $fileList, event) {
-	                        var img = file.type.match('image.*')
-	                            ? $("<img>").attr('src', event.target.result) : "";
+	                        var img = file.type.match('image.*') ? $("<img>").attr('src', event.target.result) : "";
 	                        $fileList.empty().append(img);
 	                    }, this, file, $(dropArea));
 	                    reader.readAsDataURL(file);
@@ -1026,7 +1182,7 @@
 	            reader.onload = function (e) {
 	                $(drop).empty().append($("<img>").attr("src", reader.result));
 	                $(drop).css('background-color', '#fff');
-	            }
+	            };
 	            reader.readAsDataURL(this.files[0]);
 	        }
 	    });
@@ -1069,27 +1225,66 @@
 
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
+	    var getFavorites = __webpack_require__(2)['getFavorites'];
 	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
+	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+	    var getImage = __webpack_require__(2)['getImage'];
 
 
-	    var getImage = function(address, callback) {
-	        itemImagesRef.child(address).getDownloadURL().then(function(url) {
-	            callback(url);
-	        }).catch(function(error) {
-	            console.log("error image not found")
-	            console.log("error either in item id, filename, or file doesn't exist")
-	        });
-	    };
+	    var favoriteTemplate = $('#favorite-template');
+	    var showFavoritesInSidebar = function(favorites) {
+	        
+	        var str = $('#favorite-template').text();
+	        var compiled = _.template(str);
 
+	        $('#favorite-holder').empty();
+	        $('#favorite-holder').append(compiled({favorites: favorites}));
 
+	        for (var i = 0; i < favorites.length; i += 1) {
+	            (function (x) {
+	                getImage(favorites[x]['id'] + '/imageOne', function(url) {
+	                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
+	    };    
 
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && $(favoriteTemplate).length > 0) {
+	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
+
+
+	            // favorite icon highlight/changes
+	            $('body').on('mouseenter', '.find-result-favorite-image', function() {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	            }).on('mouseout', '.find-result-favorite-image', function() {
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    $(this).css('opacity', '0.3');
+	                }
+	            }).on('click', '.find-result-favorite-image', function() {
+	                this.favorited = this.favorited || false;
+	                if (!this.favorited) {
+	                    $(this).attr('src', '../media/ic_heart_hover.png');
+	                    addFavoriteToProfile(auth.currentUser.uid, $(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+
+	                } else {
+	                    $(this).attr('src', '../media/ic_heart.png');
+	                    removeFavorite($(this).attr('uid'));
+	                    getFavoriteObjects(showFavoritesInSidebar);
+	                }
+	                this.favorited = !this.favorited;
+	            });            
 	        } else {
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
@@ -1116,15 +1311,28 @@
 	        });
 	    }
 
+	    var showFavoritesInSearches = function(currentFavorites) {
+	        $('.find-result-favorite-image').each(function() {
+	            var  currentImageID = $(this).attr('uid');
+	            if(currentFavorites && currentFavorites[currentImageID]) {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	                this.favorited = true;
+
+	            }
+
+	        });
+	    };
 
 
-	    var newListing = function(currentItems) {
+	    var newSearch = function(currentItems) {
 	        $("#find-content").empty();
-	        var imagePaths = []
-
+	        var imagePaths = [];
+	        
 	        for (var item in currentItems) {
 	            var currentItem = currentItems[item];
-	            imagePaths.push(currentItem['id']);
+	            var itemID = currentItem['id'];
+	            imagePaths.push(itemID);
 	        
 	            $("#find-content").append(
 	                $("<div></div>").addClass("col l4 m4 s12").append(
@@ -1132,7 +1340,8 @@
 	                        $("<div></div>").addClass("find-result-favorite").append(
 	                            $("<img/>").addClass("find-result-favorite-image").attr({
 	                                src: "../media/ic_heart.png",
-	                                alt: "heart"
+	                                alt: "heart",
+	                                uid: itemID
 	                            })
 	                        )
 	                    ).append(
@@ -1176,7 +1385,9 @@
 	                    )
 	                )
 	            );
-	        };
+	        }
+
+	        getFavorites(showFavoritesInSearches);
 
 	        for (var i = 0; i < imagePaths.length; i += 1) {
 	            (function (x) {
@@ -1186,6 +1397,7 @@
 	                });
 	            })(i);
 	        }
+
 	    };
 
 	    $('input.autocomplete').autocomplete({
@@ -1197,34 +1409,17 @@
 	    });
 
 	    $("#find-search-button").click(function () {
-	        query = "key=";
-	        keywords = $("#item-post-title").val();
-	        keywords = $("#item-post-title").val();
+	        var query = "key=";
+	        var keywords = $("#item-post-title").val();
+	        var tags = $("#item-post-tags").val();
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
-	        getListings(newListing);
+	        getListings(newSearch);
 	    });
 
 
-	    // favorite icon highlight/changes
-	    $('body').on('mouseenter', '.find-result-favorite-image', function() {
-	        $(this).attr('src', '../media/ic_heart_hover.png');
-	        $(this).css('opacity', '0.7');
-	    }).on('mouseout', '.find-result-favorite-image', function() {
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart.png');
-	            $(this).css('opacity', '0.3');
-	        }
-	    }).on('click', '.find-result-favorite-image', function() {
-	        this.favorited = this.favorited || false;
-	        if (!this.favorited) {
-	            $(this).attr('src', '../media/ic_heart_hover.png');
-	        } else {
-	            $(this).attr('src', '../media/ic_heart.png');
-	        }
-	        this.favorited = !this.favorited;
-	    });
+
 
 	});
 
@@ -1615,7 +1810,7 @@
 	    var next = function () {
 	        $('#sign-up-popup1').fadeOut();
 	        $('#sign-up-popup2').fadeIn();
-	    }
+	    };
 
 	    var firstNameValid = false;
 	    var lastNameValid = false;
@@ -1659,11 +1854,11 @@
 
 	    var checkNames = function () {
 	        return firstNameValid && lastNameValid && usernameValid;
-	    }
+	    };
 
 	    var checkInput = function () {
 	        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
-	    }
+	    };
 
 	    var nameSizeLimit = 1;
 	    
@@ -1744,7 +1939,11 @@
 	            passwordValid = false;
 	            $('#password-available').hide();
 	        }
-	    });    
+	    });
+
+	    module.exports = {
+	        nameSizeLimit
+	    }    
 
 	});
 
@@ -1763,7 +1962,12 @@
 	$(function () {
 
 	    var auth = __webpack_require__(2)['auth'];
+	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
+	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var user;
+	    var uid;
+	    var firebaseUsername;
 	    var likedCardList = $('#profile-liked-card-list');
 	    var sellingCardList = $('#profile-selling-card-list');
 	    var notificationsList = $('#profile-notification-group');
@@ -1771,7 +1975,7 @@
 	    var saveButton = $('#save-button');
 	    var firstName = $('#profile-first-name');
 	    var lastName = $('#profile-last-name');
-	    var userName = $('#profile-user-name');
+	    var username = $('#profile-user-name');
 	    var hub = $('#profile-hub-name');
 	    var paymentPreference;
 	    var emailNotifications = $('#email-notifications');
@@ -1868,27 +2072,79 @@
 	                )
 	            ]);
 	        }
+	    };
+
+	    var loadSettings = function () {
+	        getUserInfo(uid, loadUserInfo);
+	    };
+
+	    var loadUserInfo = function (userInfo) {
+	        firstName.val(userInfo.firstName);
+	        lastName.val(userInfo.lastName);
+	        username.val(userInfo.username);
+	        firebaseUsername = userInfo.username;
+	        hub.val(userInfo.userHub);
+	        $('#my-profile').empty().append([
+	            $('<img>').addClass('my-profile-hub').attr({
+	                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
+	            }),
+	            $('<img>').addClass('my-profile-picture circle').attr({
+	                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
+	            }),
+	            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
+	            $('<div></div>').addClass('my-profile-stars').append([
+	                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-5').text('star_rate')
+	            ])
+	        ]);
+	        for (preference in userInfo.paymentPreferences) {
+	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
+	        }
+
+	        $('select').material_select();
+	    };
+
+	    var checkInput = function (input) {
+	        return input.val().length > nameSizeLimit;
 	    }
 
 	    var updateSettings = function () {
+	        var paymentPreferences = [];
+	        for (preference in paymentPreference.val()) {
+	            paymentPreferences.push(paymentPreference.val()[preference]);
+	        }
 
+	        if (!paymentPreferences.length) {
+	            paymentPreferences.push("none");
+	        }
+
+	        var updatedInfo = {
+	            username: username.val(),
+	            firstName: firstName.val(),
+	            lastName: lastName.val(),
+	            userHub: hub.val(),
+	            paymentPreferences: paymentPreferences
+	        };
+	        $('.my-profile-username').text(username.val());
+	        updateUserInfo(uid, updatedInfo);
 	    };
+
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            user = auth.currentUser.email;
+	            uid = auth.currentUser.uid;
 	            if (window.location.pathname === '/profile/profile.html') {
-	                $('#my-profile').empty().append([
-	                    $('<img>').addClass('img-fluid circle').attr({
-	                        src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg',
-	                        width: '100px'
-	                    }),
-	                    $('<span></span>').addClass('title my-profile-email text-responsive').text(user)
-	                ]);
-	                loadLikedCardList();
 	                $('select').material_select();
 	                paymentPreference = $('#profile-payment-preference');
+	                loadSettings();
+	                loadLikedCardList();
 	            }
+	        } else if (!user && window.location.pathname === '/profile/profile.html'){
+	            window.location.href = "../index.html";
 	        }
 	    });
 
@@ -1898,7 +2154,7 @@
 
 	    $('#liked-tab').click(function () {
 	        loadLikedCardList();
-	    })
+	    });
 
 	    $('#notifications-tab').click(function () {
 	        loadNotifications();
@@ -1909,7 +2165,7 @@
 	        editButton.attr("disabled", true);
 	        firstName.attr("disabled", false);
 	        lastName.attr("disabled", false);
-	        userName.attr("disabled", false);
+	        username.attr("disabled", false);
 	        hub.attr("disabled", false);
 	        paymentPreference.attr("disabled", false);
 	        $('select').material_select();
@@ -1918,18 +2174,73 @@
 	    });
 
 	    saveButton.click(function () {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
+	            return;
+	        }
+
 	        editButton.attr("disabled", false);
 	        saveButton.attr("disabled", true);
 	        firstName.attr("disabled", true);
 	        lastName.attr("disabled", true);
-	        userName.attr("disabled", true);
+	        username.attr("disabled", true);
 	        hub.attr("disabled", true);
 	        paymentPreference.attr("disabled", true);
 	        $('select').material_select();
 	        emailNotifications.attr("disabled", true);
 	        password.attr("disabled", true);
 	        updateSettings();
-	    })
+	    });
+
+	});
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	$(function () {
+	    $('.parallax').parallax();
+	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
+	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+	    var auth = __webpack_require__(2)["auth"];
+	    var getImage = __webpack_require__(2)["getImage"];
+
+
+
+	    var mostRecentItems = $('#hub-most-recent');
+	    var showMostRecentItems = function(items) {
+	        var imagePaths = []
+	        var str = $('#hub-most-recent').text();
+	        var compiled = _.template(str);
+
+	        $('#hub-recent-holder').empty();
+	        $('#hub-recent-holder').append(compiled({items: items}));
+
+
+	        for (var item in items) {
+	            imagePaths.push(items[item]['id']);
+	        }
+
+	        for (var i = 0; i < imagePaths.length; i += 1) {
+	            (function (x) {
+	                getImage(imagePaths[x] + '/imageOne', function(url) {
+	                    tagToAdd = ".hub-recent img:eq(" + x  + " )";
+	                    $(tagToAdd).attr({src: url});
+	                });
+	            })(i);
+	        }
+
+	    };
+
+	    auth.onAuthStateChanged(function(user) {
+	        if (user && $(mostRecentItems).length > 0) {
+	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	        } else if (!user && $(mostRecentItems).length > 0) {
+	            window.location.href = "../index.html";
+
+	        }
+	    });    
+	    
 
 	});
 

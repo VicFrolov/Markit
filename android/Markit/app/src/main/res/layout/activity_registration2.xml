@@ -40,11 +40,16 @@
             android:ems="10"
             android:id="@+id/lastName" />
 
-        <AutoCompleteTextView
-            android:hint="Hub"
+        <TextView
+            android:text="Hub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/hub" />
+            android:id="@+id/hubTextView" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hubSpinner" />
 
         <Spinner
             android:layout_width="match_parent"

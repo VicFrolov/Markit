@@ -7,7 +7,8 @@ module.exports = {
             './src/find.js',
             './src/navbar-signup.js',
             './src/detailed-view.js',
-            './src/profile.js'            
+            './src/profile.js',
+            './src/hub.js'           
         ]
      },
      output: {
