@@ -17,12 +17,18 @@ class ChatTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(getConversation))
+//        self.addGestureRecognizer(tap)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    func getConversation (sender: UITapGestureRecognizer) {
+        print("I'll get you those conversations")
     }
 
 }

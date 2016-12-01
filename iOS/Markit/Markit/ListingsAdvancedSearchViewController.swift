@@ -9,28 +9,35 @@
 import UIKit
 import Firebase
 import MARKRangeSlider
-import MLPAutoCompleteTextField
 
 class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
     //  These are for the Advanced Search scene
-    let rangeSlider = MARKRangeSlider()
-//    let autocompleteTextField = MLPAutoCompleteTextField()
+    var rangeSlider: MARKRangeSlider!
+    var autoCompleteTextField: AutoCompleteTextField!
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
+    
+    var databaseRef: FIRDatabaseReference!
+    var tagRef:      FIRDatabaseReference!
+    var hubRef:      FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.autoCompleteTextField = AutoCompleteTextField()
+        configureTextField()
+
+        self.rangeSlider           = MARKRangeSlider()
+        self.databaseRef           = FIRDatabase.database().reference()
+        self.tagRef                = self.databaseRef.child("tags")
+        self.hubRef                = self.databaseRef.child("hubs")
+        
         // Do any additional setup after loading the view.
-        advancedSearchContainerView.tags.delegate = self
+        advancedSearchContainerView.tags.delegate     = self
         advancedSearchContainerView.keywords.delegate = self
-        advancedSearchContainerView.hubs.delegate = self
+        advancedSearchContainerView.hubs.delegate     = self
         advancedSearchContainerView.minPrice.delegate = self
         advancedSearchContainerView.maxPrice.delegate = self
-//        autocompleteTextField.delegate = self
-//        autocompleteTextField.autoCompleteDelegate = self
-//        autocompleteTextField.autoCompleteDataSource = self
-//        autocompleteTextField.autoCompleteTableView.delegate = self
         
         advancedSearchContainerView.minPrice?.text = "0.00"
         advancedSearchContainerView.maxPrice?.text = "2500.00"
@@ -43,8 +50,28 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
 //        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
         
         view.insertSubview(rangeSlider, at: 1)
-    }
         
+        loadTags()
+    }
+    
+    func configureTextField() {
+        self.autoCompleteTextField.maximumAutoCompleteCount = 5
+        let tags = [String]()
+        self.autoCompleteTextField.autoCompleteStrings = tags
+    }
+    
+//    func handleTextFieldInterface() {
+//        autoCompleteTextField.onTextChange = {[weak self] text in
+//            if !text.isEmpty {
+//                self?.fetchAutoCompleteTags(keyword: text)
+//            }
+//        }
+//        
+//        autoCompleteTextField.onSelect = {[weak self] text, indexPath in
+//            advancedSearchContainerView.hubs?.text = advancedSearchContainerView.hubs?.text + ", " + text
+//        }
+//    }
+    
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
         let width = view.bounds.width - 2.0 * margin
@@ -56,7 +83,23 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func autocomplete () {
+    func loadTags () {
+        var tags: [String] = [String]()
+
+        self.tagRef!.observe(.childAdded, with: { (snapshot) -> Void in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let tag = (dictionary["tags"] as! String?)!
+                
+                print("TAGS \(snapshot)")
+                tags.append(tag)
+                print("HERE \(tag)")
+            }
+        })
+        
+        self.autoCompleteTextField.autoCompleteStrings = tags
+    }
+    
+    func fetchAutoCompleteTags (keyword: String) {
         
     }
 
@@ -98,16 +141,19 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
     }
         
 //    func textViewDidBeginEditing(_ textView: UITextView) {
-//        print("Some text here")
+//        if textView.textColor == UIColor.lightGray {
+//            textView.text = nil
+//            textView.textColor = UIColor.black
+//        }
+//        print(textView.text)
 //    }
-
+//
 //    func textViewDidChange(_ textView: UITextView) {
-//        print(self.advancedSearchContainerView.tags.text)
-//    }
-//    
-//    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, shouldConfigureCell cell: UITableViewCell!, withAutoComplete autocompleteString: String!, with boldedString: NSAttributedString!, forAutoComplete autocompleteObject: MLPAutoCompletionObject!, forRowAt indexPath: IndexPath!) -> Bool {
-//        print("WUUTT")
-//        return false
+//        if textView.text.isEmpty {
+//            textView.text = "Ex. watch, apple, wearable"
+//            textView.textColor = UIColor.lightGray
+//        }
+////        print(self.advancedSearchContainerView.tags.text)
 //    }
     
     func rangeSliderValueChanged(rangeSlider: MARKRangeSlider) {

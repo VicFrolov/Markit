@@ -15,6 +15,7 @@
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */; };
+		12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
 		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
 		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
@@ -49,6 +50,7 @@
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageViewController.swift; sourceTree = "<group>"; };
+		12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteTextField.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
+				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
 				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
@@ -337,6 +340,7 @@
 				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
 				12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */,
 				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
+				12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */,
 				38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
 				38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */,

@@ -20,6 +20,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
 
         self.ref = FIRDatabase.database().reference()
         self.chatRef = self.ref.child("chat")
+        self.senderId = "Zack"
         // Do any additional setup after loading the view.
     }
 
@@ -27,7 +28,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+        
     /*
     // MARK: - Navigation
 

@@ -30,6 +30,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I4b-1u-bZZ">
+                                                    <color key="tintColor" red="0.83137254901960789" green="0.49411764705882355" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="81" id="UCh-9y-X58"/>
                                                         <constraint firstAttribute="width" constant="103" id="Xdo-Om-KAO"/>
@@ -40,7 +41,7 @@
                                                         <constraint firstAttribute="width" constant="79" id="RsD-R0-diY"/>
                                                         <constraint firstAttribute="height" constant="21" id="dmm-j0-Wlb"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -72,6 +73,9 @@
                                                 <constraint firstItem="vJO-3s-xLa" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" id="xfv-1S-7sS"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                        </accessibility>
                                         <connections>
                                             <outlet property="chatImageView" destination="I4b-1u-bZZ" id="j6q-rg-rhy"/>
                                             <outlet property="chatMessagePreview" destination="vta-wr-aOQ" id="Wb7-lQ-GCS"/>
@@ -91,19 +95,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Messages" id="v0s-35-IbS">
-                        <barButtonItem key="backBarButtonItem" title="&lt;" id="y3B-eT-7Rf"/>
-                        <barButtonItem key="rightBarButtonItem" title="New" id="oYm-K9-Fs2">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kGn-sQ-M2k">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="New"/>
-                            </button>
+                        <barButtonItem key="backBarButtonItem" id="y3B-eT-7Rf"/>
+                        <barButtonItem key="rightBarButtonItem" title="New" id="X6a-zE-afZ">
                             <connections>
-                                <segue destination="vmf-dP-YFM" kind="show" action="showDetailViewController:sender:" id="sDf-iK-Wls"/>
+                                <segue destination="vmf-dP-YFM" kind="show" id="ZPr-VL-vKq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="chatTableViewController" destination="NwU-0X-ujX" id="3fU-GJ-0pX"/>
                     </connections>

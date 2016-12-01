@@ -12,14 +12,11 @@ import SwiftyJSON
 
 class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     var ref:            FIRDatabaseReference!
-    var refHandle:      FIRDatabaseHandle?
     var itemsRef:       FIRDatabaseReference!
     var itemsByHubRef:  FIRDatabaseReference!
     var itemsByUserRef: FIRDatabaseReference!
-    var tagRef:         FIRDatabaseReference!
     var userRef:        FIRDatabaseReference!
     var usernameRef:    FIRDatabaseReference!
-    var hubsRef:        FIRDatabaseReference!
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
@@ -31,6 +28,9 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     override func viewDidLoad() {
 //        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
+        
+        self.clearsSelectionOnViewWillAppear = false
+        
         self.ref            = FIRDatabase.database().reference()
         self.itemImageRef   = FIRStorage.storage().reference()
         self.itemsRef       = ref.child("items")
@@ -38,8 +38,6 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef        = ref.child("users")
         self.usernameRef    = ref.child("usernames")
-        self.tagRef         = ref.child("tags")
-        self.hubsRef        = ref.child("hubs")
         
         self.didReceiveAdvancedSearchQuery = false
         self.searchController.loadViewIfNeeded()
@@ -79,18 +77,28 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     }
     
     func fetchItems() {
-        self.refHandle = self.itemsRef!.queryOrdered(byChild: "title")
-                                       .observe(.childAdded, with: { (snapshot) -> Void in
+        self.itemsRef!.queryOrdered(byChild: "title")
+                      .observe(.childAdded, with: { (snapshot) -> Void in
 
             if let dictionary = snapshot.value as? [String: AnyObject] {
 //                print("The dict is \(dictionary)")
                 
                 let item     = Item()
                 item.uid     = dictionary["uid"] as! String?
-                item.date    = dictionary["date"] as! String?
                 item.desc    = dictionary["description"] as! String?
-                item.imageID = dictionary["id"] as! String?
                 item.title   = dictionary["title"] as! String?
+                
+                if let date = dictionary["date"] as! String? {
+                    item.date = date
+                } else {
+                    item.date = "NOW"
+                }
+                
+                if let imageID = dictionary["id"] as! String? {
+                    item.imageID = imageID
+                }  else {
+                    item.imageID = "-KX9VmJ19Y8zpIjItajK"
+                }
 
                 if let price = dictionary["price"] as! String? {
                     item.price = price
