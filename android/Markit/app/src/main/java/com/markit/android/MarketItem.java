@@ -9,7 +9,7 @@ import java.util.Date;
 public class MarketItem {
     private String description;
     private String price;
-    //private String[] tags;
+    private String[] tags;
     private String title;
     private String uid;
     private String id;
@@ -23,10 +23,10 @@ public class MarketItem {
         this.title = title;
         this.description = description;
         this.price = price;
-        //this.tags = tags;
+        this.tags = tags;
         this.uid = uid;
         this.id = id;
-        date = new Date().toString();
+        String date = new Date().toString();
 
     }
 
@@ -46,13 +46,13 @@ public class MarketItem {
         this.price = price;
     }
 
-//    public String[] getTags() {
-//        return tags;
-//    }
+    public String[] getTags() {
+        return tags;
+    }
 
-//    public void setTags(String[] tags) {
-//        this.tags = tags;
-//    }
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
 
     public String getTitle() {
         return title;
@@ -62,6 +62,7 @@ public class MarketItem {
         this.title = title;
     }
 
+    //fix path to get username not userID, check firebase for that
     public String getUid() {
         return uid;
     }
@@ -70,13 +71,10 @@ public class MarketItem {
         this.uid = uid;
     }
 
-    public String getDate() {
-        return date;
+    public String getImageUrl(){
+        return imageUrl;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public String getId() {
 

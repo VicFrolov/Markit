@@ -1,11 +1,15 @@
 package com.markit.android;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -20,6 +25,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 
 import android.widget.TextView;
@@ -42,6 +49,15 @@ public class CardViewActivity extends BaseActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference();
     DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
+    private boolean loggedIn;
+    private ListView cardListView;
+    private RecyclerView recList;
+    private LinearLayoutManager llm;
+    private Context context = this;
+
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseReference = database.getReference().child("items");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +90,28 @@ public class CardViewActivity extends BaseActivity {
         }
         Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
+        setContentView(R.layout.activity_card_view);
+
+        recList = (RecyclerView) findViewById(R.id.recList);
+        if (recList != null) {
+            recList.setHasFixedSize(true);
+        }
+
+        llm = new LinearLayoutManager(this);
+        recList.setLayoutManager(llm);
+
+          FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
+             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+             @Override
+                 public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
+                 cardViewHolder.title.setText(model.getTitle());
+                 cardViewHolder.price.setText("$ " + model.getPrice());
+                 cardViewHolder.uid.setText(model.getUid());
+                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+                }
+             };
+             recList.setAdapter(adapter);
+>>>>>>> 49c362c8210f60fb923d4dd851bbaf809f080775
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,12 +138,39 @@ public class CardViewActivity extends BaseActivity {
         });
     }
 
+
+//    TODO this is the old school way of doing it, may want to upgrade
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_listings);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextChange (String newText) {
+                        //text has changed, apply filtering?
+//                        TODO this is just wrong, fix it
+                        mDatabaseReference.startAt(newText);
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        mDatabaseReference.startAt(query);
+                        return false;
+                    }
+
+                }
+        );
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,6 +188,7 @@ public class CardViewActivity extends BaseActivity {
             return true;
         }
         if (id == R.id.watching) {
+            startActivity(new Intent(CardViewActivity.this, FavoritesListView.class));
             return true;
         }
         if (id == R.id.change_hub) {
@@ -141,10 +207,11 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, NewListing.class));
             return true;
         }
-        if (id == R.id.listview) {
-            startActivity(new Intent(CardViewActivity.this, MobileView.class));
+        if (id == R.id.chat) {
+            startActivity(new Intent(CardViewActivity.this, ChatListView.class));
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -182,6 +249,12 @@ public class CardViewActivity extends BaseActivity {
         recList.setAdapter(adapter);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+
 
 
 
@@ -191,16 +264,15 @@ public class CardViewActivity extends BaseActivity {
         TextView uid;
         TextView tags;
         ImageView photo;
-        //CardView cardView;
-        //CardRecyclerAdapter.ItemClickListener itemClickListener;
+        Context context;
 
         public CardViewHolder(View itemView) {
             super(itemView);
-            //cardView = (CardView) itemView.findViewById(R.id.card_view);
+            context = itemView.getContext();
             photo = (ImageView) itemView.findViewById(R.id.photo);
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
-            uid = (TextView) itemView.findViewById(R.id.uid);
+            uid = (TextView) itemView.findViewById(R.id.username);
         }
     }
 }

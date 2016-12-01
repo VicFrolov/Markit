@@ -141,6 +141,7 @@ public class BaseActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.watching) {
+            startActivity(new Intent(BaseActivity.this, FavoritesListView.class));
             return true;
         }
         if (id == R.id.change_hub) {
@@ -161,6 +162,10 @@ public class BaseActivity extends AppCompatActivity
         }
         if (id == R.id.nav_card_view) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
+        }
+        if (id == R.id.chat) {
+            startActivity(new Intent(BaseActivity.this, MainChatActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

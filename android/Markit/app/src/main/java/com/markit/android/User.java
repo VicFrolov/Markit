@@ -1,12 +1,15 @@
 package com.markit.android;
+import java.util.Date;
 
 import java.util.ArrayList;
 
 /**
- * Created by pcross on 11/27/16.
+ * Created by annagotsis on 11/30/16.
  */
 
 public class User {
+
+    private String dateCreated;
     private String email;
     private String firstName;
     private String lastName;
@@ -95,6 +98,17 @@ public class User {
         this.lastName = lastName;
     }
 
+<<<<<<< HEAD
+=======
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+>>>>>>> 49c362c8210f60fb923d4dd851bbaf809f080775
     public String getUserHub() {
         return userHub;
     }
@@ -109,5 +123,17 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String[] getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(String[] favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setDateCreated(String date) {
+        this.dateCreated = dateCreated;
     }
 }
