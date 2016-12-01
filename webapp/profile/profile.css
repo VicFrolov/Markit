@@ -16,6 +16,10 @@ main, body {
     margin-left: 10px;
 }
 
+.profile-container {
+    height: 70%;
+}
+
 .profile-name {
     margin-top: 20px;
 }
@@ -23,6 +27,7 @@ main, body {
 #my-profile {
     margin-top: 20px;
     vertical-align: middle;
+    text-align: left;
 }
 
 .tabs {
@@ -52,17 +57,75 @@ main, body {
     position: relative;
 }
 
-.my-profile-email {
-    font-size: 26px;
-    position: relative;
-    vertical-align: baseline;
-    bottom: 35px;
+.my-profile-hub {
+    height: 300px;
+    width: 100%;
+}
+
+.my-profile-picture {
+    width: 100px;
     margin: 12px;
+    position: absolute;
+    top: 285px;
+}
+
+.my-profile-username {
+    font-size: 36px;
+    position: relative;
+    bottom: 80px;
+    left: 110px;
+    color: white;
+    margin: 12px;
+}
+
+.my-profile-stars {
+    position: relative;
+    bottom: 40px;
+    left: 150px;
+}
+
+.star-1 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-2 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-3 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-4 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-5 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
 }
 
 .profile-card-view {
     background-color: #fff;
-    min-height: 400px;
 }
 
 .profile-favorite {

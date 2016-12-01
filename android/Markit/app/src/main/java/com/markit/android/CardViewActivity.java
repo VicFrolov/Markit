@@ -3,6 +3,7 @@ package com.markit.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,11 +52,11 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<Item, CardViewActivity.CardViewHolder>(
-                Item.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
+        FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
                 mDatabaseReference.child("items")) {
             @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, Item model, int position) {
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
 
                 cardViewHolder.price.setText("$ " + model.getPrice());
@@ -115,6 +116,9 @@ public class CardViewActivity extends BaseActivity {
             return true;
         }
         if (id == R.id.change_hub) {
+            FragmentManager fm = getSupportFragmentManager();
+            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
+            changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
         if (id == R.id.edit_tags) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,12 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ChangeHubFragment.ChangeHubListener {
 
     public DrawerLayout layout;
     public FrameLayout drawerFrame;
     private DatabaseReference itemDatabase;
-    private ArrayList<Item> itemObjectArray = new ArrayList<>();
+    private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class BaseActivity extends AppCompatActivity
                     //String [] itemTags = {(String) items.child("tags").getValue()};
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
-                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
                     itemObjectArray.add(newItem);
                 }
 
@@ -61,7 +63,15 @@ public class BaseActivity extends AppCompatActivity
         };
 
     }
+    @Override
+    //TODO Reload current screen rather than CardView -Peyton
+    public void onFinishHub(String hub) {
+        Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
+        Intent reload = new Intent(BaseActivity.this,CardViewActivity.class);
+        reload.putExtra("hub", hub);
+        BaseActivity.this.startActivity(reload);
+    }
     @Override
     public void setContentView(int layoutResID) {
         layout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -98,7 +108,7 @@ public class BaseActivity extends AppCompatActivity
             }
         }
 
-    public ArrayList <Item> getItemsByHub() {
+    public ArrayList <MarketItem> getItemsByHub() {
         return itemObjectArray;
     }
 //    @Override
@@ -126,6 +136,9 @@ public class BaseActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.change_hub) {
+            FragmentManager fm = getSupportFragmentManager();
+            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
+            changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
         if (id == R.id.edit_tags) {
