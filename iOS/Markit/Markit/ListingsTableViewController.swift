@@ -53,7 +53,9 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.filteredItems = itemList.filter { item in
             return (item.title!.lowercased().contains(searchText.lowercased()))
         }
-        self.tableView.reloadData()
+        if !didReceiveAdvancedSearchQuery {
+            self.tableView.reloadData()
+        }
     }
     
     func searchItems() {
@@ -183,7 +185,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         var useTags: Bool = false
         var tagList: [String] = []
 
-//        var hasKeyWord: Bool = false
+        var hasKeyWord: Bool = false
 //        var hasHub: Bool = false
         let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
         let minPrice         = advancedSearchVC.advancedSearchContainerView.minPrice.text
@@ -193,7 +195,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
         
         if keywords! != "" {
-//            hasKeyWord = true
+            hasKeyWord = true
         }
         
         if tags! != "" {
@@ -207,22 +209,25 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         
         
         self.filteredItems = itemList.filter { item in
-            let keywordQuery     = item.title!.lowercased().contains((keywords?.lowercased())!)
-//            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-            let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
-            let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
-            let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
-            let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
-            
-            if useTags {
-                for tag in tagList {
-                    if item.tags!.contains(tag.lowercased()) {
-                        hasTag = true
+            if hasKeyWord {
+                let keywordQuery     = item.title!.lowercased().contains((keywords?.lowercased())!)
+    //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
+                let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
+                let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
+                let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
+                let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
+                
+                if useTags {
+                    for tag in tagList {
+                        if item.tags!.contains(tag.lowercased()) {
+                            hasTag = true
+                        }
                     }
+                    return (keywordQuery && withinPriceRange && hasTag)
                 }
-                return (keywordQuery && withinPriceRange && hasTag)
+                return (keywordQuery && withinPriceRange)
             }
-            return (keywordQuery && withinPriceRange)
+            return true
         }
 //        self.tableView.reloadData()
     }
