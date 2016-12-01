@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class MobileView extends AppCompatActivity {
     private static final String TAG = "MobileView";
-    private ArrayList<Item> itemObjectArray = new ArrayList<>();
+    private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
     private DatabaseReference itemDatabase;
     private ListView listView;
     @Override
@@ -38,7 +38,7 @@ public class MobileView extends AppCompatActivity {
                     //String [] itemTags = {"desk"};//{(String) items.child("tags").getValue()};
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
-                    Item newItem = new Item(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
                     Log.i(TAG,itemName+"");
                     itemObjectArray.add(newItem);
                 }

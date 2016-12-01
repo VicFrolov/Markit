@@ -86,7 +86,7 @@ var getListings = function (callback) {
 };
 
 var getRecentItemsInHub = function (hub, callback) {
-    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);

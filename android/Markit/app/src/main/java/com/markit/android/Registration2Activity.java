@@ -29,6 +29,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Registration2Activity extends AppCompatActivity {
@@ -110,8 +111,11 @@ public class Registration2Activity extends AppCompatActivity {
                 firstName = firstNameView.getText().toString();
                 lastName = lastNameView.getText().toString();
                 hub = dropdown.getSelectedItem().toString();
-                User user = new User(email,firstName,lastName,hub,username);
-                mDatabase.child("usernames").child(uid).setValue(user);
+                ArrayList<String> paymentPreference = new ArrayList<String>();
+                paymentPreference.add("Cash");
+                String date = new Date().toString();
+                User user = new User(email,firstName,lastName,hub,username,uid,paymentPreference,date);
+                mDatabase.child("users").child(uid).setValue(user);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
             }
         });
