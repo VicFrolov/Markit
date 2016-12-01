@@ -194,16 +194,15 @@
 	var getUserInfo = function(uid, callback) {
 	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
 	        var userInfo = snapshot.val();
-	        var userInfoArray = [];
-	        userInfoArray.push(userInfo['username']);
-	        userInfoArray.push(userInfo['firstName']);
-	        userInfoArray.push(userInfo['lastName']);
-	        userInfoArray.push(userInfo['userHub']);
-	        userInfoArray.push(userInfo['favorites']);
-	        userInfoArray.push(userInfo['itemsForSale']);
-	        callback(userInfoArray);
+	        callback(userInfo);
 	    });
 	};
+
+	var updateUserInfo = function(uid, updatedInfo) {
+	    for (update in updatedInfo) {
+	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+	    }
+	}
 
 	var getImage = function(address, callback) {
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -283,6 +282,7 @@
 	    var lastName = $("#sign-up-last-name").val();
 	    var username = $("#sign-up-username").val();
 	    var userHub = $("#sign-up-hub").val();
+	    var defaultPreference = ["cash"];
 	    var date =  Date();
 
 	    var userInfo = {
@@ -292,6 +292,7 @@
 	        userHub: userHub,
 	        firstName: firstName,
 	        lastName: lastName,
+	        paymentPreferences: defaultPreference,
 	        dateCreated: date
 	    };
 	    usersRef.child(user.uid).set(userInfo);
@@ -343,7 +344,8 @@
 	    removeFavorite,
 	    getImage,
 	    getRecentItemsInHub,
-	    getUserInfo
+	    getUserInfo,
+	    updateUserInfo
 	};
 
 /***/ },
@@ -1937,7 +1939,11 @@
 	            passwordValid = false;
 	            $('#password-available').hide();
 	        }
-	    });    
+	    });
+
+	    module.exports = {
+	        nameSizeLimit
+	    }    
 
 	});
 
@@ -1956,7 +1962,12 @@
 	$(function () {
 
 	    var auth = __webpack_require__(2)['auth'];
+	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
+	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var user;
+	    var uid;
+	    var firebaseUsername;
 	    var likedCardList = $('#profile-liked-card-list');
 	    var sellingCardList = $('#profile-selling-card-list');
 	    var notificationsList = $('#profile-notification-group');
@@ -1964,7 +1975,7 @@
 	    var saveButton = $('#save-button');
 	    var firstName = $('#profile-first-name');
 	    var lastName = $('#profile-last-name');
-	    var userName = $('#profile-user-name');
+	    var username = $('#profile-user-name');
 	    var hub = $('#profile-hub-name');
 	    var paymentPreference;
 	    var emailNotifications = $('#email-notifications');
@@ -2063,25 +2074,77 @@
 	        }
 	    };
 
-	    var updateSettings = function () {
-
+	    var loadSettings = function () {
+	        getUserInfo(uid, loadUserInfo);
 	    };
+
+	    var loadUserInfo = function (userInfo) {
+	        firstName.val(userInfo.firstName);
+	        lastName.val(userInfo.lastName);
+	        username.val(userInfo.username);
+	        firebaseUsername = userInfo.username;
+	        hub.val(userInfo.userHub);
+	        $('#my-profile').empty().append([
+	            $('<img>').addClass('my-profile-hub').attr({
+	                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
+	            }),
+	            $('<img>').addClass('my-profile-picture circle').attr({
+	                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
+	            }),
+	            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
+	            $('<div></div>').addClass('my-profile-stars').append([
+	                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
+	                $('<i></i>').addClass('material-icons star-5').text('star_rate')
+	            ])
+	        ]);
+	        for (preference in userInfo.paymentPreferences) {
+	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
+	        }
+
+	        $('select').material_select();
+	    };
+
+	    var checkInput = function (input) {
+	        return input.val().length > nameSizeLimit;
+	    }
+
+	    var updateSettings = function () {
+	        var paymentPreferences = [];
+	        for (preference in paymentPreference.val()) {
+	            paymentPreferences.push(paymentPreference.val()[preference]);
+	        }
+
+	        if (!paymentPreferences.length) {
+	            paymentPreferences.push("none");
+	        }
+
+	        var updatedInfo = {
+	            username: username.val(),
+	            firstName: firstName.val(),
+	            lastName: lastName.val(),
+	            userHub: hub.val(),
+	            paymentPreferences: paymentPreferences
+	        };
+	        $('.my-profile-username').text(username.val());
+	        updateUserInfo(uid, updatedInfo);
+	    };
+
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            user = auth.currentUser.email;
+	            uid = auth.currentUser.uid;
 	            if (window.location.pathname === '/profile/profile.html') {
-	                $('#my-profile').empty().append([
-	                    $('<img>').addClass('img-fluid circle').attr({
-	                        src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg',
-	                        width: '100px'
-	                    }),
-	                    $('<span></span>').addClass('title my-profile-email text-responsive').text(user)
-	                ]);
-	                loadLikedCardList();
 	                $('select').material_select();
 	                paymentPreference = $('#profile-payment-preference');
+	                loadSettings();
+	                loadLikedCardList();
 	            }
+	        } else if (!user && window.location.pathname === '/profile/profile.html'){
+	            window.location.href = "../index.html";
 	        }
 	    });
 
@@ -2102,7 +2165,7 @@
 	        editButton.attr("disabled", true);
 	        firstName.attr("disabled", false);
 	        lastName.attr("disabled", false);
-	        userName.attr("disabled", false);
+	        username.attr("disabled", false);
 	        hub.attr("disabled", false);
 	        paymentPreference.attr("disabled", false);
 	        $('select').material_select();
@@ -2111,11 +2174,16 @@
 	    });
 
 	    saveButton.click(function () {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
+	            return;
+	        }
+
 	        editButton.attr("disabled", false);
 	        saveButton.attr("disabled", true);
 	        firstName.attr("disabled", true);
 	        lastName.attr("disabled", true);
-	        userName.attr("disabled", true);
+	        username.attr("disabled", true);
 	        hub.attr("disabled", true);
 	        paymentPreference.attr("disabled", true);
 	        $('select').material_select();
