@@ -12,7 +12,7 @@ import com.markit.android.WatchListFragment.OnFragmentInteractionListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.List;
-import com.markit.android.Item;
+import com.markit.android.MarketItem;
 
 import com.firebase.client.Firebase;
 

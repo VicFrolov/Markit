@@ -47,30 +47,31 @@ public class CardViewActivity extends BaseActivity {
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference();
+    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
     DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     private ListView cardListView;
     private RecyclerView recList;
-    private LinearLayoutManager llm;
+    //private LinearLayoutManager llm;
     private Context context = this;
 
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference().child("items");
+//    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//     mDatabaseReference = database.getReference().child("items");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_card_view);
-        //hub = "Loyola Marymount University";
+        hub = "Loyola Marymount University";
         hubInfo = getIntent().getExtras();
         if (hubInfo == null && isLoggedIn()) {
             ValueEventListener getHub = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     hub = (String) dataSnapshot.getValue();
-                    populateCardView(hub);
+                    //populateCardView(hub);
                 }
 
                 @Override
@@ -83,10 +84,10 @@ public class CardViewActivity extends BaseActivity {
         } else if (hubInfo != null) {
             hub = hubInfo.getString("hub");
             userDatabase.setValue(hub);
-            populateCardView(hub);
+            //populateCardView(hub);
         } else {
             hub = "Loyola Marymount University";
-            populateCardView(hub);
+            //populateCardView(hub);
         }
         Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
@@ -101,7 +102,7 @@ public class CardViewActivity extends BaseActivity {
         recList.setLayoutManager(llm);
 
           FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+             ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
              @Override
                  public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
                  cardViewHolder.title.setText(model.getTitle());
@@ -111,7 +112,6 @@ public class CardViewActivity extends BaseActivity {
                 }
              };
              recList.setAdapter(adapter);
->>>>>>> 49c362c8210f60fb923d4dd851bbaf809f080775
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

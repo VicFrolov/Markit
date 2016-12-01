@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String dateCreated;
     private String email;
     private String firstName;
     private String lastName;
@@ -18,6 +17,20 @@ public class User {
     private String uid;
     private ArrayList <String> paymentPreference;
     private String dateCreated;
+
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid, ArrayList<String> paymentPreference, String dateCreated, ArrayList<String> favorites) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
+        this.username = username;
+        this.uid = uid;
+        this.paymentPreference = paymentPreference;
+        this.dateCreated = dateCreated;
+        this.favorites = favorites;
+    }
+
+    private ArrayList <String> favorites;
 
     public User(String email, String firstName, String lastName, String userHub, String username, String uid, ArrayList<String> paymentPreference, String dateCreated) {
         this.email = email;
@@ -98,17 +111,6 @@ public class User {
         this.lastName = lastName;
     }
 
-<<<<<<< HEAD
-=======
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
->>>>>>> 49c362c8210f60fb923d4dd851bbaf809f080775
     public String getUserHub() {
         return userHub;
     }
@@ -125,15 +127,12 @@ public class User {
         this.username = username;
     }
 
-    public String[] getFavorites() {
+    public ArrayList<String> getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(String[] favorites) {
+    public void setFavorites(ArrayList<String> favorites) {
         this.favorites = favorites;
     }
 
-    public void setDateCreated(String date) {
-        this.dateCreated = dateCreated;
-    }
 }

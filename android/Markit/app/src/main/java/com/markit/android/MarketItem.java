@@ -14,9 +14,34 @@ public class MarketItem {
     private String uid;
     private String id;
     private String date;
+    private String imageUrl;
 
     public MarketItem () {
         
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public MarketItem(String description, String price, String[] tags, String title, String uid, String id, String date, String imageUrl) {
+
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+        this.title = title;
+        this.uid = uid;
+        this.id = id;
+        this.date = date;
+        this.imageUrl = imageUrl;
     }
 
     public MarketItem(String title, String description, String price, String uid, String id) {
