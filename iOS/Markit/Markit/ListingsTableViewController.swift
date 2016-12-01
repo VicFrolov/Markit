@@ -124,11 +124,15 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                     item.favorites = [""]
                 }
                 
-                self.userRef.child(dictionary["uid"] as! String)
-                            .child("username")
-                            .observe(.value, with: { (snapshot) in
-                    item.username = snapshot.value as! String?
-                })
+                if let uid = dictionary["uid"] as! String? {
+                    self.userRef.child(uid)
+                                .child("username")
+                                .observe(.value, with: { (snapshot) in
+                        item.username = snapshot.value as! String?
+                    })
+                } else {
+                    item.username = "VpnwRosT6tSnBIgwYnmnezAFIuD2"
+                }
                 
                 self.getImage(imageID: item.imageID!, item: item)
 
