@@ -220,6 +220,6 @@ main, body {
 .find-result-favorite-image {
     width: 75%;
     height: auto;
-    opacity: 0.3;
+    opacity: 1;
     cursor: pointer;
 }
