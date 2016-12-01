@@ -16,57 +16,68 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class CardViewActivity extends BaseActivity {
 
-    private Bundle uidInfo;
-    private RecyclerView recList;
+    private Bundle hubInfo;
     private static final String TAG = "CardView";
     private LinearLayoutManager llm;
+    private String hub;
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference();
-
+    DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_card_view);
-        
+        //hub = "Loyola Marymount University";
+        hubInfo = getIntent().getExtras();
+        if (hubInfo == null && isLoggedIn()) {
+            ValueEventListener getHub = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    hub = (String) dataSnapshot.getValue();
+                    populateCardView(hub);
+                }
 
-        recList = (RecyclerView) findViewById(R.id.recList);
-        if (recList != null) {
-            recList.setHasFixedSize(true);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            userDatabase.addListenerForSingleValueEvent(getHub);
+
+        } else if (hubInfo != null) {
+            hub = hubInfo.getString("hub");
+            userDatabase.setValue(hub);
+            populateCardView(hub);
+        } else {
+            hub = "Loyola Marymount University";
+            populateCardView(hub);
         }
-        llm = new LinearLayoutManager(this);
-        recList.setLayoutManager(llm);
+        Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
-        FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
-                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
-                mDatabaseReference.child("items")) {
-            @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
-                cardViewHolder.title.setText(model.getTitle());
-
-                cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getUid());
-            }
-        };
-        recList.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //populateCardView();
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -136,6 +147,39 @@ public class CardViewActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void populateCardView (String hub) {
+        RecyclerView recList;
+        recList = (RecyclerView) findViewById(R.id.recList);
+        if (recList != null) {
+            recList.setHasFixedSize(true);
+        }
+        llm = new LinearLayoutManager(this);
+        recList.setLayoutManager(llm);
+
+        FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
+                mDatabaseReference.child("itemsByHub").child(hub)) {
+            @Override
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, final MarketItem model, int position) {
+                cardViewHolder.title.setText(model.getTitle());
+                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                    String itemID = model.getId();
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        CardViewActivity.this.startActivity(itemDetail);
+                    }
+                });
+                cardViewHolder.price.setText("$ " + model.getPrice());
+                cardViewHolder.uid.setText(model.getUid());
+
+            }
+        };
+        recList.setAdapter(adapter);
     }
 
 

@@ -66,7 +66,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     //TODO Reload current screen rather than CardView -Peyton
     public void onFinishHub(String hub) {
-        Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
+
 
         Intent reload = new Intent(BaseActivity.this,CardViewActivity.class);
         reload.putExtra("hub", hub);
@@ -107,6 +107,14 @@ public class BaseActivity extends AppCompatActivity
             return false;
             }
         }
+
+    public String getUID () {
+        if(isLoggedIn()) {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            return null;
+        }
+    }
 
     public ArrayList <MarketItem> getItemsByHub() {
         return itemObjectArray;
