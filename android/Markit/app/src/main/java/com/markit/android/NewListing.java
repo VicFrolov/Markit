@@ -376,7 +376,6 @@ public class NewListing extends AppCompatActivity {
                     }
 
                 }
-
             }
         });
     }
