@@ -46,6 +46,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/hub" />
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hubSpinner" />
+
         <Button
             android:text="Finish Registration"
             android:layout_width="match_parent"

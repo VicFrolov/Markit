@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -33,7 +33,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class NewListing extends AppCompatActivity {
     final int CAMERA_REQUEST = 1888;
@@ -55,12 +59,15 @@ public class NewListing extends AppCompatActivity {
     EditText mTitleEdit;
     EditText mDescriptionEdit;
     EditText mPriceEdit;
-    AutoCompleteTextView mTagsEdit;
-    AutoCompleteTextView mHubsEdit;
+    MultiAutoCompleteTextView mTagsEdit;
+    MultiAutoCompleteTextView mHubsEdit;
     ImageView mImage;
     Button mPostButton;
     Bitmap mPhotoBitmap;
-    ArrayList<String> tagsList = new ArrayList<String>();
+    ArrayList<String> tagsList = new ArrayList<>();
+    ArrayList<String> hubsList = new ArrayList<>();
+    String[] tagsResult;
+    String[] hubsResult;
     //Matrix mImageMatrix;
 
 
@@ -70,7 +77,6 @@ public class NewListing extends AppCompatActivity {
         setContentView(R.layout.activity_new_listing);
 
         Firebase.setAndroidContext(this);
-
 
 //        TODO
         //tagsList.add("dog");
@@ -89,9 +95,9 @@ public class NewListing extends AppCompatActivity {
         mImageButton = (Button) findViewById(R.id.add_photo);
         mImage = (ImageView) findViewById(R.id.imageView);
         mTagsButton = (Button) findViewById(R.id.tags_button);
-        mTagsEdit = (AutoCompleteTextView) findViewById(R.id.tags_ET);
+        mTagsEdit = (MultiAutoCompleteTextView) findViewById(R.id.tags_ET);
         mHubsButton = (Button) findViewById(R.id.hub_button);
-        mHubsEdit = (AutoCompleteTextView) findViewById(R.id.hub_ET);
+        mHubsEdit = (MultiAutoCompleteTextView) findViewById(R.id.hub_ET);
         mPostButton = (Button) findViewById(R.id.post_listing);
 
         Log.i(TAGS, "onCreate");
@@ -114,16 +120,23 @@ public class NewListing extends AppCompatActivity {
             }
         });
 
-        ValueEventListener tagsListener = new ValueEventListener() {
+        ValueEventListener myListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot tags = dataSnapshot.child("tags");
-                Log.i(TAGS, "WTF");
+                DataSnapshot hubs = dataSnapshot.child("hubs");
                 for(DataSnapshot tagShot : tags.getChildren()) {
                     tagsList.add(tagShot.getKey());
-                    Log.i(TAGS, tagShot.toString());
-                    Log.i(TAGS, tagsList.toString());
+                    //Log.i(TAGS, tagsList.toString());
                 }
+                // This code pulls all the hubs from firebase,
+                // however we have not fully established them
+                // so I am just going to hardCode the array
+
+//                for(DataSnapshot hubShot : hubs.getChildren()) {
+//                    hubsList.add(hubShot.getValue().toString());
+//                    Log.i(TAGS, hubsList.toString());
+//                }
             }
 
             @Override
@@ -133,16 +146,20 @@ public class NewListing extends AppCompatActivity {
             }
         };
 
-        mdatabase.addListenerForSingleValueEvent(tagsListener);
+        mdatabase.addListenerForSingleValueEvent(myListener);
 
-        Log.i(TAGS, mdatabase.child("tags").toString());
-
-        Log.i(TAGS, tagsList.toString());
 
 
         ArrayAdapter<String> tagsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, tagsList);
         mTagsEdit.setAdapter(tagsAdapter);
+        mTagsEdit.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
+        //hard coding the hubslist for now
+        hubsList.add("Loyola Marymount University");
+        hubsList.add("UCLA");
+        ArrayAdapter<String> hubsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, hubsList);
+        mHubsEdit.setAdapter(hubsAdapter);
+        mHubsEdit.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,6 +234,10 @@ public class NewListing extends AppCompatActivity {
                 if(event.getAction() == KeyEvent.ACTION_UP) {
                     if(keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
                         String priceString = "$ " + mPriceEdit.getText().toString();
+                        if (priceString.length() > 7) {
+                            priceString = priceString.substring(0,9);
+                        }
+
                         mPriceButton.setText(priceString);
                         mPriceEdit.setVisibility(View.INVISIBLE);
                         mPriceButton.setVisibility(View.VISIBLE);
@@ -239,6 +260,11 @@ public class NewListing extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(event.getAction() == KeyEvent.ACTION_UP) {
                     if(keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                        String tempStr = mTagsEdit.getText().toString();
+                        tagsResult = tempStr.split(", ");
+
+                        Log.i(TAGS, Arrays.toString(tagsResult));
+                        //Log.i(TAGS, Arrays.toString(strArr));
                         mTagsButton.setText(mTagsEdit.getText().toString());
                         mTagsEdit.setVisibility(View.INVISIBLE);
                         mTagsButton.setVisibility(View.VISIBLE);
@@ -261,6 +287,8 @@ public class NewListing extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(event.getAction() == KeyEvent.ACTION_UP) {
                     if(keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                        String tempStr = mHubsEdit.getText().toString();
+                        hubsResult = tempStr.split(", ");
                         mHubsButton.setText(mHubsEdit.getText().toString());
                         mHubsEdit.setVisibility(View.INVISIBLE);
                         mHubsButton.setVisibility(View.VISIBLE);
@@ -282,8 +310,11 @@ public class NewListing extends AppCompatActivity {
                 } else if (mTitleButton.getText().toString().length() < 5 || mTitleButton.getText().toString().length() > 25) {
                     Toast.makeText(NewListing.this, "Title has too many/little characters", Toast.LENGTH_LONG).show();
 
-                } else if (mPriceButton.getText().toString().equalsIgnoreCase("Price")) {
+                } else if (mPriceButton.getText().toString().equalsIgnoreCase("Price") || mPriceButton.getText().toString().equalsIgnoreCase("$ ")) {
                     Toast.makeText(NewListing.this, "No Price Added", Toast.LENGTH_LONG).show();
+
+                } else if ((Float.valueOf(mPriceEdit.getText().toString()) < 0.01) || (Float.valueOf(mPriceEdit.getText().toString())) > 3000.00) {
+                    Toast.makeText(NewListing.this, "This price value is not allowed", Toast.LENGTH_LONG).show();
 
                 } else if (mDescriptionButton.getText().toString().equalsIgnoreCase("Add Description")) {
                     Toast.makeText(NewListing.this, "No Description Added", Toast.LENGTH_LONG).show();
@@ -294,21 +325,33 @@ public class NewListing extends AppCompatActivity {
                 } else if (mDescriptionButton.getText().toString().length() > 150) {
                     Toast.makeText(NewListing.this, "Description must be under 150 characters", Toast.LENGTH_LONG).show();
 
-                } else if (mTagsButton.getText().toString().equalsIgnoreCase("Add Tags")) {
-                    Toast.makeText(NewListing.this, "Not enough tags inputted", Toast.LENGTH_LONG).show();
+                } else if (tagsResult.length < 2 || tagsResult.length > 5) {
+                    Toast.makeText(NewListing.this, "Too many or too little tags added", Toast.LENGTH_LONG).show();
 
                 } else if (mHubsButton.getText().toString().equalsIgnoreCase("Add Hubs")) {
                     Toast.makeText(NewListing.this, "Not enough hubs inputted", Toast.LENGTH_LONG).show();
 
+                } else if (mPhotoBitmap == null) {
+                    Toast.makeText(NewListing.this, "Please take a photo of your item", Toast.LENGTH_LONG).show();
                 } else {
+                    Date dNow = new Date();
+                    SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                    String newDate = fmt.format(dNow);
                     String title = mTitleButton.getText().toString();
-                    String price = mPriceButton.getText().toString();
+                    String price = mPriceEdit.getText().toString();
                     String description = mDescriptionButton.getText().toString();
-                    String tags = "truck";
-                    writeNewListing(title, price, description, user.getUid(), tags, "Loyola Marymount University");
+                    itemKey = mdatabase.child("items").push().getKey();
+                    //hardcoded user id got now because I can't sign in
+                    writeNewListing(title, price, description, "zzcGPAwsZcgtOZsUfwgjSSiJz413", tagsResult, hubsResult, newDate, itemKey);
+                    for (int i = 0; i < tagsResult.length; i++) {
+                        if (!tagsList.contains(tagsResult[i])) {
+                            String child = tagsResult[i];
+                            mdatabase.child("tags").child(child).setValue("1");
+                        }
+                    }
 
                     if (mPhotoBitmap != null) {
-                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey);
+                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey + "/" + "image1");
                         mImage.setDrawingCacheEnabled(true);
                         mImage.buildDrawingCache();
                         Bitmap bitmap = mImage.getDrawingCache();
@@ -321,6 +364,8 @@ public class NewListing extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(NewListing.this, "Could not upload to Database", Toast.LENGTH_LONG).show();
+                                Log.i(TAGS, "Failed loaded uri: " + e.getMessage());
+
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -343,53 +388,69 @@ public class NewListing extends AppCompatActivity {
         public String description;
         public String price;
         public String uID;
-        public String tags;
+        public String[] tags;
+        public String[] hubs;
+        public String date;
+        public String id;
+
 
 
         public Listing()   {
             //Default constructor for calls to DataSnapshot.getValue(User.class)
         }
 
-        public Listing(String title, String price, String description, String uID, String tags) {
+        public Listing(String title, String price, String description, String uID, String[] tags, String[] hubs, String date, String id) {
             this.title = title;
             this.price = price;
             this.description = description;
             this.uID = uID;
             this.tags = tags;
+            this.hubs = hubs;
+            this.date = date;
+            this.id = id;
         }
     }
 
     // very ugly way of doing it but only way I could find to post to all three, would not let me push an object
-    public void writeNewListing (String title, String price, String description, String uID, String tags, String hub) {
-        Listing listing1 = new Listing(title, price, description, uID, tags);
+    public void writeNewListing (String title, String price, String description, String uID, String[] tags, String[] hubs, String date, String id) {
+        Listing listing1 = new Listing(title, price, description, uID, tags, hubs, date, id);
         DatabaseReference myPostRef = mdatabase.child("items").push();
-        String myPostKey = myPostRef.getKey();
-        itemKey = myPostKey;
-        mdatabase.child("items").child(myPostKey).child("title").setValue(listing1.title);
-        mdatabase.child("items").child(myPostKey).child("description").setValue(listing1.description);
-        mdatabase.child("items").child(myPostKey).child("tags").setValue(listing1.tags);
-        mdatabase.child("items").child(myPostKey).child("price").setValue(listing1.price);
-        mdatabase.child("items").child(myPostKey).child("uid").setValue(listing1.uID);
+        //String myPostKey = myPostRef.getKey();
+        //itemKey = myPostKey;
+        //to avoid a pushing error, must push lists not arrays
+        List<String> taggys = Arrays.asList(listing1.tags);
+        List<String> hubbys = Arrays.asList(listing1.hubs);
+        mdatabase.child("items").child(id).child("title").setValue(listing1.title);
+        mdatabase.child("items").child(id).child("description").setValue(listing1.description);
+        mdatabase.child("items").child(id).child("tags").setValue(taggys);
+        mdatabase.child("items").child(id).child("price").setValue(listing1.price);
+        mdatabase.child("items").child(id).child("uid").setValue(listing1.uID);
+        mdatabase.child("items").child(id).child("hubs").setValue(hubbys);
+        mdatabase.child("items").child(id).child("id").setValue(id);
+        mdatabase.child("items").child(id).child("date").setValue(listing1.date);
 
         //myPostRef = mdatabase.child("itemsByHub").child(hub).push();
         //myPostKey = myPostRef.getKey();
-
-        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("title").setValue(listing1.title);
-        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("description").setValue(listing1.description);
-        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("tags").setValue(listing1.tags);
-        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("price").setValue(listing1.price);
-        mdatabase.child("itemsByHub").child(hub).child(myPostKey).child("uid").setValue(listing1.uID);
-
-
-        mdatabase.child("itemsByUser").child(uID).child(myPostKey).child("title").setValue(listing1.title);
-        mdatabase.child("itemsByUser").child(uID).child(myPostKey).child("description").setValue(listing1.description);
-        mdatabase.child("itemsByUser").child(uID).child(myPostKey).child("tags").setValue(listing1.tags);
-        mdatabase.child("itemsByUser").child(uID).child(myPostKey).child("price").setValue(listing1.price);
-        mdatabase.child("itemsByUser").child(uID).child(myPostKey).child("uid").setValue(listing1.uID);
+        for (int i = 0; i < hubs.length; i++) {
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("title").setValue(listing1.title);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("description").setValue(listing1.description);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("tags").setValue(taggys);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("price").setValue(listing1.price);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("uid").setValue(listing1.uID);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("id").setValue(id);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("date").setValue(listing1.date);
+            mdatabase.child("itemsByHub").child(listing1.hubs[i]).child(id).child("hubs").setValue(hubbys);
+        }
 
 
-
-
+        mdatabase.child("itemsByUser").child(uID).child(id).child("title").setValue(listing1.title);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("description").setValue(listing1.description);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("tags").setValue(taggys);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("price").setValue(listing1.price);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("uid").setValue(listing1.uID);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("id").setValue(id);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("date").setValue(listing1.date);
+        mdatabase.child("itemsByUser").child(uID).child(id).child("hubs").setValue(hubbys);
     }
 
 

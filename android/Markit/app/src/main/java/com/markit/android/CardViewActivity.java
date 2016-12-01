@@ -1,13 +1,16 @@
 package com.markit.android;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -57,7 +61,7 @@ public class CardViewActivity extends BaseActivity {
                  cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
                      @Override
                       public void onClick(View view) {
-                         Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
+                         Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
                          //final String itemID = model.getItemID();
                          itemDetail.putExtra("uid", itemID);
                          CardViewActivity.this.startActivity(itemDetail);
@@ -65,7 +69,7 @@ public class CardViewActivity extends BaseActivity {
                  });
                  cardViewHolder.price.setText("$ " + model.getPrice());
                  cardViewHolder.uid.setText(model.getUid());
-                 cardViewHolder.uid.setText(model.getId());
+                 //cardViewHolder.id.setText(model.getId());
                  Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
                 }
              };
@@ -101,7 +105,18 @@ public class CardViewActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
+
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//        // Assumes current activity is the searchable activity
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
         return true;
+    }
+
+    public void FindItem (View view) {
+
     }
 
     @Override
@@ -124,6 +139,9 @@ public class CardViewActivity extends BaseActivity {
             return true;
         }
         if (id == R.id.change_hub) {
+            FragmentManager fm = getSupportFragmentManager();
+//            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
+//            changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
         if (id == R.id.edit_tags) {
@@ -140,7 +158,9 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, ChatListView.class));
             return true;
         }
-
+        if (id == R.id.sign_out) {
+            FirebaseAuth.getInstance().signOut();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -162,6 +182,7 @@ public class CardViewActivity extends BaseActivity {
         TextView title;
         TextView price;
         TextView uid;
+        TextView id;
         TextView tags;
         ImageView photo;
         Context context;
@@ -173,6 +194,8 @@ public class CardViewActivity extends BaseActivity {
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
+            id = (TextView) itemView.findViewById(R.id.id);
         }
+
     }
 }

@@ -1,15 +1,26 @@
 package com.markit.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.markit.android.R;
+import com.squareup.picasso.Picasso;
+
+import static com.markit.android.R.id.container;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +50,8 @@ public class ProfilePageFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * //@param param1 Parameter 1.
+     * @param //param2 Parameter 2.
      * @return A new instance of fragment ProfilePageFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -52,6 +63,14 @@ public class ProfilePageFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    private RecyclerView profileRecList;
+    private LinearLayoutManager llm;
+    private Context context;
+
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseReference = database.getReference().child("itemsByUser");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,8 +85,44 @@ public class ProfilePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile_page, container, false);
+        //TextView profileName = (TextView) rootView.findViewById(R.id.profile_name);
+        return rootView;
     }
+
+//            profileRecList = (RecyclerView) findViewById(R.id.profileRecList);
+//            if (profileRecList != null) {
+//                profileRecList.setHasFixedSize(true);
+//            }
+//
+//            llm = new LinearLayoutManager(this);
+//            profileRecList.setLayoutManager(llm);
+//
+//            FirebaseRecyclerAdapter<ItemObject, ProfilePageFragment.CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, ProfilePageFragment.CardViewHolder>(
+//                    ItemObject.class, R.layout.fragment_profile_page, ProfilePageFragment.CardViewHolder.class, mDatabaseReference) {
+//                @Override
+//                public void populateViewHolder(ProfilePageFragment.CardViewHolder cardViewHolder, ItemObject model, int position) {
+//                    cardViewHolder.title.setText(model.getTitle());
+//
+//                    final String itemID = model.getId();
+//                    cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Intent itemDetail = new Intent(ProfilePageFragment.this, ItemDetail.class);
+//                            //final String itemID = model.getItemID();
+//                            itemDetail.putExtra("uid", itemID);
+//                            ProfilePageFragment.this.startActivity(itemDetail);
+//                        }
+//                    });
+//                    cardViewHolder.price.setText("$ " + model.getPrice());
+//                    cardViewHolder.uid.setText(model.getUid());
+//                    //cardViewHolder.id.setText(model.getId());
+//                    //Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+//                }
+//            };
+//            profileRecList.setAdapter(adapter);
+//        }
+//    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -106,5 +161,26 @@ public class ProfilePageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView price;
+        TextView uid;
+        TextView id;
+        TextView tags;
+        ImageView photo;
+        Context context;
+
+        public CardViewHolder(View itemView) {
+            super(itemView);
+            context = itemView.getContext();
+            photo = (ImageView) itemView.findViewById(R.id.photo);
+            title = (TextView) itemView.findViewById(R.id.title);
+            price = (TextView) itemView.findViewById(R.id.price);
+            uid = (TextView) itemView.findViewById(R.id.username);
+            id = (TextView) itemView.findViewById(R.id.id);
+        }
+
     }
 }

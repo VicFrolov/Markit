@@ -29,9 +29,9 @@ import com.markit.android.dummy.DummyContent.DummyItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends BaseActivity implements ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
 
-    public void onListFragmentInteraction(DummyItem item) {
+    public void onListFragmentInteraction(DummyItem d) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
 
@@ -154,7 +154,7 @@ public class Profile extends BaseActivity implements ProfilePageFragment.OnFragm
             return true;
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(Profile.this, ChatListView.class));
+            startActivity(new Intent(Profile.this, MainChatActivity.class));
             return true;
         }
         if (id == R.id.new_listing) {
@@ -248,8 +248,8 @@ public class Profile extends BaseActivity implements ProfilePageFragment.OnFragm
             switch (position) {
                 case 0:
                     return ProfilePageFragment.newInstance();
-//                case 1:
-//                    return WatchListFragment.newInstance(1);
+                case 1:
+                    return WatchListFragment.newInstance(1);
                 case 2:
                     int COLUMN_COUNT = 1;
                     return TagsFragment.newInstance(COLUMN_COUNT);

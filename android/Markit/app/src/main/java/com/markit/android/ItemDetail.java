@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,9 +15,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.markit.android.R;
 
 public class ItemDetail extends AppCompatActivity {
     private String uid;
@@ -80,6 +76,8 @@ public class ItemDetail extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                String uid = firebaseAuth.getCurrentUser().getUid();
+                //String user = "User " + uid.substring(0, 6);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();

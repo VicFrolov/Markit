@@ -1,5 +1,8 @@
 package com.markit.android;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
@@ -13,34 +16,35 @@ public class User {
     private String firstName;
     private String lastName;
     private String uid;
-    private String userHub;
+    private String hub;
     private String username;
-    private String[] favorites;
-    private String[] itemsForSale;
+//    private String[] favorites;
+//    private String[] itemsForSale;
+
 
     public User() {
         this.email = "none";
         this.firstName = "none";
         this.lastName = "none";
         this.uid = "none";
-        this.userHub = "none";
+        this.hub = "none";
         this.username = "none";
-        this.favorites = new String[1];
-        favorites[0] = "none";
-        this.itemsForSale = new String[1];
-        itemsForSale[0] = "none";
+//        this.favorites = new String[1];
+//        favorites[0] = "none";
+//        this.itemsForSale = new String[1];
+//        itemsForSale[0] = "none";
     }
 
-    public User(String email, String firstName, String lastName, String uid, String userHub, String [] favorites,String [] itemsForSale, String username) {
+    public User(String email, String firstName, String lastName, String uid, String username) {
         dateCreated = new Date().toString();
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.favorites = favorites;
+//        this.favorites = favorites;
         this.uid = uid;
-        this.userHub = userHub;
+        //this.hub = hub;
         this.username = username;
-        this.itemsForSale = itemsForSale;
+//        this.itemsForSale = itemsForSale;
 
     }
 
@@ -76,12 +80,12 @@ public class User {
         this.uid = uid;
     }
 
-    public String getUserHub() {
-        return userHub;
+    public String getHub() {
+        return hub;
     }
 
-    public void setUserHub(String userHub) {
-        this.userHub = userHub;
+    public void setHub(String userHub) {
+        this.hub = userHub;
     }
 
     public String getUsername() {
@@ -92,21 +96,21 @@ public class User {
         this.username = username;
     }
 
-    public String[] getItemsForSale() {
-        return itemsForSale;
-    }
-
-    public void setItemsForSale(String[] itemsForSale) {
-        this.itemsForSale = itemsForSale;
-    }
-
-    public String[] getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(String[] favorites) {
-        this.favorites = favorites;
-    }
+//    public String[] getItemsForSale() {
+//        return itemsForSale;
+//    }
+//
+//    public void setItemsForSale(String[] itemsForSale) {
+//        this.itemsForSale = itemsForSale;
+//    }
+//
+//    public String[] getFavorites() {
+//        return favorites;
+//    }
+//
+//    public void setFavorites(String[] favorites) {
+//        this.favorites = favorites;
+    //}
 
     public void setDateCreated(String date) {
         this.dateCreated = dateCreated;

@@ -1,26 +1,18 @@
 package com.markit.android;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.auth.FirebaseAuth;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
+import com.markit.android.Chat;
 
 /**
  * Created by root on 09/08/16.
@@ -28,58 +20,119 @@ import com.google.firebase.database.Query;
 
 public class ChatListView extends AppCompatActivity {
 
-    private DatabaseReference databaseRef;
+    private static final String TAG = "Chat";
+    private LinearLayoutManager llm;
+    private Context context = this;
+    private RecyclerView messagesRecyclerView;
+    //private DatabaseReference database;
     private DatabaseReference chatRef;
-    private ListView listView;
-    private FirebaseAuth firebaseAuth;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseReference = database.getReference().child("chats").child("messages");
+    //chatRef = mDatabaseReference.child("chat");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_view);
+        setContentView(R.layout.activity_chatlist_view);
 
-        listView = (ListView) findViewById(R.id.list_of_messages);
+        messagesRecyclerView = (RecyclerView) findViewById(R.id.messagesRecyclerView);
+        if (messagesRecyclerView != null) {
+            messagesRecyclerView.setHasFixedSize(true);
+        }
+        llm = new LinearLayoutManager(this);
+        messagesRecyclerView.setLayoutManager(llm);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        chatRef = databaseRef.child("chat").child("users");
-
-        final ListAdapter adapter = new FirebaseListAdapter<Chat>(this, Chat.class, R.layout.list_item, chatRef) {
-            protected void populateView(View view, Chat chat, int position) {
-                ((TextView) view.findViewById(R.id.list_item_username)).setText(chat.getUser());
-                ((TextView) view.findViewById(R.id.list_item_message)).setText(chat.getMessage());
-
+        FirebaseRecyclerAdapter<Chat, ChatViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, ChatListView.ChatViewHolder>(
+                Chat.class, R.layout.list_item, ChatListView.ChatViewHolder.class, chatRef) {
+            @Override
+            public void populateViewHolder(ChatListView.ChatViewHolder viewHolder, Chat model, int position) {
+                viewHolder.list_item_message.setText(model.getMessage());
+                viewHolder.list_item_username.setText(model.getSender());
+                //Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
             }
         };
+        messagesRecyclerView.setAdapter(adapter);
+    }
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
+        TextView list_item_username;
+        TextView list_item_message;
+        //ImageView itemPhoto;
+        Context context;
 
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = "User " + uid.substring(0, 6);
-
-                //Chat entry = (Chat)parent.getItemAtPosition(position);
-                //String message = entry.getMessage();
-
-               /// Chat entry = (Chat) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
-                //String message = entry.getMessage();
-                //startActivity(intent);
-
-                String messageClicked = (String) adapter.getItem(position);
-//                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
-//                startActivity(intent);
-
-                //String messageClicked = (Chat) parent.getAdapter().getItem(position);
-                intent.putExtra("message", messageClicked);
-                intent.putExtra("username", user);
-                startActivity(intent);
-
-            }
-        });
+        public ChatViewHolder(View itemView) {
+            super(itemView);
+            context = itemView.getContext();
+            list_item_message = (TextView) itemView.findViewById(R.id.list_item_message);
+            list_item_username = (TextView) itemView.findViewById(R.id.list_item_username);
+        }
     }
 }
+
+//    private DatabaseReference databaseRef;
+//    private DatabaseReference chatRef;
+//    private ListView listView;
+//    private FirebaseAuth firebaseAuth;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.list_view);
+//
+//        listView = (ListView) findViewById(R.id.list_of_messages);
+//
+//        databaseRef = FirebaseDatabase.getInstance().getReference();
+//        chatRef = databaseRef.child("chat");
+//
+//        final ListAdapter adapter = new FirebaseListAdapter<Chat>(this, Chat.class, R.layout.list_item, chatRef) {
+//            protected void populateView(View view, Chat chat, int position) {
+//                ((TextView) view.findViewById(R.id.list_item_username)).setText(chat.getSender());
+//                ((TextView) view.findViewById(R.id.list_item_message)).setText(chat.getMessage());
+//
+//            }
+//        };
+//
+////        Button goToChat = (Button) findViewById(R.id.messageDetails);
+////        goToChat.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                Intent chatDetail = new Intent(ChatListView.this, MainChatActivity.class);
+////                //final String itemID = model.getItemID();
+////                //chatDetail.putExtra("uid", itemID);
+////                ChatListView.this.startActivity(chatDetail);
+////            }
+////        });
+//
+//        listView.setAdapter(adapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String uid = firebaseAuth.getCurrentUser().getUid();
+//                String user = "User " + uid.substring(0, 6);
+//
+//                //Chat entry = (Chat)parent.getItemAtPosition(position);
+//                //String message = entry.getMessage();
+//
+//                /// Chat entry = (Chat) parent.getAdapter().getItem(position);
+//                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
+//                //String message = entry.getMessage();
+//                //startActivity(intent);
+//
+//                String messageClicked = (String) adapter.getItem(position);
+////                Intent intent = new Intent(ChatListView.this, MainChatActivity.class);
+////                startActivity(intent);
+//
+//                //String messageClicked = (Chat) parent.getAdapter().getItem(position);
+//                intent.putExtra("message", messageClicked);
+//                intent.putExtra("username", user);
+//                startActivity(intent);
+//
+//            }
+//        });
+//    }
+//}
 
 
 //    private void scrollToBottom() {
@@ -90,6 +143,7 @@ public class ChatListView extends AppCompatActivity {
 //            }
 //        });
 //    }
+//}
 
 
 
