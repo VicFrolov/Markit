@@ -149,6 +149,7 @@ public class NewListing extends AppCompatActivity {
         mdatabase.addListenerForSingleValueEvent(myListener);
 
 
+
         ArrayAdapter<String> tagsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, tagsList);
         mTagsEdit.setAdapter(tagsAdapter);
         mTagsEdit.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
@@ -236,6 +237,7 @@ public class NewListing extends AppCompatActivity {
                         if (priceString.length() > 7) {
                             priceString = priceString.substring(0,9);
                         }
+
                         mPriceButton.setText(priceString);
                         mPriceEdit.setVisibility(View.INVISIBLE);
                         mPriceButton.setVisibility(View.VISIBLE);
@@ -363,6 +365,7 @@ public class NewListing extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(NewListing.this, "Could not upload to Database", Toast.LENGTH_LONG).show();
                                 Log.i(TAGS, "Failed loaded uri: " + e.getMessage());
+
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -389,6 +392,7 @@ public class NewListing extends AppCompatActivity {
         public String[] hubs;
         public String date;
         public String id;
+
 
 
         public Listing()   {
@@ -447,9 +451,6 @@ public class NewListing extends AppCompatActivity {
         mdatabase.child("itemsByUser").child(uID).child(id).child("id").setValue(id);
         mdatabase.child("itemsByUser").child(uID).child(id).child("date").setValue(listing1.date);
         mdatabase.child("itemsByUser").child(uID).child(id).child("hubs").setValue(hubbys);
-
-
-
     }
 
 

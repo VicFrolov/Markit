@@ -44,6 +44,7 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
@@ -71,15 +72,17 @@
             app:backgroundTint="@color/cast_expanded_controller_text_color"
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
-        <!--android:tint="@color/place_autocomplete_prediction_secondary_text"-->
-        <!--app:backgroundTint="@color/cast_expanded_controller_text_color"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:layout_marginRight="85dp"-->
-        <!--app:fabSize="normal"-->
-        <!--app:layout_anchorGravity="bottom|right" />-->
 
 
-        <include layout="@layout/content_card_view" />
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/recList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:textSize="18sp"/>
+
+
+        <!--<include layout="@layout/content_card_view" />-->
 
 
     </android.support.design.widget.CoordinatorLayout>

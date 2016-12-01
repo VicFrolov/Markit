@@ -156,6 +156,7 @@
         android:layout_alignParentStart="true"
         android:visibility="visible"/>
 
+
     <MultiAutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -214,6 +215,7 @@
         <!--android:layout_alignParentLeft="true"-->
         <!--android:layout_alignParentStart="true"-->
         <!--android:layout_marginTop="33dp" />-->
+
 
     <Button
         android:text="Post Listing"
@@ -279,7 +281,6 @@
             <!--android:backgroundTint="@android:color/holo_purple"-->
             <!--android:id="@+id/postListing"-->
             <!--android:background="@android:color/holo_purple" />-->
-
     <!--</LinearLayout>-->
 
     <!--<Button-->

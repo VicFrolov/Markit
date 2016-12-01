@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 24
     buildToolsVersion "21.1.1"
@@ -28,6 +29,12 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+    sourceSets {
+        main {
+            resources.srcDirs = ['src/main/resources', 'src/main/java/com/markit/android/models']
+            java.srcDirs = ['src/main/java', 'src/main/java/com/markit/android/models']
+        }
+    }
 }
 
 dependencies {
@@ -45,6 +52,9 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:24.2.1'
     compile 'com.google.firebase:firebase-storage:10.0.1'
     compile 'com.google.firebase:firebase-database:10.0.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
+

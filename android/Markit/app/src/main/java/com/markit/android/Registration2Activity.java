@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,8 @@ public class Registration2Activity extends AppCompatActivity {
     private EditText lastNameView;
     private String lastName;
     private Spinner dropdown;
+    private String favorites;
+    private AutoCompleteTextView hubView;
     private String hub;
     private Button finishRegistrationView;
     private DatabaseReference mDatabase;
@@ -48,6 +51,34 @@ public class Registration2Activity extends AppCompatActivity {
     private boolean IsconfigChange ;
     private DatabaseReference hubList;
 
+    @IgnoreExtraProperties
+    public class User {
+        public String firstName;
+        public String lastName;
+        public String hub;
+        public String username;
+        public String email;
+        public String favorites;
+
+        public User(){
+            firstName = "";
+            lastName = "";
+            username = "";
+            hub = "";
+            email = "";
+            favorites = "";
+        }
+
+        public User(String firstname, String lastname, String username, String email, String hub, String favorites) {
+            firstName = firstname;
+            lastName = lastname;
+            username = this.username;
+            email = this.email;
+            hub = this.hub;
+            favorites = this.favorites;
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +94,7 @@ public class Registration2Activity extends AppCompatActivity {
                     //uid = user.getUid();
                     //String text = "The user id for this user is " + uid;
                     //Toast.makeText(Registration2Activity.this, text, Toast.LENGTH_LONG).show();
-                    //username= user.getDisplayName();
+                    username= user.getDisplayName();
                     //email = user.getEmail();
 
                 } else {
@@ -97,21 +128,30 @@ public class Registration2Activity extends AppCompatActivity {
         String uid = fUser.getUid();
         String displayName = fUser.getDisplayName();
         String email = fUser.getEmail();
-        postUserInfo(uid,displayName,email);
+        //String favorites = fUser.getFavorites();
+        postUserInfo(uid,displayName,email,favorites);
     }
 
 
-    public void postUserInfo(final String uid, final String username, final String email) {
+
+    public void postUserInfo(final String uid, final String username, final String email, final String favorites) {
         Button finishRegistration = (Button) findViewById(R.id.finishRegistration);
         finishRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                User user = new User(firstName,lastName,username,email,hub,favorites);
                 firstName = firstNameView.getText().toString();
                 lastName = lastNameView.getText().toString();
-                hub = dropdown.getSelectedItem().toString();
-                User user = new User(email,firstName,lastName,hub,username);
-                mDatabase.child("usernames").child(uid).setValue(user);
+                hub = hubView.getText().toString();
+                //mDatabase.child("usernames").child(uid).setValue(user);
+                mDatabase.child("users").child(uid).child("firstName").setValue(firstName);
+                mDatabase.child("users").child(uid).child("lastName").setValue(lastName);
+                mDatabase.child("users").child(uid).child("userHub").setValue(hub);
+                mDatabase.child("users").child(uid).child("email").setValue(email);
+                mDatabase.child("users").child(uid).child("username").setValue(username);
+                mDatabase.child("users").child(uid).child("favorites").setValue(favorites);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
             }
         });

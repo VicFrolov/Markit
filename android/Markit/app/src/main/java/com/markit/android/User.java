@@ -1,21 +1,40 @@
 package com.markit.android;
+import java.util.Date;
 
 /**
- * Created by pcross on 11/27/16.
+ * Created by annagotsis on 11/30/16.
  */
 
 public class User {
+
+    private String dateCreated;
     private String email;
     private String firstName;
     private String lastName;
-    private String hub;
+    private String uid;
+    private String userHub;
     private String username;
+    private String[] favorites;
 
-    public User(String email, String firstName, String lastName, String hub, String username) {
+    public User() {
+        this.email = "none";
+        this.firstName = "none";
+        this.lastName = "none";
+        this.uid = "none";
+        this.userHub = "none";
+        this.username = "none";
+        this.favorites = new String[1];
+        favorites[0] = "none";
+    }
+
+    public User(String email, String firstName, String lastName, String uid, String userHub, String [] favorites, String username) {
+        dateCreated = new Date().toString();
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.hub = hub;
+        this.favorites = favorites;
+        this.uid = uid;
+        this.userHub = userHub;
         this.username = username;
     }
 
@@ -43,12 +62,20 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getHub() {
-        return hub;
+    public String getUid() {
+        return uid;
     }
 
-    public void setHub(String hub) {
-        this.hub = hub;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUserHub() {
+        return userHub;
+    }
+
+    public void setUserHub(String userHub) {
+        this.userHub = userHub;
     }
 
     public String getUsername() {
@@ -57,5 +84,17 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String[] getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(String[] favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setDateCreated(String date) {
+        this.dateCreated = dateCreated;
     }
 }
