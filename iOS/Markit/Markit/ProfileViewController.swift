@@ -41,6 +41,7 @@ class ProfileViewController: UIViewController {
         self.star5.isHidden = true
         self.pageControl.currentPageIndicatorTintColor = UIColor.red
         self.pageControl.pageIndicatorTintColor = UIColor.black
+        definesPresentationContext = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,7 +65,9 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logOut(sender: UIButton) {
         try! FIRAuth.auth()!.signOut()
-        self.performSegue(withIdentifier: "segueBackToLogin", sender: self)
+        self.dismiss(animated: false, completion: {
+            self.performSegue(withIdentifier: "segueBackToLogin", sender: self)
+        })
     }
     
     

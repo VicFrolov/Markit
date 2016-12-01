@@ -48,7 +48,9 @@ class AccountCreateHubViewController: UIViewController {
                         print("Sign in failed:", error.localizedDescription)
                     } else {
                         print("user signed in")
-                        self.performSegue(withIdentifier: "successCreateAccount", sender: self)
+                        self.dismiss(animated: false, completion: {
+                            self.performSegue(withIdentifier: "successCreateAccount", sender: self)
+                        })
                     }
                 }
                 
