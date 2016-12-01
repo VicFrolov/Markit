@@ -172,7 +172,7 @@
 	};
 
 	var getRecentItemsInHub = function (hub, callback) {
-	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
@@ -2146,7 +2146,7 @@
 	        var compiled = _.template(str);
 
 	        $('#hub-recent-holder').empty();
-	        $('#hub-recent-holder').append(compiled({items: items}));
+	        $('#hub-recent-holder').prepend(compiled({items: items}));
 
 
 	        for (var item in items) {
