@@ -84,7 +84,6 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 	var firebase = __webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(5);
@@ -174,267 +173,6 @@
 
 	var getRecentItemsInHub = function (hub, callback) {
 	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
-	        callback(snapshot.val());
-	    }, function (error) {
-	        console.log(error);
-	    });
-	};
-
-	var getFavorites = function (callback) {
-	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
-	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
-	                callback(snapshot.val());
-	            }, function (error) {
-	                console.log(error);
-	            });
-	        }
-	    });
-	};
-
-	var getUserInfo = function(uid, callback) {
-	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
-	        var userInfo = snapshot.val();
-	        var userInfoArray = [];
-	        userInfoArray.push(userInfo['username']);
-	        userInfoArray.push(userInfo['firstName']);
-	        userInfoArray.push(userInfo['lastName']);
-	        userInfoArray.push(userInfo['userHub']);
-	        userInfoArray.push(userInfo['favorites']);
-	        userInfoArray.push(userInfo['itemsForSale']);
-	        callback(userInfoArray);
-	    });
-	};
-
-	var getImage = function(address, callback) {
-	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
-	        callback(url);
-	    }).catch(function(error) {
-	        console.log("error image not found");
-	        console.log("error either in item id, filename, or file doesn't exist");
-	    });
-	};
-
-	var getFavoriteObjects = function (callback) {
-	    auth.onAuthStateChanged(function(user) {
-	        // get user favorites
-	        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
-	            var favorites = snapshot.val();
-	            // pull object of items that user has favorited
-	            itemsRef.once('value').then(function (snapshotItems) {
-	                var allItems = snapshotItems.val();
-	                var userFavoritesMatch = [];
-	                for (var item in allItems) {
-	                    if (favorites && favorites.hasOwnProperty(item)) {
-	                        userFavoritesMatch.push(allItems[item]);
-	                    }
-	                }
-	                callback(userFavoritesMatch);
-	            }, function (error) {
-	                console.log(error);
-	            });
-	        }, function (error) {
-	            console.log(error);
-	        });
-	    });
-	};
-
-
-
-	var removeFavorite = function (item) {
-	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
-	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
-	};
-
-	var filterListings = function (keywords, hubs, tags, price_range) {
-	    listingsRef.orderByChild();
-	};
-
-	var signIn = function (email, password) {
-	    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-	        var errorCode = error.code;
-	        var errorMessage = error.message;
-	    });
-	};
-
-	var addNewListingToProfile = function(uid, itemID) {
-	    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
-	};
-
-	var addFavoriteToProfile = function(uid, itemID) {
-	    usersRef.child(uid + '/favorites/' + itemID).set(true);
-	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
-	};
-
-
-	var createAccount = function () {
-	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
-	        $("#sign-up-password").val()).then(function(user) {
-	            var newUser = firebase.auth().currentUser;
-	            newUserDBEntry(newUser);
-	        }, function(error) {
-	            var errorCode = error.code;
-	            var errorMessage = error.message;
-	            console.log(errorMessage);
-	    });    
-	};
-
-	var newUserDBEntry = function (user) {
-	    var firstName = $("#sign-up-first-name").val();
-	    var lastName = $("#sign-up-last-name").val();
-	    var username = $("#sign-up-username").val();
-	    var userHub = $("#sign-up-hub").val();
-	    var date =  Date();
-
-	    var userInfo = {
-	        uid: user.uid,
-	        email: user.email,
-	        username: username,
-	        userHub: userHub,
-	        firstName: firstName,
-	        lastName: lastName,
-	        dateCreated: date
-	    };
-	    usersRef.child(user.uid).set(userInfo);
-	};
-
-	var addTags = function(itemTags) {
-	    database.ref('tags/').once('value', function(snapshot) {
-	        var tagsInDB = snapshot.val();
-	        itemTags.forEach(function (tag) {
-	            if (tagsInDB.hasOwnProperty(tag)) {
-	                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
-	            } else {
-	                database.ref('tags/').child(tag).set(1);
-	            }
-	        });
-	    }, function (errorObject) {
-	        console.log(errorObject.code);
-	    });
-	};
-
-	var addHubs = function(itemHubs) {
-	    database.ref('tags/').once('value', function(snapshot) {
-	        var hubsInDB = snapshot.val();
-	        itemHubs.forEach(function (hub) {
-	            if (hubsInDB.hasOwnProperty(hub)) {
-	                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
-	            } else {
-	                database.ref('hubs/').child(hub).set(1);
-	            }
-	        });
-	    }, function (errorObject) {
-	        console.log(errorObject.code);
-	    });
-	};
-
-	module.exports = {
-	    auth,
-	    signIn,
-	    getListings,
-	    addListing,
-	    addHubs,
-	    addTags,
-	    filterListings,
-	    createAccount,
-	    itemImagesRef,
-	    addFavoriteToProfile,
-	    getFavorites,
-	    getFavoriteObjects,
-	    removeFavorite,
-	    getImage,
-	    getRecentItemsInHub,
-	    getUserInfo
-=======
-	var firebase = __webpack_require__(3);
-	__webpack_require__(4);
-	__webpack_require__(5);
-	__webpack_require__(6);
-
-
-
-	firebase.initializeApp({
-	    // serviceAccount: "./MarkIt-3489756f4a28.json",
-	    apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
-	    authDomain: "markit-80192.firebaseapp.com",
-	    databaseURL: "https://markit-80192.firebaseio.com",
-	    storageBucket: "markit-80192.appspot.com",
-	    messagingSenderId: "4085636156"
-	});
-
-	var database = firebase.database();
-	var auth = firebase.auth();
-	var itemsRef = database.ref('items/');
-	var itemImagesRef = firebase.storage().ref('images/itemImages/');
-	var usersRef = database.ref('users/');
-
-	var addListing = function (title, description, tags, price, hubs, uid, images) {
-	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
-	    var myDate = Date();
-	    var itemRef = itemsRef.push();
-	    var itemKey = itemRef.key;
-	    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
-
-	    var itemData = {
-	        title: title,
-	        description: description,
-	        tags: lowerCasedTags,
-	        price: price,
-	        uid: uid,
-	        id: itemKey,
-	        hubs: hubs,
-	        date: myDate
-	    };
-
-	    addTags(lowerCasedTags);
-	    addHubs(hubs);
-	    addNewListingToProfile(uid, itemKey);
-	    itemsRef.child(itemKey).set(itemData);
-	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
-
-	    hubs.forEach(function(currentHub) {
-	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
-	    });
-	    
-	    
-	    // adding images to storage
-	    for (var i = 0; i < images.length; i += 1) {
-	        (function(x) {
-	            images[x] = images[x].replace(/^.*base64,/g, '');
-	            var uploadTask = itemImagesRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
-
-	            uploadTask.on('state_changed', function(snapshot) {
-	                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-	                console.log('Upload is ' + progress + '% done');
-
-	                switch (snapshot.state) {
-	                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-	                        console.log('Upload is paused');
-	                        break;
-	                    case firebase.storage.TaskState.RUNNING: // or 'running'
-	                        console.log('Upload is running');
-	                        break;
-	                }
-	            }, function(error) {
-	                console.log("error uploading image");
-	            }, function() {
-	                var downloadURL = uploadTask.snapshot.downloadURL;
-	                console.log(downloadURL);
-	            });
-	        })(i);
-	    }
-	};
-
-	var getListings = function (callback) {
-	    itemsRef.once("value").then(function (snapshot) {
-	        callback(snapshot.val());
-	    }, function (error) {
-	        console.log(error);
-	    });
-	};
-
-	var getRecentItemsInHub = function (hub, callback) {
-	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
@@ -608,7 +346,6 @@
 	    getRecentItemsInHub,
 	    getUserInfo,
 	    updateUserInfo
->>>>>>> 79e31345186860d57f31077fabad9d640e804630
 	};
 
 /***/ },
@@ -2223,7 +1960,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
-
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
@@ -2242,11 +1978,44 @@
 	    var hub = $('#profile-hub-name');
 	    var paymentPreference;
 	    var emailNotifications = $('#email-notifications');
-	    var password = $('#profile-password'); 
+	    var password = $('#profile-password');
+	    var getImage = __webpack_require__(2)["getImage"];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+
+
+
+	    var profileLikedItems = $('#profile-liked-items');
+
+	    if ($(profileLikedItems).length > 0) {
+	        var showFavoritedItems = function(items) {
+	            var imagePaths = []
+	            var str = $('#profile-liked-items').text();
+	            var compiled = _.template(str);
+
+	            $('#profile-liked-holder').empty();
+	            $('#profile-liked-holder').append(compiled({items: items}));
+
+
+	            for (var item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
+
+	            for (var i = 0; i < imagePaths.length; i += 1) {
+	                (function (x) {
+	                    console.log(imagePaths[x]);
+	                    getImage(imagePaths[x] + '/imageOne', function(url) {
+	                        tagToAdd = "img.activator:eq(" + x  + " )";
+	                        $(tagToAdd).attr({src: url});
+	                    });
+	                })(i);
+	            }
+
+	        };
+	    }
 
 	    var loadLikedCardList = function () {
 	        likedCardList.empty();
-	        for (var i = 0; i < 42; i++) {
+	        for (var i = 0; i < 1; i++) {
 	            likedCardList.append([
 	                $('<div></div>').addClass('col l4 m4 s12').append(
 	                    $('<div></div>').addClass('card hoverable profile-card').append([
@@ -2352,7 +2121,7 @@
 	                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
 	            }),
 	            $('<img>').addClass('my-profile-picture circle').attr({
-	                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
+	                src: '../media/temp-profile.png'
 	            }),
 	            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
 	            $('<div></div>').addClass('my-profile-stars').append([
@@ -2405,6 +2174,9 @@
 	                paymentPreference = $('#profile-payment-preference');
 	                loadSettings();
 	                loadLikedCardList();
+	                getFavoriteObjects(showFavoritedItems);
+
+
 	            }
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
@@ -2461,7 +2233,6 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 	$(function () {
 	    $('.parallax').parallax();
 	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
@@ -2506,52 +2277,6 @@
 	    });    
 	    
 
-=======
-	$(function () {
-	    $('.parallax').parallax();
-	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
-	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
-	    var auth = __webpack_require__(2)["auth"];
-	    var getImage = __webpack_require__(2)["getImage"];
-
-
-
-	    var mostRecentItems = $('#hub-most-recent');
-	    var showMostRecentItems = function(items) {
-	        var imagePaths = []
-	        var str = $('#hub-most-recent').text();
-	        var compiled = _.template(str);
-
-	        $('#hub-recent-holder').empty();
-	        $('#hub-recent-holder').append(compiled({items: items}));
-
-
-	        for (var item in items) {
-	            imagePaths.push(items[item]['id']);
-	        }
-
-	        for (var i = 0; i < imagePaths.length; i += 1) {
-	            (function (x) {
-	                getImage(imagePaths[x] + '/imageOne', function(url) {
-	                    tagToAdd = ".hub-recent img:eq(" + x  + " )";
-	                    $(tagToAdd).attr({src: url});
-	                });
-	            })(i);
-	        }
-
-	    };
-
-	    auth.onAuthStateChanged(function(user) {
-	        if (user && $(mostRecentItems).length > 0) {
-	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-	        } else if (!user && $(mostRecentItems).length > 0) {
-	            window.location.href = "../index.html";
-
-	        }
-	    });    
-	    
-
->>>>>>> 79e31345186860d57f31077fabad9d640e804630
 	});
 
 /***/ }
