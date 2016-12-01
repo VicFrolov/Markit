@@ -14,7 +14,7 @@ $(function () {
         var compiled = _.template(str);
 
         $('#hub-recent-holder').empty();
-        $('#hub-recent-holder').append(compiled({items: items}));
+        $('#hub-recent-holder').prepend(compiled({items: items}));
 
 
         for (var item in items) {

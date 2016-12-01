@@ -1,5 +1,7 @@
 package com.markit.android;
 
+import java.util.ArrayList;
+
 /**
  * Created by pcross on 11/27/16.
  */
@@ -8,16 +10,66 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private String hub;
+    private String userHub;
     private String username;
+    private String uid;
+    private ArrayList <String> paymentPreference;
+    private String dateCreated;
 
-    public User(String email, String firstName, String lastName, String hub, String username) {
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid, ArrayList<String> paymentPreference, String dateCreated) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.hub = hub;
+        this.userHub = userHub;
+        this.username = username;
+        this.uid = uid;
+        this.paymentPreference = paymentPreference;
+        this.dateCreated = dateCreated;
+    }
+
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
+        this.username = username;
+        this.uid = uid;
+    }
+
+    public User(String email, String firstName, String lastName, String userHub, String username) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
         this.username = username;
     }
+
+    public ArrayList<String> getPaymentPreference() {
+        return paymentPreference;
+    }
+
+    public void setPaymentPreference(ArrayList<String> paymentPreference) {
+        this.paymentPreference = paymentPreference;
+    }
+
+    public String getdateCreated() {
+        return dateCreated;
+    }
+
+    public void setdateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getUid() {
+
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+
 
     public String getEmail() {
         return email;
@@ -43,12 +95,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getHub() {
-        return hub;
+    public String getUserHub() {
+        return userHub;
     }
 
-    public void setHub(String hub) {
-        this.hub = hub;
+    public void setUserHub(String userHub) {
+        this.userHub = userHub;
     }
 
     public String getUsername() {

@@ -16,28 +16,43 @@ class AccountCreateHubViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var markedHub:UIImageView!
     @IBOutlet weak var markedUsername: UIImageView!
-    
     @IBOutlet weak var badUsername: UILabel!
     
     var userInfo: [String]!
     
     @IBAction func finishSignup(_ sender: AnyObject) {
         if !markedHub.isHidden && !markedUsername.isHidden {
-            FIRAuth.auth()?.createUser(
-                withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
-                    
-                    NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
-                    let uidRef = self.ref.child("/usernames/" + user!.uid)
-                    let userJson = ["username"  : self.username.text!,
-                                    "email"     : self.userInfo[2],
-                                    "firstName" : self.userInfo[0],
-                                    "lastName"  : self.userInfo[1],
-                                    "hub"       : self.hub.text!]
-                    uidRef.setValue(userJson)
-                    
+            FIRAuth.auth()?.createUser(withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
+                
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss +zzzz"
+                let currentDate = dateFormatter.string(from: date as Date)
+                
+                NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
+                let uidRef = self.ref.child("/users/" + user!.uid)
+                let userJson = ["dateCreated"       : currentDate,
+                                "email"             : self.userInfo[2],
+                                "favorites"         : "",
+                                "firstName"         : self.userInfo[0],
+                                "lastName"          : self.userInfo[1],
+                                "uid"               : user!.uid,
+                                "userHub"           : self.hub.text!,
+                                "username"          : self.username.text!,
+                                "paymentPreference" : "cash"] as [String : Any]
+                uidRef.setValue(userJson)
+                
+                FIRAuth.auth()!.signIn(withEmail: self.userInfo[2], password: self.userInfo[3]){ (user, error) in
+                    if let error = error {
+                        print("Sign in failed:", error.localizedDescription)
+                    } else {
+                        print("user signed in")
+                        self.performSegue(withIdentifier: "successCreateAccount", sender: self)
+                    }
+                }
+                
+                
             }
-            
-            self.performSegue(withIdentifier: "successCreateAccount", sender: self)
         }
     }
 
@@ -62,13 +77,6 @@ class AccountCreateHubViewController: UIViewController {
         let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
         return usernameTest.evaluate(with: testStr)
     }
-    /*
-    let usernameRef = self.ref.child("/usernames")
-    let meh = ["firstName" : self.userInfo[0],
-               "lastName"  : self.userInfo[1],
-               "uid"       : self.userInfo[2]]
-    print(user!.uid) 
-    */
     
     func textViewDidChange(textView: UITextView) {
         

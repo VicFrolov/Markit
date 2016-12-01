@@ -6,4 +6,10 @@
     <color name="colorLogo">#adffa2d5</color>
     <color name="colorSelling">#448AFF</color>
     <color name="colorGreen"> #AED581</color>
+    <!-- In res/values/colors.xml -->
+    <color name="dark_blue">#180065</color>
+    <color name="light_blue">#334ee9ff</color>
+    <color name="medium_green">#3d853e</color>
+    <color name="light_green">#3c2ae668</color>
+
 </resources>

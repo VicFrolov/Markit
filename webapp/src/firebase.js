@@ -86,7 +86,7 @@ var getListings = function (callback) {
 };
 
 var getRecentItemsInHub = function (hub, callback) {
-    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
         callback(snapshot.val());
     }, function (error) {
         console.log(error);
@@ -108,16 +108,15 @@ var getFavorites = function (callback) {
 var getUserInfo = function(uid, callback) {
     usersRef.child(uid + '/').once('value').then(function(snapshot) {
         var userInfo = snapshot.val();
-        var userInfoArray = [];
-        userInfoArray.push(userInfo['username']);
-        userInfoArray.push(userInfo['firstName']);
-        userInfoArray.push(userInfo['lastName']);
-        userInfoArray.push(userInfo['userHub']);
-        userInfoArray.push(userInfo['favorites']);
-        userInfoArray.push(userInfo['itemsForSale']);
-        callback(userInfoArray);
+        callback(userInfo);
     });
 };
+
+var updateUserInfo = function(uid, updatedInfo) {
+    for (update in updatedInfo) {
+        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+    }
+}
 
 var getImage = function(address, callback) {
     itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -197,6 +196,7 @@ var newUserDBEntry = function (user) {
     var lastName = $("#sign-up-last-name").val();
     var username = $("#sign-up-username").val();
     var userHub = $("#sign-up-hub").val();
+    var defaultPreference = ["cash"];
     var date =  Date();
 
     var userInfo = {
@@ -206,6 +206,7 @@ var newUserDBEntry = function (user) {
         userHub: userHub,
         firstName: firstName,
         lastName: lastName,
+        paymentPreferences: defaultPreference,
         dateCreated: date
     };
     usersRef.child(user.uid).set(userInfo);
@@ -257,5 +258,6 @@ module.exports = {
     removeFavorite,
     getImage,
     getRecentItemsInHub,
-    getUserInfo
+    getUserInfo,
+    updateUserInfo
 };
