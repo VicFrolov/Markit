@@ -14,6 +14,9 @@ class LoggedInOrNotLoggedInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil {
             // User is signed in.
             // ...
@@ -25,7 +28,5 @@ class LoggedInOrNotLoggedInViewController: UIViewController {
             print("No user logged in")
             performSegue(withIdentifier: "segueToAccountNotLoggedIn", sender: nil)
         }
-        
     }
-    
 }

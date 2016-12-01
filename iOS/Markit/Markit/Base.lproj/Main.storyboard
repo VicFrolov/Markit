@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="268"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EYM-dT-830" id="c6Z-xq-EeS">
-                                    <frame key="frameInset" width="375" height="268"/>
+                                    <frame key="frameInset" width="375" height="267.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u9C-aR-BNb"/>
@@ -211,10 +211,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectHubCell" id="4BR-hl-N6a">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4BR-hl-N6a" id="DFi-k0-q0I">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="1000" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -526,7 +526,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gdS-S0-T7l" id="Aez-1m-hfd">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -903,7 +903,7 @@
                                         <rect key="frame" x="0.0" y="64" width="375" height="191"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4HH-cq-7LS" id="Acu-DP-WwC">
-                                            <frame key="frameInset" width="375" height="191"/>
+                                            <frame key="frameInset" width="375" height="190.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barrafina" translatesAutoresizingMaskIntoConstraints="NO" id="GfW-0x-Xkp"/>
@@ -959,7 +959,7 @@
                                         <rect key="frame" x="0.0" y="255" width="375" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gEq-Nk-YIJ" id="YS5-41-TIx">
-                                            <frame key="frameInset" width="375" height="67"/>
+                                            <frame key="frameInset" width="375" height="66.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pO6-Or-1bl">
@@ -996,7 +996,7 @@
                                         <rect key="frame" x="0.0" y="322" width="375" height="149"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a7A-cP-g1s" id="dwp-wv-jwy">
-                                            <frame key="frameInset" width="375" height="149"/>
+                                            <frame key="frameInset" width="375" height="148.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjF-fW-z3Q">
@@ -1022,7 +1022,7 @@
                                         <rect key="frame" x="0.0" y="471" width="375" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uwg-cV-XGQ" id="xmD-aZ-MeD">
-                                            <frame key="frameInset" width="375" height="77"/>
+                                            <frame key="frameInset" width="375" height="76.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhU-hG-Qck">
@@ -1065,10 +1065,12 @@
         <!--Navigation Controller-->
         <scene sceneID="ODk-5q-uoW">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yuu-tc-1VH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s5v-Wz-LK5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="contacts" id="FPZ-cq-6YJ"/>
+                    <tabBarItem key="tabBarItem" title="" selectedImage="Search@2x" systemItem="contacts" id="q7A-xP-9Z5"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qKx-OA-CJj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1082,7 +1084,6 @@
                         <segue destination="8gJ-vK-eCe" kind="relationship" relationship="rootViewController" id="JbR-4i-9cD"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yuu-tc-1VH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="340" y="1918.2908545727139"/>
         </scene>
@@ -1346,7 +1347,7 @@
                         <outlet property="markedHub" destination="Qgb-aO-V29" id="nKx-aJ-ZuK"/>
                         <outlet property="markedUsername" destination="5d2-jr-IEp" id="NMS-l6-C3c"/>
                         <outlet property="username" destination="BcZ-fh-7tl" id="QaD-LT-dGs"/>
-                        <segue destination="b2R-7H-qz5" kind="presentation" identifier="successCreateAccount" modalPresentationStyle="currentContext" id="m0S-zL-CXW"/>
+                        <segue destination="s5v-Wz-LK5" kind="presentation" identifier="successCreateAccount" animates="NO" modalPresentationStyle="currentContext" id="ZcE-Oh-A50"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUO-hy-LOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1533,7 +1534,7 @@
                         <outlet property="star4" destination="tgq-ey-Usp" id="nEj-Vn-nqx"/>
                         <outlet property="star5" destination="NfF-U5-qpB" id="bfy-vl-psq"/>
                         <outlet property="usernameTextField" destination="rdh-9s-Zgg" id="BEX-CM-hqn"/>
-                        <segue destination="Kwb-x3-mN0" kind="presentation" identifier="segueBackToLogin" modalPresentationStyle="currentContext" id="CQu-79-AZV"/>
+                        <segue destination="s5v-Wz-LK5" kind="presentation" identifier="segueBackToLogin" animates="NO" modalPresentationStyle="currentContext" id="dTa-0z-zZE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hTU-4M-TLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1561,7 +1562,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JKQ-7W-7ym" id="Gw1-7j-8jf">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1617,7 +1618,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Pb-5C-qEW" id="yUL-mR-soU">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1813,7 +1814,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OVB-Az-W73" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="lms-FF-YoG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6400.8000000000002" y="1642.128935532234"/>
+            <point key="canvasLocation" x="6401" y="1493"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="yE7-Z5-1mZ">
@@ -1828,7 +1829,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hzq-0V-Dy1" id="TQE-WX-zwO">
-                                    <frame key="frameInset" width="375" height="49"/>
+                                    <frame key="frameInset" width="375" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1968,7 +1969,7 @@
                         <outlet property="checkedPassword" destination="okH-yT-rl4" id="qyS-Og-Rgu"/>
                         <outlet property="emailTextField" destination="5Ns-Wg-8BX" id="XJ9-op-DvD"/>
                         <outlet property="passwordTextField" destination="Tlg-aN-MYG" id="zeZ-OR-oVS"/>
-                        <segue destination="b2R-7H-qz5" kind="presentation" identifier="userLoggedIn" modalPresentationStyle="currentContext" id="rKm-6K-eZZ"/>
+                        <segue destination="s5v-Wz-LK5" kind="presentation" identifier="userLoggedIn" animates="NO" modalPresentationStyle="currentContext" id="dFV-4Z-80y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aep-1D-5vC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2166,7 +2167,6 @@
         <image name="star" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rKm-6K-eZZ"/>
-        <segue reference="CQu-79-AZV"/>
+        <segue reference="ZcE-Oh-A50"/>
     </inferredMetricsTieBreakers>
 </document>

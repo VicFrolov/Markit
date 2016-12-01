@@ -26,11 +26,12 @@ class AccountCreateHubViewController: UIViewController {
                 
                 let date = Date()
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss +zzzz"
+                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss zzzz"
                 let currentDate = dateFormatter.string(from: date as Date)
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
                 let uidRef = self.ref.child("/users/" + user!.uid)
+                let paymentPreference = ["0": "cash"]
                 let userJson = ["dateCreated"       : currentDate,
                                 "email"             : self.userInfo[2],
                                 "favorites"         : "",
@@ -39,7 +40,7 @@ class AccountCreateHubViewController: UIViewController {
                                 "uid"               : user!.uid,
                                 "userHub"           : self.hub.text!,
                                 "username"          : self.username.text!,
-                                "paymentPreference" : "cash"] as [String : Any]
+                                "paymentPreference" : paymentPreference] as [String : Any]
                 uidRef.setValue(userJson)
                 
                 FIRAuth.auth()!.signIn(withEmail: self.userInfo[2], password: self.userInfo[3]){ (user, error) in
