@@ -45,6 +45,16 @@ public class FavoritesListView extends AppCompatActivity {
             @Override
             public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, ItemObject model, int position) {
                 viewHolder.itemTitle.setText(model.getTitle());
+                final String itemID = model.getId();
+                viewHolder.itemTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(FavoritesListView.this, ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        FavoritesListView.this.startActivity(itemDetail);
+                    }
+                });
                 viewHolder.itemPrice.setText("$ " + model.getPrice());
                 Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
             }

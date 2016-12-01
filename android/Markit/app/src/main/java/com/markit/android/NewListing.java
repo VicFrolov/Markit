@@ -351,7 +351,7 @@ public class NewListing extends AppCompatActivity {
                     }
 
                     if (mPhotoBitmap != null) {
-                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey + "/" + "image1");
+                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey + "/" + "imageOne");
                         mImage.setDrawingCacheEnabled(true);
                         mImage.buildDrawingCache();
                         Bitmap bitmap = mImage.getDrawingCache();
