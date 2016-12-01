@@ -1,4 +1,5 @@
 package com.markit.android;
+
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -111,12 +112,25 @@ public class User {
         this.lastName = lastName;
     }
 
+<<<<<<< HEAD
     public String getUserHub() {
         return userHub;
+=======
+    public String getUid() {
+        return uid;
     }
 
-    public void setUserHub(String userHub) {
-        this.userHub = userHub;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getHub() {
+        return hub;
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
+    }
+
+    public void setHub(String userHub) {
+        this.hub = userHub;
     }
 
     public String getUsername() {
@@ -127,6 +141,7 @@ public class User {
         this.username = username;
     }
 
+<<<<<<< HEAD
     public ArrayList<String> getFavorites() {
         return favorites;
     }
@@ -134,5 +149,22 @@ public class User {
     public void setFavorites(ArrayList<String> favorites) {
         this.favorites = favorites;
     }
+=======
+//    public String[] getItemsForSale() {
+//        return itemsForSale;
+//    }
+//
+//    public void setItemsForSale(String[] itemsForSale) {
+//        this.itemsForSale = itemsForSale;
+//    }
+//
+//    public String[] getFavorites() {
+//        return favorites;
+//    }
+//
+//    public void setFavorites(String[] favorites) {
+//        this.favorites = favorites;
+    //}
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 
 }

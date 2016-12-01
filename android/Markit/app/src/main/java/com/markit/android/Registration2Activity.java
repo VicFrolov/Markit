@@ -84,7 +84,7 @@ public class Registration2Activity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> hubList = new ArrayList<String>();
                 for(DataSnapshot hubs :dataSnapshot.getChildren()) {
-                   hubList.add(hubs.getKey());
+                    hubList.add(hubs.getKey());
                 }
                 dropdown = (Spinner) findViewById(R.id.hubSpinner);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(Registration2Activity.this, android.R.layout.simple_spinner_dropdown_item, hubList);

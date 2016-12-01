@@ -17,12 +17,5 @@
         android:layout_height="match_parent"
         android:textSize="18sp"/>
 
-    <!--<ListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/watchlistView"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true" />-->
-
 
 </RelativeLayout>

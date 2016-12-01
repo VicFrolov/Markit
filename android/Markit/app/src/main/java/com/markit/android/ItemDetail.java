@@ -15,9 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.markit.android.R;
+
 
 public class ItemDetail extends AppCompatActivity {
     private String uid;
@@ -25,6 +23,7 @@ public class ItemDetail extends AppCompatActivity {
     private String itemPrice;
     private String item;
     private DatabaseReference itemDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +59,10 @@ public class ItemDetail extends AppCompatActivity {
 
             }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
+            }
         };
 
 
@@ -73,8 +72,11 @@ public class ItemDetail extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                String uid = firebaseAuth.getCurrentUser().getUid();
+                //String user = "User " + uid.substring(0, 6);
+                startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
     }

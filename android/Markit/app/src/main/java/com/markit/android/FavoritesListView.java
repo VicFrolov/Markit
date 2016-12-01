@@ -26,7 +26,7 @@ public class FavoritesListView extends AppCompatActivity {
     //TODO filter to get favorites only
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
-
+            //.child("users").child("uid").child("favorites");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,10 @@ public class FavoritesListView extends AppCompatActivity {
         FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder>(
                 ItemObject.class, R.layout.watchlist_item, FavoritesListView.FavoritesViewHolder.class, mDatabaseReference) {
             @Override
-            public void populateViewHolder(FavoritesListView.FavoritesViewHolder cardViewHolder, ItemObject model, int position) {
-                cardViewHolder.itemTitle.setText(model.getTitle());
-                cardViewHolder.itemPrice.setText("$ " + model.getPrice());
-                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.itemPhoto);
+            public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, ItemObject model, int position) {
+                viewHolder.itemTitle.setText(model.getTitle());
+                viewHolder.itemPrice.setText("$ " + model.getPrice());
+                Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
             }
         };
         watchlistRecyclerView.setAdapter(adapter);

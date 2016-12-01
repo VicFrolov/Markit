@@ -100,7 +100,6 @@ public class MarketItem {
         return imageUrl;
     }
 
-
     public String getId() {
 
         return id;

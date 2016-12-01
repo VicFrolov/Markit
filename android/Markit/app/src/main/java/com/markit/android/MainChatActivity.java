@@ -67,12 +67,12 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         sendButton = (Button) findViewById(R.id.sendButton);
         editMessage = (EditText) findViewById(R.id.messageEdit);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainChatActivity.this, ChatListView.class));
-            }
-        });
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(MainChatActivity.this, ChatListView.class));
+//            }
+//        });
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
         chatRef = databaseRef.child("chats").child("messages");

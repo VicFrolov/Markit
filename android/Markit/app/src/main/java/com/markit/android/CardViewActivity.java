@@ -1,17 +1,16 @@
 package com.markit.android;
 
-import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -21,14 +20,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+<<<<<<< HEAD
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+=======
+import com.google.firebase.auth.FirebaseAuth;
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 
+<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+=======
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 public class CardViewActivity extends BaseActivity {
 
     private Bundle hubInfo;
@@ -101,6 +106,7 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
+<<<<<<< HEAD
           FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
              ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
              @Override
@@ -112,6 +118,31 @@ public class CardViewActivity extends BaseActivity {
                 }
              };
              recList.setAdapter(adapter);
+=======
+        FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
+                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+            @Override
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
+                cardViewHolder.title.setText(model.getTitle());
+
+                final String itemID = model.getId();
+                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
+                        //final String itemID = model.getItemID();
+                        itemDetail.putExtra("uid", itemID);
+                        CardViewActivity.this.startActivity(itemDetail);
+                    }
+                });
+                cardViewHolder.price.setText("$ " + model.getPrice());
+                cardViewHolder.uid.setText(model.getUid());
+                //cardViewHolder.id.setText(model.getId());
+                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+            }
+        };
+        recList.setAdapter(adapter);
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,6 +150,7 @@ public class CardViewActivity extends BaseActivity {
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,39 +170,23 @@ public class CardViewActivity extends BaseActivity {
         });
     }
 
-
-//    TODO this is the old school way of doing it, may want to upgrade
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_listings);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setOnQueryTextListener(
-                new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextChange (String newText) {
-                        //text has changed, apply filtering?
-//                        TODO this is just wrong, fix it
-                        mDatabaseReference.startAt(newText);
-
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        mDatabaseReference.startAt(query);
-                        return false;
-                    }
-
-                }
-        );
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//        // Assumes current activity is the searchable activity
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         return true;
     }
 
+    public void FindItem (View view) {
 
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -193,8 +209,13 @@ public class CardViewActivity extends BaseActivity {
         }
         if (id == R.id.change_hub) {
             FragmentManager fm = getSupportFragmentManager();
+<<<<<<< HEAD
             ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
             changeHubFragment.show(fm,"fragment_change_hub");
+=======
+//            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
+//            changeHubFragment.show(fm,"fragment_change_hub");
+>>>>>>> 6dc7e15e062c4d69c589070228a7e7ed8d68133b
             return true;
         }
         if (id == R.id.edit_tags) {
@@ -211,7 +232,9 @@ public class CardViewActivity extends BaseActivity {
             startActivity(new Intent(CardViewActivity.this, ChatListView.class));
             return true;
         }
-
+        if (id == R.id.sign_out) {
+            FirebaseAuth.getInstance().signOut();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -257,11 +280,15 @@ public class CardViewActivity extends BaseActivity {
 
 
 
+    public void setLoggedIn(boolean b) {
+        loggedIn = b;
+    }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView price;
         TextView uid;
+        TextView id;
         TextView tags;
         ImageView photo;
         Context context;
@@ -273,6 +300,8 @@ public class CardViewActivity extends BaseActivity {
             title = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
+            id = (TextView) itemView.findViewById(R.id.id);
         }
+
     }
 }

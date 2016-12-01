@@ -61,12 +61,14 @@
                 android:layout_weight="1" />
 
             <Button
-                android:text="Buy Item List"
+                android:text="Buy Item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buyItem"
                 android:layout_weight="1" />
+
         </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
+

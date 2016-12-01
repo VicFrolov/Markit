@@ -1,23 +1,46 @@
 package com.markit.android;
 
+import java.util.Date;
+
 /**
  * Created by annagotsis on 11/26/16.
  */
 
 public class Chat {
 
-    private String message;
-    private String user;
-    private long messageTime;
+    public String message;
+    public String sender;
+    public String recipient;
+    public long messageTime;
+    public Date mDate;
+
+    private int mRecipientOrSenderStatus;
+
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
-    private Chat() {
+    public Chat() {
     }
 
-    Chat(String message, String user) {
+    public Date getDate() {
+        return mDate;
+    }
+
+    public void setDate(Date date) {
+        mDate = date;
+    }
+
+    Chat(String message, String recipient, String sender) {
         this.message = message;
-        this.user = user;
+        this.sender = sender;
+        this.recipient = recipient;
+    }
+
+    public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
+        this.mRecipientOrSenderStatus = recipientOrSenderStatus;
+    }
+    public int getRecipientOrSenderStatus() {
+        return mRecipientOrSenderStatus;
     }
 
     public String getMessage() {
@@ -28,12 +51,20 @@ public class Chat {
         this.message = message;
     }
 
-    public String getUser() {
-        return user;
+    public String getSender() {
+        return sender;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setSender(String user) {
+        this.sender = sender;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public long getMessageTime() {
@@ -43,4 +74,6 @@ public class Chat {
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
     }
+
+
 }

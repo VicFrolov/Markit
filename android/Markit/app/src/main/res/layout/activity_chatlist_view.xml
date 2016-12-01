@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context = ".ChatListView">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messagesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18sp"/>
+
+
+</RelativeLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:paddingBottom="7dip">-->
+
+    <!--&lt;!&ndash;<ListView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentTop="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:dividerHeight="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:divider="@android:color/transparent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/list_of_messages"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginBottom="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;tools:listitem="@layout/list_item">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</ListView>&ndash;&gt;-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/messagesRecyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:textSize="18sp"/>-->
+
+
+<!--</RelativeLayout>-->
