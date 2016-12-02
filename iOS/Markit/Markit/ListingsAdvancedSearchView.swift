@@ -13,7 +13,7 @@ class ListingsAdvancedSearchView: UIView {
 
     @IBOutlet weak var keywords: UITextField!
     @IBOutlet weak var hubs: AutoCompleteTextField!
-    @IBOutlet weak var tags: UITextView!
+    @IBOutlet weak var tags: AutoCompleteTextField!
     @IBOutlet weak var minPrice: UITextField!
     @IBOutlet weak var maxPrice: UITextField!
     @IBOutlet weak var advancedSearchButton: UIButton!
