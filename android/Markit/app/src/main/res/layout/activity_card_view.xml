@@ -74,15 +74,15 @@
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
 
-        <android.support.v7.widget.RecyclerView
-        android:id="@+id/recList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
-        android:textSize="18sp"/>
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recList"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="200dp"-->
+        <!--android:textSize="18sp"/>-->
 
 
-        <!--<include layout="@layout/content_card_view" />-->
+        <include layout="@layout/content_card_view" />
 
 
     </android.support.design.widget.CoordinatorLayout>
