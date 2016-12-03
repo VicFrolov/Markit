@@ -11,6 +11,10 @@ import com.markit.android.WatchListFragment.OnFragmentInteractionListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+import com.markit.android.MarketItem;
+
+import com.firebase.client.Firebase;
+
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the

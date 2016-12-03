@@ -42,11 +42,6 @@ public class ItemDetail extends AppCompatActivity {
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot itemInfo : dataSnapshot.getChildren()) {
-//                    TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
-//                    uidTitle.setText(itemInfo.getValue(String.class));
-//                }
-//               Object specificItem = dataSnapshot.getValue();
                 TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);

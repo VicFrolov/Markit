@@ -28,8 +28,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
+import com.markit.android.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Registration2Activity extends AppCompatActivity {
@@ -41,7 +44,7 @@ public class Registration2Activity extends AppCompatActivity {
     private EditText lastNameView;
     private String lastName;
     private Spinner dropdown;
-    private String favorites;
+    private ArrayList<String> favorites;
     private AutoCompleteTextView hubView;
     private String hub;
     private Button finishRegistrationView;
@@ -51,34 +54,7 @@ public class Registration2Activity extends AppCompatActivity {
     private boolean IsconfigChange ;
     private DatabaseReference hubList;
 
-    @IgnoreExtraProperties
-    public class User {
-        public String firstName;
-        public String lastName;
-        public String hub;
-        public String username;
-        public String email;
-        public String favorites;
 
-        public User(){
-            firstName = "";
-            lastName = "";
-            username = "";
-            hub = "";
-            email = "";
-            favorites = "";
-        }
-
-        public User(String firstname, String lastname, String username, String email, String hub, String favorites) {
-            firstName = firstname;
-            lastName = lastname;
-            username = this.username;
-            email = this.email;
-            hub = this.hub;
-            favorites = this.favorites;
-
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,29 +105,29 @@ public class Registration2Activity extends AppCompatActivity {
         String displayName = fUser.getDisplayName();
         String email = fUser.getEmail();
         //String favorites = fUser.getFavorites();
+        favorites = new ArrayList<String>();
         postUserInfo(uid,displayName,email,favorites);
     }
 
 
 
-    public void postUserInfo(final String uid, final String username, final String email, final String favorites) {
+    public void postUserInfo(final String uid, final String username, final String email, final ArrayList<String> favorites) {
         Button finishRegistration = (Button) findViewById(R.id.finishRegistration);
         finishRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
 
-                User user = new User(firstName,lastName,username,email,hub,favorites);
+                //User user = new User(firstName,lastName,username,email,hub,favorites);
                 firstName = firstNameView.getText().toString();
                 lastName = lastNameView.getText().toString();
-                hub = hubView.getText().toString();
-                //mDatabase.child("usernames").child(uid).setValue(user);
-                mDatabase.child("users").child(uid).child("firstName").setValue(firstName);
-                mDatabase.child("users").child(uid).child("lastName").setValue(lastName);
-                mDatabase.child("users").child(uid).child("userHub").setValue(hub);
-                mDatabase.child("users").child(uid).child("email").setValue(email);
-                mDatabase.child("users").child(uid).child("username").setValue(username);
-                mDatabase.child("users").child(uid).child("favorites").setValue(favorites);
+                hub = dropdown.getSelectedItem().toString();
+                ArrayList<String> paymentPreference = new ArrayList<String>();
+                paymentPreference.add("Cash");
+                String date = new Date().toString();
+                favorites.add("None");
+                User user = new User(email,firstName,lastName,hub,username,uid,paymentPreference,date,favorites);
+                mDatabase.child("users").child(uid).setValue(user);
                 startActivity(new Intent(Registration2Activity.this,Profile.class));
             }
         });

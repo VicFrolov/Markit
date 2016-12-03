@@ -6,27 +6,45 @@ import java.util.Date;
  * Created by pcross on 10/15/16.
  */
 
-public class Item {
+public class MarketItem {
     private String description;
     private String price;
     private String[] tags;
     private String title;
     private String uid;
     private String id;
-    //private String username;
+    private String date;
     private String imageUrl;
 
-    public Item() {
-        this.description = "No description";
-        this.price = "0";
-        this.tags = new String[1];
-        tags[0] = "None";
-        this.title = "No Title";
-        this.uid = "None";
+    public MarketItem () {
+        
     }
 
+    public String getDate() {
+        return date;
+    }
 
-    public Item(String title, String description, String price, String uid, String id) {
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public MarketItem(String description, String price, String[] tags, String title, String uid, String id, String date, String imageUrl) {
+
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+        this.title = title;
+        this.uid = uid;
+        this.id = id;
+        this.date = date;
+        this.imageUrl = imageUrl;
+    }
+
+    public MarketItem(String title, String description, String price, String uid, String id) {
         this.title = title;
         this.description = description;
         this.price = price;

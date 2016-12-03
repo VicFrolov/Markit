@@ -2,46 +2,91 @@ package com.markit.android;
 
 import java.util.Date;
 
+import java.util.ArrayList;
+
 /**
  * Created by annagotsis on 11/30/16.
  */
 
 public class User {
 
-    private String dateCreated;
     private String email;
     private String firstName;
     private String lastName;
-    private String uid;
-    private String hub;
+    private String userHub;
     private String username;
-//    private String[] favorites;
-//    private String[] itemsForSale;
+    private String uid;
+    private ArrayList <String> paymentPreference;
+    private String dateCreated;
 
-
-    public User() {
-        this.email = "none";
-        this.firstName = "none";
-        this.lastName = "none";
-        this.uid = "none";
-        this.hub = "none";
-        this.username = "none";
-//        this.favorites = new String[1];
-//        favorites[0] = "none";
-//        this.itemsForSale = new String[1];
-//        itemsForSale[0] = "none";
-    }
-
-    public User(String email, String firstName, String lastName, String uid, String username) {
-        dateCreated = new Date().toString();
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid, ArrayList<String> paymentPreference, String dateCreated, ArrayList<String> favorites) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-//        this.favorites = favorites;
+        this.userHub = userHub;
+        this.username = username;
         this.uid = uid;
-        //this.hub = hub;
+        this.paymentPreference = paymentPreference;
+        this.dateCreated = dateCreated;
+        this.favorites = favorites;
+    }
+
+    private ArrayList <String> favorites;
+
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid, ArrayList<String> paymentPreference, String dateCreated) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
+        this.username = username;
+        this.uid = uid;
+        this.paymentPreference = paymentPreference;
+        this.dateCreated = dateCreated;
+    }
+
+    public User(String email, String firstName, String lastName, String userHub, String username, String uid) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
+        this.username = username;
+        this.uid = uid;
+    }
+
+    public User(String email, String firstName, String lastName, String userHub, String username) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userHub = userHub;
         this.username = username;
     }
+
+    public ArrayList<String> getPaymentPreference() {
+        return paymentPreference;
+    }
+
+    public void setPaymentPreference(ArrayList<String> paymentPreference) {
+        this.paymentPreference = paymentPreference;
+    }
+
+    public String getdateCreated() {
+        return dateCreated;
+    }
+
+    public void setdateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getUid() {
+
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+
 
     public String getEmail() {
         return email;
@@ -67,20 +112,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getHub() {
-        return hub;
-    }
-
-    public void setHub(String userHub) {
-        this.hub = userHub;
+    public String getUserHub() {
+        return userHub;
     }
 
     public String getUsername() {
@@ -91,23 +124,13 @@ public class User {
         this.username = username;
     }
 
-//    public String[] getItemsForSale() {
-//        return itemsForSale;
-//    }
-//
-//    public void setItemsForSale(String[] itemsForSale) {
-//        this.itemsForSale = itemsForSale;
-//    }
-//
-//    public String[] getFavorites() {
-//        return favorites;
-//    }
-//
-//    public void setFavorites(String[] favorites) {
-//        this.favorites = favorites;
-    //}
-
-    public void setDateCreated(String date) {
-        this.dateCreated = dateCreated;
+    public ArrayList<String> getFavorites() {
+        return favorites;
     }
+
+    public void setFavorites(ArrayList<String> favorites) {
+        this.favorites = favorites;
+    }
+
+
 }
