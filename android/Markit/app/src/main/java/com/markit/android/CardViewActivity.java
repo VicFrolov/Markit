@@ -47,6 +47,7 @@ public class CardViewActivity extends BaseActivity {
     private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
     DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
@@ -55,6 +56,11 @@ public class CardViewActivity extends BaseActivity {
     //private LinearLayoutManager llm;
     private Context context = this;
 
+    public interface OnGetDataListener {
+        public void onStart();
+        public void onSuccess(DataSnapshot data);
+        public void onFailed(DatabaseError error);
+    }
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
 //     mDatabaseReference = database.getReference().child("items");
@@ -225,23 +231,28 @@ public class CardViewActivity extends BaseActivity {
         recList.setLayoutManager(llm);
 
         DatabaseReference itemDatabase = mDatabaseReference.child(hub);
-        DatabaseReference userDatabase = database.getReference().child("users");
+        final DatabaseReference userDatabase = database.getReference().child("users");
+
         ValueEventListener itemListener = new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //@TODO Make it not hard-coded, Also tags needs to retrieve list from database
-                for (DataSnapshot items : dataSnapshot.getChildren()) {
+
+                for (DataSnapshot items : dataSnapshot.child("itemsByHub").child(hub).getChildren()) {
                     String itemName = (String) items.child("title").getValue();
                     String itemDescription = (String) items.child("description").getValue();
                     String itemPrice = (String) items.child("price").getValue();
-                    //String [] itemTags = {"desk"};//{(String) items.child("tags").getValue()};
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
-                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
-                    Log.i(TAG,itemName+"");
+                    DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
+                    String username = (String) usernameRef.getValue();
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
+
                     itemObjectArray.add(newItem);
+
+
                 }
-                
+
 
                 CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
 
@@ -253,7 +264,7 @@ public class CardViewActivity extends BaseActivity {
 
             }
         };
-        itemDatabase.addListenerForSingleValueEvent(itemListener);
+        rootDatabase.addListenerForSingleValueEvent(itemListener);
 
     }
 

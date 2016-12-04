@@ -57,7 +57,7 @@ public class CardViewAdapter extends
         final String itemID = item.getId();
         title.setText(item.getTitle());
         price.setText("$ " + item.getPrice());
-        uid.setText(item.getDescription());
+        uid.setText(item.getUsername());
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
