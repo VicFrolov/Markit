@@ -14,15 +14,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
 
 
 public class ItemDetail extends AppCompatActivity {
-    private String uid;
+    private String itemID;
     private String itemName;
     private String itemPrice;
     private String item;
     private DatabaseReference itemDatabase;
+    private FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +33,15 @@ public class ItemDetail extends AppCompatActivity {
         setContentView(R.layout.activity_item_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Bundle uidInfo = getIntent().getExtras();
+        Bundle idInfo = getIntent().getExtras();
 
-        if (uidInfo != null) {
-            uid = uidInfo.getString("uid");
+        if (idInfo != null) {
+            itemID = idInfo.getString("id");
         } else{
-            uid = "-KX9d_FL3zJVZgvnl8TW";
+            itemID = "-KX9d_FL3zJVZgvnl8TW";
         }
-        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
+        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
+        storage = FirebaseStorage.getInstance();
 
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override

@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 
 
 public class CardViewActivity extends BaseActivity {
@@ -42,7 +44,7 @@ public class CardViewActivity extends BaseActivity {
     private static final String TAG = "CardView";
     private LinearLayoutManager llm;
     private String hub;
-
+    private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
@@ -91,37 +93,38 @@ public class CardViewActivity extends BaseActivity {
 
         setContentView(R.layout.activity_card_view);
 
-        recList = (RecyclerView) findViewById(R.id.recList);
-        if (recList != null) {
-            recList.setHasFixedSize(true);
-        }
-
-        llm = new LinearLayoutManager(this);
-        recList.setLayoutManager(llm);
-
-        FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
-            @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
-                cardViewHolder.title.setText(model.getTitle());
-
-                final String itemID = model.getId();
-                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
-                        //final String itemID = model.getItemID();
-                        itemDetail.putExtra("uid", itemID);
-                        CardViewActivity.this.startActivity(itemDetail);
-                    }
-                });
-                cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getUid());
-                //cardViewHolder.id.setText(model.getId());
-                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-            }
-        };
-        recList.setAdapter(adapter);
+//        recList = (RecyclerView) findViewById(R.id.recList);
+//        if (recList != null) {
+//            recList.setHasFixedSize(true);
+//        }
+//
+//        llm = new LinearLayoutManager(this);
+//        recList.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+//                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
+//            @Override
+//            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
+//
+//                cardViewHolder.title.setText(model.getTitle());
+//
+//                final String itemID = model.getId();
+//                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
+//                        //final String itemID = model.getItemID();
+//                        itemDetail.putExtra("id", itemID);
+//                        CardViewActivity.this.startActivity(itemDetail);
+//                    }
+//                });
+//                cardViewHolder.price.setText("$ " + model.getPrice());
+//                cardViewHolder.uid.setText(model.getDescription());
+//                //cardViewHolder.id.setText(model.getId());
+//                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+//            }
+//        };
+//        recList.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -213,41 +216,50 @@ public class CardViewActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void populateCardView (String hub) {
-        RecyclerView recList;
-        recList = (RecyclerView) findViewById(R.id.recList);
+    public void populateCardView (final String hub) {
+        final RecyclerView recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
             recList.setHasFixedSize(true);
         }
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
-                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class,
-                mDatabaseReference.child("itemsByHub").child(hub)) {
+        DatabaseReference itemDatabase = mDatabaseReference.child(hub);
+        DatabaseReference userDatabase = database.getReference().child("users");
+        ValueEventListener itemListener = new ValueEventListener() {
             @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, final MarketItem model, int position) {
-                cardViewHolder.title.setText(model.getTitle());
-                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    String itemID = model.getId();
-                    @Override
-                    public void onClick(View view) {
-                        Intent itemDetail = new Intent(CardViewActivity.this,ItemDetail.class);
-                        //final String itemID = model.getItemID();
-                        itemDetail.putExtra("uid", itemID);
-                        CardViewActivity.this.startActivity(itemDetail);
-                    }
-                });
-                cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getUid());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //@TODO Make it not hard-coded, Also tags needs to retrieve list from database
+                for (DataSnapshot items : dataSnapshot.getChildren()) {
+                    String itemName = (String) items.child("title").getValue();
+                    String itemDescription = (String) items.child("description").getValue();
+                    String itemPrice = (String) items.child("price").getValue();
+                    //String [] itemTags = {"desk"};//{(String) items.child("tags").getValue()};
+                    String itemUID = (String) items.child("uid").getValue();
+                    String itemID = (String) items.child("id").getValue();
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    Log.i(TAG,itemName+"");
+                    itemObjectArray.add(newItem);
+                }
+                
+
+                CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
+
+                recList.setAdapter(iAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         };
-        recList.setAdapter(adapter);
+        itemDatabase.addListenerForSingleValueEvent(itemListener);
+
     }
 
     @Override
     public void onStart() {
+        populateCardView(hub);
         super.onStart();
     }
 

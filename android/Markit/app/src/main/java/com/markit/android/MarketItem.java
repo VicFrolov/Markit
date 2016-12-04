@@ -1,5 +1,6 @@
 package com.markit.android;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
 public class MarketItem {
     private String description;
     private String price;
-    private String[] tags;
+    private ArrayList<String> tags;
     private String title;
     private String uid;
     private String id;
@@ -32,7 +33,7 @@ public class MarketItem {
         this.imageUrl = imageUrl;
     }
 
-    public MarketItem(String description, String price, String[] tags, String title, String uid, String id, String date, String imageUrl) {
+    public MarketItem(String description, String price, ArrayList<String> tags, String title, String uid, String id, String date, String imageUrl) {
 
         this.description = description;
         this.price = price;
@@ -71,11 +72,11 @@ public class MarketItem {
         this.price = price;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 

@@ -38,29 +38,7 @@ public class BaseActivity extends AppCompatActivity
         System.out.println("CREATING BASE ACTIVITY");
         super.onCreate(savedInstanceState);
         itemDatabase = FirebaseDatabase.getInstance().getReference().child("itemsByHub");
-        ValueEventListener itemListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //@TODO Make it not hard-coded, Also tags needs to retrieve list from database
-                for (DataSnapshot items : dataSnapshot.child("Loyola Marymount University").getChildren()) {
-                    String itemName = (String) items.child("title").getValue();
-                    String itemDescription = (String) items.child("description").getValue();
-                    String itemPrice = (String) items.child("price").getValue();
-                    //String [] itemTags = {(String) items.child("tags").getValue()};
-                    String itemUID = (String) items.child("uid").getValue();
-                    String itemID = (String) items.child("id").getValue();
-                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
-                    itemObjectArray.add(newItem);
-                }
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
 
     }
     @Override
@@ -116,15 +94,34 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    public ArrayList <MarketItem> getItemsByHub() {
-        return itemObjectArray;
+    public void getItemsByHub() {
+        ValueEventListener itemListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //@TODO Make it not hard-coded, Also tags needs to retrieve list from database
+                for (DataSnapshot items : dataSnapshot.child("Loyola Marymount University").getChildren()) {
+                    String itemName = (String) items.child("title").getValue();
+                    String itemDescription = (String) items.child("description").getValue();
+                    String itemPrice = (String) items.child("price").getValue();
+                    //String [] itemTags = {(String) items.child("tags").getValue()};
+                    String itemUID = (String) items.child("uid").getValue();
+                    String itemID = (String) items.child("id").getValue();
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    itemObjectArray.add(newItem);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        itemDatabase.addListenerForSingleValueEvent(itemListener);
+
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.base, menu);
-//        return true;
-//    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -173,9 +170,8 @@ public class BaseActivity extends AppCompatActivity
 
 
     @Override
-    //TODO set Title as a string resource -Peyton
     public void setTitle(CharSequence title) {
-        super.setTitle("Markeet");
+        super.setTitle(R.string.app_name);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
