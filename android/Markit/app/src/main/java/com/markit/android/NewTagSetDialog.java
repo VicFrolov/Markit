@@ -11,20 +11,20 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Joseph on 11/19/2016.
  */
 
 public class NewTagSetDialog extends DialogFragment {
 
-    private String[] tags;
+    private ArrayList<String> tags;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        tags = new String[] {
-          "table", "ball", "wax", "iPhone", "lamp", "book", "textbook", "miniFridge", "MacBook"
-        };
+        tags = new ArrayList<String>();
         View view = inflater.inflate(R.layout.new_tag_set_dialog, container, false);
         final MultiAutoCompleteTextView tagInput = (MultiAutoCompleteTextView) view.findViewById(R.id.tagInput);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, tags);
