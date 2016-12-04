@@ -270,6 +270,9 @@ public class CardViewActivity extends BaseActivity {
 
     @Override
     public void onStart() {
+        if (hub == null) {
+            hub = "Loyola Marymount University";
+        }
         populateCardView(hub);
         super.onStart();
     }
