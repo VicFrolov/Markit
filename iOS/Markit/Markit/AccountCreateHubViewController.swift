@@ -14,6 +14,7 @@ class AccountCreateHubViewController: UIViewController {
     var ref: FIRDatabaseReference!
     @IBOutlet weak var hub:UITextField!
     @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var paymentPreference: UITextField!
     @IBOutlet weak var markedHub:UIImageView!
     @IBOutlet weak var markedUsername: UIImageView!
     @IBOutlet weak var markedPaymentPreference: UIImageView!
@@ -22,10 +23,11 @@ class AccountCreateHubViewController: UIViewController {
     @IBOutlet weak var paymentVenmoButton: UIButton!
     @IBOutlet weak var paymentOtherButton: UIButton!
     var userInfo: [String]!
+    var paymentPreferenceDict = [String:String]()
     
-    @IBOutlet weak var paymentPreference: UITextField!
+
     @IBAction func finishSignup(_ sender: AnyObject) {
-        if !markedHub.isHidden && !markedUsername.isHidden {
+        if !markedHub.isHidden && !markedUsername.isHidden && !markedPaymentPreference.isHidden {
             FIRAuth.auth()?.createUser(withEmail: userInfo[2], password: userInfo[3]) { (user, error) in
                 
                 let date = Date()
@@ -35,7 +37,6 @@ class AccountCreateHubViewController: UIViewController {
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
                 let uidRef = self.ref.child("/users/" + user!.uid)
-                let paymentPreference = ["0": "cash"]
                 let userJson = ["dateCreated"       : currentDate,
                                 "email"             : self.userInfo[2],
                                 "favorites"         : "",
@@ -44,7 +45,7 @@ class AccountCreateHubViewController: UIViewController {
                                 "uid"               : user!.uid,
                                 "userHub"           : self.hub.text!,
                                 "username"          : self.username.text!,
-                                "paymentPreference" : paymentPreference] as [String : Any]
+                                "paymentPreference" : self.paymentPreferenceDict] as [String : Any]
                 uidRef.setValue(userJson)
                 
                 FIRAuth.auth()!.signIn(withEmail: self.userInfo[2], password: self.userInfo[3]){ (user, error) in
@@ -66,13 +67,46 @@ class AccountCreateHubViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.ref = FIRDatabase.database().reference()
+        
         markedHub.isHidden = true
         markedUsername.isHidden = true
         markedPaymentPreference.isHidden = true
         badUsername.isHidden = true
+        
         drawButtonWhiteBorder(button: paymentCashButton)
         drawButtonWhiteBorder(button: paymentVenmoButton)
         drawButtonWhiteBorder(button: paymentOtherButton)
+        
+    }
+    
+    @IBAction func cashButtonSelected(sender: AnyObject) {
+        buttonSelect(button: paymentCashButton)
+        paymentPreferenceDict["0"] = paymentCashButton.isSelected ? "cash" : nil
+    }
+    
+    @IBAction func venmoButtonSelected(sender: AnyObject) {
+        buttonSelect(button: paymentVenmoButton)
+        paymentPreferenceDict["1"] = paymentVenmoButton.isSelected ? "venmo" : nil
+    }
+    
+    @IBAction func otherButtonSelected(sender: AnyObject) {
+        buttonSelect(button: paymentOtherButton)
+        paymentPreferenceDict["2"] = paymentOtherButton.isSelected ? "other" : nil
+    }
+    
+    func buttonSelect(button: UIButton) {
+        if (!button.isSelected) {
+            button.backgroundColor = UIColor.white
+            button.setTitleColor(UIColor.black, for: .selected)
+            button.isSelected = true
+            self.markedPaymentPreference.isHidden = false
+        } else {
+            button.backgroundColor = UIColor.clear
+            button.isSelected = false
+        }
+        if (!paymentCashButton.isSelected && !paymentVenmoButton.isSelected && !paymentOtherButton.isSelected) {
+            self.markedPaymentPreference.isHidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -138,6 +172,7 @@ class AccountCreateHubViewController: UIViewController {
         hub.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
         username.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
         paymentPreference.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
+        
         drawWhiteBottomBorder(textField: hub)
         drawWhiteBottomBorder(textField: username)
         drawWhiteBottomBorder(textField: paymentPreference)
