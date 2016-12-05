@@ -474,10 +474,10 @@
             </objects>
             <point key="canvasLocation" x="3374" y="2354"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Initial Tab Bar Controller-->
         <scene sceneID="5fr-WQ-Dlb">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Qwb-6j-Hhy" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Qwb-6j-Hhy" customClass="InitialTabBarController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="SAR-cl-91Z">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -2248,6 +2248,6 @@
         <image name="star" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZcE-Oh-A50"/>
+        <segue reference="MI6-Wz-TrZ"/>
     </inferredMetricsTieBreakers>
 </document>
