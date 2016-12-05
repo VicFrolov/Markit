@@ -45,6 +45,7 @@ class AccountCreateHubViewController: UIViewController {
                                 "uid"               : user!.uid,
                                 "userHub"           : self.hub.text!,
                                 "username"          : self.username.text!,
+                                "rating"            : "none",
                                 "paymentPreference" : self.paymentPreferenceDict] as [String : Any]
                 uidRef.setValue(userJson)
                 

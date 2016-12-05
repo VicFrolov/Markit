@@ -13,7 +13,6 @@ class LoggedInOrNotLoggedInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //definesPresentationContext = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

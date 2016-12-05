@@ -156,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */,
+				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
@@ -172,7 +173,6 @@
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
 				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
-				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				128399BF1DEEA23B00152948 /* ChatViewController.swift */,
 				12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */,
 				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,

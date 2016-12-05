@@ -11,34 +11,33 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class ProfileViewController: UIViewController {
-    @IBOutlet weak var star1: UIImageView!
-    @IBOutlet weak var star5: UIImageView!
-    @IBOutlet weak var star4: UIImageView!
-    @IBOutlet weak var star3: UIImageView!
-    @IBOutlet weak var star2: UIImageView!
+    @IBOutlet var collectionOfStars: Array<UIImageView>?
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var notificationsButton: UIButton!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var profileBackGround: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var firstLastNameTextField: UILabel!
-    @IBOutlet weak var usernameTextField: UILabel!
-    @IBOutlet weak var emailTextField: UILabel!
-    @IBOutlet weak var hubTextField: UILabel!
+    @IBOutlet weak var firstLastNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var hubLabel: UILabel!
+    @IBOutlet weak var noRatingLabel: UILabel!
+    @IBOutlet weak var otherPaymentLabel: UILabel!
+    @IBOutlet weak var venmoPaymentLabel: UILabel!
+    @IBOutlet weak var cashPaymentLabel: UILabel!
     var ref: FIRDatabaseReference!
     var firstName = "", lastName = ""
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         drawButtonWhiteBorder(button: editButton)
         drawButtonWhiteBorder(button: logOutButton)
-        self.star1.isHidden = true
-        self.star2.isHidden = true
-        self.star3.isHidden = true
-        self.star4.isHidden = true
-        self.star5.isHidden = true
+        
+        for star in collectionOfStars! {
+            star.isHidden = true
+        }
         self.pageControl.currentPageIndicatorTintColor = UIColor.red
         self.pageControl.pageIndicatorTintColor = UIColor.black
         definesPresentationContext = true
@@ -49,9 +48,9 @@ class ProfileViewController: UIViewController {
             if let destination = segue.destination as? EditProfileViewController {
                 destination.firstName = self.firstName
                 destination.lastName  = self.lastName
-                destination.email     = self.emailTextField.text!
-                destination.username  = self.usernameTextField.text!
-                destination.hub       = self.hubTextField.text!
+                destination.email     = self.emailLabel.text!
+                destination.username  = self.usernameLabel.text!
+                destination.hub       = self.hubLabel.text!
             }
         }
         if let profilePageViewController = segue.destination as? ProfilePageViewController {
@@ -60,6 +59,10 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func unwindEditProfile(segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func unwindNotifications(segue: UIStoryboardSegue) {
         
     }
     
@@ -94,6 +97,11 @@ class ProfileViewController: UIViewController {
     func updateProfile() {
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
+        ref.child("users").child(userID!).child("paymentPreference").observeSingleEvent(of: .value, with: { (snapshot) in
+            print("APPLE \(paymentPreference)")
+        }) { (error) in
+            print(error.localizedDescription)
+        }
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
@@ -103,11 +111,22 @@ class ProfileViewController: UIViewController {
             let name = "\(self.firstName) \(self.lastName)"
             let email = value?["email"] as? String ?? ""
             let hub = value?["userHub"] as? String ?? ""
+            let rating = value?["rating"] as? String ?? "none"
+            let stars = Int(rating)! - 1
             
-            self.firstLastNameTextField.text = name
-            self.usernameTextField.text = username
-            self.emailTextField.text = email
-            self.hubTextField.text = hub
+            self.firstLastNameLabel.text = name
+            self.usernameLabel.text = username
+            self.emailLabel.text = email
+            self.hubLabel.text = hub
+            
+            if (rating != "none" && stars <= 4) {
+                for i in 0...stars {
+                    self.collectionOfStars![i].isHidden = false
+                }
+                self.noRatingLabel.isHidden = true
+            } else {
+                self.noRatingLabel.isHidden = false
+            }
             
         }) { (error) in
             print(error.localizedDescription)

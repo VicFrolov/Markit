@@ -12,7 +12,10 @@ import Firebase
 class InitialTabBarController: UITabBarController {
     
     override func viewDidLoad() {
-        FIRAuth.auth()?.signInAnonymously() { (user, error) in
+        if FIRAuth.auth()?.currentUser != nil {
+        } else {
+            FIRAuth.auth()?.signInAnonymously() { (user, error) in
+            }
         }
     }
 }
