@@ -93,6 +93,10 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
+var getSuggestedItemsInHub = function (hub, uid) {
+    database.ref('itemsByHub' + hub + '/')
+}
+
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -152,7 +156,6 @@ var getFavoriteObjects = function (callback) {
 };
 
 
-
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
@@ -175,7 +178,21 @@ var addNewListingToProfile = function(uid, itemID) {
 
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
+
+    //update suggested tags
+    console.log('test')
+    itemsRef.child(itemID).once('value').then(function(snapshot) {
+        console.log(snapshot.val())
+        item = snapshot.val()
+        itemTags = item['tags']
+        for (let i = 0; i < itemTags.length; i += 1) {
+            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
+        }
+
+    });
+
     itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+
 };
 
 
@@ -259,5 +276,6 @@ module.exports = {
     getImage,
     getRecentItemsInHub,
     getUserInfo,
-    updateUserInfo
+    updateUserInfo,
+    getSuggestedItemsInHub
 };

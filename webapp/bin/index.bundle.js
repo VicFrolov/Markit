@@ -179,6 +179,10 @@
 	    });
 	};
 
+	var getSuggestedItemsInHub = function (hub, uid) {
+	    database.ref('itemsByHub' + hub + '/')
+	}
+
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -238,7 +242,6 @@
 	};
 
 
-
 	var removeFavorite = function (item) {
 	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
 	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
@@ -261,7 +264,21 @@
 
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
+
+	    //update suggested tags
+	    console.log('test')
+	    itemsRef.child(itemID).once('value').then(function(snapshot) {
+	        console.log(snapshot.val())
+	        item = snapshot.val()
+	        itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
+	        }
+
+	    });
+
 	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+
 	};
 
 
@@ -345,7 +362,8 @@
 	    getImage,
 	    getRecentItemsInHub,
 	    getUserInfo,
-	    updateUserInfo
+	    updateUserInfo,
+	    getSuggestedItemsInHub
 	};
 
 /***/ },
@@ -2239,6 +2257,7 @@
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
+	    var getSuggestedItemsInHub = __webpack_require__(2)['getSuggestedItemsInHub'];
 
 
 
@@ -2270,6 +2289,7 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	            getSuggestedItemsInHub();
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 
