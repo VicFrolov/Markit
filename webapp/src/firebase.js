@@ -159,6 +159,16 @@ var getFavoriteObjects = function (callback) {
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+
+    itemsRef.child(item).once('value').then(function(snapshot) {
+        item = snapshot.val()
+        itemTags = item['tags']
+        for (let i = 0; i < itemTags.length; i += 1) {
+            usersRef.child(auth.currentUser.uid + 
+                '/tagSuggestions/' + itemTags[i]).set(0.5);
+        }
+
+    });    
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
@@ -178,20 +188,17 @@ var addNewListingToProfile = function(uid, itemID) {
 
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
-
+    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+    
     //update suggested tags
-    console.log('test')
     itemsRef.child(itemID).once('value').then(function(snapshot) {
-        console.log(snapshot.val())
         item = snapshot.val()
         itemTags = item['tags']
         for (let i = 0; i < itemTags.length; i += 1) {
             usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
         }
 
-    });
-
-    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+    });    
 
 };
 

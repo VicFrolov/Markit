@@ -245,6 +245,16 @@
 	var removeFavorite = function (item) {
 	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
 	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+
+	    itemsRef.child(item).once('value').then(function(snapshot) {
+	        item = snapshot.val()
+	        itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(auth.currentUser.uid + 
+	                '/tagSuggestions/' + itemTags[i]).set(0.5);
+	        }
+
+	    });    
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
