@@ -97,11 +97,13 @@ class ProfileViewController: UIViewController {
     func updateProfile() {
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
-        ref.child("users").child(userID!).child("paymentPreference").observeSingleEvent(of: .value, with: { (snapshot) in
+        /*
+        ref.child("/users/\(userID!)").child("paymentPreference").observeSingleEvent(of: .value, with: { (snapshot) in
             print("APPLE \(paymentPreference)")
         }) { (error) in
             print(error.localizedDescription)
         }
+ */
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
@@ -113,6 +115,8 @@ class ProfileViewController: UIViewController {
             let hub = value?["userHub"] as? String ?? ""
             let rating = value?["rating"] as? String ?? "none"
             let stars = Int(rating)! - 1
+            let paymentPreference = value?["paymentPreference"] as! NSDictionary
+            print("APPLE \(paymentPreference)")
             
             self.firstLastNameLabel.text = name
             self.usernameLabel.text = username
