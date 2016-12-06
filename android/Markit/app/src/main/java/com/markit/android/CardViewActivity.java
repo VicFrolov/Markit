@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,15 +37,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class CardViewActivity extends BaseActivity {
+public class CardViewActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private Bundle hubInfo;
     private static final String TAG = "CardView";
     private LinearLayoutManager llm;
     private String hub;
     private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
+    private CardViewAdapter iAdapter;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference rootDatabase = database.getReference();
@@ -163,14 +166,66 @@ public class CardViewActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
 
+        final MenuItem item = menu.findItem(R.id.search_listings);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+        //SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String query) {
+                final List<MarketItem> filteredItemList = filter(itemObjectArray, query);
+                if (filteredItemList.size() > 0) {
+                    iAdapter.setFilter(filteredItemList);
+                    return true;
+                } else {
+                    Toast.makeText(CardViewActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+           // populateCardView(hub);
+//            iAdapter = new CardViewAdapter(CardViewActivity.this, filteredItemList);
+//            recList.setLayoutManager(new LinearLayoutManager(CardViewActivity.this);
+//            recList.setAdapter(iAdapter);
+//            iAdapter.notifyDataSetChanged();
+//            return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String newText){
+                return false;
+            }
+
+
+        private List<MarketItem> filter(List<MarketItem> models, String query){
+            query = query.toLowerCase();
+
+            final ArrayList<MarketItem> filteredItemList = new ArrayList<>();
+            for (MarketItem model : models) {
+                final String text = model.getTitle().toLowerCase();
+                if (text.contains(query)) {
+                    filteredItemList.add(model);
+                }
+            }
+
+            populateCardView(hub);
+            iAdapter = new CardViewAdapter(filteredItemList, CardViewActivity.this);
+            recList.setLayoutManager(new LinearLayoutManager(CardViewActivity.this));
+            recList.setAdapter(iAdapter);
+            iAdapter.notifyDataSetChanged();
+            return filteredItemList;
+        }
+
+
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 //        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 //        // Assumes current activity is the searchable activity
 //        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 //        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
-        return true;
-    }
+//        return true;
+//    }
 
     public void FindItem (View view) {
 
@@ -230,8 +285,8 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-        DatabaseReference itemDatabase = mDatabaseReference.child(hub);
-        final DatabaseReference userDatabase = database.getReference().child("users");
+//        DatabaseReference itemDatabase = mDatabaseReference.child(hub);
+//        final DatabaseReference userDatabase = database.getReference().child("users");
 
         ValueEventListener itemListener = new ValueEventListener() {
 
@@ -250,12 +305,8 @@ public class CardViewActivity extends BaseActivity {
 
                     itemObjectArray.add(newItem);
 
-
                 }
-
-
-                CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
-
+                CardViewAdapter iAdapter = new CardViewAdapter(itemObjectArray, CardViewActivity.this);
                 recList.setAdapter(iAdapter);
             }
 
@@ -277,31 +328,28 @@ public class CardViewActivity extends BaseActivity {
         super.onStart();
     }
 
-
-
-
     public void setLoggedIn(boolean b) {
         loggedIn = b;
     }
 
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView price;
-        TextView uid;
-        TextView id;
-        TextView tags;
-        ImageView photo;
-        Context context;
-
-        public CardViewHolder(View itemView) {
-            super(itemView);
-            context = itemView.getContext();
-            photo = (ImageView) itemView.findViewById(R.id.photo);
-            title = (TextView) itemView.findViewById(R.id.title);
-            price = (TextView) itemView.findViewById(R.id.price);
-            uid = (TextView) itemView.findViewById(R.id.username);
-            id = (TextView) itemView.findViewById(R.id.id);
-        }
-
-    }
+//    public static class CardViewHolder extends RecyclerView.ViewHolder {
+//        TextView title;
+//        TextView price;
+//        TextView uid;
+//        TextView id;
+//        TextView tags;
+//        ImageView photo;
+//        Context context;
+//
+//        public CardViewHolder(View itemView) {
+//            super(itemView);
+//            context = itemView.getContext();
+//            photo = (ImageView) itemView.findViewById(R.id.photo);
+//            title = (TextView) itemView.findViewById(R.id.title);
+//            price = (TextView) itemView.findViewById(R.id.price);
+//            uid = (TextView) itemView.findViewById(R.id.username);
+//            id = (TextView) itemView.findViewById(R.id.id);
+//        }
+//
+//    }
 }

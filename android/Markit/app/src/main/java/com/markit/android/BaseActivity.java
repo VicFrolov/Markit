@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class BaseActivity extends AppCompatActivity
+public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ChangeHubFragment.ChangeHubListener {
 
     public DrawerLayout layout;
@@ -122,6 +123,10 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+
+    public abstract boolean onQueryTextSubmit(String query);
+
+    public abstract boolean onQueryTextChange(String newText);
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

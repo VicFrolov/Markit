@@ -9,14 +9,14 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context = ".WatchListActivity">
+    tools:context = ".WatchListFragment">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/listView"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/watchlistRecyclerView"
@@ -27,6 +27,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.markit.android.WatchListFragment"
-    tools:listitem="@layout/fragment_watchlist2" />
+    tools:listitem="@layout/watchlist_item" />
 
 </RelativeLayout>

@@ -20,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 
 
-public class ItemDetail extends BaseActivity {
+public class ItemDetail extends CardViewActivity {
     private String itemID;
     private String itemName;
     private String itemPrice;

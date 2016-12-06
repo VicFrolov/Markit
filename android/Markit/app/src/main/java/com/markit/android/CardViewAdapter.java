@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by pcross on 12/3/16.
@@ -21,10 +25,11 @@ import java.util.ArrayList;
 public class CardViewAdapter extends
         RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
-    private ArrayList<MarketItem> items;
+    private List<MarketItem> items;
     private Context context;
+    ArrayList<MarketItem> models;
 
-    public CardViewAdapter(Context context, ArrayList<MarketItem> items) {
+    public CardViewAdapter(ArrayList<MarketItem> items, Context context) {
         this.context = context;
         this.items = items;
     }
@@ -52,7 +57,7 @@ public class CardViewAdapter extends
         TextView title = viewHolder.title;
         TextView price = viewHolder.price;
         TextView uid = viewHolder.uid;
-        TextView id  = viewHolder.id;
+        TextView id = viewHolder.id;
         ImageView photo = viewHolder.photo;
         final String itemID = item.getId();
         title.setText(item.getTitle());
@@ -81,7 +86,7 @@ public class CardViewAdapter extends
         TextView price;
         TextView uid;
         TextView id;
-        TextView tags;
+        //TextView tags;
         ImageView photo;
         Context context;
 
@@ -95,6 +100,73 @@ public class CardViewAdapter extends
             id = (TextView) itemView.findViewById(R.id.id);
         }
     }
+
+    public void setFilter(List<MarketItem> models) {
+        models = new ArrayList<>();
+        models.addAll(models);
+        notifyDataSetChanged();
+    }
+}
+
+//    private final List<MarketItem> filteredItems;
+//
+//    private ItemFilter itemFilter;
+//
+//    public CardViewAdapter(Context context) {
+//        this.items =new ArrayList<>();
+//        this.filteredItems = new ArrayList<>();
+//    }
+//
+//    @Override
+//    public Filter getFilter() {
+//        if(itemFilter == null)
+//            itemFilter = new ItemFilter(this, items);
+//        return itemFilter;
+//    }
+//
+//    private static class ItemFilter extends Filter {
+//
+//        private final CardViewAdapter adapter;
+//
+//        private final List<MarketItem> originalList;
+//
+//        private final List<MarketItem> filteredList;
+//
+//        private ItemFilter(CardViewAdapter adapter, List<MarketItem> originalList) {
+//            super();
+//            this.adapter = adapter;
+//            this.originalList = new LinkedList<>(originalList);
+//            this.filteredList = new ArrayList<>();
+//        }
+//
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            filteredList.clear();
+//            final FilterResults results = new FilterResults();
+//
+//            if (constraint.length() == 0) {
+//                filteredList.addAll(originalList);
+//            } else {
+//                final String filterPattern = constraint.toString().toLowerCase().trim();
+//
+//                for (final MarketItem item : originalList) {
+//                    if (item.getTitle().contains(filterPattern)) {
+//                        filteredList.add(item);
+//                    }
+//                }
+//            }
+//            results.values = filteredList;
+//            results.count = filteredList.size();
+//            return results;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            adapter.filteredItems.clear();
+//            adapter.filteredItems.addAll((ArrayList<MarketItem>) results.values);
+//            adapter.notifyDataSetChanged();
+//        }
+//    }
 
 
 //    Context context;
@@ -131,4 +203,4 @@ public class CardViewAdapter extends
 //        Picasso.with(context).load(item.getImageUrl()).into(photo);
 //        return convertView;
 //    }
-}
+

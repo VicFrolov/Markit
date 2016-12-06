@@ -29,15 +29,22 @@ import com.markit.android.dummy.DummyContent.DummyItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+import java.util.List;
 
-    public void onListFragmentInteraction(DummyItem d) {
+public class Profile extends CardViewActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+
+    public void onListFragmentInteraction(DummyItem item) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
 
+//    public void OnListItemSelectedListener(MarketItem item) {
+//
+//    }
     public void onFragmentInteraction(Uri uri) {
 //        TODO also figure out what the fuck this thing is supposed to do
     }
+
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
