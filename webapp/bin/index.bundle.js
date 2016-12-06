@@ -374,26 +374,45 @@
 	            let itemsInHub = results[0];
 	            let userSuggestions = results[1];
 
-	            // iterate through each item, setting derivative values to user
-	            for (let item in itemsInHub) {
-	                let itemTagCount = Object.keys(itemsInHub[item]['tags']).length;
-	                let tagMatches = 0;
-	                let tagWeight = [];
+	            if (userSuggestions) {
+	                // iterate through each item, setting derivative values to user
+	                for (let item in itemsInHub) {
+	                    let itemTagCount = itemsInHub[item]['tags'].length;
+	                    let tagMatches = {};
+	                    let tagMatchCount = 0;
+	                    let tagWeight = 0;
+	                    let itemTags = itemsInHub[item]['tags'];
 
-	                itemsInHub[item]['tags'].forEach(function(tag) {
-	                    // console.log(tag);
-	                    if (tag in userSuggestions) {
-	                        tagMatches += 1;
-	                        tagWeight.push(userSuggestions[tag]);
-	                        console.log(tagWeight)
-	                        console.log(`${tag} is part of suggestions`);
-	                    } else {
-	                        console.log(`${tag} isn't part of suggestions`);
+	                    itemTags.forEach(function(tag) {
+	                        if (tag in userSuggestions) {
+	                            tagMatches[tag] = userSuggestions[tag];
+	                            tagWeight += userSuggestions[tag];
+	                            tagMatchCount += 1;
+	                        }
+	                    });
+
+	                    // tagWeight is now the average weight of all tags
+	                    // (e.g. chair: [0.5, 0, 1], then each tag has a TAGWEIGHT
+	                    //  of 0.5
+	                    tagWeight /= itemTagCount;
+	                    console.log(itemsInHub[item]['tags']);
+	                    console.log(tagWeight)
+	                    console.log(tagMatches)
+
+	                    if (tagMatchCount === 0) {
+	                        continue;
 	                    }
 
-	                });
-
-	                console.log("")
+	                    itemTags.forEach(function(tag) {
+	                        if (tag in userSuggestions && userSuggestions[tag] < 1) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set((tagWeight + userSuggestions[tag]) / 2);
+	                        } else if (!(tag in userSuggestions)) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set(tagWeight);
+	                        }
+	                    });
+	                    
+	                    console.log("")
+	                }
 	            }
 	        });
 
