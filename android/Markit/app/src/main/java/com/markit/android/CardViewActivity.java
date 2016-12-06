@@ -3,11 +3,14 @@ package com.markit.android;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -52,6 +55,8 @@ public class CardViewActivity extends BaseActivity {
     private RecyclerView recList;
     //private LinearLayoutManager llm;
     private Context context = this;
+//    private android.app.ActionBar actionBar = getActionBar();
+
 
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,6 +69,7 @@ public class CardViewActivity extends BaseActivity {
         super.setContentView(R.layout.activity_card_view);
         hub = "Loyola Marymount University";
         hubInfo = getIntent().getExtras();
+
         if (hubInfo == null && isLoggedIn()) {
             ValueEventListener getHub = new ValueEventListener() {
                 @Override
@@ -118,7 +124,12 @@ public class CardViewActivity extends BaseActivity {
                 cardViewHolder.price.setText("$ " + model.getPrice());
                 cardViewHolder.uid.setText(model.getUid());
                 //cardViewHolder.id.setText(model.getId());
-                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+                if (Picasso.with(context).load(model.getImageUrl()) != null) {
+                    System.out.println("ADDING IMGAE");
+                    System.out.println(Picasso.with(context).load(model.getImageUrl()));
+                    Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+                }
+
             }
         };
         recList.setAdapter(adapter);
@@ -148,6 +159,9 @@ public class CardViewActivity extends BaseActivity {
             }
         });
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,6 +263,10 @@ public class CardViewActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+//        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#F4A49D"));
+        collapsingToolbarLayout.setTitle("Markyt");
+//        collapsingToolbarLayout.
     }
 
 

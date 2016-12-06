@@ -19,16 +19,16 @@
             android:layout_height="@dimen/app_bar_height"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:background="?attr/colorAccent">
+            android:background="@android:color/transparent">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="@color/cardview_light_background"
+                app:contentScrim="@android:color/transparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                android:background="@color/cardview_light_background">
+                android:background="@android:color/transparent">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -74,16 +74,7 @@
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right" />
 
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recList"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="200dp"-->
-        <!--android:textSize="18sp"/>-->
-
-
         <include layout="@layout/content_card_view" />
-
 
     </android.support.design.widget.CoordinatorLayout>
 
