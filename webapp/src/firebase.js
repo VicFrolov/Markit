@@ -276,6 +276,7 @@ var getItemsInHub = function (hub) {
 };
 
 var getUserSuggestions = function (uid) {
+    usersRef
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
         return snapshot.val();
     });
@@ -289,7 +290,6 @@ var populateSuggestionsInHub = function(hub, uid) {
             let userSuggestions = results[1];
 
             if (userSuggestions) {
-                // iterate through each item, setting derivative values to user
                 for (let item in itemsInHub) {
                     let itemTagCount = itemsInHub[item]['tags'].length;
                     let tagMatches = {};
@@ -297,21 +297,16 @@ var populateSuggestionsInHub = function(hub, uid) {
                     let tagWeight = 0;
                     let itemTags = itemsInHub[item]['tags'];
 
-                    itemTags.forEach(function(tag) {
+                    itemTags.forEach(function (tag) {
                         if (tag in userSuggestions) {
                             tagMatches[tag] = userSuggestions[tag];
-                            tagWeight += userSuggestions[tag];
                             tagMatchCount += 1;
+                            tagWeight += userSuggestions[tag];
+                            
                         }
                     });
 
-                    // tagWeight is now the average weight of all tags
-                    // (e.g. chair: [0.5, 0, 1], then each tag has a TAGWEIGHT
-                    //  of 0.5
                     tagWeight /= itemTagCount;
-                    console.log(itemsInHub[item]['tags']);
-                    console.log(tagWeight)
-                    console.log(tagMatches)
 
                     if (tagMatchCount === 0) {
                         continue;
@@ -319,28 +314,29 @@ var populateSuggestionsInHub = function(hub, uid) {
 
                     itemTags.forEach(function(tag) {
                         if (tag in userSuggestions && userSuggestions[tag] < 1) {
-                            usersRef.child(uid + '/tagSuggestions/' + tag).set((tagWeight + userSuggestions[tag]) / 2);
+                            usersRef.child(uid + '/tagSuggestions/' + tag).set((userSuggestions[tag]));
                         } else if (!(tag in userSuggestions)) {
                             usersRef.child(uid + '/tagSuggestions/' + tag).set(tagWeight);
                         }
                     });
-                    
-                    console.log("")
                 }
+
+                let userItemSuggestions = {}
+                for (let item in itemsInHub) {
+                    let itemTags = itemsInHub[item]['tags'];
+                    let tagCount = itemsInHub[item]['tags'].length;
+                    let itemWeight = 0;
+                    itemTags.forEach(function (tag) {
+                        if (tag in userSuggestions) {
+                            itemWeight += userSuggestions[tag];
+                        }
+                    });
+                    itemWeight /= tagCount;
+                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
+                }
+                console.log(userItemSuggestions)
             }
         });
-
-
-    // $(allItemsInHub).each(function(item) {
-    //     let tags = item.tags;
-    //     let itemJIV = 0;
-    //     let tagWeight = item.tags.length;
-    //     tags.each(function(tag) {
-    //         if (favoritedTags.contains(tag)) {
-                    
-    //         }
-    //     });
-    // });
 }
 
 populateSuggestionsInHub('Loyola Marymount University', 'qnphRQ8PBrffwne2sDEPj39MoZg1');
