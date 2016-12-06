@@ -4,7 +4,7 @@ $(function () {
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var auth = require('./firebase.js')["auth"];
     var getImage = require('./firebase.js')["getImage"];
-    var getSuggestedItemsInHub = require('./firebase.js')['getSuggestedItemsInHub'];
+    // var getSuggestedItemsInHub = require('./firebase.js')['getSuggestedItemsInHub'];
 
 
 
@@ -36,7 +36,6 @@ $(function () {
     auth.onAuthStateChanged(function(user) {
         if (user && $(mostRecentItems).length > 0) {
             getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-            getSuggestedItemsInHub();
         } else if (!user && $(mostRecentItems).length > 0) {
             window.location.href = "../index.html";
 

@@ -84,6 +84,8 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict'
+
 	var firebase = __webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(5);
@@ -179,9 +181,6 @@
 	    });
 	};
 
-	var getSuggestedItemsInHub = function (hub, uid) {
-	    database.ref('itemsByHub' + hub + '/')
-	}
 
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
@@ -247,8 +246,8 @@
 	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 
 	    itemsRef.child(item).once('value').then(function(snapshot) {
-	        item = snapshot.val()
-	        itemTags = item['tags']
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
 	        for (let i = 0; i < itemTags.length; i += 1) {
 	            usersRef.child(auth.currentUser.uid + 
 	                '/tagSuggestions/' + itemTags[i]).set(0.5);
@@ -274,20 +273,17 @@
 
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
-
+	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+	    
 	    //update suggested tags
-	    console.log('test')
 	    itemsRef.child(itemID).once('value').then(function(snapshot) {
-	        console.log(snapshot.val())
-	        item = snapshot.val()
-	        itemTags = item['tags']
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
 	        for (let i = 0; i < itemTags.length; i += 1) {
 	            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
 	        }
 
-	    });
-
-	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+	    });    
 
 	};
 
@@ -355,6 +351,67 @@
 	    });
 	};
 
+
+
+	// AI algorithm functions for suggestions in hub
+	// next 3 functions
+	var getItemsInHub = function (hub) {
+	    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var getUserSuggestions = function (uid) {
+	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var populateSuggestionsInHub = function(hub, uid) {
+	    Promise.all([
+	        getItemsInHub(hub), 
+	        getUserSuggestions(uid)]).then(function (results) {
+	            let itemsInHub = results[0];
+	            let userSuggestions = results[1];
+
+	            // iterate through each item, setting derivative values to user
+	            for (let item in itemsInHub) {
+	                let itemTagCount = Object.keys(itemsInHub[item]['tags']).length;
+	                let tagMatches = 0;
+	                let tagWeight = [];
+
+	                itemsInHub[item]['tags'].forEach(function(tag) {
+	                    // console.log(tag);
+	                    if (tag in userSuggestions) {
+	                        tagMatches += 1;
+	                        tagWeight.push(userSuggestions[tag]);
+	                        console.log(tagWeight)
+	                        console.log(`${tag} is part of suggestions`);
+	                    } else {
+	                        console.log(`${tag} isn't part of suggestions`);
+	                    }
+
+	                });
+
+	                console.log("")
+	            }
+	        });
+
+
+	    // $(allItemsInHub).each(function(item) {
+	    //     let tags = item.tags;
+	    //     let itemJIV = 0;
+	    //     let tagWeight = item.tags.length;
+	    //     tags.each(function(tag) {
+	    //         if (favoritedTags.contains(tag)) {
+	                    
+	    //         }
+	    //     });
+	    // });
+	}
+
+	populateSuggestionsInHub('Loyola Marymount University', 'qnphRQ8PBrffwne2sDEPj39MoZg1');
+
 	module.exports = {
 	    auth,
 	    signIn,
@@ -373,7 +430,6 @@
 	    getRecentItemsInHub,
 	    getUserInfo,
 	    updateUserInfo,
-	    getSuggestedItemsInHub
 	};
 
 /***/ },
@@ -2267,7 +2323,7 @@
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
-	    var getSuggestedItemsInHub = __webpack_require__(2)['getSuggestedItemsInHub'];
+	    // var getSuggestedItemsInHub = require('./firebase.js')['getSuggestedItemsInHub'];
 
 
 
@@ -2299,7 +2355,6 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-	            getSuggestedItemsInHub();
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 

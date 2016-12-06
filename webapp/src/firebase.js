@@ -1,3 +1,5 @@
+'use strict'
+
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
@@ -93,9 +95,6 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
-var getSuggestedItemsInHub = function (hub, uid) {
-    database.ref('itemsByHub' + hub + '/')
-}
 
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
@@ -161,8 +160,8 @@ var removeFavorite = function (item) {
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
 
     itemsRef.child(item).once('value').then(function(snapshot) {
-        item = snapshot.val()
-        itemTags = item['tags']
+        let item = snapshot.val()
+        let itemTags = item['tags']
         for (let i = 0; i < itemTags.length; i += 1) {
             usersRef.child(auth.currentUser.uid + 
                 '/tagSuggestions/' + itemTags[i]).set(0.5);
@@ -192,8 +191,8 @@ var addFavoriteToProfile = function(uid, itemID) {
     
     //update suggested tags
     itemsRef.child(itemID).once('value').then(function(snapshot) {
-        item = snapshot.val()
-        itemTags = item['tags']
+        let item = snapshot.val()
+        let itemTags = item['tags']
         for (let i = 0; i < itemTags.length; i += 1) {
             usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
         }
@@ -266,6 +265,67 @@ var addHubs = function(itemHubs) {
     });
 };
 
+
+
+// AI algorithm functions for suggestions in hub
+// next 3 functions
+var getItemsInHub = function (hub) {
+    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
+
+var getUserSuggestions = function (uid) {
+    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
+
+var populateSuggestionsInHub = function(hub, uid) {
+    Promise.all([
+        getItemsInHub(hub), 
+        getUserSuggestions(uid)]).then(function (results) {
+            let itemsInHub = results[0];
+            let userSuggestions = results[1];
+
+            // iterate through each item, setting derivative values to user
+            for (let item in itemsInHub) {
+                let itemTagCount = Object.keys(itemsInHub[item]['tags']).length;
+                let tagMatches = 0;
+                let tagWeight = [];
+
+                itemsInHub[item]['tags'].forEach(function(tag) {
+                    // console.log(tag);
+                    if (tag in userSuggestions) {
+                        tagMatches += 1;
+                        tagWeight.push(userSuggestions[tag]);
+                        console.log(tagWeight)
+                        console.log(`${tag} is part of suggestions`);
+                    } else {
+                        console.log(`${tag} isn't part of suggestions`);
+                    }
+
+                });
+
+                console.log("")
+            }
+        });
+
+
+    // $(allItemsInHub).each(function(item) {
+    //     let tags = item.tags;
+    //     let itemJIV = 0;
+    //     let tagWeight = item.tags.length;
+    //     tags.each(function(tag) {
+    //         if (favoritedTags.contains(tag)) {
+                    
+    //         }
+    //     });
+    // });
+}
+
+populateSuggestionsInHub('Loyola Marymount University', 'qnphRQ8PBrffwne2sDEPj39MoZg1');
+
 module.exports = {
     auth,
     signIn,
@@ -284,5 +344,4 @@ module.exports = {
     getRecentItemsInHub,
     getUserInfo,
     updateUserInfo,
-    getSuggestedItemsInHub
 };
