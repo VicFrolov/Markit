@@ -16,8 +16,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     var tagSelected = false
     
     @IBOutlet weak var price: UIButton!
-    @IBOutlet weak var itemImage:UIImageView!
-
+    @IBOutlet weak var itemImage: UIImageView!
+    @IBOutlet weak var itemTitle: UIButton!
+    @IBOutlet weak var itemDescription: UIButton!
+    @IBOutlet weak var tags: UIButton!
+    @IBOutlet weak var hubs: UIButton!
+    
     @IBAction func takePicture(sender: UIButton) {
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
@@ -29,7 +33,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage:UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let pickedImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             itemImage.contentMode = .scaleAspectFill
             itemImage.image = pickedImage
             itemImage.layer.zPosition = 1
@@ -59,15 +63,39 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     @IBAction func unwindAddTitle(segue: UIStoryboardSegue) {
         let titleVC = segue.source as? AddTitleViewController
         let userTitle = titleVC?.itemTitle.text!
-        print("it's running! and here's the title:" + userTitle!)
+        
+        if userTitle != "" {
+            itemTitle.setAttributedTitle(NSMutableAttributedString(string: userTitle! as String), for: .normal)
+        }
+        print("it's running! and here's the title: \(userTitle!)")
     }
     
     @IBAction func unwindDescription(segue: UIStoryboardSegue) {
+        let descVC = segue.source as? AddDescriptionViewController
+        let userDescription = descVC?.itemDescription.text
         
+        if userDescription != "" {
+            itemDescription.setAttributedTitle(NSMutableAttributedString(string: userDescription! as String), for: .normal)
+        }
+        print("description accepted: \(userDescription!)")
     }
     
     @IBAction func unwindTag(segue: UIStoryboardSegue) {
+        let tagVC = segue.source as? AddTagsViewController
+        let userTags = tagVC?.tags.text
         
+        if userTags != "" {
+            tags.setAttributedTitle(NSMutableAttributedString(string: userTags! as String), for: .normal)
+        }
+        
+        print("tags accepted: \(userTags!)")
+    }
+    
+    @IBAction func unwindAddHubs(segue: UIStoryboardSegue) {
+        let hubVC = segue.source as? AddHubViewController
+        let userHubs = hubVC?.hubs.text
+        print("hubs accepted: \(userHubs!)")
+
     }
     
     override func viewDidLoad() {
@@ -91,5 +119,6 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     @IBAction func unwindBailDescription(segue: UIStoryboardSegue) {
         
     }
+
     
 }

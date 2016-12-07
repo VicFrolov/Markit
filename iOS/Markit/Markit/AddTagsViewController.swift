@@ -10,11 +10,21 @@ import UIKit
 
 class AddTagsViewController: UIViewController {
 
+    @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var tags: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func submitTags(_ sender: UIButton) {
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tags.becomeFirstResponder()
     }
 }

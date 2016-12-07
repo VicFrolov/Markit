@@ -10,8 +10,7 @@ import UIKit
 
 class SellingTabTableViewController: UITableViewController {
     
-    @IBAction func close(segue:UIStoryboardSegue) {
-    }
+    @IBAction func close(segue: UIStoryboardSegue) {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +34,10 @@ class SellingTabTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
+    }
+    
+    @IBAction func unwindPost (segue: UIStoryboardSegue) {
+        
     }
 
     /*

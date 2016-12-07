@@ -14,6 +14,8 @@
 		128399C01DEEA23B00152948 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399BF1DEEA23B00152948 /* ChatListViewController.swift */; };
 		128399C21DEEA26500152948 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399C11DEEA26500152948 /* ChatTableViewCell.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
+		12B34E071DF63D4A00C13B9F /* AddPictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B34E061DF63D4A00C13B9F /* AddPictureViewController.swift */; };
+		12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B34E081DF650D400C13B9F /* AddHubViewController.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */; };
 		12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */; };
@@ -56,6 +58,8 @@
 		128399BF1DEEA23B00152948 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		128399C11DEEA26500152948 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		12B34E061DF63D4A00C13B9F /* AddPictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPictureViewController.swift; sourceTree = "<group>"; };
+		12B34E081DF650D400C13B9F /* AddHubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddHubViewController.swift; sourceTree = "<group>"; };
 		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageViewController.swift; sourceTree = "<group>"; };
 		12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteTextField.swift; sourceTree = "<group>"; };
@@ -160,11 +164,13 @@
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
+				12B34E081DF650D400C13B9F /* AddHubViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
 				3832CC511D98677300536451 /* AddPriceViewController.swift */,
 				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
+				12B34E061DF63D4A00C13B9F /* AddPictureViewController.swift */,
 				345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
 				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
@@ -359,12 +365,14 @@
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
+				12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */,
 				343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */,
 				345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */,
 				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
 				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
 				12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */,
 				343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */,
+				12B34E071DF63D4A00C13B9F /* AddPictureViewController.swift in Sources */,
 				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
 				12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */,
 				38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */,
