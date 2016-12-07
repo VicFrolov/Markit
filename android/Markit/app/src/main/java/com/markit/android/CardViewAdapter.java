@@ -58,7 +58,8 @@ public class CardViewAdapter extends
         TextView price = viewHolder.price;
         TextView uid = viewHolder.uid;
         TextView id = viewHolder.id;
-        ImageView photo = viewHolder.photo;
+        // ImageView photo = viewHolder.photo;
+        //Picasso.with(context).load(item.getImageUrl()).into(photo);
         final String itemID = item.getId();
         title.setText(item.getTitle());
         price.setText("$ " + item.getPrice());
@@ -72,7 +73,7 @@ public class CardViewAdapter extends
                 context.startActivity(itemDetail);
             }
         });
-        Picasso.with(context).load(item.getImageUrl()).into(photo);
+        Picasso.with(context).load(item.getImageUrl()).into(viewHolder.photo);
     }
 
     //Returns the total count of items in the list

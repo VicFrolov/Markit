@@ -12,11 +12,14 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.markit.android.Chat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root on 09/08/16.
  */
+
+
 
 public class ChatListView extends AppCompatActivity {
 
@@ -28,7 +31,7 @@ public class ChatListView extends AppCompatActivity {
     private DatabaseReference chatRef;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference().child("chats").child("messages");
+    DatabaseReference mDatabaseReference = database.getReference().child("chats").child("messages").child("receiver");
     //chatRef = mDatabaseReference.child("chat");
 
 
@@ -38,37 +41,76 @@ public class ChatListView extends AppCompatActivity {
         setContentView(R.layout.activity_chatlist_view);
 
         messagesRecyclerView = (RecyclerView) findViewById(R.id.messagesRecyclerView);
+
+        List<User> emptyListChat = new ArrayList<User>();
+        UsersChatAdapter userChatAdapter = new UsersChatAdapter(this,emptyListChat);
+
         if (messagesRecyclerView != null) {
             messagesRecyclerView.setHasFixedSize(true);
         }
         llm = new LinearLayoutManager(this);
         messagesRecyclerView.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<Chat, ChatViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, ChatListView.ChatViewHolder>(
-                Chat.class, R.layout.list_item, ChatListView.ChatViewHolder.class, chatRef) {
-            @Override
-            public void populateViewHolder(ChatListView.ChatViewHolder viewHolder, Chat model, int position) {
-                viewHolder.list_item_message.setText(model.getMessage());
-                viewHolder.list_item_username.setText(model.getSender());
-                //Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
-            }
-        };
-        messagesRecyclerView.setAdapter(adapter);
-    }
-    public static class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView list_item_username;
-        TextView list_item_message;
-        //ImageView itemPhoto;
-        Context context;
+        messagesRecyclerView.setAdapter(userChatAdapter);
 
-        public ChatViewHolder(View itemView) {
-            super(itemView);
-            context = itemView.getContext();
-            list_item_message = (TextView) itemView.findViewById(R.id.list_item_message);
-            list_item_username = (TextView) itemView.findViewById(R.id.list_item_username);
-        }
     }
+
 }
+//public class ChatListView extends AppCompatActivity {
+//
+//    private static final String TAG = "Chat";
+//    private LinearLayoutManager llm;
+//    private Context context = this;
+//    private RecyclerView messagesRecyclerView;
+//    //private DatabaseReference database;
+//    private DatabaseReference chatRef;
+//
+//    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//    DatabaseReference mDatabaseReference = database.getReference().child("chats").child("messages");
+//    //chatRef = mDatabaseReference.child("chat");
+//
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_chatlist_view);
+//
+//        messagesRecyclerView = (RecyclerView) findViewById(R.id.messagesRecyclerView);
+//        if (messagesRecyclerView != null) {
+//            messagesRecyclerView.setHasFixedSize(true);
+//        }
+//        llm = new LinearLayoutManager(this);
+//        messagesRecyclerView.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<Chat, ChatViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, ChatListView.ChatViewHolder>(
+//                Chat.class, R.layout.chat_list_users, ChatListView.ChatViewHolder.class, chatRef) {
+//            @Override
+//            public void populateViewHolder(ChatListView.ChatViewHolder viewHolder, Chat model, int position) {
+//                viewHolder.list_item_message.setText(model.getMessage());
+//                viewHolder.list_item_username.setText(model.getSender());
+//                //Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
+//            }
+//        };
+//        messagesRecyclerView.setAdapter(adapter);
+//    }
+//    public static class ChatViewHolder extends RecyclerView.ViewHolder {
+//        TextView list_item_username;
+//        TextView list_item_message;
+//        //ImageView itemPhoto;
+//        Context context;
+//
+//        public ChatViewHolder(View itemView) {
+//            super(itemView);
+//            context = itemView.getContext();
+//            list_item_message = (TextView) itemView.findViewById(R.id.list_item_message);
+//            list_item_username = (TextView) itemView.findViewById(R.id.list_item_username);
+//        }
+//    }
+//}
+
+
+
+
 
 //    private DatabaseReference databaseRef;
 //    private DatabaseReference chatRef;

@@ -102,9 +102,9 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
             public void onClick(View v) {
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = "User " + uid.substring(0, 6);
+                String username = uid.substring(0, 6);
 
-                Chat chat = new Chat(user, uid, editMessage.getText().toString());
+                Chat chat = new Chat(username, uid, editMessage.getText().toString());
                 chatRef.push().setValue(chat, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -162,7 +162,7 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
 
             @Override
             public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
-                chatView.setUser(chat.getUser());
+                chatView.setUser(chat.getUsername());
                 chatView.setMessage(chat.getMessage());
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -197,7 +197,7 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
 
     public static class Chat {
 
-        String user;
+        String username;
         String message;
         String uid;
         private long messageTime;
@@ -205,15 +205,23 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         public Chat() {
         }
 
-        public Chat(String user, String uid, String message) {
-            this.user = user;
+        public Chat(String username, String uid, String message) {
+            this.username = username;
             this.message = message;
             this.uid = uid;
         }
 
-        public String getUser() {
-            return user;
+        public String getUsername() {
+            return username;
         }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+//        public String getUser() {
+//            return user;
+//        }
 
         public String getUid() {
             return uid;
