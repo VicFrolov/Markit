@@ -23,7 +23,9 @@ class AddDescriptionViewController: UIViewController {
     }
     
     @IBAction func submitDescription(_ sender: UIButton) {
-        if itemDescription.text!.characters.count != 0 {
+        let trimmedDescription = itemDescription.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedDescription.characters.count != 0 {
             performSegue(withIdentifier: "unwindDescription", sender: self)
         } else {
             let alertController = UIAlertController(title: "Empty description", message:

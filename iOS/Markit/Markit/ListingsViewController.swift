@@ -22,7 +22,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
-//  These are for searching the list of items
+    // These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
     var didReceiveAdvancedSearchQuery: Bool!
@@ -172,7 +172,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     override func viewDidAppear(_ animated: Bool) {
-//        navigationController?.hidesBarsOnSwipe = true
         listingsTableViewController.reloadData()
     }
     
@@ -238,7 +237,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
             return true
         }
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

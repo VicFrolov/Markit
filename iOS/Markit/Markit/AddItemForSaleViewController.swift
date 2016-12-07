@@ -12,7 +12,7 @@ import Firebase
 class AddItemForSaleViewController: UIViewController {
     var ref: FIRDatabaseReference!
     
-    func postNewListing(userID: String, title: String, itemDescription: String, price: String, itemID: String, tags: String, hub: String) {
+    func postNewListing(userID: String, title: String, itemDescription: String, price: String, itemImageID: String, tags: [String], hub: String) {
         let key = ref.child("items").childByAutoId().key
 
         let currentDate = Date()
@@ -23,7 +23,7 @@ class AddItemForSaleViewController: UIViewController {
         let item = ["date": "\(convertedDate)",
                     "description": itemDescription,
                     "favorites": [],
-                    "id": itemID,
+                    "id": itemImageID,
                     "price": price,
                     "tags": tags,
                     "title": title,

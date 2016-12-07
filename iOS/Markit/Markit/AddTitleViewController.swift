@@ -10,23 +10,19 @@ import UIKit
 
 class AddTitleViewController: UIViewController {
     
-    let addNewListingView = NewListingTableViewController()
-    
     @IBOutlet weak var itemTitle: UITextField!
     @IBOutlet weak var itemTitleLabel: UILabel!
     
     @IBAction func tapButton(sender: UIButton) {
-        if addNewListingView.itemTitle == nil {
-            if itemTitle.text!.characters.count > 4 && itemTitle.text!.characters.count < 24 {
-                performSegue(withIdentifier: "unwindAddTitle", sender: self)
-            } else {
-                let alertController = UIAlertController(title: "Invalid Price", message:
-                    "Please enter a valid title :)", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-            }
+        let trimmedTitle = itemTitle.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedTitle.characters.count > 4 && trimmedTitle.characters.count < 24 {
+            performSegue(withIdentifier: "unwindAddTitle", sender: self)
         } else {
-            print("Already has a title")
+            let alertController = UIAlertController(title: "Invalid Price", message:
+                "Please enter a valid title :)", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     

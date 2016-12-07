@@ -15,6 +15,7 @@ class AddHubViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hubs.addTarget(self, action: #selector(textViewDidChange), for: .editingChanged)
 
         // Do any additional setup after loading the view.
     }
@@ -27,6 +28,25 @@ class AddHubViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         hubs.becomeFirstResponder()
     }
+    
+    func textViewDidChange(textView: UITextView) {
+        hubsLabel.text = hubs.text
+    }
+    
+    @IBAction func submitHubs(_ sender: UIButton) {
+        let trimmedHubs = hubs.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedHubs.characters.count != 0 {
+            performSegue(withIdentifier: "unwindHub", sender: self)
+        } else {
+            let alertController = UIAlertController(title: "Empty description", message:
+                "Please give this item a hub", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    
     
 
     /*

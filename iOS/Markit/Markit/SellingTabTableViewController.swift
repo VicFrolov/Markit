@@ -7,19 +7,22 @@
 //
 
 import UIKit
+import Firebase
 
 class SellingTabTableViewController: UITableViewController {
+    var databaseRef: FIRDatabaseReference!
+    var storageRef: FIRStorageReference!
+    var itemImagesRef: FIRStorageReference!
     
     @IBAction func close(segue: UIStoryboardSegue) {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        databaseRef   = FIRDatabase.database().reference()
+        storageRef    = FIRStorage.storage().reference()
+        itemImagesRef = storageRef.child("images/itemImages/")
+        
+        self.tableView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +40,76 @@ class SellingTabTableViewController: UITableViewController {
     }
     
     @IBAction func unwindPost (segue: UIStoryboardSegue) {
+        let newListingVC    = segue.source as? NewListingTableViewController
+        let itemTitle       = newListingVC?.itemTitle.currentAttributedTitle?.string
+        let itemDescription = newListingVC?.itemDescription.currentAttributedTitle?.string
+        let itemTags        = newListingVC?.tags.currentAttributedTitle?.string
+        let itemHub         = newListingVC?.hubs.currentAttributedTitle?.string
+        let itemImage       = newListingVC?.itemImage
         
+        let itemPrice       = newListingVC?.price.currentAttributedTitle?.string
+        let startIndex      = itemPrice?.index((itemPrice?.startIndex)!, offsetBy: 1)
+        let truncatedPrice  = itemPrice?.substring(from: startIndex!)
+        
+        let imageID         = storeImage(imageView: itemImage!)
+        
+        let tagList         = itemTags?.components(separatedBy: ", ")
+        let hubList         = itemHub?.components(separatedBy: ", ")
+        let uid             = getCurrentUser()
+        
+        // Will probably be async since picture needs to be uploaded first
+        postNewListing(userID: uid, title: itemTitle!, itemDescription: itemDescription!, price: truncatedPrice!, itemImageID: imageID, tags: tagList!, hub: hubList!)
+    }
+    
+    func storeImage(imageView: UIImageView) -> String {
+        let imageKey   = databaseRef.child("items").childByAutoId().key
+        itemImagesRef = itemImagesRef.child("\(imageKey)/imageOne")
+        
+        if let uploadData = UIImagePNGRepresentation(imageView.image!) {
+            itemImagesRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
+                    print("Something happened: \(error)")
+                    return
+                }
+                print(metadata)
+            })
+
+        }
+        return imageKey
+    }
+    
+    func postNewListing (userID: String, title: String, itemDescription: String, price: String, itemImageID: String, tags: [String], hub: [String]) {
+        let itemKey = databaseRef.child("items").childByAutoId().key
+        
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss zzz"
+        let convertedDate = formatter.string(from: currentDate)
+        
+        let item = ["date": "\(convertedDate)",
+            "description": itemDescription,
+            "favorites": [],
+            "id": itemImageID,
+            "price": price,
+            "hubs": hub,
+            "tags": tags,
+            "title": title,
+            "uid": userID] as [String : Any]
+        
+        var childUpdates = ["/items/\(itemKey)": item,
+                            "/itemsByUser/\(userID)/\(itemKey)/": item]
+        
+        for college in hub {
+            childUpdates["/itemsByHub/\(college)/\(itemKey)/"] = item
+        }
+        
+        databaseRef.updateChildValues(childUpdates)
+        print("item posted to database")
+    }
+
+    func getCurrentUser () -> String {
+        let user = FIRAuth.auth()?.currentUser
+        return (user?.uid)!
     }
 
     /*

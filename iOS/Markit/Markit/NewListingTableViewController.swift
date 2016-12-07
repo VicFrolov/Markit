@@ -14,6 +14,8 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     var titleSelected = false
     var photoSelected = false
     var tagSelected = false
+    var hubSelected = false
+    var descriptionSelected = false
     
     @IBOutlet weak var price: UIButton!
     @IBOutlet weak var itemImage: UIImageView!
@@ -21,21 +23,38 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var itemDescription: UIButton!
     @IBOutlet weak var tags: UIButton!
     @IBOutlet weak var hubs: UIButton!
+    @IBOutlet weak var postButton: UIButton!
     
     @IBAction func takePicture(sender: UIButton) {
+        print("In takePicture")
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            print("In first if")
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
                 imagePicker.sourceType = .camera
                 imagePicker.cameraCaptureMode = .photo
                 present(imagePicker, animated: true, completion: {})
             }
+        } else {
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            
+            present(imagePicker, animated: true, completion: nil)
+            photoSelected = true
         }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            selectedImageFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedImageFromPicker {
             itemImage.contentMode = .scaleAspectFill
-            itemImage.image = pickedImage
+            itemImage.image = selectedImage
             itemImage.layer.zPosition = 1
             photoSelected = true
             
@@ -43,7 +62,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
                 price.layer.zPosition = 2
             }
         }
+        
         imagePicker.dismiss(animated: true, completion: {})
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
@@ -57,6 +81,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
 
             price.setAttributedTitle(blingedOutUserPrice, for: .normal)
             price.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.5)
+            priceSelected = true
         }
     }
     
@@ -66,6 +91,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         
         if userTitle != "" {
             itemTitle.setAttributedTitle(NSMutableAttributedString(string: userTitle! as String), for: .normal)
+            titleSelected = true
         }
         print("it's running! and here's the title: \(userTitle!)")
     }
@@ -76,6 +102,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         
         if userDescription != "" {
             itemDescription.setAttributedTitle(NSMutableAttributedString(string: userDescription! as String), for: .normal)
+            descriptionSelected = true
         }
         print("description accepted: \(userDescription!)")
     }
@@ -86,39 +113,48 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         
         if userTags != "" {
             tags.setAttributedTitle(NSMutableAttributedString(string: userTags! as String), for: .normal)
+            tagSelected = true
         }
-        
+
         print("tags accepted: \(userTags!)")
     }
     
     @IBAction func unwindAddHubs(segue: UIStoryboardSegue) {
         let hubVC = segue.source as? AddHubViewController
         let userHubs = hubVC?.hubs.text
+        
+        if userHubs != "" {
+            hubs.setAttributedTitle(NSMutableAttributedString(string: userHubs! as String), for: .normal)
+            hubSelected = true
+        }
+        
         print("hubs accepted: \(userHubs!)")
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
+        
+        postButton.isUserInteractionEnabled = false
+        postButton.alpha = 0.1
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if priceSelected &&
+            titleSelected &&
+            photoSelected &&
+            tagSelected &&
+            hubSelected &&
+            descriptionSelected {
+            postButton.isUserInteractionEnabled = true
+            postButton.alpha = 1.0
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func unwindBailTag(segue: UIStoryboardSegue) {
-        
-    }
-    @IBAction func unwindBailPrice(segue: UIStoryboardSegue) {
-        
-    }
-    @IBAction func unwindBailTitle(segue: UIStoryboardSegue) {
-        
-    }
-    @IBAction func unwindBailDescription(segue: UIStoryboardSegue) {
-        
-    }
+    @IBAction func cancelToNewListings(segue: UIStoryboardSegue) {}
 
-    
 }
