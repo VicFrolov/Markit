@@ -51,4 +51,5 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         cell.textLabel?.text = item.text
         return cell
     }
+    
 }

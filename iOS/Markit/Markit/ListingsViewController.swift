@@ -8,9 +8,11 @@
 
 import UIKit
 import Firebase
-import SwiftyJSON
 
-class ListingsTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
+class ListingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+    
+    @IBOutlet weak var listingsTableViewController: UITableView!
+
     var ref:            FIRDatabaseReference!
     var itemsRef:       FIRDatabaseReference!
     var itemsByHubRef:  FIRDatabaseReference!
@@ -20,17 +22,38 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
-//  These are for searching the list of items
+    // These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
     var didReceiveAdvancedSearchQuery: Bool!
     
     override func viewDidLoad() {
-//        self.tableView.contentOffset = UIEdgeInsetsMake()
         super.viewDidLoad()
         
-        self.clearsSelectionOnViewWillAppear = false
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer (target: self, action: #selector(dismissSearchBar))
+        self.view.addGestureRecognizer(tap)
+
+        self.listingsTableViewController.delegate = self
+        self.listingsTableViewController.dataSource = self
         
+        self.didReceiveAdvancedSearchQuery = false
+        
+        setupFirebaseReferences()
+        fetchItems()
+        searchItems()
+    }
+    
+    func dismissSearchBar() {
+        self.searchController.searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if searchController.searchBar.text == "" {
+            self.searchController.isActive = false
+        }
+    }
+    
+    func setupFirebaseReferences() {
         self.ref            = FIRDatabase.database().reference()
         self.itemImageRef   = FIRStorage.storage().reference()
         self.itemsRef       = ref.child("items")
@@ -38,14 +61,10 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef        = ref.child("users")
         self.usernameRef    = ref.child("usernames")
-        
-        self.didReceiveAdvancedSearchQuery = false
-        self.searchController.loadViewIfNeeded()
-        fetchItems()
-        searchItems()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
+        didReceiveAdvancedSearchQuery = false
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
     
@@ -53,9 +72,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         self.filteredItems = itemList.filter { item in
             return (item.title!.lowercased().contains(searchText.lowercased()))
         }
-        if !didReceiveAdvancedSearchQuery {
-            self.tableView.reloadData()
-        }
+        listingsTableViewController.reloadData()
     }
     
     func searchItems() {
@@ -67,15 +84,8 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
         searchController.searchBar.sizeToFit()
         searchController.searchBar.frame.size.width = 100
         
-//        let frame = CGRect(x: 0, y: 0, width: 100, height: 44)
-//        let titleView = UIView(frame: frame)
-//        searchController.searchBar.backgroundImage = UIImage()
-//        searchController.searchBar.frame = frame
-//        titleView.addSubview(searchController.searchBar)
-        
         definesPresentationContext = true
-        self.tableView.tableHeaderView = searchController.searchBar
-        
+        self.listingsTableViewController.tableHeaderView = searchController.searchBar
     }
     
     func fetchItems() {
@@ -98,8 +108,6 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                 
                 if let imageID = dictionary["id"] as! String? {
                     item.imageID = imageID
-                }  else {
-                    item.imageID = "-KX9VmJ19Y8zpIjItajK"
                 }
 
                 if let price = dictionary["price"] as! String? {
@@ -132,15 +140,14 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
                                 .observe(.value, with: { (snapshot) in
                         item.username = snapshot.value as! String?
                     })
-                } else {
-                    item.username = "VpnwRosT6tSnBIgwYnmnezAFIuD2"
                 }
                 
                 self.getImage(imageID: item.imageID!, item: item)
 
                 self.itemList.append(item)
             }
-            self.tableView.reloadData()
+                        
+            self.listingsTableViewController.reloadData()
         })
         
     }
@@ -157,7 +164,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
 //                let imageData = NSData(contentsOf: imageURL! as URL)
 //                item.image = UIImage(data: imageData! as Data)
                 item.image = UIImage(data: data!)
-                self.tableView.reloadData()
+                self.listingsTableViewController.reloadData()
                 return
             })
 //        })
@@ -165,8 +172,7 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        self.tableView.contentOffset = CGPoint (x: 0, y: self.searchController.searchBar.frame.size.height)
-        self.tableView.reloadData()
+        listingsTableViewController.reloadData()
     }
     
     @IBAction func cancelAdvancedSearch (segue: UIStoryboardSegue) {}
@@ -180,7 +186,6 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
 //            }
 //        })
 
-        
         var hasTag: Bool  = false
         var useTags: Bool = false
         var tagList: [String] = []
@@ -193,6 +198,8 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
 //        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
         let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
         let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
+        
+        print(keywords)
         
         if keywords! != "" {
             hasKeyWord = true
@@ -229,20 +236,18 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
             }
             return true
         }
-//        self.tableView.reloadData()
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
             return self.filteredItems.count
         }
@@ -250,20 +255,18 @@ class ListingsTableViewController: UITableViewController, UISearchBarDelegate, U
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "Cell"
+        let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! ListingsTableViewCell
         let item: Item
         
         if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
-            item = self.filteredItems[indexPath.row]
+            item = self.filteredItems[row]
             
-            if indexPath.row >= self.filteredItems.count - 1 {
-                self.didReceiveAdvancedSearchQuery = false
-            }
         } else {
-            item = itemList[indexPath.row]
+            item = itemList[row]
         }
         
         // Configure the cell...
