@@ -89,6 +89,23 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    public String getUID () {
+        if(isLoggedIn()) {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            return null;
+        }
+    }
+
+    public String getConversationID () {
+        if (isLoggedIn()) {
+            return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            return null;
+        }
+    }
+
+
     public boolean isLoggedIn() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

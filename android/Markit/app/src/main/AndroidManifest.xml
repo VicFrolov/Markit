@@ -49,6 +49,12 @@
             android:name=".FavoritesListView"
             android:label="@string/app_name"></activity>
         <activity
+            android:name=".NewConversationActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".ConversationView"
+            android:label="@string/app_name"></activity>
+        <activity
             android:name=".ChatListView"
             android:label="@string/app_name"></activity>
         <activity android:name=".Registration2Activity" />

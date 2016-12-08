@@ -9,7 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context = ".ChatListView">
+    tools:context = ".ConversationView">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"

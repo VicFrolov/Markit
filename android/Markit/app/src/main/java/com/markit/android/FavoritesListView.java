@@ -40,10 +40,11 @@ public class FavoritesListView extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
         watchlistRecyclerView.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder>(
-                ItemObject.class, R.layout.watchlist_item, FavoritesListView.FavoritesViewHolder.class, mDatabaseReference) {
+        FirebaseRecyclerAdapter<MarketItem, FavoritesListView.FavoritesViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, FavoritesListView.FavoritesViewHolder>(
+                MarketItem.class, R.layout.watchlist_item, FavoritesListView.FavoritesViewHolder.class, mDatabaseReference) {
             @Override
-            public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, ItemObject model, int position) {
+            public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, MarketItem
+                    model, int position) {
                 viewHolder.itemTitle.setText(model.getTitle());
                 viewHolder.itemPrice.setText("$ " + model.getPrice());
                 Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);

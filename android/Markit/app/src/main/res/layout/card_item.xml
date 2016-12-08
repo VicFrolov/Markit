@@ -32,18 +32,25 @@
                 android:layout_alignParentStart="true"
                 android:layout_height="150dp" />
 
-            <TextView
-                android:text="Price"
-                android:layout_width="100dp"
-                android:id="@+id/price"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="125dp"
-                android:layout_height="50dp"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:forceHasOverlappingRendering="false"
-                android:textStyle="bold"
-                android:textSize="17sp" />
+    <TextView
+        android:text="Price"
+        android:layout_width="100dp"
+        android:id="@+id/price"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="125dp"
+        android:layout_height="50dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:forceHasOverlappingRendering="false"
+        android:textStyle="bold"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/likeImageView"
+        card_view:srcCompat="@android:drawable/btn_star_big_off"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="310dp" />
 
     <TextView
         android:text="uid"

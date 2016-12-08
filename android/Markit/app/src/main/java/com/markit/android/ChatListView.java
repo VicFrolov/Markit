@@ -1,6 +1,7 @@
 package com.markit.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,7 @@ import com.markit.android.Chat;
  * Created by root on 09/08/16.
  */
 
-public class ChatListView extends AppCompatActivity {
+public class ChatListView extends BaseActivity {
 
     private static final String TAG = "Chat";
     private LinearLayoutManager llm;
@@ -28,7 +29,8 @@ public class ChatListView extends AppCompatActivity {
     private DatabaseReference chatRef;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference().child("chats").child("messages");
+    DatabaseReference messageRef = database.getReference().child("users").child(getUID()).child("chats");
+    //DatabaseReference conversationRef = messageRef.child(getConversationID()).child("context").child("sender");
     //chatRef = mDatabaseReference.child("chat");
 
 
@@ -50,6 +52,16 @@ public class ChatListView extends AppCompatActivity {
             public void populateViewHolder(ChatListView.ChatViewHolder viewHolder, Chat model, int position) {
                 viewHolder.list_item_message.setText(model.getMessage());
                 viewHolder.list_item_username.setText(model.getSender());
+                final String conversationID = model.getConversationID();
+                viewHolder.list_item_username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent chat = new Intent(ChatListView.this, MainChatActivity.class);
+                        //final String itemID = model.getItemID();
+                        chat.putExtra("uid", conversationID);
+                        ChatListView.this.startActivity(chat);
+                    }
+                });
                 //Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
             }
         };

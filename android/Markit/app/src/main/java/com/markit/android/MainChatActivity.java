@@ -38,14 +38,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import static com.markit.android.R.id.backButton;
+import static com.markit.android.R.id.conversationID;
 import static com.markit.android.R.id.message_text;
 
-public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
 
     public static final String TAG = "Chat";
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseRef;
-    private DatabaseReference chatRef;
     private Button sendButton;
     private EditText editMessage;
     private Button backButton;
@@ -53,6 +52,14 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
+    String chatKey;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats" + "/conversationID" + "/messages");
+    //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
+    //.child("items").child("itemID").child("conversationID")
+    //intent.putExtra("uid", item)
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,37 +81,16 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
 //            }
 //        });
 
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        chatRef = databaseRef.child("chats").child("messages");
-
-//        chatRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Chat msg = dataSnapshot.getValue(Chat.class);
-//                adapter.add(msg);
-//                scrollToBottom();
-//            }
-//
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-//            public void onCancelled(DatabaseError databaseError) {}
-//        });
-
-
-        //listView = (ListView) findViewById(R.id.list_of_messages);
-
-        //adapter = new ChatListAdapter(this, R.id.list_of_messages);
-        //listView.setAdapter(adapter);
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = "User " + uid.substring(0, 6);
+                String user = uid.substring(0, 6);
+                chatKey = chatRef.push().getKey();
 
-                Chat chat = new Chat(user, uid, editMessage.getText().toString());
+                Chat chat = new Chat(user, uid, editMessage.getText().toString(), chatKey);
+                chatKey = chatRef.push().getKey();
                 chatRef.push().setValue(chat, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -200,15 +186,17 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         String user;
         String message;
         String uid;
+        String chatId;
         private long messageTime;
 
         public Chat() {
         }
 
-        public Chat(String user, String uid, String message) {
+        public Chat(String user, String uid, String message, String chatId) {
             this.user = user;
             this.message = message;
             this.uid = uid;
+            this.chatId = chatId;
         }
 
         public String getUser() {
@@ -217,6 +205,10 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
 
         public String getUid() {
             return uid;
+        }
+
+        public String getChatId() {
+            return chatId;
         }
 
         public String getMessage() {

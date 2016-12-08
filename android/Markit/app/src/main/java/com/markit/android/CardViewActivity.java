@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,12 +52,11 @@ public class CardViewActivity extends BaseActivity {
         llm = new LinearLayoutManager(this);
         recList.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<ItemObject, CardViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, CardViewActivity.CardViewHolder>(
-                ItemObject.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
             @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, ItemObject model, int position) {
+            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
                 cardViewHolder.title.setText(model.getTitle());
-
                 final String itemID = model.getId();
                 cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -69,6 +69,7 @@ public class CardViewActivity extends BaseActivity {
                 });
                 cardViewHolder.price.setText("$ " + model.getPrice());
                 cardViewHolder.uid.setText(model.getUid());
+                //cardViewHolder.likeImageView.setTag(R.drawable.btn_star_big_off);
                 //cardViewHolder.id.setText(model.getId());
                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
             }
@@ -155,7 +156,7 @@ public class CardViewActivity extends BaseActivity {
             return true;
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(CardViewActivity.this, ChatListView.class));
+            startActivity(new Intent(CardViewActivity.this, ConversationView.class));
             return true;
         }
         if (id == R.id.sign_out) {
@@ -186,6 +187,7 @@ public class CardViewActivity extends BaseActivity {
         TextView tags;
         ImageView photo;
         Context context;
+        public ImageView likeImageView;
 
         public CardViewHolder(View itemView) {
             super(itemView);
@@ -195,6 +197,21 @@ public class CardViewActivity extends BaseActivity {
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
             id = (TextView) itemView.findViewById(R.id.id);
+//            likeImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int id = (int)likeImageView.getTag();
+//                    if( id == R.drawable.btn_star_big_off){
+//                        likeImageView.setTag(R.drawable.btn_star_big_on);
+//                        likeImageView.setImageResource(R.drawable.btn_star_big_on);
+//                        //Toast.makeText(getActivity(),title.getText()+" added to favorites",Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        likeImageView.setTag(R.drawable.btn_star_big_off);
+//                        likeImageView.setImageResource(R.drawable.btn_star_big_off);
+//                        //Toast.makeText(getActivity(),titleT.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
         }
 
     }

@@ -17,12 +17,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-public class ItemDetail extends AppCompatActivity {
+public class ItemDetail extends BaseActivity {
     private String uid;
     private String itemName;
     private String itemPrice;
     private String item;
     private DatabaseReference itemDatabase;
+    private String conversationKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,9 @@ public class ItemDetail extends AppCompatActivity {
             uid = "-KX9d_FL3zJVZgvnl8TW";
         }
         itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats" + "/conversationID");
+
 
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override
@@ -73,10 +77,11 @@ public class ItemDetail extends AppCompatActivity {
 
         itemDatabase.addListenerForSingleValueEvent(itemDetails);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
+        newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                conversationKey = chatRef.push().getKey();
 //                String uid = firebaseAuth.getCurrentUser().getUid();
                 //String user = "User " + uid.substring(0, 6);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
