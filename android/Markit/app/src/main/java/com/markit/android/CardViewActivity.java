@@ -7,10 +7,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -39,7 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 
-public class CardViewActivity extends BaseActivity {
+public class CardViewActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Bundle hubInfo;
     private static final String TAG = "CardView";
@@ -141,6 +143,13 @@ public class CardViewActivity extends BaseActivity {
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+        DrawerLayout drawer = super.getDrawerLayout();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nav_menu_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,11 +162,14 @@ public class CardViewActivity extends BaseActivity {
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DrawerLayout drawer = CardViewActivity.super.getDrawerLayout();
-                drawer.openDrawer(GravityCompat.END);
-                CardViewActivity.super.openNavDrawer();
+//                DrawerLayout drawer = CardViewActivity.super.getDrawerLayout();
+//                drawer.openDrawer(GravityCompat.END);
+//                CardViewActivity.super.openNavDrawer();
             }
         });
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
@@ -264,7 +276,7 @@ public class CardViewActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-//        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#F4A49D"));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#F4A49D"));
         collapsingToolbarLayout.setTitle("Markyt");
 //        collapsingToolbarLayout.
     }
@@ -274,6 +286,11 @@ public class CardViewActivity extends BaseActivity {
 
     public void setLoggedIn(boolean b) {
         loggedIn = b;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return super.onNavigationItemSelected(item);
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {

@@ -62,7 +62,15 @@ public class BaseActivity extends AppCompatActivity
             }
         };
 
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bringDrawerToFront();
+    }
+
     @Override
     //TODO Reload current screen rather than CardView -Peyton
     public void onFinishHub(String hub) {
@@ -72,6 +80,7 @@ public class BaseActivity extends AppCompatActivity
         reload.putExtra("hub", hub);
         BaseActivity.this.startActivity(reload);
     }
+
     @Override
     public void setContentView(int layoutResID) {
         layout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -81,11 +90,16 @@ public class BaseActivity extends AppCompatActivity
         super.setContentView(layout);
     }
 
+    public void bringDrawerToFront() {
+        layout.bringToFront();
+        layout.requestLayout();
+    }
+
     public DrawerLayout getDrawerLayout() {
         return BaseActivity.this.layout;
     }
     public void openNavDrawer() {
-        BaseActivity.this.layout.openDrawer(GravityCompat.END);
+        BaseActivity.this.layout.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -162,9 +176,14 @@ public class BaseActivity extends AppCompatActivity
         }
         if (id == R.id.nav_card_view) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
+
         }
         if (id == R.id.chat) {
             startActivity(new Intent(BaseActivity.this, MainChatActivity.class));
+            return true;
+        }
+        if (id == R.id.navigation_drawer) {
+            startActivity(new Intent(BaseActivity.this, NavigationActivity.class));
             return true;
         }
 
@@ -181,12 +200,18 @@ public class BaseActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        bringDrawerToFront();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            startActivity(new Intent(BaseActivity.this, NewListing.class));
+            return true;
         } else if (id == R.id.nav_gallery) {
+            startActivity(new Intent(BaseActivity.this, Profile.class));
+            return true;
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -197,9 +222,10 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+        System.out.println("SUP MUTHAFUKKA!");
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.END);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        layout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

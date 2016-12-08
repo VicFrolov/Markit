@@ -29,9 +29,11 @@
         android:id="@+id/chat"
         android:title="Chat"/>
     <item
-
         android:id="@+id/sign_out"
         android:title="Sign Out"/>
+    <item
+        android:id="@+id/navigation_drawer"
+        android:title="Navigation"/>
 
     <item
         android:id="@+id/search_listings"

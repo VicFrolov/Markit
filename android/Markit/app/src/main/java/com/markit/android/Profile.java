@@ -101,6 +101,8 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
                 // ...
             }
         };
+
+
         // ...
     }
 

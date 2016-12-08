@@ -19,16 +19,16 @@
             android:layout_height="@dimen/app_bar_height"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:background="@android:color/transparent">
+            android:background="?attr/colorAccent">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="@android:color/transparent"
+                app:contentScrim="@android:color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                android:background="@android:color/transparent">
+                android:background="@android:color/white">
 
                 <ImageView
                     android:layout_width="match_parent"
