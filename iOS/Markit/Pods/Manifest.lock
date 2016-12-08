@@ -44,6 +44,7 @@ PODS:
   - FirebaseStorage (1.0.5):
     - FirebaseAnalytics (~> 3.5)
     - GTMSessionFetcher/Core (~> 1.1)
+  - FontAwesome.swift (1.0.0)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Storage
+  - FontAwesome.swift
   - JSQMessagesViewController
   - MARKRangeSlider
   - SwiftyJSON (= 3.0.0)
@@ -88,6 +90,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 6de92187481ff0e8e124064f21742e95ee883b02
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FirebaseStorage: 5738284835edb57f0e81d4ae5832bb17c1e4b5fa
+  FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
@@ -97,6 +100,6 @@ SPEC CHECKSUMS:
   MARKRangeSlider: decd9efaf827d443579d698f3c740f3cd6a13fbf
   SwiftyJSON: f57b2b44bc166617372d1c70773591fe9f0f5fd4
 
-PODFILE CHECKSUM: 5ff245f770e96c1390d83381ec908b7955b40775
+PODFILE CHECKSUM: 9e91d056b810f059c0d23660af11a1f1c9ab1281
 
 COCOAPODS: 1.1.0.rc.2
