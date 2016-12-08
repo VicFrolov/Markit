@@ -97,13 +97,7 @@ class ProfileViewController: UIViewController {
     func updateProfile() {
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
-        /*
-        ref.child("/users/\(userID!)").child("paymentPreference").observeSingleEvent(of: .value, with: { (snapshot) in
-            print("APPLE \(paymentPreference)")
-        }) { (error) in
-            print(error.localizedDescription)
-        }
- */
+        
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
@@ -115,8 +109,11 @@ class ProfileViewController: UIViewController {
             let hub = value?["userHub"] as? String ?? ""
             let rating = value?["rating"] as? String ?? "none"
             let stars = Int(rating)! - 1
-            let paymentPreference = value?["paymentPreference"] as! NSDictionary
-            print("APPLE \(paymentPreference)")
+            let paymentPreference = value?["paymentPreference"] as! NSArray
+            self.paymentContains(array: paymentPreference, string: "cash")
+            self.paymentContains(array: paymentPreference, string: "venmo")
+            self.paymentContains(array: paymentPreference, string: "other")
+            
             
             self.firstLastNameLabel.text = name
             self.usernameLabel.text = username
@@ -134,6 +131,18 @@ class ProfileViewController: UIViewController {
             
         }) { (error) in
             print(error.localizedDescription)
+        }
+    }
+    
+    func paymentContains(array: NSArray, string: String) {
+        if array.contains(string) {
+            if (string == "cash") {
+                cashPaymentLabel.textColor = UIColor.gray
+            } else if (string == "venmo") {
+                venmoPaymentLabel.textColor = UIColor.gray
+            } else if (string == "other") {
+                otherPaymentLabel.textColor = UIColor.gray
+            }
         }
     }
     
