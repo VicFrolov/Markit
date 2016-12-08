@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		1200AFFE1DDD4BD300BAF550 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */; };
 		123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */; };
+		1240EFDB1DF10E96007749B7 /* Conversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1240EFDA1DF10E96007749B7 /* Conversations.swift */; };
 		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
-		128399C01DEEA23B00152948 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399BF1DEEA23B00152948 /* ChatViewController.swift */; };
+		128399C01DEEA23B00152948 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399BF1DEEA23B00152948 /* ChatListViewController.swift */; };
 		128399C21DEEA26500152948 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399C11DEEA26500152948 /* ChatTableViewCell.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
+		12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B34E081DF650D400C13B9F /* AddHubViewController.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */; };
 		12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */; };
@@ -33,7 +35,7 @@
 		384810B41D83984400830C95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810B31D83984400830C95 /* AppDelegate.swift */; };
 		384810B91D83984400830C95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810B71D83984400830C95 /* Main.storyboard */; };
 		384810BE1D83984400830C95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384810BC1D83984400830C95 /* LaunchScreen.storyboard */; };
-		384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */; };
+		384810CB1D84EC0700830C95 /* ListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CA1D84EC0700830C95 /* ListingsViewController.swift */; };
 		384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */; };
 		3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */; };
 		388B46A91D8A70F200B6717E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 388B46A81D8A70F200B6717E /* GoogleService-Info.plist */; };
@@ -51,10 +53,12 @@
 /* Begin PBXFileReference section */
 		1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MARKRangeSlider.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/MARKRangeSlider/MARKRangeSlider.framework"; sourceTree = "<group>"; };
+		1240EFDA1DF10E96007749B7 /* Conversations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversations.swift; sourceTree = "<group>"; };
 		1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchView.swift; sourceTree = "<group>"; };
-		128399BF1DEEA23B00152948 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		128399BF1DEEA23B00152948 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		128399C11DEEA26500152948 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		12B34E081DF650D400C13B9F /* AddHubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddHubViewController.swift; sourceTree = "<group>"; };
 		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageViewController.swift; sourceTree = "<group>"; };
 		12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteTextField.swift; sourceTree = "<group>"; };
@@ -79,7 +83,7 @@
 		384810B81D83984400830C95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		384810BD1D83984400830C95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		384810BF1D83984400830C95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewController.swift; sourceTree = "<group>"; };
+		384810CA1D84EC0700830C95 /* ListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsViewController.swift; sourceTree = "<group>"; };
 		384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTableViewCell.swift; sourceTree = "<group>"; };
 		387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemForSaleViewController.swift; sourceTree = "<group>"; };
 		388B46A81D8A70F200B6717E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				129C2E981DAB1BFF00129143 /* Item.swift */,
+				1240EFDA1DF10E96007749B7 /* Conversations.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -158,22 +163,25 @@
 				3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */,
 				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
+				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
+				384810CA1D84EC0700830C95 /* ListingsViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
-				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
+				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
+				12B34E081DF650D400C13B9F /* AddHubViewController.swift */,
 				3832CC511D98677300536451 /* AddPriceViewController.swift */,
 				38FB5CF11D9B5CFA00361CB6 /* AddTitleViewController.swift */,
 				38FB5CF31D9B70D400361CB6 /* AddTagsViewController.swift */,
 				38FB5CF51D9B722A00361CB6 /* AddDescriptionViewController.swift */,
 				345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */,
 				347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */,
-				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				38FB5CF91D9B913200361CB6 /* AccountNotLoggedInViewController.swift */,
 				38FB5CF71D9B7ED200361CB6 /* AccountCreateNameViewController.swift */,
 				38FB5CFB1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift */,
 				38FB5CFD1D9B97A400361CB6 /* AccountCreateHubViewController.swift */,
-				128399BF1DEEA23B00152948 /* ChatViewController.swift */,
+				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
+				128399BF1DEEA23B00152948 /* ChatListViewController.swift */,
 				12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */,
 				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				343096271DEEDE98008FB4E4 /* SellingListViewController.swift */,
@@ -346,9 +354,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */,
-				384810CB1D84EC0700830C95 /* ListingsTableViewController.swift in Sources */,
+				384810CB1D84EC0700830C95 /* ListingsViewController.swift in Sources */,
 				128399C21DEEA26500152948 /* ChatTableViewCell.swift in Sources */,
-				128399C01DEEA23B00152948 /* ChatViewController.swift in Sources */,
+				128399C01DEEA23B00152948 /* ChatListViewController.swift in Sources */,
 				343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */,
 				12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */,
 				129C2E991DAB1BFF00129143 /* Item.swift in Sources */,
@@ -360,6 +368,7 @@
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
+				12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */,
 				343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */,
 				345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */,
 				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
@@ -374,6 +383,7 @@
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
 				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
+				1240EFDB1DF10E96007749B7 /* Conversations.swift in Sources */,
 				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
 				1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */,
 				345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */,
