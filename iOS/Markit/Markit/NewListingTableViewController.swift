@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class NewListingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let imagePicker: UIImagePickerController! = UIImagePickerController()
@@ -16,6 +17,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     var tagSelected = false
     var hubSelected = false
     var descriptionSelected = false
+    let tagRef = FIRDatabase.database().reference().child("tags")
     
     @IBOutlet weak var price: UIButton!
     @IBOutlet weak var itemImage: UIImageView!
@@ -70,6 +72,15 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         dismiss(animated: true, completion: nil)
     }
     
+//    func getTags () -> [String: AnyObject] {
+//        var tags = [String]()
+//        
+//        tagRef.observe(.childAdded, with: { (snapshot) -> Void in
+//            let value = snapshot.value as? NSDictionary
+//            tags.append(value[])
+//        })
+//    }
+    
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         let priceVC = segue.source as? AddPriceViewController
         var userPrice = (priceVC?.priceLabel.text)!
@@ -109,13 +120,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     @IBAction func unwindTag(segue: UIStoryboardSegue) {
         let tagVC = segue.source as? AddTagsViewController
-        let userTags = tagVC?.tags.text
+        let userTags = tagVC?.tags.text?.lowercased()
         
         if userTags != "" {
             tags.setAttributedTitle(NSMutableAttributedString(string: userTags! as String), for: .normal)
             tagSelected = true
         }
-
         print("tags accepted: \(userTags!)")
     }
     
@@ -127,12 +137,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
             hubs.setAttributedTitle(NSMutableAttributedString(string: userHubs! as String), for: .normal)
             hubSelected = true
         }
-        
         print("hubs accepted: \(userHubs!)")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         imagePicker.delegate = self
         
         postButton.isUserInteractionEnabled = false
@@ -146,6 +156,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
             tagSelected &&
             hubSelected &&
             descriptionSelected {
+            
             postButton.isUserInteractionEnabled = true
             postButton.alpha = 1.0
         }

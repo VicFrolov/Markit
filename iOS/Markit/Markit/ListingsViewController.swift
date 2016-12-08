@@ -272,7 +272,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Configure the cell...
         cell.itemLabel?.text           = item.title
         cell.thumbnailImageView?.image = item.image
-        cell.priceLabel?.text          = item.price
+        cell.priceLabel?.text          = "$\(item.price!)"
         cell.userLabel?.text           = item.username
         return cell
     }

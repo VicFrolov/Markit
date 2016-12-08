@@ -10,19 +10,29 @@ import UIKit
 import Firebase
 
 class SellingTabTableViewController: UITableViewController {
-    var databaseRef: FIRDatabaseReference!
-    var storageRef: FIRStorageReference!
+    var databaseRef:   FIRDatabaseReference!
+    var tagRef:        FIRDatabaseReference!
+    var userRef:       FIRDatabaseReference!
+    var storageRef:    FIRStorageReference!
     var itemImagesRef: FIRStorageReference!
+    
+    var currentlySelling = [FIRDataSnapshot]()
+    var sellingTabCell = SellingTabTableViewCell()
     
     @IBAction func close(segue: UIStoryboardSegue) {}
 
+    // MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         databaseRef   = FIRDatabase.database().reference()
         storageRef    = FIRStorage.storage().reference()
+        tagRef        = databaseRef.child("tags")
         itemImagesRef = storageRef.child("images/itemImages/")
+        userRef       = databaseRef.child("users")
         
         self.tableView.delegate = self
+
+        populateList()        
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,13 +40,41 @@ class SellingTabTableViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return currentlySelling.count
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellID = "SellCell"
+        let row = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SellingTabTableViewCell
+        
+        // Configure the cell...
+        let item = currentlySelling[row].value as! NSDictionary
+        let itemID = item["id"] as? String
+        
+        itemImagesRef.child(itemID!).child("imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
+            DispatchQueue.main.async(execute: {
+                if error != nil {
+                    print("Something went wrong with the image: \(error?.localizedDescription)")
+                    return
+                } else {
+                    cell.itemImage?.image = UIImage(data: data!)!
+                }
+            })
+        }
+        
+        cell.itemTitle?.text = item["title"] as? String
+        cell.itemPrice?.text = "$\(item["price"]!)"
+        cell.itemDescription?.text = item["description"] as? String
+        return cell
     }
     
     @IBAction func unwindPost (segue: UIStoryboardSegue) {
@@ -46,24 +84,48 @@ class SellingTabTableViewController: UITableViewController {
         let itemTags        = newListingVC?.tags.currentAttributedTitle?.string
         let itemHub         = newListingVC?.hubs.currentAttributedTitle?.string
         let itemImage       = newListingVC?.itemImage
-        
+
         let itemPrice       = newListingVC?.price.currentAttributedTitle?.string
         let startIndex      = itemPrice?.index((itemPrice?.startIndex)!, offsetBy: 1)
         let truncatedPrice  = itemPrice?.substring(from: startIndex!)
         
-        let imageID         = storeImage(imageView: itemImage!)
+        let itemID          = storeImage(imageView: itemImage!)
         
         let tagList         = itemTags?.components(separatedBy: ", ")
+        incrementTagValues(tags: tagList!)
+        
         let hubList         = itemHub?.components(separatedBy: ", ")
         let uid             = getCurrentUser()
         
-        // Will probably be async since picture needs to be uploaded first
-        postNewListing(userID: uid, title: itemTitle!, itemDescription: itemDescription!, price: truncatedPrice!, itemImageID: imageID, tags: tagList!, hub: hubList!)
+        postNewListing(userID: uid, title: itemTitle!, itemDescription: itemDescription!, price: truncatedPrice!, itemID: itemID, tags: tagList!, hub: hubList!)
+    }
+    
+    func populateList () {
+        let uid = getCurrentUser()
+        databaseRef.child("itemsByUser").child(uid).observe(.childAdded, with: { (snapshot) -> Void in
+            self.currentlySelling.append(snapshot)
+        })
+    }
+    
+    func incrementTagValues(tags: [String]) {
+        let uniqueTags = Array(Set(tags))
+        
+        for tag in uniqueTags {
+            let tagRefHandle = tagRef.child(tag)
+            tagRefHandle.observeSingleEvent (of: .value, with: { (snapshot) -> Void in
+                if snapshot.exists() {
+                    let value = snapshot.value as! Int
+                    tagRefHandle.setValue(value + 1)
+                } else {
+                    tagRefHandle.setValue(1)
+                }
+            })
+        }
     }
     
     func storeImage(imageView: UIImageView) -> String {
-        let imageKey   = databaseRef.child("items").childByAutoId().key
-        itemImagesRef = itemImagesRef.child("\(imageKey)/imageOne")
+        let itemKey   = databaseRef.child("items").childByAutoId().key
+        itemImagesRef = itemImagesRef.child("\(itemKey)/imageOne")
         
         if let uploadData = UIImagePNGRepresentation(imageView.image!) {
             itemImagesRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
@@ -75,11 +137,10 @@ class SellingTabTableViewController: UITableViewController {
             })
 
         }
-        return imageKey
+        return itemKey
     }
     
-    func postNewListing (userID: String, title: String, itemDescription: String, price: String, itemImageID: String, tags: [String], hub: [String]) {
-        let itemKey = databaseRef.child("items").childByAutoId().key
+    func postNewListing (userID: String, title: String, itemDescription: String, price: String, itemID: String, tags: [String], hub: [String]) {
         
         let currentDate = Date()
         let formatter = DateFormatter()
@@ -87,23 +148,28 @@ class SellingTabTableViewController: UITableViewController {
         let convertedDate = formatter.string(from: currentDate)
         
         let item = ["date": "\(convertedDate)",
-            "description": itemDescription,
-            "favorites": [],
-            "id": itemImageID,
-            "price": price,
-            "hubs": hub,
-            "tags": tags,
-            "title": title,
-            "uid": userID] as [String : Any]
+                    "description": itemDescription,
+                    "favorites": [],
+                    "id": itemID,
+                    "price": price,
+                    "hubs": hub,
+                    "tags": tags,
+                    "title": title,
+                    "uid": userID] as [String : Any]
         
-        var childUpdates = ["/items/\(itemKey)": item,
-                            "/itemsByUser/\(userID)/\(itemKey)/": item]
+        var childUpdates = ["/items/\(itemID)": item,
+                            "/itemsByUser/\(userID)/\(itemID)/": item]
         
         for college in hub {
-            childUpdates["/itemsByHub/\(college)/\(itemKey)/"] = item
+            childUpdates["/itemsByHub/\(college)/\(itemID)/"] = item
         }
         
         databaseRef.updateChildValues(childUpdates)
+        userRef.child(userID)
+               .child("itemsForSale")
+               .child(itemID)
+               .setValue(true);
+        
         print("item posted to database")
     }
 
@@ -111,60 +177,4 @@ class SellingTabTableViewController: UITableViewController {
         let user = FIRAuth.auth()?.currentUser
         return (user?.uid)!
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

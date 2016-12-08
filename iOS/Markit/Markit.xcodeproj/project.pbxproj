@@ -11,6 +11,8 @@
 		123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */; };
 		1240EFDB1DF10E96007749B7 /* Conversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1240EFDA1DF10E96007749B7 /* Conversations.swift */; };
 		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
+		125E32811DF8B211005DBE31 /* SellingTabTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */; };
+		125E32851DF8F314005DBE31 /* DetailedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E32841DF8F314005DBE31 /* DetailedTableViewController.swift */; };
 		128399C01DEEA23B00152948 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399BF1DEEA23B00152948 /* ChatListViewController.swift */; };
 		128399C21DEEA26500152948 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128399C11DEEA26500152948 /* ChatTableViewCell.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
@@ -54,6 +56,8 @@
 		123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MARKRangeSlider.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/MARKRangeSlider/MARKRangeSlider.framework"; sourceTree = "<group>"; };
 		1240EFDA1DF10E96007749B7 /* Conversations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversations.swift; sourceTree = "<group>"; };
 		1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchView.swift; sourceTree = "<group>"; };
+		125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewCell.swift; sourceTree = "<group>"; };
+		125E32841DF8F314005DBE31 /* DetailedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewController.swift; sourceTree = "<group>"; };
 		128399BF1DEEA23B00152948 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		128399C11DEEA26500152948 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				384810CA1D84EC0700830C95 /* ListingsViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
+				125E32841DF8F314005DBE31 /* DetailedTableViewController.swift */,
 				380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */,
 				381CDC501D97D91500AA54DB /* NewListingTableViewController.swift */,
 				387418791D8A8390009F6EFD /* AddItemForSaleViewController.swift */,
@@ -194,6 +199,7 @@
 			children = (
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
 				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
+				125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */,
 				128399C11DEEA26500152948 /* ChatTableViewCell.swift */,
 			);
 			name = View;
@@ -358,6 +364,7 @@
 				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				343096281DEEDE98008FB4E4 /* SellingListViewController.swift in Sources */,
 				3874187A1D8A8390009F6EFD /* AddItemForSaleViewController.swift in Sources */,
+				125E32811DF8B211005DBE31 /* SellingTabTableViewCell.swift in Sources */,
 				34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
@@ -374,6 +381,7 @@
 				38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */,
 				384810B41D83984400830C95 /* AppDelegate.swift in Sources */,
 				38FB5CF21D9B5CFA00361CB6 /* AddTitleViewController.swift in Sources */,
+				125E32851DF8F314005DBE31 /* DetailedTableViewController.swift in Sources */,
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
 				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
