@@ -24,6 +24,20 @@
     }
 }
 
+
+/*suggestions panel*/
+#hub-suggestions-holder {
+    height: 300px;
+}
+
+#suggestions-blurb {
+    font-size: 30px;
+    color: #aaa;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+}
+
 /*card panel*/
 
 .card .card-title {

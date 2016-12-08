@@ -1,3 +1,5 @@
+'use strict'
+
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
@@ -93,6 +95,7 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
+
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -152,10 +155,19 @@ var getFavoriteObjects = function (callback) {
 };
 
 
-
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+
+    itemsRef.child(item).once('value').then(function(snapshot) {
+        let item = snapshot.val()
+        let itemTags = item['tags']
+        for (let i = 0; i < itemTags.length; i += 1) {
+            usersRef.child(auth.currentUser.uid + 
+                '/tagSuggestions/' + itemTags[i]).set(0.5);
+        }
+
+    });    
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
@@ -176,6 +188,17 @@ var addNewListingToProfile = function(uid, itemID) {
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
     itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+    
+    //update suggested tags
+    itemsRef.child(itemID).once('value').then(function(snapshot) {
+        let item = snapshot.val()
+        let itemTags = item['tags']
+        for (let i = 0; i < itemTags.length; i += 1) {
+            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
+        }
+
+    });    
+
 };
 
 
@@ -242,6 +265,88 @@ var addHubs = function(itemHubs) {
     });
 };
 
+
+
+// AI algorithm functions for suggestions in hub
+// next 3 functions
+var getItemsInHub = function (hub) {
+    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
+
+var getUserSuggestions = function (uid) {
+    usersRef
+    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
+
+var populateSuggestionsInHub = function(hub, uid) {
+    Promise.all([
+        getItemsInHub(hub), 
+        getUserSuggestions(uid)]).then(function (results) {
+            let itemsInHub = results[0];
+            let userSuggestions = results[1];
+
+            // if user has favorites
+            if (userSuggestions) {
+                // for each item in the hub
+                for (let item in itemsInHub) {
+                    let itemTagCount = itemsInHub[item]['tags'].length;
+                    let tagMatches = {};
+                    let tagMatchCount = 0;
+                    let tagWeight = 0;
+                    let itemTags = itemsInHub[item]['tags'];
+
+                    // for each tag in each item
+                    itemTags.forEach(function (tag) {
+                        // calculate weights
+                        if (tag in userSuggestions) {
+                            tagMatches[tag] = userSuggestions[tag];
+                            tagMatchCount += 1;
+                            tagWeight += userSuggestions[tag];
+                            
+                        }
+                    });
+
+                    tagWeight /= itemTagCount;
+
+                    if (tagMatchCount === 0) {
+                        continue;
+                    }
+
+                    // for each tags in item
+                    itemTags.forEach(function(tag) {
+                        // set weights
+                        if (tag in userSuggestions && userSuggestions[tag] < 1) {
+                            usersRef.child(uid + '/tagSuggestions/' + tag).set((userSuggestions[tag]));
+                        } else if (!(tag in userSuggestions)) {
+                            usersRef.child(uid + '/tagSuggestions/' + tag).set(tagWeight);
+                        }
+                    });
+                }
+
+                // iterate through items and display items with highest values
+                let userItemSuggestions = {}
+                for (let item in itemsInHub) {
+                    let itemTags = itemsInHub[item]['tags'];
+                    let tagCount = itemsInHub[item]['tags'].length;
+                    let itemWeight = 0;
+                    itemTags.forEach(function (tag) {
+                        if (tag in userSuggestions) {
+                            itemWeight += userSuggestions[tag];
+                        }
+                    });
+                    itemWeight /= tagCount;
+                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
+                }
+                console.log(userItemSuggestions)
+            }
+        });
+}
+
+
 module.exports = {
     auth,
     signIn,
@@ -259,5 +364,6 @@ module.exports = {
     getImage,
     getRecentItemsInHub,
     getUserInfo,
-    updateUserInfo
+    updateUserInfo,
+    populateSuggestionsInHub
 };
