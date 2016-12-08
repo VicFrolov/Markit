@@ -432,7 +432,6 @@
 	        });
 	}
 
-	populateSuggestionsInHub('Loyola Marymount University', 'qnphRQ8PBrffwne2sDEPj39MoZg1');
 
 	module.exports = {
 	    auth,
@@ -452,6 +451,7 @@
 	    getRecentItemsInHub,
 	    getUserInfo,
 	    updateUserInfo,
+	    populateSuggestionsInHub
 	};
 
 /***/ },
@@ -2345,7 +2345,7 @@
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
-	    // var getSuggestedItemsInHub = require('./firebase.js')['getSuggestedItemsInHub'];
+	    var populateSuggestionsInHub = __webpack_require__(2)['populateSuggestionsInHub'];
 
 
 
@@ -2377,6 +2377,7 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	            populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid);
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 

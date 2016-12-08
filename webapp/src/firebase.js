@@ -346,7 +346,6 @@ var populateSuggestionsInHub = function(hub, uid) {
         });
 }
 
-populateSuggestionsInHub('Loyola Marymount University', 'qnphRQ8PBrffwne2sDEPj39MoZg1');
 
 module.exports = {
     auth,
@@ -366,4 +365,5 @@ module.exports = {
     getRecentItemsInHub,
     getUserInfo,
     updateUserInfo,
+    populateSuggestionsInHub
 };
