@@ -289,7 +289,9 @@ var populateSuggestionsInHub = function(hub, uid) {
             let itemsInHub = results[0];
             let userSuggestions = results[1];
 
+            // if user has favorites
             if (userSuggestions) {
+                // for each item in the hub
                 for (let item in itemsInHub) {
                     let itemTagCount = itemsInHub[item]['tags'].length;
                     let tagMatches = {};
@@ -297,7 +299,9 @@ var populateSuggestionsInHub = function(hub, uid) {
                     let tagWeight = 0;
                     let itemTags = itemsInHub[item]['tags'];
 
+                    // for each tag in each item
                     itemTags.forEach(function (tag) {
+                        // calculate weights
                         if (tag in userSuggestions) {
                             tagMatches[tag] = userSuggestions[tag];
                             tagMatchCount += 1;
@@ -312,7 +316,9 @@ var populateSuggestionsInHub = function(hub, uid) {
                         continue;
                     }
 
+                    // for each tags in item
                     itemTags.forEach(function(tag) {
+                        // set weights
                         if (tag in userSuggestions && userSuggestions[tag] < 1) {
                             usersRef.child(uid + '/tagSuggestions/' + tag).set((userSuggestions[tag]));
                         } else if (!(tag in userSuggestions)) {
@@ -321,6 +327,7 @@ var populateSuggestionsInHub = function(hub, uid) {
                     });
                 }
 
+                // iterate through items and display items with highest values
                 let userItemSuggestions = {}
                 for (let item in itemsInHub) {
                     let itemTags = itemsInHub[item]['tags'];
