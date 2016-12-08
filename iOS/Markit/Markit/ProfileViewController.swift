@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var venmoPaymentLabel: UILabel!
     @IBOutlet weak var cashPaymentLabel: UILabel!
     var ref: FIRDatabaseReference!
-    var firstName = "", lastName = ""
+    var firstName = "", lastName = "", paymentPreference : NSArray = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +51,7 @@ class ProfileViewController: UIViewController {
                 destination.email     = self.emailLabel.text!
                 destination.username  = self.usernameLabel.text!
                 destination.hub       = self.hubLabel.text!
+                destination.paymentPreference = self.paymentPreference
             }
         }
         if let profilePageViewController = segue.destination as? ProfilePageViewController {
@@ -76,6 +77,9 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         makeProfilePicCircular()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         updateProfile()
     }
     
@@ -107,20 +111,17 @@ class ProfileViewController: UIViewController {
             let name = "\(self.firstName) \(self.lastName)"
             let email = value?["email"] as? String ?? ""
             let hub = value?["userHub"] as? String ?? ""
-            let rating = value?["rating"] as? String ?? "none"
-            let stars = Int(rating)! - 1
-            let paymentPreference = value?["paymentPreference"] as! NSArray
-            self.paymentContains(array: paymentPreference, string: "cash")
-            self.paymentContains(array: paymentPreference, string: "venmo")
-            self.paymentContains(array: paymentPreference, string: "other")
-            
+            let rating = value?["rating"] as? String ?? "-1"
+            let stars = Int(rating)!
+            self.paymentPreference = value?["paymentPreference"] as! NSArray
+            self.paymentContains(array: self.paymentPreference, paymentOptions: ["cash", "venmo", "other"])
             
             self.firstLastNameLabel.text = name
             self.usernameLabel.text = username
             self.emailLabel.text = email
             self.hubLabel.text = hub
             
-            if (rating != "none" && stars <= 4) {
+            if (rating != "-1" && stars <= 4) {
                 for i in 0...stars {
                     self.collectionOfStars![i].isHidden = false
                 }
@@ -134,22 +135,36 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func paymentContains(array: NSArray, string: String) {
-        if array.contains(string) {
-            if (string == "cash") {
-                cashPaymentLabel.textColor = UIColor.gray
-            } else if (string == "venmo") {
-                venmoPaymentLabel.textColor = UIColor.gray
-            } else if (string == "other") {
-                otherPaymentLabel.textColor = UIColor.gray
+    func paymentContains(array: NSArray, paymentOptions: [String]) {
+        cashPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
+        venmoPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
+        otherPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
+        print("ADFA \(array)")
+        
+        for option in paymentOptions {
+            if array.contains(option) {
+                if (option == "cash") {
+                    cashPaymentLabel.textColor = UIColor.gray
+                } else if (option == "venmo") {
+                    venmoPaymentLabel.textColor = UIColor.gray
+                } else if (option == "other") {
+                    otherPaymentLabel.textColor = UIColor.gray
+                }
             }
         }
     }
     
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
     
 }
-
-
 
 extension ProfileViewController: ProfilePageViewControllerDelegate {
     

@@ -32,7 +32,7 @@ class AccountCreateHubViewController: UIViewController {
                 
                 let date = Date()
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss zzzz"
+                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss zzz"
                 let currentDate = dateFormatter.string(from: date as Date)
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
@@ -45,7 +45,7 @@ class AccountCreateHubViewController: UIViewController {
                                 "uid"               : user!.uid,
                                 "userHub"           : self.hub.text!,
                                 "username"          : self.username.text!,
-                                "rating"            : "none",
+                                "rating"            : "-1",
                                 "paymentPreference" : self.paymentPreferenceDict] as [String : Any]
                 uidRef.setValue(userJson)
                 

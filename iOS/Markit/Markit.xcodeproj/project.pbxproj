@@ -161,8 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */,
-				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
-				384810CA1D84EC0700830C95 /* ListingsTableViewController.swift */,
 				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				384810CA1D84EC0700830C95 /* ListingsViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,

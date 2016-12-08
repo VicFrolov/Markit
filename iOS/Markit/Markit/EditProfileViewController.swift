@@ -18,21 +18,48 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var hubTextField: UITextField!
     @IBOutlet weak var preferedPaymentTextField: UITextField!
-    var firstName = "", lastName = "", email = "", username = "", hub = "", preferedPayment = ""
+    @IBOutlet weak var otherPaymentButton: UIButton!
+    @IBOutlet weak var venmoPaymentButton: UIButton!
+    @IBOutlet weak var cashPaymentButton: UIButton!
+    var firstName = "", lastName = "", email = "",
+        username = "" , hub = ""
+    var paymentPreference : NSArray = []
+    var paymentPreferenceDict = ["0": "", "1": "", "2": ""]
     var ref: FIRDatabaseReference!
     
+
     override func viewDidLoad() {
-        for view in self.view.subviews as [UIView] {
-            if let textField = view as? UITextField {
-                drawBottomBorder(textField: textField)
-            }
-        }
         firstNameTextField.text = self.firstName
         lastNameTextField.text  = self.lastName
         emailTextField.text     = self.email
         usernameTextField.text  = self.username
         hubTextField.text       = self.hub
+        
     }
+    
+    func checkPaymentPreference(paymentPrefence: NSArray, paymentOptions: [String]){
+        for option in paymentOptions {
+                            print("FDSA \(option)")
+            if paymentPreference.contains(option) {
+                if (option == "cash") {
+                    buttonSelect(button: cashPaymentButton)
+                } else if (option == "venmo") {
+                    buttonSelect(button: venmoPaymentButton)
+                } else if (option == "other") {
+                    buttonSelect(button: otherPaymentButton)
+                }
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        for view in self.view.subviews as [UIView] {
+            if let textField = view as? UITextField {
+                drawBottomBorder(textField: textField)
+            }
+        }
+    }
+    
     
     @IBAction func updateProfile(sender: UIButton) {
         ref = FIRDatabase.database().reference()
@@ -42,9 +69,32 @@ class EditProfileViewController: UIViewController {
                               "lastName"          : self.lastNameTextField.text as String!,
                               "userHub"           : self.hubTextField.text as String!,
                               "username"          : self.usernameTextField.text as String!,
-                              "paymentPreference" : "cash"] as [String : Any]
+                              "paymentPreference" : paymentPreferenceDict] as [String : Any]
         ref.child("/users/\(userID!)").updateChildValues(updatedProfile)
         
+    }
+    
+    func buttonSelect(button: UIButton) {
+        if (!button.isSelected) {
+            button.setTitleColor(UIColor.black, for: .selected)
+        }
+        button.isSelected = !button.isSelected ? true : false
+    }
+
+    
+    @IBAction func cashButtonSelected(sender: AnyObject) {
+        buttonSelect(button: cashPaymentButton)
+        paymentPreferenceDict["0"] = cashPaymentButton.isSelected ? "cash" : nil
+    }
+    
+    @IBAction func venmoButtonSelected(sender: AnyObject) {
+        buttonSelect(button: venmoPaymentButton)
+        paymentPreferenceDict["1"] = venmoPaymentButton.isSelected ? "venmo" : nil
+    }
+    
+    @IBAction func otherButtonSelected(sender: AnyObject) {
+        buttonSelect(button: otherPaymentButton)
+        paymentPreferenceDict["2"] = otherPaymentButton.isSelected ? "other" : nil
     }
     
     override func viewDidLayoutSubviews() {
