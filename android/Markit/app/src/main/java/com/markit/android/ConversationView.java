@@ -50,7 +50,7 @@ public class ConversationView extends BaseActivity {
             @Override
             public void populateViewHolder(ConversationView.ConversationViewHolder conversationViewHolder, ConversationItem model, int position) {
                 conversationViewHolder.conversationName.setText(model.getSender());
-                conversationViewHolder.conversationMessage.setText(model.getLastMessage());
+                //conversationViewHolder.conversationMessage.setText(model.getLastMessage());
                 final String conversationID = model.getId();
                 conversationViewHolder.conversationName.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -69,7 +69,7 @@ public class ConversationView extends BaseActivity {
 
     public static class ConversationViewHolder extends RecyclerView.ViewHolder {
         final TextView conversationName;
-        final TextView conversationMessage;
+        //final TextView conversationMessage;
         final TextView conversationID;
         private final Context context;
 
@@ -78,7 +78,7 @@ public class ConversationView extends BaseActivity {
             this.context = context;
             //itemView.setOnClickListener(this);
             conversationName = (TextView) itemView.findViewById(R.id.list_item_username);
-            conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
+            //conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
             conversationID = (TextView) itemView.findViewById(R.id.conversationID);
         }
 

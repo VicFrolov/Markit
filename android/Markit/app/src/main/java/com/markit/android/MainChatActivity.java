@@ -55,7 +55,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
     String chatKey;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats" + "/conversationID" + "/messages");
+    DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats/" + conversationID + "/messages");
     //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
     //.child("items").child("itemID").child("conversationID")
     //intent.putExtra("uid", item)
@@ -89,9 +89,10 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 String user = uid.substring(0, 6);
                 chatKey = chatRef.push().getKey();
 
-                Chat chat = new Chat(user, uid, editMessage.getText().toString(), chatKey);
+                //message item itself
+                Chat message = new Chat(user, uid, editMessage.getText().toString(), chatKey);
                 chatKey = chatRef.push().getKey();
-                chatRef.push().setValue(chat, new DatabaseReference.CompletionListener() {
+                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
@@ -140,7 +141,9 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
         updateUI();
     }
 
-    //This sends messages
+    //This sends messages & attaches all messages to the activity
+    //need to specify conversation
+
     private void attachRecyclerViewAdapter() {
         Query lastFifty = chatRef.limitToLast(50);
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(

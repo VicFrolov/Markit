@@ -2,13 +2,16 @@ package com.markit.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -17,13 +20,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-public class ItemDetail extends BaseActivity {
+public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateListener {
     private String uid;
     private String itemName;
     private String itemPrice;
     private String item;
     private DatabaseReference itemDatabase;
     private String conversationKey;
+    private FirebaseAuth firebaseAuth;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,11 @@ public class ItemDetail extends BaseActivity {
         } else{
             uid = "-KX9d_FL3zJVZgvnl8TW";
         }
+
         itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats" + "/conversationID");
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.addAuthStateListener(this);
 
 
         ValueEventListener itemDetails = new ValueEventListener() {
@@ -81,14 +90,21 @@ public class ItemDetail extends BaseActivity {
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                conversationKey = chatRef.push().getKey();
-//                String uid = firebaseAuth.getCurrentUser().getUid();
-                //String user = "User " + uid.substring(0, 6);
-                startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                //conversationKey = chatRef.push().getKey();
+                String sender = firebaseAuth.getCurrentUser().getUid();
+                //String itemId = getItemId();
+                conversationKey = convoRef.push().getKey();
+
+                ConversationItem convo = new ConversationItem(conversationKey, sender);
+                //conversationKey = convoRef.push().getKey();
+                //convoRef.push().setValue(convo, new convoRef);
+                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
         });
-    }
 
+        }
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+    }
 }

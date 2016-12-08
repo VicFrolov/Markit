@@ -47,7 +47,7 @@
 
     <ImageView
         android:id="@+id/likeImageView"
-        card_view:srcCompat="@android:drawable/btn_star_big_off"
+        card_view:srcCompat="@drawable/ic_favorite_border_black_48px"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="310dp" />

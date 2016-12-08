@@ -69,7 +69,7 @@ public class CardViewActivity extends BaseActivity {
                 });
                 cardViewHolder.price.setText("$ " + model.getPrice());
                 cardViewHolder.uid.setText(model.getUid());
-                //cardViewHolder.likeImageView.setTag(R.drawable.btn_star_big_off);
+                //cardViewHolder.likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
                 //cardViewHolder.id.setText(model.getId());
                 Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
             }
@@ -201,13 +201,13 @@ public class CardViewActivity extends BaseActivity {
 //                @Override
 //                public void onClick(View v) {
 //                    int id = (int)likeImageView.getTag();
-//                    if( id == R.drawable.btn_star_big_off){
-//                        likeImageView.setTag(R.drawable.btn_star_big_on);
-//                        likeImageView.setImageResource(R.drawable.btn_star_big_on);
+//                    if( id == R.drawable.ic_favorite_border_black_48px){
+//                        likeImageView.setTag(R.drawable.ic_favorite_black_48px);
+//                        likeImageView.setImageResource(R.drawable.ic_favorite_black_48px);
 //                        //Toast.makeText(getActivity(),title.getText()+" added to favorites",Toast.LENGTH_SHORT).show();
 //                    }else{
-//                        likeImageView.setTag(R.drawable.btn_star_big_off);
-//                        likeImageView.setImageResource(R.drawable.btn_star_big_off);
+//                        likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
+//                        likeImageView.setImageResource(R.drawable.ic_favorite_border_black_48px);
 //                        //Toast.makeText(getActivity(),titleT.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
 //                    }
 //                }
