@@ -28,9 +28,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var postButton: UIButton!
     
     @IBAction func takePicture(sender: UIButton) {
-        print("In takePicture")
         if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
-            print("In first if")
             if (UIImagePickerController.isCameraDeviceAvailable(.rear)) {
                 imagePicker.sourceType = .camera
                 imagePicker.cameraCaptureMode = .photo

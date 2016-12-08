@@ -16,7 +16,7 @@ class SellingTabTableViewController: UITableViewController {
     var storageRef:    FIRStorageReference!
     var itemImagesRef: FIRStorageReference!
     
-    var currentlySelling = [FIRDataSnapshot]()
+    var currentlySelling: [FIRDataSnapshot]!
     var sellingTabCell = SellingTabTableViewCell()
     
     @IBAction func close(segue: UIStoryboardSegue) {}
@@ -24,17 +24,16 @@ class SellingTabTableViewController: UITableViewController {
     // MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
+        currentlySelling = [FIRDataSnapshot]()
         databaseRef   = FIRDatabase.database().reference()
         storageRef    = FIRStorage.storage().reference()
         tagRef        = databaseRef.child("tags")
         itemImagesRef = storageRef.child("images/itemImages/")
         userRef       = databaseRef.child("users")
-        
-        self.tableView.delegate = self
 
-        populateList()        
+        populateList()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -47,10 +46,6 @@ class SellingTabTableViewController: UITableViewController {
         return currentlySelling.count
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.tableView.reloadData()
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellID = "SellCell"
         let row = indexPath.row
@@ -60,16 +55,16 @@ class SellingTabTableViewController: UITableViewController {
         let item = currentlySelling[row].value as! NSDictionary
         let itemID = item["id"] as? String
         
-        itemImagesRef.child(itemID!).child("imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
-            DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async(execute: {
+            self.itemImagesRef.child(itemID!).child("imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
                 if error != nil {
                     print("Something went wrong with the image: \(error?.localizedDescription)")
                     return
                 } else {
                     cell.itemImage?.image = UIImage(data: data!)!
                 }
-            })
-        }
+            }
+        })
         
         cell.itemTitle?.text = item["title"] as? String
         cell.itemPrice?.text = "$\(item["price"]!)"
@@ -98,12 +93,15 @@ class SellingTabTableViewController: UITableViewController {
         let uid             = getCurrentUser()
         
         postNewListing(userID: uid, title: itemTitle!, itemDescription: itemDescription!, price: truncatedPrice!, itemID: itemID, tags: tagList!, hub: hubList!)
+        
+        self.tableView.reloadData()
     }
     
     func populateList () {
         let uid = getCurrentUser()
         databaseRef.child("itemsByUser").child(uid).observe(.childAdded, with: { (snapshot) -> Void in
             self.currentlySelling.append(snapshot)
+            self.tableView.reloadData()
         })
     }
     

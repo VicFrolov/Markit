@@ -249,7 +249,7 @@
         <scene sceneID="4EP-87-qZE">
             <objects>
                 <navigationController id="whJ-Lj-Sto" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mlJ-It-TMZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mlJ-It-TMZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -270,7 +270,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="1kw-On-HSB">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="1kw-On-HSB" customClass="DetailedTableViewCell" customModule="Markit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="375" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1kw-On-HSB" id="pk4-rD-Mr0">
@@ -306,8 +306,13 @@
                                         <constraint firstItem="D9U-uB-VYJ" firstAttribute="top" secondItem="pk4-rD-Mr0" secondAttribute="top" id="tQw-h1-X13"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="faved" destination="D9U-uB-VYJ" id="oZi-jg-Mpl"/>
+                                    <outlet property="itemImage" destination="D9U-uB-VYJ" id="rW5-kz-I9V"/>
+                                    <outlet property="itemPrice" destination="6Zr-Jv-fjG" id="rFP-7I-6dQ"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="qj2-qC-HvH">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="qj2-qC-HvH" customClass="DetailedTableViewCell" customModule="Markit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="292" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qj2-qC-HvH" id="S5n-kN-aM5">
@@ -328,8 +333,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="1" green="0.40784313729999999" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="itemTitle" destination="ro2-DO-dr6" id="GJl-Lj-R36"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="130" id="MTO-mS-qvk">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="130" id="MTO-mS-qvk" customClass="DetailedTableViewCell" customModule="Markit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="375" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MTO-mS-qvk" id="fsz-Fx-Hxn">
@@ -351,8 +359,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="itemDescription" destination="dWu-da-Ugn" id="zXE-4Y-smO"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="7Oc-G8-oaR">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="7Oc-G8-oaR" customClass="DetailedTableViewCell" customModule="Markit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="487" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Oc-G8-oaR" id="2mr-p6-AGg">
@@ -373,8 +384,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.82107371790000006" green="0.35587328610000002" blue="0.61160387650000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="itemTags" destination="50D-qM-Gk6" id="OxN-2Q-9EV"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="5Vh-ks-U8j">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="5Vh-ks-U8j" customClass="DetailedTableViewCell" customModule="Markit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="552" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5Vh-ks-U8j" id="dhW-Un-3Vp">
@@ -395,6 +409,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="itemHubs" destination="18n-zj-2oC" id="9ps-fA-Jqt"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -402,19 +419,10 @@
                             <outlet property="delegate" destination="bij-ic-cJz" id="YD2-3b-6Tf"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="favorited" destination="8OF-nT-wLz" id="Xg5-3R-9TC"/>
-                        <outlet property="itemDescription" destination="dWu-da-Ugn" id="D9D-Sb-wdD"/>
-                        <outlet property="itemHubs" destination="18n-zj-2oC" id="RXH-Tf-vQg"/>
-                        <outlet property="itemImage" destination="D9U-uB-VYJ" id="nzY-U5-dhD"/>
-                        <outlet property="itemPrice" destination="6Zr-Jv-fjG" id="t7M-38-tm3"/>
-                        <outlet property="itemTags" destination="50D-qM-Gk6" id="K79-x9-PAt"/>
-                        <outlet property="itemTitle" destination="ro2-DO-dr6" id="WV2-YU-ILB"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qtp-9n-fHF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1093.5999999999999" y="1248.1259370314845"/>
+            <point key="canvasLocation" x="1081" y="1152"/>
         </scene>
         <!--Logged In Or Not Logged In View Controller-->
         <scene sceneID="Ch4-a8-8hE">
@@ -542,10 +550,10 @@
             </objects>
             <point key="canvasLocation" x="3374" y="2354"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="5fr-WQ-Dlb">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Qwb-6j-Hhy" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Qwb-6j-Hhy" customClass="MainTabBarController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="SAR-cl-91Z">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -570,7 +578,7 @@
                 <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="aW4-ox-6SW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Sell" id="mo3-0Q-GRo"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uxp-yY-EZD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uxp-yY-EZD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -583,7 +591,7 @@
             </objects>
             <point key="canvasLocation" x="340" y="560.86956521739137"/>
         </scene>
-        <!--Your Items For Sale-->
+        <!--My Items-->
         <scene sceneID="BFu-HI-g8K">
             <objects>
                 <tableViewController id="vhY-lT-abz" customClass="SellingTabTableViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
@@ -661,7 +669,7 @@
                             <outlet property="delegate" destination="vhY-lT-abz" id="eVe-ak-WXY"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Items For Sale" id="2Hf-ir-riv">
+                    <navigationItem key="navigationItem" title="My Items" id="2Hf-ir-riv">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="6DT-df-XyP">
                             <connections>
                                 <segue destination="qgV-ma-KUb" kind="show" id="Pqg-UR-vxE"/>
@@ -1056,7 +1064,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ah1-QM-mZI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Hub" id="kgC-66-j5R"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="X9o-ca-Npz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="X9o-ca-Npz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1389,14 +1397,14 @@
             </objects>
             <point key="canvasLocation" x="2561" y="1207"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Profile-->
         <scene sceneID="ODk-5q-uoW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s5v-Wz-LK5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="contacts" id="FPZ-cq-6YJ"/>
+                    <tabBarItem key="tabBarItem" title="Profile" id="FPZ-cq-6YJ"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="qKx-OA-CJj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qKx-OA-CJj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2434,6 +2442,24 @@
             </objects>
             <point key="canvasLocation" x="1789.5999999999999" y="-169.56521739130437"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="5uQ-q0-dhu">
+            <objects>
+                <viewController id="HJa-zg-Usi" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0ac-w6-oFQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lbn-ee-jq1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AqJ-5p-FK6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.078663896210000001" green="0.41761763429999998" blue="0.76334964250000004" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T0y-DN-SEt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2548" y="-168"/>
+        </scene>
         <!--Listings View Controller-->
         <scene sceneID="oRe-eR-KB6">
             <objects>
@@ -2450,10 +2476,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="271" id="iUV-pK-JgA" customClass="ListingsTableViewCell" customModule="Markit" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="1000" height="271"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="271"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iUV-pK-JgA" id="AGi-8g-42U">
-                                            <frame key="frameInset" width="375" height="271"/>
+                                            <frame key="frameInset" width="375" height="270"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qP8-TM-9NL"/>
@@ -2521,7 +2547,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="listingsTableViewController" destination="Mcr-Dy-Xik" id="n29-8u-mxi"/>
+                        <outlet property="listingsTableView" destination="Mcr-Dy-Xik" id="SIl-ny-Xuz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivK-n8-Rql" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2534,7 +2560,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qUj-It-8rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" selectedImage="Search@2x" systemItem="search" id="W87-rn-6BV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AeM-aa-07L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AeM-aa-07L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2559,7 +2585,7 @@
         <image name="star" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rKm-6K-eZZ"/>
-        <segue reference="CQu-79-AZV"/>
+        <segue reference="F3e-lz-7gr"/>
+        <segue reference="Rca-3Q-MPy"/>
     </inferredMetricsTieBreakers>
 </document>

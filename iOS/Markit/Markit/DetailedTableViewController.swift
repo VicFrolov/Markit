@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 class DetailedTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
