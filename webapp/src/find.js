@@ -88,6 +88,8 @@ $(function() {
                 'max': 3000
             }
         });
+
+        slider[0].noUiSlider.get()
     }
 
     var showFavoritesInSearches = function(currentFavorites) {
@@ -103,10 +105,6 @@ $(function() {
         });
     };
 
-    var hubCheck = function(hubs) {
-
-    }
-
     var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
         Promise.resolve(currentItems).then(function(itemList) {
             var str = $('#find-results-template').text();
@@ -117,8 +115,9 @@ $(function() {
             for (var item in itemList) {
                 var currentItem = itemList[item];
                 var itemID = currentItem['id'];
-                var itemDescription = currentItem['description'].toLowerCase()
-                var itemTitle = currentItem['title'].toLowerCase()
+                var itemDescription = currentItem['description'].toLowerCase();
+                var itemTitle = currentItem['title'].toLowerCase();
+                var itemPrice = parseInt(currentItem['price'])
                 imagePaths.push(itemID);
 
 
@@ -130,12 +129,17 @@ $(function() {
                     continue;
                 }
 
-
                 if (keywords.length > 0 && (!keywords.some(key => itemTitle.includes(key)) &&
                     !keywords.some(key => itemDescription.includes(key)))) {
                         continue
                 }
+
+                if (itemPrice < priceRange[0] || itemPrice > priceRange[1]) {
+                    continue;
+                }
                     
+                //200
+                //203-204
 
                 filteredItemList[itemID] = currentItem
             }
@@ -167,14 +171,18 @@ $(function() {
 
     $("#find-search-button").click(function () {
         var query = "key=";
-        var keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/) || [];
+        var keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
         var hubs = $("#find-hubs").val();
-        var tags = []
-        var priceRange = []
+        var tags = [];
+        var priceRange = slider[0].noUiSlider.get();
+
+        for (let i = 0; i < priceRange.length; i += 1) {
+            priceRange[i] = parseInt(priceRange[i].replace(/[^0-9.]/g, ''));
+        }
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        console.log(keywords);
+
         newSearch(getListings(), keywords, tags, hubs, priceRange);
     });
 
