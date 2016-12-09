@@ -201,6 +201,9 @@ var addFavoriteToProfile = function(uid, itemID) {
 
 };
 
+var addTagToProfile = function(uid, tagObject) {
+    
+}
 
 var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
