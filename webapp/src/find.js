@@ -1,3 +1,4 @@
+'use strict'
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var getFavorites = require('./firebase.js')['getFavorites'];
@@ -22,7 +23,7 @@ $(function() {
         for (var i = 0; i < favorites.length; i += 1) {
             (function (x) {
                 getImage(favorites[x]['id'] + '/imageOne', function(url) {
-                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+                    let tagToAdd = ".favorite-image img:eq(" + x  + " )";
                     $(tagToAdd).attr({src: url});
                 });
             })(i);
@@ -107,7 +108,6 @@ $(function() {
         Promise.resolve(currentItems).then(function(itemList) {
             console.log(itemList);
 
-
             $("#find-content").empty();
             var imagePaths = [];
             
@@ -170,11 +170,10 @@ $(function() {
             }
 
             getFavorites(showFavoritesInSearches);
-
             for (var i = 0; i < imagePaths.length; i += 1) {
                 (function (x) {
                     getImage(imagePaths[x] + '/imageOne', function(url) {
-                        tagToAdd = "img.activator:eq(" + x  + " )";
+                        let tagToAdd = "img.activator:eq(" + x  + " )";
                         $(tagToAdd).attr({src: url});
                     });
                 })(i);
@@ -194,7 +193,7 @@ $(function() {
         var query = "key=";
         var keywords = $("#item-post-title").val();
         var tags = $("#item-post-tags").val();
-        
+        var hubs = $("#find-hubs").val();
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
         newSearch(getListings());

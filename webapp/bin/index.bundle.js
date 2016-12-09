@@ -165,13 +165,6 @@
 	    }
 	};
 
-	// var getListings = function (callback) {
-	//     itemsRef.once("value").then(function (snapshot) {
-	//         callback(snapshot.val());
-	//     }, function (error) {
-	//         console.log(error);
-	//     });
-	// };
 
 	var getListings = function () {
 	    return itemsRef.once("value").then(function (snapshot) {
@@ -180,14 +173,6 @@
 	        console.log(error);
 	    });
 	};
-
-	// function getListings() {
-	//   return itemsRef.once('value').then(function( snapshot) {
-	//     return snapshot.val();
-	//   });
-	// }
-
-	// console.log(getListings())
 
 	var getRecentItemsInHub = function (hub, callback) {
 	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
@@ -1360,6 +1345,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict'
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var getFavorites = __webpack_require__(2)['getFavorites'];
@@ -1384,7 +1370,7 @@
 	        for (var i = 0; i < favorites.length; i += 1) {
 	            (function (x) {
 	                getImage(favorites[x]['id'] + '/imageOne', function(url) {
-	                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	                    let tagToAdd = ".favorite-image img:eq(" + x  + " )";
 	                    $(tagToAdd).attr({src: url});
 	                });
 	            })(i);
@@ -1469,7 +1455,6 @@
 	        Promise.resolve(currentItems).then(function(itemList) {
 	            console.log(itemList);
 
-
 	            $("#find-content").empty();
 	            var imagePaths = [];
 	            
@@ -1532,11 +1517,10 @@
 	            }
 
 	            getFavorites(showFavoritesInSearches);
-
 	            for (var i = 0; i < imagePaths.length; i += 1) {
 	                (function (x) {
 	                    getImage(imagePaths[x] + '/imageOne', function(url) {
-	                        tagToAdd = "img.activator:eq(" + x  + " )";
+	                        let tagToAdd = "img.activator:eq(" + x  + " )";
 	                        $(tagToAdd).attr({src: url});
 	                    });
 	                })(i);
@@ -1556,7 +1540,7 @@
 	        var query = "key=";
 	        var keywords = $("#item-post-title").val();
 	        var tags = $("#item-post-tags").val();
-	        
+	        var hubs = $("#find-hubs").val();
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
 	        newSearch(getListings());
