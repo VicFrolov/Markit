@@ -52,6 +52,37 @@
             <img id="find-search-image" src="../media/ic_search.png">
             <h6> Please enter some search criteria to see some results. <br><br>Only The Hub field is required, and you can add up to 3 hubs.</h6>
           </div>
+          <div id="find-results-holder"></div>
+          <script type="text/template" id="find-results-template">
+            <% for (var specificItem in itemList) { %>
+            <%     var item = itemList[specificItem] %>
+            <div class="col l4 m4 s12">
+              <div class="card find-result hoverable">
+                <div class="find-result-favorite">
+                  <img class="find-result-favorite-image" src="../media/ic_heart_hover.png" alt="heart" uid=<%- item['id'] %>>
+                </div>
+                <div class="find-result-price">
+                  $ <%- item['price'] %>
+                </div>
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="" id=<%- item['id'] %>>
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
+                  <p>
+                    <a href="#">view item</a>
+                  </p>
+                </div>
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">
+                    Description<i class="material-icons right">close</i>
+                    <p><%- item['description'] %></p>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <% }; %>
+          </script>
         </div>
       </div>
       <div class="z-depth-1" id="find-favorite-panel">
