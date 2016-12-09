@@ -63,6 +63,12 @@ html, body {
     padding: 20px 10px 10px 10px;
 }
 
+#find-tag {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
 .search-top {
     margin-bottom: 0px;
 }

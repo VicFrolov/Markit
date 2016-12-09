@@ -1437,6 +1437,38 @@
 	        });
 
 	        slider[0].noUiSlider.get()
+
+
+	        // add autofill tags
+	        var findTags = $('#find-tags');
+	        findTags.textext({plugins : 'tags autocomplete'})
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Table',
+	                        'Desk',
+	                        'Computer',
+	                        'Electronics',
+	                        'iPhone',
+	                        'Cell Phone',
+	                        'Apple',
+	                        'Macbook',
+	                        'Chair',
+	                        'Leather',
+	                        'Clothing',
+	                        'Bedroom',
+	                        'Bathroom',
+	                        'Couch',
+	                        'Kitchen',
+	                        'Living Room',
+	                        'Dinner Table'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
+
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
+	        });
 	    }
 
 	    var showFavoritesInSearches = function(currentFavorites) {
@@ -1484,9 +1516,6 @@
 	                if (itemPrice < priceRange[0] || itemPrice > priceRange[1]) {
 	                    continue;
 	                }
-	                    
-	                //200
-	                //203-204
 
 	                filteredItemList[itemID] = currentItem
 	            }
@@ -1532,8 +1561,6 @@
 
 	        newSearch(getListings(), keywords, tags, hubs, priceRange);
 	    });
-
-
 
 
 	});

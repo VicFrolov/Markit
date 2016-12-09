@@ -8,6 +8,9 @@
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css">
     <link type="text/css" rel="stylesheet" href="./find.css"  media="screen,projection"/>
+    <link href="../tag-plugin/textext.core.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.tags.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.autocomplete.css" rel="stylesheet">    
   </head>
 
   <body id="find-body">
@@ -25,8 +28,9 @@
               <label for="find-keywords">Keywords</label>
             </div>
             <div class="input-field col l4 m4 s12">
-              <input id="item-post-tag" type="text" class="validate" placeholder="Enter relevant tags">
-              <label for="item-post-tag">Tags</label>
+              <textarea id="find-tags" class="example" rows="1"></textarea>
+              <label for="find-tags">Tags</label>
+
             </div>  
             <div class="input-field col l4 m4 s12">
               <select id="find-hubs" multiple>
@@ -137,5 +141,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script type="text/javascript" src="../bin/index.bundle.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.js"></script>
+    <script src="../tag-plugin/textext.core.js"></script>
+    <script src="../tag-plugin/textext.plugin.tags.js"></script>
+    <script src="../tag-plugin/textext.plugin.autocomplete.js"></script>    
   </body>
 </html>
