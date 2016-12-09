@@ -9,7 +9,7 @@ $(function () {
     var firebaseUsername;
     var likedCardList = $('#profile-liked-card-list');
     var sellingCardList = $('#profile-selling-card-list');
-    var notificationsList = $('#profile-notification-group');
+    var addButton = $('.add-button');
     var editButton = $('#edit-button');
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
@@ -21,9 +21,6 @@ $(function () {
     var password = $('#profile-password');
     var getImage = require('./firebase.js')["getImage"];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
-
-
-
     var profileLikedItems = $('#profile-liked-items');
 
     if ($(profileLikedItems).length > 0) {
@@ -132,17 +129,15 @@ $(function () {
         }
     };
 
-    var loadNotifications = function () {
-        notificationsList.empty();
-        for (var i = 0; i < 21; i++) {
-            notificationsList.append([
-                $('<li></li>').addClass('collection-item').append(
-                    $('<div></div>').append([
-                        $('<div></div>').addClass("notification").text("Sample Notification")
-                    ])
-                )
-            ]);
-        }
+    var loadTagsList = function () {
+
+    };
+
+    var addToTagsList = function () {
+        var addition = {
+            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
+        };
+       addTagToProfile(uid, addition);
     };
 
     var loadSettings = function () {
@@ -230,7 +225,11 @@ $(function () {
     });
 
     $('#notifications-tab').click(function () {
-        loadNotifications();
+        loadTagsList();
+    });
+
+    addButton.click(function () {
+        addToTagsList();
     });
 
     editButton.click(function () {
