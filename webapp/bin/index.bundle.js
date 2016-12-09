@@ -1459,15 +1459,7 @@
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = [];
-
-	            $("#find-content-presearch").hide()
-	            $('#find-results-holder').empty();
-	            $('#find-results-holder').append(compiled({itemList: itemList}));
-
-
-
-	            
+	            var filteredItemList = {};            
 	            
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
@@ -1475,21 +1467,23 @@
 	                imagePaths.push(itemID);
 
 
-	                // if (hubs.length > 0) {
-	                //     hubs.forEach(function(hub) {
-	                //         console.log(currentItem['hubs'])
-	                //     })
+	                if (hubs.length > 0) {
+	                    if (!hubs.some(v => currentItem['hubs'].includes(v))) {
+	                        console.log(currentItem['title'] + 'is skipped')
+	                        continue
+	                    }
+	                }
 
-	                //     if (!hubs.some(v => currentItem['hubs'].includes(v))) {
-	                //         console.log(currentItem['title'] + 'is skipped')
-	                //         continue
-	                //     }
-	                // }
-	            
+	                filteredItemList[itemID] = currentItem
 	            }
 
-	            getFavorites(showFavoritesInSearches);
+	            $("#find-content-presearch").hide()
+	            $('#find-results-holder').empty();
+	            $('#find-results-holder').append(compiled({filteredItemList: filteredItemList}));
 	            
+
+	            getFavorites(showFavoritesInSearches);
+
 	            for (var i = 0; i < imagePaths.length; i += 1) {
 	                (function (x) {
 	                    getImage(imagePaths[x] + '/imageOne', function(url) {
