@@ -1456,26 +1456,18 @@
 
 	    var newSearch = function(currentItems, hubs = []) {
 	        Promise.resolve(currentItems).then(function(itemList) {
-
-	// // // // // // // // // // // // // // // // // 
-	                    var str = $('#find-results-template').text();
-	                    var compiled = _.template(str);
-
-	                    $('#find-results-holder').empty();
-	                    $('#find-results-holder').append(compiled({itemList: itemList}));
-
-	                    // for (var i = 0; i < favorites.length; i += 1) {
-	                    //     (function (x) {
-	                    //         getImage(favorites[x]['id'] + '/imageOne', function(url) {
-	                    //             let tagToAdd = ".favorite-image img:eq(" + x  + " )";
-	                    //             $(tagToAdd).attr({src: url});
-	                    //         });
-	                    //     })(i);
-	                    // }
-	                    // // // // // // // // // // 
-
-	            // $("#find-content").empty();
+	            var str = $('#find-results-template').text();
+	            var compiled = _.template(str);
 	            var imagePaths = [];
+	            var filteredItemList = [];
+
+	            $("#find-content-presearch").hide()
+	            $('#find-results-holder').empty();
+	            $('#find-results-holder').append(compiled({itemList: itemList}));
+
+
+
+	            
 	            
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
@@ -1494,65 +1486,14 @@
 	                //     }
 	                // }
 	            
-	                // $("#find-content").append(
-	                //     $("<div></div>").addClass("col l4 m4 s12").append(
-	                //         $("<div></div>").addClass("card find-result hoverable").append(
-	                //             $("<div></div>").addClass("find-result-favorite").append(
-	                //                 $("<img/>").addClass("find-result-favorite-image").attr({
-	                //                     src: "../media/ic_heart.png",
-	                //                     alt: "heart",
-	                //                     uid: itemID
-	                //                 })
-	                //             )
-	                //         ).append(
-	                //             $("<div></div>").addClass("find-result-price").text(
-	                //                 "$" + currentItem["price"])).append(
-	                //             $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
-	                //                 $("<img/>").addClass("activator").attr({
-	                //                     src: ''
-	                //                 })
-	                //             )
-	                //         ).append(
-	                //             $("<div></div>").addClass("card-content").append(
-	                //                 $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-	                //                         currentItem["title"]
-	                //                 ).append(
-	                //                     $("<i></i>").addClass("material-icons right").text("more_vert")
-	                //                 )
-	                //             ).append(
-	                //                 $("<p></p>").append(
-	                //                     $("<a></a>").attr({
-	                //                         href: "#"
-	                //                     }).text(
-	                //                         "view item"
-	                //                     )
-	                //                 )
-	                //             )
-	                //         ).append(
-	                //             $("<div></div>").addClass("card-reveal").append(
-	                //                 $("<span></span>").addClass("card-title grey-text text-darken-4").text(
-	                //                     "Description"
-	                //                 ).append(
-	                //                     $("<i></i>").addClass("material-icons right").text(
-	                //                         "close"
-	                //                     )
-	                //                 ).append(
-	                //                     $("<p></p>").text(
-	                //                         currentItem["description"]
-	                //                     )
-	                //                 )
-	                //             )
-	                //         )
-	                //     )
-	                // );
 	            }
 
 	            getFavorites(showFavoritesInSearches);
+	            
 	            for (var i = 0; i < imagePaths.length; i += 1) {
 	                (function (x) {
 	                    getImage(imagePaths[x] + '/imageOne', function(url) {
-	                        let tagToAdd = "img.activator:eq(" + x  + " )";
-	                        $(tagToAdd).attr({src: url});
+	                        $("#" + imagePaths[x]).attr({src: url});
 	                    });
 	                })(i);
 	            }            
