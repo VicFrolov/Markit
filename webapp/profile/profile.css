@@ -169,6 +169,10 @@ main, body {
     background-color: #fff;
 }
 
+#add-tag-button {
+    margin-bottom: 30px;
+}
+
 #tab-header {
     position: relative;
     background-color: #eeeeee;
@@ -189,7 +193,7 @@ main, body {
 }
 
 .single-setting {
-    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .settings-button {
@@ -198,7 +202,7 @@ main, body {
 }
 
 .final-setting {
-    padding-bottom: 450px;
+    margin-bottom: 500px;
 }
 
 .card .card-title {
