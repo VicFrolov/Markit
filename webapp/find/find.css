@@ -63,12 +63,20 @@ html, body {
     padding: 20px 10px 10px 10px;
 }
 
-#find-tag {
+#find-search .text-core {
+    margin-top: 25px;
+}
+
+label[for="find-tags"] {
+    top: -11px;
+    font-size: 12px;
+}
+
+#find-tags {
     border-left: none;
     border-right: none;
     border-top: none;
 }
-
 .search-top {
     margin-bottom: 0px;
 }
