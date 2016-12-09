@@ -79,10 +79,11 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     }
 };
 
-var getListings = function (callback) {
-    itemsRef.once("value").then(function (snapshot) {
-        callback(snapshot.val());
-    }, function (error) {
+
+var getListings = function () {
+    return itemsRef.once("value").then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
         console.log(error);
     });
 };

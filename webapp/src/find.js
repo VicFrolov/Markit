@@ -27,7 +27,8 @@ $(function() {
                 });
             })(i);
         }
-    };    
+    };
+
 
 
     auth.onAuthStateChanged(function(user) {
@@ -68,7 +69,9 @@ $(function() {
 
     var slider = $("#search-slider");
     if (slider.length > 0) {
-        
+        // Add dropdown hub selector
+        $('select').material_select();
+        // add slider
         noUiSlider.create(slider[0], {
             start: [1, 500],
             connect: true,
@@ -101,78 +104,82 @@ $(function() {
 
 
     var newSearch = function(currentItems) {
-        $("#find-content").empty();
-        var imagePaths = [];
-        
-        for (var item in currentItems) {
-            var currentItem = currentItems[item];
-            var itemID = currentItem['id'];
-            imagePaths.push(itemID);
-        
-            $("#find-content").append(
-                $("<div></div>").addClass("col l4 m4 s12").append(
-                    $("<div></div>").addClass("card find-result hoverable").append(
-                        $("<div></div>").addClass("find-result-favorite").append(
-                            $("<img/>").addClass("find-result-favorite-image").attr({
-                                src: "../media/ic_heart.png",
-                                alt: "heart",
-                                uid: itemID
-                            })
-                        )
-                    ).append(
-                        $("<div></div>").addClass("find-result-price").text(
-                            "$" + currentItem["price"])).append(
-                        $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
-                            $("<img/>").addClass("activator").attr({
-                                src: ''
-                            })
-                        )
-                    ).append(
-                        $("<div></div>").addClass("card-content").append(
-                            $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-                                    currentItem["title"]
-                            ).append(
-                                $("<i></i>").addClass("material-icons right").text("more_vert")
+        Promise.resolve(currentItems).then(function(itemList) {
+            console.log(itemList);
+
+
+            $("#find-content").empty();
+            var imagePaths = [];
+            
+            for (var item in itemList) {
+                var currentItem = itemList[item];
+                var itemID = currentItem['id'];
+                imagePaths.push(itemID);
+            
+                $("#find-content").append(
+                    $("<div></div>").addClass("col l4 m4 s12").append(
+                        $("<div></div>").addClass("card find-result hoverable").append(
+                            $("<div></div>").addClass("find-result-favorite").append(
+                                $("<img/>").addClass("find-result-favorite-image").attr({
+                                    src: "../media/ic_heart.png",
+                                    alt: "heart",
+                                    uid: itemID
+                                })
                             )
                         ).append(
-                            $("<p></p>").append(
-                                $("<a></a>").attr({
-                                    href: "#"
-                                }).text(
-                                    "view item"
+                            $("<div></div>").addClass("find-result-price").text(
+                                "$" + currentItem["price"])).append(
+                            $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
+                                $("<img/>").addClass("activator").attr({
+                                    src: ''
+                                })
+                            )
+                        ).append(
+                            $("<div></div>").addClass("card-content").append(
+                                $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
+                                        currentItem["title"]
+                                ).append(
+                                    $("<i></i>").addClass("material-icons right").text("more_vert")
+                                )
+                            ).append(
+                                $("<p></p>").append(
+                                    $("<a></a>").attr({
+                                        href: "#"
+                                    }).text(
+                                        "view item"
+                                    )
                                 )
                             )
-                        )
-                    ).append(
-                        $("<div></div>").addClass("card-reveal").append(
-                            $("<span></span>").addClass("card-title grey-text text-darken-4").text(
-                                "Description"
-                            ).append(
-                                $("<i></i>").addClass("material-icons right").text(
-                                    "close"
-                                )
-                            ).append(
-                                $("<p></p>").text(
-                                    currentItem["description"]
+                        ).append(
+                            $("<div></div>").addClass("card-reveal").append(
+                                $("<span></span>").addClass("card-title grey-text text-darken-4").text(
+                                    "Description"
+                                ).append(
+                                    $("<i></i>").addClass("material-icons right").text(
+                                        "close"
+                                    )
+                                ).append(
+                                    $("<p></p>").text(
+                                        currentItem["description"]
+                                    )
                                 )
                             )
                         )
                     )
-                )
-            );
-        }
+                );
+            }
 
-        getFavorites(showFavoritesInSearches);
+            getFavorites(showFavoritesInSearches);
 
-        for (var i = 0; i < imagePaths.length; i += 1) {
-            (function (x) {
-                getImage(imagePaths[x] + '/imageOne', function(url) {
-                    tagToAdd = "img.activator:eq(" + x  + " )";
-                    $(tagToAdd).attr({src: url});
-                });
-            })(i);
-        }
-
+            for (var i = 0; i < imagePaths.length; i += 1) {
+                (function (x) {
+                    getImage(imagePaths[x] + '/imageOne', function(url) {
+                        tagToAdd = "img.activator:eq(" + x  + " )";
+                        $(tagToAdd).attr({src: url});
+                    });
+                })(i);
+            }            
+        });
     };
 
     $('input.autocomplete').autocomplete({
@@ -190,7 +197,7 @@ $(function() {
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        getListings(newSearch);
+        newSearch(getListings());
     });
 
 
