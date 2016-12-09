@@ -1467,11 +1467,9 @@
 	                imagePaths.push(itemID);
 
 
-	                if (hubs.length > 0) {
-	                    if (!hubs.some(v => currentItem['hubs'].includes(v))) {
-	                        console.log(currentItem['title'] + 'is skipped')
-	                        continue
-	                    }
+	                if (hubs.length > 0 && !hubs.some(hub => currentItem['hubs'].includes(hub))) {
+	                    console.log(currentItem['title'] + 'is skipped')
+	                    continue;
 	                }
 
 	                filteredItemList[itemID] = currentItem
@@ -1480,7 +1478,7 @@
 	            $("#find-content-presearch").hide()
 	            $('#find-results-holder').empty();
 	            $('#find-results-holder').append(compiled({filteredItemList: filteredItemList}));
-	            
+
 
 	            getFavorites(showFavoritesInSearches);
 
