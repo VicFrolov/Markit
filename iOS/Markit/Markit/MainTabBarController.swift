@@ -5,6 +5,7 @@
 //  Created by Trixie on 12/7/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
+//  Credit for FontAwesome: https://github.com/thii/FontAwesome.swift
 
 import UIKit
 import FontAwesome_swift

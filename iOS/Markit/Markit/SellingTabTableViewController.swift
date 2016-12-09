@@ -147,7 +147,7 @@ class SellingTabTableViewController: UITableViewController {
         
         let item = ["date": "\(convertedDate)",
                     "description": itemDescription,
-                    "favorites": [],
+                    "favorites": [""],
                     "id": itemID,
                     "price": price,
                     "hubs": hub,
