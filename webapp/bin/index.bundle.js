@@ -1454,23 +1454,35 @@
 
 	    }
 
-	    var newSearch = function(currentItems, hubs = []) {
+	    var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
 	        Promise.resolve(currentItems).then(function(itemList) {
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = {};            
+	            var filteredItemList = {};        
 	            
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
 	                var itemID = currentItem['id'];
+	                var itemDescription = currentItem['description'].toLowerCase()
+	                var itemTitle = currentItem['title'].toLowerCase()
 	                imagePaths.push(itemID);
 
 
 	                if (hubs.length > 0 && !hubs.some(hub => currentItem['hubs'].includes(hub))) {
-	                    console.log(currentItem['title'] + 'is skipped')
 	                    continue;
 	                }
+
+	                if (tags.length > 0 && !tags.some(tag => currentItem['tags'].includes(tag))) {
+	                    continue;
+	                }
+
+
+	                if (keywords.length > 0 && (!keywords.some(key => itemTitle.includes(key)) &&
+	                    !keywords.some(key => itemDescription.includes(key)))) {
+	                        continue
+	                }
+	                    
 
 	                filteredItemList[itemID] = currentItem
 	            }
@@ -1502,12 +1514,15 @@
 
 	    $("#find-search-button").click(function () {
 	        var query = "key=";
-	        var keywords = $("#item-post-title").val();
-	        var tags = $("#item-post-tags").val();
+	        var keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/) || [];
 	        var hubs = $("#find-hubs").val();
+	        var tags = []
+	        var priceRange = []
+	        
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
-	        newSearch(getListings(), hubs);
+	        console.log(keywords);
+	        newSearch(getListings(), keywords, tags, hubs, priceRange);
 	    });
 
 
