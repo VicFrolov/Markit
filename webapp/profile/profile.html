@@ -26,14 +26,17 @@
           <ul class="tabs tabs-fixed-width">
             <li class="tab"><a id="liked-tab" class="active" href="#profile-liked"><i class="material-icons center-icon">favorite</i></a></li>
             <li class="tab"><a id="selling-tab" href="#profile-selling"><i class="material-icons center-icon">shop</i></a></li>
-            <li class="tab"><a id="notifications-tab" href="#profile-notifications"><i class="material-icons center-icon">notifications</i></a></li>
+            <li class="tab"><a id="tagslist-tab" href="#profile-tagslist"><i class="material-icons center-icon">assignment</i></a></li>
             <li class="tab"><a id="messages-tab" href="#profile-messages"><i class="material-icons center-icon">message</i></a></li>
             <li class="tab"><a id="settings-tab" href="#profile-settings"><i class="material-icons center-icon">settings</i></a></li>
           </ul>
       </div>
 
       <div class="container container-margin" id="profile-liked">
-        <div class="profile-card-view z-depth-1">
+        <div class="profile-card-view tab-content z-depth-1">
+          <div class="col s12" id="tab-header">
+            <h4 id="tab-header-text">Favorites</h4>
+          </div> 
           <div class="row" id="profile-liked-holder">
           </div>
           <script type="text/template" id="profile-liked-items">
@@ -68,30 +71,45 @@
       </div>
 
       <div class="container container-margin" id="profile-selling">
-        <div class="profile-card-view z-depth-1">
+        <div class="profile-card-view tab-content z-depth-1">
+          <div class="col s12" id="tab-header">
+            <h4 id="tab-header-text">Selling</h4>
+          </div> 
           <div class="row" id="profile-selling-card-list">
           </div>
         </div>
       </div>
 
-      <div class="container container-margin" id="profile-notifications">
-        <ul class="collection" id="profile-notification-group">
-        </ul>
+      <div class="container container-margin" id="profile-tagslist">
+          <div class="tagslist tab-content z-depth-1">
+            <div class="col s12" id="tab-header">
+              <h4 id="tab-header-text">Watching List</h4>
+            </div>
+            <div class="row">
+              <div class="add-button">
+                <a id="add-tag-button" class="waves-effect waves-light btn col s3 offset-s1"><i class="material-icons left">add_circle_outline</i>Add Search Item!</a>
+              </div>
+            </div>
+          </div>
       </div>
 
       <div class="container container-margin" id="profile-messages">
+        <div class="col s12" id="tab-header">
+          <h4 id="tab-header-text">Messages</h4>
+        </div> 
       </div>
 
       <div class="container container-margin" id="profile-settings">
-        <div class="settings">
+        <div class="settings tab-content z-depth-1">
+          <div class="col s12" id="tab-header">
+            <h4 id="tab-header-text">Settings</h4>
+          </div> 
           <div class="row">
-            <div class="buttons">
-              <div class="settings-button">
-                <a id="edit-button" class="waves-effect waves-light btn col s2 offset-s10"><i class="material-icons left">mode_edit</i>Edit</a>
-              </div>
-              <div class="settings-button">
-                <a id="save-button" disabled class="waves-effect waves-light btn col s2 offset-s10"><i class="material-icons left">save</i>Save</a>
-              </div>
+            <div class="settings-button">
+              <a id="edit-button" class="waves-effect waves-light btn col s2 offset-s10"><i class="material-icons left">mode_edit</i>Edit</a>
+            </div>
+            <div class="settings-button">
+              <a id="save-button" disabled class="waves-effect waves-light btn col s2 offset-s10"><i class="material-icons left">save</i>Save</a>
             </div>
 
             <div class="single-setting">

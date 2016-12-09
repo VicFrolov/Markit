@@ -202,8 +202,8 @@ var addFavoriteToProfile = function(uid, itemID) {
 };
 
 var addTagToProfile = function(uid, tagObject) {
-    
-}
+    usersRef.child(uid + '/tagslist/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0]);
+};
 
 var createAccount = function () {
     auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -368,5 +368,6 @@ module.exports = {
     getRecentItemsInHub,
     getUserInfo,
     updateUserInfo,
-    populateSuggestionsInHub
+    populateSuggestionsInHub,
+    addTagToProfile
 };

@@ -159,8 +159,29 @@ main, body {
     margin: 12px;
 }
 
-.buttons {
-    
+.tab-content {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #ccc;
+}
+
+.tagslist {
+    background-color: #fff;
+}
+
+#tab-header {
+    position: relative;
+    background-color: #eeeeee;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #ccc;
+    bottom: 20px;
+}
+
+#tab-header-text {
+    margin-left: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .settings {
@@ -179,9 +200,6 @@ main, body {
 .final-setting {
     padding-bottom: 450px;
 }
-
-/*card view*/
-/*card panel*/
 
 .card .card-title {
     font-size: 16px;

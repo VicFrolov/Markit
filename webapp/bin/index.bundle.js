@@ -287,6 +287,9 @@
 
 	};
 
+	var addTagToProfile = function(uid, tagObject) {
+	    usersRef.child(uid + '/tagslist/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0]);
+	};
 
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -451,7 +454,8 @@
 	    getRecentItemsInHub,
 	    getUserInfo,
 	    updateUserInfo,
-	    populateSuggestionsInHub
+	    populateSuggestionsInHub,
+	    addTagToProfile
 	};
 
 /***/ },
@@ -2069,6 +2073,7 @@
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var user;
 	    var uid;
@@ -2108,7 +2113,6 @@
 
 	            for (var i = 0; i < imagePaths.length; i += 1) {
 	                (function (x) {
-	                    console.log(imagePaths[x]);
 	                    getImage(imagePaths[x] + '/imageOne', function(url) {
 	                        tagToAdd = "img.activator:eq(" + x  + " )";
 	                        $(tagToAdd).attr({src: url});
@@ -2281,9 +2285,8 @@
 	                loadSettings();
 	                loadLikedCardList();
 	                getFavoriteObjects(showFavoritedItems);
-
-
 	            }
+
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }

@@ -2,6 +2,7 @@ $(function () {
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
+    var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
     var user;
     var uid;
@@ -41,7 +42,6 @@ $(function () {
 
             for (var i = 0; i < imagePaths.length; i += 1) {
                 (function (x) {
-                    console.log(imagePaths[x]);
                     getImage(imagePaths[x] + '/imageOne', function(url) {
                         tagToAdd = "img.activator:eq(" + x  + " )";
                         $(tagToAdd).attr({src: url});
@@ -214,9 +214,8 @@ $(function () {
                 loadSettings();
                 loadLikedCardList();
                 getFavoriteObjects(showFavoritedItems);
-
-
             }
+
         } else if (!user && window.location.pathname === '/profile/profile.html'){
             window.location.href = "../index.html";
         }
