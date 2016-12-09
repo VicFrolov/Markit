@@ -103,10 +103,13 @@ $(function() {
         });
     };
 
+    var hubCheck = function(hubs) {
 
-    var newSearch = function(currentItems) {
+    }
+
+    var newSearch = function(currentItems, hubs = []) {
         Promise.resolve(currentItems).then(function(itemList) {
-            console.log(itemList);
+            // console.log(itemList);
 
             $("#find-content").empty();
             var imagePaths = [];
@@ -115,6 +118,18 @@ $(function() {
                 var currentItem = itemList[item];
                 var itemID = currentItem['id'];
                 imagePaths.push(itemID);
+
+
+                if (hubs.length > 0) {
+                    hubs.forEach(function(hub) {
+                        console.log(currentItem['hubs'])
+                    })
+
+                    if (!hubs.some(v => currentItem['hubs'].includes(v))) {
+                        console.log(currentItem['title'] + 'is skipped')
+                        continue
+                    }
+                }
             
                 $("#find-content").append(
                     $("<div></div>").addClass("col l4 m4 s12").append(
@@ -196,7 +211,7 @@ $(function() {
         var hubs = $("#find-hubs").val();
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        newSearch(getListings());
+        newSearch(getListings(), hubs);
     });
 
 
