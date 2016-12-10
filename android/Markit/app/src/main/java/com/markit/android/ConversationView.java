@@ -63,21 +63,23 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot convos : dataSnapshot.child("users/" + getUID() + "/chats/").getChildren()) {
+                for (DataSnapshot convos : dataSnapshot.child("users/" + getUID()+ "/chats").getChildren()) {
                     //String conversationName = (String) convos.child(seller).getValue();
-                    String itemUID = (String) convos.child("uid").getValue();
+                    String conversationID = (String) convos.child("context/" + "conversationID").getValue();
+                    String itemUID = (String) convos.child("itemID").getValue();
                     //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
 
                     //TODO need to find seller (or eventually person who you're chatting
                     // what exactly do I map conversationName to?
-                    DataSnapshot sellerRef = dataSnapshot.child(ItemDetail.conversationKey + "/context/" + seller);
+                    DataSnapshot sellerRef = dataSnapshot.child(ItemDetail.conversationKey + "/context");
                     //String username = (String) usernameRef.getValue();
                     String conversationName = (String) sellerRef.getValue();
 //                    String conversationName = (String) convos.child(seller).getValue();
-                    ConversationItem newConvo = new ConversationItem(conversationName, itemUID);
+                    ConversationItem newConvo = new ConversationItem(conversationID, itemUID);
                     conversations.add(newConvo);
+                    //TODO map conversationID to username
+                    Log.i("ConversationID", conversationID);
                     //its printing out the two conversations that I have but its saying they're null
-                    Log.i(TAG, conversationName +"");
                 }
 
                 ConversationAdapter iAdapter = new ConversationAdapter(ConversationView.this, conversations);
