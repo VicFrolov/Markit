@@ -202,10 +202,10 @@
 	};
 
 	var updateUserInfo = function(uid, updatedInfo) {
-	    for (update in updatedInfo) {
+	    for (var update in updatedInfo) {
 	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
 	    }
-	}
+	};
 
 	var getImage = function(address, callback) {
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -288,7 +288,7 @@
 	};
 
 	var addTagToProfile = function(uid, tagObject) {
-	    usersRef.child(uid + '/tagslist/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,6));
+	    usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
 	};
 
 	var createAccount = function () {
@@ -2116,7 +2116,6 @@
 	                    });
 	                })(i);
 	            }
-
 	        };
 	    }
 
@@ -2206,7 +2205,7 @@
 
 	    var addToTagsList = function () {
 	        var addition = {
-	            test: ["test", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
+	            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
 	        };
 	       addTagToProfile(uid, addition);
 	    };
@@ -2221,22 +2220,7 @@
 	        username.val(userInfo.username);
 	        firebaseUsername = userInfo.username;
 	        hub.val(userInfo.userHub);
-	        $('#my-profile').empty().append([
-	            $('<img>').addClass('my-profile-hub').attr({
-	                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
-	            }),
-	            $('<img>').addClass('my-profile-picture circle').attr({
-	                src: '../media/temp-profile.png'
-	            }),
-	            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
-	            $('<div></div>').addClass('my-profile-stars').append([
-	                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-5').text('star_rate')
-	            ])
-	        ]);
+	        $('.my-profile-username').text(firebaseUsername);
 	        for (preference in userInfo.paymentPreferences) {
 	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
 	        }
@@ -2265,8 +2249,8 @@
 	            userHub: hub.val(),
 	            paymentPreferences: paymentPreferences
 	        };
-	        $('.my-profile-username').text(username.val());
 	        updateUserInfo(uid, updatedInfo);
+	        loadSettings();
 	    };
 
 
@@ -2301,6 +2285,10 @@
 
 	    addButton.click(function () {
 	        addToTagsList();
+	    });
+
+	    $('#add-photo-icon').click(function () {
+	        console.log("clicked");
 	    });
 
 	    editButton.click(function () {

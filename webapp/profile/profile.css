@@ -63,6 +63,8 @@ main, body {
 }
 
 .my-profile-picture {
+    background-color: #eee;
+    min-width: 100px;
     width: 100px;
     margin: 12px;
     position: absolute;
@@ -140,6 +142,26 @@ main, body {
     height: auto;
     opacity: 0.3;
     cursor: pointer;
+}
+
+.add-photo {
+    width: 100px;
+    height: 100px;
+    margin: 12px;
+    position: absolute;
+    top: 285px;
+}
+
+.material-icons.md-30 {
+    font-size: 30px;
+}
+
+.add-photo-icon {
+    border-style: solid;
+    position: relative;
+    top: 89px;
+    left: 85px;
+    color: black;
 }
 
 .profile-price {

@@ -45,7 +45,6 @@ $(function () {
                     });
                 })(i);
             }
-
         };
     }
 
@@ -150,22 +149,7 @@ $(function () {
         username.val(userInfo.username);
         firebaseUsername = userInfo.username;
         hub.val(userInfo.userHub);
-        $('#my-profile').empty().append([
-            $('<img>').addClass('my-profile-hub').attr({
-                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
-            }),
-            $('<img>').addClass('my-profile-picture circle').attr({
-                src: '../media/temp-profile.png'
-            }),
-            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
-            $('<div></div>').addClass('my-profile-stars').append([
-                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-5').text('star_rate')
-            ])
-        ]);
+        $('.my-profile-username').text(firebaseUsername);
         for (preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
@@ -194,8 +178,8 @@ $(function () {
             userHub: hub.val(),
             paymentPreferences: paymentPreferences
         };
-        $('.my-profile-username').text(username.val());
         updateUserInfo(uid, updatedInfo);
+        loadSettings();
     };
 
 
@@ -230,6 +214,10 @@ $(function () {
 
     addButton.click(function () {
         addToTagsList();
+    });
+
+    $('#add-photo-icon').click(function () {
+        console.log("clicked");
     });
 
     editButton.click(function () {

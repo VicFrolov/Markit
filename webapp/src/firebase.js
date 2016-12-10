@@ -116,10 +116,10 @@ var getUserInfo = function(uid, callback) {
 };
 
 var updateUserInfo = function(uid, updatedInfo) {
-    for (update in updatedInfo) {
+    for (var update in updatedInfo) {
         usersRef.child(uid + '/' + update).set(updatedInfo[update]);
     }
-}
+};
 
 var getImage = function(address, callback) {
     itemImagesRef.child(address).getDownloadURL().then(function(url) {
