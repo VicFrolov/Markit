@@ -10,8 +10,6 @@ public class ConversationItem {
     public String conversationID;
     public String itemID;
     public String seller;
-    public List<Chat> messages;
-
 
     public ConversationItem(){
     }
@@ -28,25 +26,20 @@ public class ConversationItem {
     public ConversationItem(String conversationID, String seller, String itemID) {
         this.conversationID = conversationID;
         this.seller = seller;
-        //this.messages = messages;
         this.itemID = itemID;
     }
 
     public String getId() {
         return conversationID;
     }
-//    public void setId(String conversationID) {
-//        this.conversationID = conversationID;
-//    }
 
 
     public String getSeller() {
         return seller;
     }
 
-    public List<Chat> getMessages() {
-        return messages;
-    }
+
+
 
 //    public static class Chat {
 //

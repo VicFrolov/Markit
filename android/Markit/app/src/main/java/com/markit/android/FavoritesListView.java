@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageView;
@@ -16,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-public class FavoritesListView extends AppCompatActivity {
+public class FavoritesListView extends BaseActivity {
 
     private static final String TAG = "Favorites";
     private LinearLayoutManager llm;
@@ -26,7 +27,7 @@ public class FavoritesListView extends AppCompatActivity {
     //TODO filter to get favorites only
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
-            //.child("users").child("uid").child("favorites");
+            //+ "/users" + "/uid" + "/favorites");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class FavoritesListView extends AppCompatActivity {
                 viewHolder.itemTitle.setText(model.getTitle());
                 viewHolder.itemPrice.setText("$ " + model.getPrice());
                 Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
+                Log.i(TAG, "populated" );
             }
         };
         watchlistRecyclerView.setAdapter(adapter);

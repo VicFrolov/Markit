@@ -5,30 +5,22 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:showIn="@layout/activity_chatlist_view"
     android:weightSum="1">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/messageDetails"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|end"
-        android:layout_toRightOf="@+id/list_item_username"
-        android:layout_alignTop="@+id/list_item_username"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_play_light" />
-
-    <!--<Button-->
-    <!--style="@style/Widget.AppCompat.Button"-->
-    <!--android:layout_width="43dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--app:srcCompat="@drawable/ic_play_light"-->
-    <!--android:layout_alignRight="@+id/list_item_username"-->
-    <!--android:layout_alignTop="@+id/list_item_username"-->
-    <!--android:layout_marginStart="285dp"-->
-    <!--android:background="@drawable/ic_play_light" />-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/messageDetails"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_toRightOf="@+id/list_item_username"-->
+        <!--android:layout_alignTop="@+id/list_item_username"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:srcCompat="@drawable/ic_play_light" />-->
 
     <TextView
         android:id="@+id/list_item_username"
+        android:layout_below="@+id/conversationID"
         android:textSize="13sp"
         android:textStyle="bold"
         android:layout_height="50dp"
@@ -38,8 +30,8 @@
         android:id="@+id/conversationID"
         android:textSize="13sp"
         android:textStyle="bold"
-        android:layout_height="50dp"
-        android:layout_width="250dp" />
+        android:layout_width="250dp"
+        android:layout_height="25dp" />
 
     <TextView
         android:id="@+id/list_item_message"

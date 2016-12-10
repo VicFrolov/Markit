@@ -33,7 +33,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     private DatabaseReference itemDatabase;
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
-    public List<Chat> messages;
+    //public List<Chat> messages;
     public String seller;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -84,7 +84,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                     tagString = tagString + tag + " ";
                 }
                 tags.setText(tagString);
-
             }
 
             @Override
@@ -93,7 +92,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             }
         };
 
-
         itemDatabase.addListenerForSingleValueEvent(itemDetails);
 
         FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
@@ -101,10 +99,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
-
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
                 String itemId = uid;
-
 
                 ConversationItem conversation = new ConversationItem(conversationKey, seller, itemId);
                 contextRef.setValue(conversation);

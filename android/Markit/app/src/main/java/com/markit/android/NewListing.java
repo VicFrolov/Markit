@@ -141,8 +141,8 @@ public class NewListing extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                    Log.i(TAGS, "tags couldn't load");
-                    throw databaseError.toException();
+                Log.i(TAGS, "tags couldn't load");
+                throw databaseError.toException();
             }
         };
 
@@ -342,7 +342,7 @@ public class NewListing extends AppCompatActivity {
                     String description = mDescriptionButton.getText().toString();
                     itemKey = mdatabase.child("items").push().getKey();
                     //hardcoded user id got now because I can't sign in
-                    writeNewListing(title, price, description, "zzcGPAwsZcgtOZsUfwgjSSiJz413", tagsResult, hubsResult, newDate, itemKey);
+                    writeNewListing(title, price, description, "gnYHA7g0gwVbLIDPzGlHZPOnPU73", tagsResult, hubsResult, newDate, itemKey);
                     for (int i = 0; i < tagsResult.length; i++) {
                         if (!tagsList.contains(tagsResult[i])) {
                             String child = tagsResult[i];
@@ -351,7 +351,7 @@ public class NewListing extends AppCompatActivity {
                     }
 
                     if (mPhotoBitmap != null) {
-                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey + "/" + "image1");
+                        StorageReference pictureRef = mstorageRef.child("images/itemImages/" + itemKey + "/" + "imageOne");
                         mImage.setDrawingCacheEnabled(true);
                         mImage.buildDrawingCache();
                         Bitmap bitmap = mImage.getDrawingCache();
