@@ -34,11 +34,13 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
     //public List<Chat> messages;
-    public String seller;
+    public static String seller;
+    //public String buyer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
-    DatabaseReference sellerRef;
+    //DatabaseReference convoRef = database.getReference().child("chats");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +104,12 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                sellerRef = database.getReference().child("users/" + seller + "/chats/");
-
+                DatabaseReference sellerRef = database.getReference().child("users/" + seller + "/chats/" + conversationKey  + "/context");
+                //DatabaseReference sellerRef = database.getReference().child("chats/" + contextRef);
+                String buyer = firebaseAuth.getCurrentUser().getUid();
                 String itemId = uid;
 
-                ConversationItem conversation = new ConversationItem(conversationKey, seller, itemId);
+                ConversationItem conversation = new ConversationItem(conversationKey, seller, buyer, itemId);
                 contextRef.setValue(conversation);
                 sellerRef.setValue(conversation);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));

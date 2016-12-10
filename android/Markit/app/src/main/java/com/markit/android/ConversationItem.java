@@ -10,6 +10,7 @@ public class ConversationItem {
     public String conversationID;
     public String itemID;
     public String seller;
+    public String buyer;
 
     public ConversationItem(){
     }
@@ -23,10 +24,11 @@ public class ConversationItem {
 //        //this.last_message = last_message;
 //    }
 
-    public ConversationItem(String conversationID, String seller, String itemID) {
+    public ConversationItem(String conversationID, String seller, String buyer, String itemID) {
         this.conversationID = conversationID;
         this.seller = seller;
         this.itemID = itemID;
+        this.buyer = buyer;
     }
 
     public String getId() {
@@ -36,6 +38,10 @@ public class ConversationItem {
 
     public String getSeller() {
         return seller;
+    }
+
+    public String getBuyer() {
+        return buyer;
     }
 
 

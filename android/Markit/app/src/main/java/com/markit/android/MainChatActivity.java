@@ -61,11 +61,14 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
     String chatKey;
+    //public String ItemDetail.seller;
     //List<Chat> messages = new ArrayList<Chat>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
     DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
+    DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.seller + "/chats/" + ItemDetail.conversationKey + "/messages");
 //    DatabaseReference convoRef =
     //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
     //.child("items").child("itemID").child("conversationID")
@@ -109,6 +112,15 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 Chat message = new Chat(user, uid, editMessage.getText().toString());
                 //chatKey = chatRef.push().getKey();
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
+                        if (databaseError != null) {
+                            Log.e(TAG, "Failed to write message", databaseError.toException());
+                        }
+                    }
+                });
+
+                sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
