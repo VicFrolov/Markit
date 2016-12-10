@@ -346,7 +346,20 @@ var populateSuggestionsInHub = function(hub, uid) {
                     userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
                 }
 
-                return userItemSuggestions;
+
+                // sorting results in an array, where each
+                // input is an array [key, value]
+                var sortedSuggestions = []
+
+                for (let item in userItemSuggestions) {
+                    sortedSuggestions.push([item, userItemSuggestions[item]])
+                }
+
+                sortedSuggestions.sort(function(a, b) {
+                    return b[1] - a[1]
+                });
+
+                return sortedSuggestions;
             }
 
         });

@@ -372,7 +372,7 @@
 	    });
 	};
 
-	var populateSuggestionsInHub = function(hub, uid, holderId) {
+	var populateSuggestionsInHub = function(hub, uid) {
 	    return Promise.all([
 	        getItemsInHub(hub), 
 	        getUserSuggestions(uid)]).then(function (results) {
@@ -432,9 +432,22 @@
 	                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
 	                }
 
-	                return userItemSuggestions;
+
+	                // sorting results in an array, where each
+	                // input is an array [key, value]
+	                var sortedSuggestions = []
+
+	                for (let item in userItemSuggestions) {
+	                    sortedSuggestions.push([item, userItemSuggestions[item]])
+	                }
+
+	                sortedSuggestions.sort(function(a, b) {
+	                    return b[1] - a[1]
+	                });
+
+	                return sortedSuggestions;
 	            }
-	            
+
 	        });
 	}
 
@@ -2409,18 +2422,6 @@
 	    var showSuggestions = function(suggestions) {
 	        Promise.resolve(suggestions).then(function(itemList) {
 	            console.log(itemList)
-
-	            var sortedSuggestions = []
-
-	            for (let item in itemList) {
-	                sortedSuggestions.push([item, itemList[item]])
-	            }
-
-	            sortedSuggestions.sort(function(a, b) {
-	                return b[1] - a[1]
-	            });
-
-	            console.log(sortedSuggestions);
 	        });
 	    }
 

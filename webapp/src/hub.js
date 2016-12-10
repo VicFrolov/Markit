@@ -36,18 +36,6 @@ $(function () {
     var showSuggestions = function(suggestions) {
         Promise.resolve(suggestions).then(function(itemList) {
             console.log(itemList)
-
-            var sortedSuggestions = []
-
-            for (let item in itemList) {
-                sortedSuggestions.push([item, itemList[item]])
-            }
-
-            sortedSuggestions.sort(function(a, b) {
-                return b[1] - a[1]
-            });
-
-            console.log(sortedSuggestions);
         });
     }
 
