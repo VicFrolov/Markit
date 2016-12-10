@@ -202,7 +202,7 @@ var addFavoriteToProfile = function(uid, itemID) {
 };
 
 var addTagToProfile = function(uid, tagObject) {
-    usersRef.child(uid + '/tagslist/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,6));
+    usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
 };
 
 var createAccount = function () {
