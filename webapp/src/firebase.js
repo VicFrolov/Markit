@@ -291,6 +291,25 @@ var getItemsInHub = function (hub) {
     });
 };
 
+// takes array of items
+var getItemsById = function (itemsToMatch) {
+    return database.ref('items/').once('value').then(function (snapshot) {
+        let allItems = snapshot.val();
+        let matchedItems = {};
+
+        for (let i = 0; i < itemsToMatch.length; i += 1) {
+            if (itemsToMatch[i] in allItems) {
+                matchedItems[itemsToMatch[i]] = allItems[itemsToMatch[i]];
+            }
+        }
+        return matchedItems;
+
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
+
 var getUserSuggestions = function (uid) {
     usersRef
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
@@ -406,5 +425,6 @@ module.exports = {
     getUserInfo,
     updateUserInfo,
     populateSuggestionsInHub,
-    addTagToProfile
+    addTagToProfile,
+    getItemsById
 };
