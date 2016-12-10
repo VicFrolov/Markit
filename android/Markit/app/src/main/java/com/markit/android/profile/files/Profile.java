@@ -1,14 +1,12 @@
-package com.markit.android;
+package com.markit.android.profile.files;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,7 +24,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.markit.android.dummy.DummyContent;
+import com.markit.android.CardViewActivity;
+import com.markit.android.FavoritesListView;
+import com.markit.android.login.files.LoginActivity;
+import com.markit.android.chat.files.MainChatActivity;
+import com.markit.android.newlisting.files.NewListing;
+import com.markit.android.R;
+import com.markit.android.WatchListFragment;
+import com.markit.android.base.files.BaseActivity;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import com.google.firebase.auth.FirebaseAuth;

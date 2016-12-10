@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.profile.files;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import com.markit.android.dummy.DummyContent;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.

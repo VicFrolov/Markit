@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.chat.files;
 
 
 import android.content.Intent;
@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.markit.android.R;
 
 import static com.markit.android.R.id.backButton;
 import static com.markit.android.R.id.message_text;

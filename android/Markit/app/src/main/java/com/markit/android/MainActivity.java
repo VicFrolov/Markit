@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.markit.android.*;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.markit.android.login.files.Registration2Activity;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;

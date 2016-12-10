@@ -168,6 +168,7 @@ import android.view.ViewGroup;
 
 import com.markit.android.dummy.DummyContent;
 import com.markit.android.dummy.DummyContent.DummyItem;
+import com.markit.android.profile.files.MyWatchListRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of Items.

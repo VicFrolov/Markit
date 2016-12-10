@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.chat.files;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.markit.android.Chat;
+import com.markit.android.R;
 
 /**
  * Created by root on 09/08/16.

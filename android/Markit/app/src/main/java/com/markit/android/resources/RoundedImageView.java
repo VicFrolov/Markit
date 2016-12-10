@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.resources;
 
 import android.widget.ImageView;
 import android.content.Context;

@@ -1,6 +1,5 @@
 package com.markit.android;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.Context;
 import android.graphics.Color;
@@ -11,14 +10,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -33,13 +29,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.markit.android.base.files.BaseActivity;
+import com.markit.android.chat.files.ChatListView;
+import com.markit.android.newlisting.files.NewListing;
+import com.markit.android.profile.files.Profile;
 import com.squareup.picasso.Picasso;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -66,6 +63,7 @@ public class CardViewActivity extends BaseActivity implements NavigationView.OnN
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
 //     mDatabaseReference = database.getReference().child("items");
+    private Menu optionsMenu;
 
 
     @Override
@@ -148,12 +146,15 @@ public class CardViewActivity extends BaseActivity implements NavigationView.OnN
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                SearchView searchView = (SearchView) optionsMenu.findItem(R.id.search_listings).getActionView();
                 if ((collapsingToolbar.getHeight() + verticalOffset) < 2 * (ViewCompat.getMinimumHeight(collapsingToolbar))) {
                     toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
                     toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
+//                    searchView.setBackgroundColor(Color.parseColor("#000000"));
                 } else {
                     toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
                     toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
+//                    searchView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 }
             }
         });
@@ -198,6 +199,7 @@ public class CardViewActivity extends BaseActivity implements NavigationView.OnN
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        CardViewActivity.this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
 
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

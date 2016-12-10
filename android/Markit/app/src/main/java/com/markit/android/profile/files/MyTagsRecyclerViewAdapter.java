@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.profile.files;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.markit.android.TagsFragment.OnListFragmentInteractionListener;
+import com.markit.android.R;
+import com.markit.android.profile.files.TagsFragment.OnListFragmentInteractionListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.List;

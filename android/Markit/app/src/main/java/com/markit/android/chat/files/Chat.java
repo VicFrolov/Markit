@@ -1,4 +1,4 @@
-package com.markit.android;
+package com.markit.android.chat.files;
 
 import java.util.Date;
 

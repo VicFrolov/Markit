@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.markit.android.ProfilePageFragment">
+    tools:context="com.markit.android.profile.files.ProfilePageFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/sample_lmu_photo"
         android:id="@+id/imageView2" />
 
-    <com.markit.android.RoundedImageView
+    <com.markit.android.resources.RoundedImageView
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:src="@drawable/palceholder_profile_image"
@@ -30,7 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp" >
 
-    </com.markit.android.RoundedImageView>
+    </com.markit.android.resources.RoundedImageView>
 
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->

@@ -28,30 +28,30 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".Profile"
+            android:name=".profile.files.Profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".NewListing"
+            android:name=".newlisting.files.NewListing"
             android:label="@string/title_activity_new_listing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.files.LoginActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".BaseActivity"
+            android:name=".base.files.BaseActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".MainChatActivity"
+            android:name=".chat.files.MainChatActivity"
             android:label="@string/app_name"></activity>
         <activity
             android:name=".FavoritesListView"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".ChatListView"
+            android:name=".chat.files.ChatListView"
             android:label="@string/app_name"></activity>
-        <activity android:name=".Registration2Activity" />
+        <activity android:name=".login.files.Registration2Activity" />
         <activity android:name=".MobileView" />
         <activity
             android:name=".ItemDetail"
