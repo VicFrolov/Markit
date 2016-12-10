@@ -377,6 +377,25 @@
 	    });
 	};
 
+	// takes array of items
+	var getItemsById = function (itemsToMatch) {
+	    return database.ref('items/').once('value').then(function (snapshot) {
+	        let allItems = snapshot.val();
+	        let matchedItems = {};
+
+	        for (let i = 0; i < itemsToMatch.length; i += 1) {
+	            if (itemsToMatch[i] in allItems) {
+	                matchedItems[itemsToMatch[i]] = allItems[itemsToMatch[i]];
+	            }
+	        }
+	        return matchedItems;
+
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	}
+
+
 	var getUserSuggestions = function (uid) {
 	    usersRef
 	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
@@ -391,8 +410,6 @@
 	            let itemsInHub = results[0];
 	            let userSuggestions = results[1];
 	            let userFavorites = results[2];
-
-	            console.log(userFavorites);
 
 	            // if user has favorites
 	            if (userSuggestions) {
@@ -453,17 +470,16 @@
 	                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
 	                }
 
-
 	                // sorting results in an array, where each
 	                // input is an array [key, value]
 	                var sortedSuggestions = []
 
 	                for (let item in userItemSuggestions) {
-	                    sortedSuggestions.push([item, userItemSuggestions[item]])
+	                    sortedSuggestions.push(item)
 	                }
 
 	                sortedSuggestions.sort(function(a, b) {
-	                    return b[1] - a[1]
+	                    return b - a
 	                });
 
 	                return sortedSuggestions;
@@ -492,7 +508,8 @@
 	    getUserInfo,
 	    updateUserInfo,
 	    populateSuggestionsInHub,
-	    addTagToProfile
+	    addTagToProfile,
+	    getItemsById
 	};
 
 /***/ },
@@ -1400,7 +1417,6 @@
 
 	    var favoriteTemplate = $('#favorite-template');
 	    var showFavoritesInSidebar = function(favorites) {
-	        
 	        var str = $('#favorite-template').text();
 	        var compiled = _.template(str);
 
@@ -1424,7 +1440,6 @@
 	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
-
 
 	            // favorite icon highlight/changes
 	            $('body').on('mouseenter', '.find-result-favorite-image', function() {
@@ -2412,7 +2427,7 @@
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
 	    var populateSuggestionsInHub = __webpack_require__(2)['populateSuggestionsInHub'];
-
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 
 	    var mostRecentItems = $('#hub-most-recent');
@@ -2441,10 +2456,33 @@
 
 	    var showSuggestions = function(suggestions) {
 	        Promise.resolve(suggestions).then(function(itemList) {
+	            Promise.resolve(getItemsById(itemList)).then(function(itemsObject) {
+	                console.log(itemsObject);
 
-	            console.log(itemList);
-	            for (let i = 0; i < itemList.length; i += 1) {
-	            }
+	                if (Object.keys(itemsObject).length > 0) {
+	                    $('#hub-suggestions-holder').empty();
+	                }
+
+	                var imagePaths = []
+	                var str = $('#hub-suggested').text();
+	                var compiled = _.template(str);
+
+	                $('#hub-suggestions-holder').prepend(compiled({itemsObject: itemsObject}));
+
+
+	                for (var item in itemsObject) {
+	                    imagePaths.push(itemsObject[item]['id']);
+	                }
+
+	                for (var i = 0; i < imagePaths.length; i += 1) {
+	                    (function (x) {
+	                        getImage(imagePaths[x] + '/imageOne', function(url) {
+	                            tagToAdd = "#hub-suggestions-holder img:eq(" + x  + " )";
+	                            $(tagToAdd).attr({src: url});
+	                        });
+	                    })(i);
+	                }
+	            })
 	        });
 	    }
 

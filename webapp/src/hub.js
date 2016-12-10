@@ -5,7 +5,7 @@ $(function () {
     var auth = require('./firebase.js')["auth"];
     var getImage = require('./firebase.js')["getImage"];
     var populateSuggestionsInHub = require('./firebase.js')['populateSuggestionsInHub'];
-
+    var getItemsById = require('./firebase.js')['getItemsById'];
 
 
     var mostRecentItems = $('#hub-most-recent');
@@ -34,10 +34,33 @@ $(function () {
 
     var showSuggestions = function(suggestions) {
         Promise.resolve(suggestions).then(function(itemList) {
+            Promise.resolve(getItemsById(itemList)).then(function(itemsObject) {
+                console.log(itemsObject);
 
-            console.log(itemList);
-            for (let i = 0; i < itemList.length; i += 1) {
-            }
+                if (Object.keys(itemsObject).length > 0) {
+                    $('#hub-suggestions-holder').empty();
+                }
+
+                var imagePaths = []
+                var str = $('#hub-suggested').text();
+                var compiled = _.template(str);
+
+                $('#hub-suggestions-holder').prepend(compiled({itemsObject: itemsObject}));
+
+
+                for (var item in itemsObject) {
+                    imagePaths.push(itemsObject[item]['id']);
+                }
+
+                for (var i = 0; i < imagePaths.length; i += 1) {
+                    (function (x) {
+                        getImage(imagePaths[x] + '/imageOne', function(url) {
+                            tagToAdd = "#hub-suggestions-holder img:eq(" + x  + " )";
+                            $(tagToAdd).attr({src: url});
+                        });
+                    })(i);
+                }
+            })
         });
     }
 

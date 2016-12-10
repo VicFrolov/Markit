@@ -13,7 +13,6 @@ $(function() {
 
     var favoriteTemplate = $('#favorite-template');
     var showFavoritesInSidebar = function(favorites) {
-        
         var str = $('#favorite-template').text();
         var compiled = _.template(str);
 
@@ -37,7 +36,6 @@ $(function() {
             getFavoriteObjects(showFavoritesInSidebar);
             $("#find-favorite-logged-in").css('display', 'block');
             $("#find-favorite-logged-out").css('display', 'none');
-
 
             // favorite icon highlight/changes
             $('body').on('mouseenter', '.find-result-favorite-image', function() {

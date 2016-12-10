@@ -325,8 +325,6 @@ var populateSuggestionsInHub = function(hub, uid) {
             let userSuggestions = results[1];
             let userFavorites = results[2];
 
-            console.log(userFavorites);
-
             // if user has favorites
             if (userSuggestions) {
                 // for each item in the hub
@@ -386,17 +384,16 @@ var populateSuggestionsInHub = function(hub, uid) {
                     userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
                 }
 
-
                 // sorting results in an array, where each
                 // input is an array [key, value]
                 var sortedSuggestions = []
 
                 for (let item in userItemSuggestions) {
-                    sortedSuggestions.push([item, userItemSuggestions[item]])
+                    sortedSuggestions.push(item)
                 }
 
                 sortedSuggestions.sort(function(a, b) {
-                    return b[1] - a[1]
+                    return b - a
                 });
 
                 return sortedSuggestions;
