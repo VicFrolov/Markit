@@ -372,8 +372,8 @@
 	    });
 	};
 
-	var populateSuggestionsInHub = function(hub, uid) {
-	    Promise.all([
+	var populateSuggestionsInHub = function(hub, uid, holderId) {
+	    return Promise.all([
 	        getItemsInHub(hub), 
 	        getUserSuggestions(uid)]).then(function (results) {
 	            let itemsInHub = results[0];
@@ -431,8 +431,10 @@
 	                    itemWeight /= tagCount;
 	                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
 	                }
-	                console.log(userItemSuggestions)
+
+	                return userItemSuggestions;
 	            }
+	            
 	        });
 	}
 
@@ -2404,10 +2406,29 @@
 
 	    };
 
+	    var showSuggestions = function(suggestions) {
+	        Promise.resolve(suggestions).then(function(itemList) {
+	            console.log(itemList)
+
+	            var sortedSuggestions = []
+
+	            for (let item in itemList) {
+	                sortedSuggestions.push([item, itemList[item]])
+	            }
+
+	            sortedSuggestions.sort(function(a, b) {
+	                return b[1] - a[1]
+	            });
+
+	            console.log(sortedSuggestions);
+	        });
+	    }
+
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-	            populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid);
+	            
+	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 

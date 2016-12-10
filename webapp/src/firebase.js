@@ -287,7 +287,7 @@ var getUserSuggestions = function (uid) {
 };
 
 var populateSuggestionsInHub = function(hub, uid) {
-    Promise.all([
+    return Promise.all([
         getItemsInHub(hub), 
         getUserSuggestions(uid)]).then(function (results) {
             let itemsInHub = results[0];
@@ -345,8 +345,10 @@ var populateSuggestionsInHub = function(hub, uid) {
                     itemWeight /= tagCount;
                     userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
                 }
-                console.log(userItemSuggestions)
+
+                return userItemSuggestions;
             }
+
         });
 }
 
