@@ -2457,8 +2457,6 @@
 	    var showSuggestions = function(suggestions) {
 	        Promise.resolve(suggestions).then(function(itemList) {
 	            Promise.resolve(getItemsById(itemList)).then(function(itemsObject) {
-	                console.log(itemsObject);
-
 	                if (Object.keys(itemsObject).length > 0) {
 	                    $('#hub-suggestions-holder').empty();
 	                }
@@ -2477,8 +2475,7 @@
 	                for (var i = 0; i < imagePaths.length; i += 1) {
 	                    (function (x) {
 	                        getImage(imagePaths[x] + '/imageOne', function(url) {
-	                            tagToAdd = "#hub-suggestions-holder img:eq(" + x  + " )";
-	                            $(tagToAdd).attr({src: url});
+	                            $("#" + imagePaths[x]).attr({src: url});
 	                        });
 	                    })(i);
 	                }
