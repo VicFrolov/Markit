@@ -29,6 +29,12 @@ html, body {
     position: relative;
 }
 
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
 .find-result-price {
     position: absolute;
     left: 0%;
