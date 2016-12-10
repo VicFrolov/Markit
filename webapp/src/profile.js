@@ -4,6 +4,8 @@ $(function () {
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
+    var userImagesRef = require('./firebase.js')['userImagesRef'];
+    var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var user;
     var uid;
     var firebaseUsername;

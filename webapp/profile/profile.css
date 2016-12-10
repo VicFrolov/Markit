@@ -144,24 +144,14 @@ main, body {
     cursor: pointer;
 }
 
-.add-photo {
-    width: 100px;
-    height: 100px;
-    margin: 12px;
+.add-photo-position {
     position: absolute;
-    top: 285px;
 }
 
-.material-icons.md-30 {
-    font-size: 30px;
-}
-
-.add-photo-icon {
-    border-style: solid;
+.add-photo-button {
     position: relative;
-    top: 89px;
-    left: 85px;
-    color: black;
+    left: 98px;
+    bottom: 3px;
 }
 
 .profile-price {
