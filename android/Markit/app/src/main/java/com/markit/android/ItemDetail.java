@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,7 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateListener {
@@ -25,12 +29,15 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     private String itemName;
     private String itemPrice;
     private String item;
+    private String itemID;
     private DatabaseReference itemDatabase;
-    private String conversationKey;
+    public static String conversationKey;
     private FirebaseAuth firebaseAuth;
+    public List<Chat> messages;
+    public String seller;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats");
+    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         setContentView(R.layout.activity_item_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Bundle uidInfo = getIntent().getExtras();
+        final Bundle uidInfo = getIntent().getExtras();
 
         if (uidInfo != null) {
             uid = uidInfo.getString("uid");
@@ -61,9 +68,12 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 //                }
 //               Object specificItem = dataSnapshot.getValue();
                 TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
+                TextView userId = (TextView) findViewById(R.id.userId);
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
+                seller = (String) dataSnapshot.child("uid").getValue();
+                userId.setText(seller);
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
@@ -90,15 +100,15 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //conversationKey = chatRef.push().getKey();
-                String sender = firebaseAuth.getCurrentUser().getUid();
-                //String itemId = getItemId();
-                conversationKey = convoRef.push().getKey();
+                ItemDetail.conversationKey = convoRef.push().getKey();
 
-                ConversationItem convo = new ConversationItem(conversationKey, sender);
-                //conversationKey = convoRef.push().getKey();
-                //convoRef.push().setValue(convo, new convoRef);
-                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+                DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                String itemId = uid;
+
+
+                ConversationItem conversation = new ConversationItem(conversationKey, seller, itemId);
+                contextRef.setValue(conversation);
+                startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
             }
         });
 

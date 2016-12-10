@@ -37,6 +37,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+//import static com.markit.android.ItemDetail.conversationKey;
 import static com.markit.android.R.id.backButton;
 import static com.markit.android.R.id.conversationID;
 import static com.markit.android.R.id.message_text;
@@ -49,13 +55,18 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
     private EditText editMessage;
     private Button backButton;
 
+    //public String conversationID = conversationKey;
+
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
     String chatKey;
+    //List<Chat> messages = new ArrayList<Chat>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference chatRef = database.getReference().child("users/" + getUID() + "/chats/" + conversationID + "/messages");
+    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
+//    DatabaseReference convoRef =
     //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
     //.child("items").child("itemID").child("conversationID")
     //intent.putExtra("uid", item)
@@ -87,11 +98,16 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
                 String user = uid.substring(0, 6);
-                chatKey = chatRef.push().getKey();
+//                Date date = new Date();
+//                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//                String newDate = fmt.format(date);;
+                //chatKey = chatRef.push().getKey();
+
+                //List<Chat> messages = new ArrayList<Chat>();
 
                 //message item itself
-                Chat message = new Chat(user, uid, editMessage.getText().toString(), chatKey);
-                chatKey = chatRef.push().getKey();
+                Chat message = new Chat(user, uid, editMessage.getText().toString());
+                //chatKey = chatRef.push().getKey();
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -154,8 +170,15 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 chatView.setUser(chat.getUser());
                 chatView.setMessage(chat.getMessage());
 
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
+//                    chatView.setIsSender(true);
+//                } else {
+//                    chatView.setIsSender(false);
+                //}
+
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
+                if (currentUser != null) {
                     chatView.setIsSender(true);
                 } else {
                     chatView.setIsSender(false);
@@ -187,19 +210,21 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
     public static class Chat {
 
         String user;
-        String message;
+        String text;
         String uid;
-        String chatId;
-        private long messageTime;
+        //Date newDate;
+        //String chatId;
+        //private long messageTime;
 
         public Chat() {
         }
 
-        public Chat(String user, String uid, String message, String chatId) {
+        public Chat(String user, String uid, String text) {
             this.user = user;
-            this.message = message;
+            this.text = text;
             this.uid = uid;
-            this.chatId = chatId;
+            //this.newDate = newDate;
+            //this.chatId = chatId;
         }
 
         public String getUser() {
@@ -210,21 +235,25 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
             return uid;
         }
 
-        public String getChatId() {
-            return chatId;
-        }
+//        public String getChatId() {
+//            return chatId;
+//        }
 
         public String getMessage() {
-            return message;
+            return text;
         }
 
-        public long getMessageTime() {
-            return messageTime;
-        }
+//        Date dNow = new Date();
+//        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//        String newDate = fmt.format(dNow);
 
-        public void setMessageTime(long messageTime) {
-            this.messageTime = messageTime;
-        }
+//        public long getMessageTime() {
+//            return messageTime;
+//        }
+//
+//        public void setMessageTime(long messageTime) {
+//            this.messageTime = messageTime;
+//        }
     }
 
     public static class ChatHolder extends RecyclerView.ViewHolder {
@@ -268,9 +297,9 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
             field.setText(user);
         }
 
-        public void setMessage(String message) {
+        public void setMessage(String text) {
             TextView field = (TextView) view.findViewById(message_text);
-            field.setText(message);
+            field.setText(text);
         }
     }
 }

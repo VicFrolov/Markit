@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.markit.android.ItemDetail.conversationKey;
+
 /**
  * Created by annagotsis on 12/7/16.
  */
@@ -27,7 +29,8 @@ public class NewConversationActivity extends BaseActivity {
     private Button sendButton;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference chatsRef = database.getReference().child("users/" + getUID() + "/chats");
+    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference chatRef = convoRef.child(conversationKey + "/messages");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

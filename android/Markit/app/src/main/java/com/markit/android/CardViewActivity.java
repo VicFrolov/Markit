@@ -187,7 +187,7 @@ public class CardViewActivity extends BaseActivity {
         TextView tags;
         ImageView photo;
         Context context;
-        public ImageView likeImageView;
+        ImageView likeImageView;
 
         public CardViewHolder(View itemView) {
             super(itemView);
@@ -199,16 +199,16 @@ public class CardViewActivity extends BaseActivity {
             id = (TextView) itemView.findViewById(R.id.id);
 //            likeImageView.setOnClickListener(new View.OnClickListener() {
 //                @Override
-//                public void onClick(View v) {
+//                public void onClick(View itemView) {
 //                    int id = (int)likeImageView.getTag();
-//                    if( id == R.drawable.ic_favorite_border_black_48px){
+//                    if (id == R.drawable.ic_favorite_border_black_48px){
 //                        likeImageView.setTag(R.drawable.ic_favorite_black_48px);
 //                        likeImageView.setImageResource(R.drawable.ic_favorite_black_48px);
-//                        //Toast.makeText(getActivity(),title.getText()+" added to favorites",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, title.getText()+" added to favorites", Toast.LENGTH_SHORT).show();
 //                    }else{
 //                        likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
 //                        likeImageView.setImageResource(R.drawable.ic_favorite_border_black_48px);
-//                        //Toast.makeText(getActivity(),titleT.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,title.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
 //                    }
 //                }
 //            });

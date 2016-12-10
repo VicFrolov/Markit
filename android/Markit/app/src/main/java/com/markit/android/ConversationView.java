@@ -49,7 +49,7 @@ public class ConversationView extends BaseActivity {
                 ConversationItem.class, R.layout.chat_list_users, ConversationView.ConversationViewHolder.class, messageRef) {
             @Override
             public void populateViewHolder(ConversationView.ConversationViewHolder conversationViewHolder, ConversationItem model, int position) {
-                conversationViewHolder.conversationName.setText(model.getSender());
+                conversationViewHolder.conversationName.setText(model.getSeller());
                 //conversationViewHolder.conversationMessage.setText(model.getLastMessage());
                 final String conversationID = model.getId();
                 conversationViewHolder.conversationName.setOnClickListener(new View.OnClickListener() {
