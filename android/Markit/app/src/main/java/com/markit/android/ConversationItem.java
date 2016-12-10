@@ -31,6 +31,17 @@ public class ConversationItem {
         this.buyer = buyer;
     }
 
+    public ConversationItem(String seller, String buyer, String itemID) {
+        this.seller = seller;
+        this.itemID = itemID;
+        this.buyer = buyer;
+    }
+
+    public ConversationItem(String seller, String itemID) {
+        this.seller = seller;
+        this.itemID = itemID;
+    }
+
     public String getId() {
         return conversationID;
     }

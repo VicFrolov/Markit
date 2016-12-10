@@ -109,7 +109,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 String buyer = firebaseAuth.getCurrentUser().getUid();
                 String itemId = uid;
 
-                ConversationItem conversation = new ConversationItem(conversationKey, seller, buyer, itemId);
+                ConversationItem conversation = new ConversationItem(seller, buyer, itemId);
                 contextRef.setValue(conversation);
                 sellerRef.setValue(conversation);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));

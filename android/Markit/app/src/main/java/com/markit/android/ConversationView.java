@@ -22,19 +22,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.markit.android.ItemDetail.seller;
+
 /**
  * Created by annagotsis on 12/7/16.
  */
 
-public class ConversationView extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class ConversationView extends BaseActivity implements FirebaseAuth.AuthStateListener {
     public static final String TAG = "Conversation";
     public Context context = this;
     public LinearLayoutManager llm;
     private RecyclerView conversationsList;
     public FirebaseAuth firebaseAuth;
+    private ArrayList<ConversationItem> conversations = new ArrayList<>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference conversationRef = database.getReference().child("users/" + "gnYHA7g0gwVbLIDPzGlHZPOnPU73" + "/chats");
+    DatabaseReference conversationRef = database.getReference();
+    //DatabaseReference conversationRef = database.getReference().child("users/" + getUID() + "/chats");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,43 +58,38 @@ public class ConversationView extends AppCompatActivity implements FirebaseAuth.
         llm = new LinearLayoutManager(this);
         conversationsList.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<ConversationItem, ConversationViewHolder> adapter = new FirebaseRecyclerAdapter<ConversationItem, ConversationView.ConversationViewHolder>(
-                ConversationItem.class, R.layout.chat_list_users, ConversationView.ConversationViewHolder.class, conversationRef) {
+        ValueEventListener itemListener = new ValueEventListener() {
+
             @Override
-            public void populateViewHolder(ConversationView.ConversationViewHolder conversationViewHolder, ConversationItem model, int position) {
-                conversationViewHolder.conversationName.setText(model.getSeller());
-                //conversationViewHolder.conversationMessage.setText(model.getLastMessage());
-                final String conversationID = model.getId();
-                Log.i(TAG, conversationViewHolder.conversationName.toString()+"");
-                conversationViewHolder.conversationName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent chat = new Intent(ConversationView.this, MainChatActivity.class);
-                        //final String itemID = model.getItemID();
-                        chat.putExtra("uid", conversationID);
-                        ConversationView.this.startActivity(chat);
-                    }
-                });
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot convos : dataSnapshot.child("users/" + getUID() + "/chats/").getChildren()) {
+                    //String conversationName = (String) convos.child(seller).getValue();
+                    String itemUID = (String) convos.child("uid").getValue();
+                    //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
+
+                    //TODO need to find seller (or eventually person who you're chatting
+                    // what exactly do I map conversationName to?
+                    DataSnapshot sellerRef = dataSnapshot.child(ItemDetail.conversationKey + "/context/" + seller);
+                    //String username = (String) usernameRef.getValue();
+                    String conversationName = (String) sellerRef.getValue();
+//                    String conversationName = (String) convos.child(seller).getValue();
+                    ConversationItem newConvo = new ConversationItem(conversationName, itemUID);
+                    conversations.add(newConvo);
+                    //its printing out the two conversations that I have but its saying they're null
+                    Log.i(TAG, conversationName +"");
+                }
+
+                ConversationAdapter iAdapter = new ConversationAdapter(ConversationView.this, conversations);
+                conversationsList.setAdapter(iAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         };
-        conversationsList.setAdapter(adapter);
-    }
-
-    public static class ConversationViewHolder extends RecyclerView.ViewHolder {
-        TextView conversationName;
-        //final TextView conversationMessage;
-        TextView conversationID;
-        Context context;
-
-        public ConversationViewHolder(View itemView) {
-            super(itemView);
-            context = itemView.getContext();
-            //itemView.setOnClickListener(this);
-            conversationName = (TextView) itemView.findViewById(R.id.list_item_username);
-            //conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
-            conversationID = (TextView) itemView.findViewById(R.id.conversationID);
-        }
-
+        conversationRef.addListenerForSingleValueEvent(itemListener);
     }
 
     @Override
@@ -98,6 +97,51 @@ public class ConversationView extends AppCompatActivity implements FirebaseAuth.
 
     }
 }
+
+//        FirebaseRecyclerAdapter<ConversationItem, ConversationViewHolder> adapter = new FirebaseRecyclerAdapter<ConversationItem, ConversationView.ConversationViewHolder>(
+//                ConversationItem.class, R.layout.chat_list_users, ConversationView.ConversationViewHolder.class, conversationRef) {
+//            @Override
+//            public void populateViewHolder(ConversationView.ConversationViewHolder conversationViewHolder, ConversationItem model, int position) {
+//                conversationViewHolder.conversationName.setText(model.getSeller());
+//                //conversationViewHolder.conversationMessage.setText(model.getLastMessage());
+//                //final String conversationID = model.getId();
+//                Log.i(TAG, conversationViewHolder.conversationName.toString()+"");
+//                conversationViewHolder.conversationName.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent chat = new Intent(ConversationView.this, MainChatActivity.class);
+//                        //final String itemID = model.getItemID();
+//                        chat.putExtra("uid", ItemDetail.conversationKey);
+//                        ConversationView.this.startActivity(chat);
+//                    }
+//                });
+//            }
+//        };
+//        conversationsList.setAdapter(adapter);
+//    }
+//
+//    public static class ConversationViewHolder extends RecyclerView.ViewHolder {
+//        TextView conversationName;
+//        //final TextView conversationMessage;
+//        TextView conversationID;
+//        Context context;
+//
+//        public ConversationViewHolder(View itemView) {
+//            super(itemView);
+//            context = itemView.getContext();
+//            //itemView.setOnClickListener(this);
+//            conversationName = (TextView) itemView.findViewById(R.id.list_item_username);
+//            //conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
+//            conversationID = (TextView) itemView.findViewById(R.id.conversationID);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//
+//    }
+//}
 
 
 //public class ConversationView extends BaseActivity {
@@ -134,3 +178,14 @@ public class ConversationView extends AppCompatActivity implements FirebaseAuth.
 //        };
 //    }
 //}
+
+
+
+
+
+
+
+
+
+
+
