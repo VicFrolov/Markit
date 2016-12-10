@@ -1546,14 +1546,18 @@
 	    });
 
 	    $("#find-search-button").click(function () {
-	        var query = "key=";
-	        var keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
-	        var hubs = $("#find-hubs").val();
-	        var tags = [];
-	        var priceRange = slider[0].noUiSlider.get();
+	        let query = "key=";
+	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
+	        let hubs = $("#find-hubs").val();
+	        let tags = $('#find-tags').textext()[0].tags()._formData;
+	        let priceRange = slider[0].noUiSlider.get();
 
 	        for (let i = 0; i < priceRange.length; i += 1) {
 	            priceRange[i] = parseInt(priceRange[i].replace(/[^0-9.]/g, ''));
+	        }
+
+	        for (let i = 0; i < tags.length; i += 1) {
+	            tags[i] = tags[i].toLowerCase()
 	        }
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
