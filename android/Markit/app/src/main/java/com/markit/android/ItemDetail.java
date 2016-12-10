@@ -38,6 +38,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference sellerRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
                 seller = (String) dataSnapshot.child("uid").getValue();
                 userId.setText(seller);
+//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
@@ -100,10 +102,13 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                sellerRef = database.getReference().child("users/" + seller + "/chats/");
+
                 String itemId = uid;
 
                 ConversationItem conversation = new ConversationItem(conversationKey, seller, itemId);
                 contextRef.setValue(conversation);
+                sellerRef.setValue(conversation);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
             }
         });

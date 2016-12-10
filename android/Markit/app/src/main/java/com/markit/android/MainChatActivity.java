@@ -159,7 +159,6 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
 
     //This sends messages & attaches all messages to the activity
     //need to specify conversation
-
     private void attachRecyclerViewAdapter() {
         Query lastFifty = chatRef.limitToLast(50);
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
@@ -170,19 +169,19 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 chatView.setUser(chat.getUser());
                 chatView.setMessage(chat.getMessage());
 
-//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-//                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
-//                    chatView.setIsSender(true);
-//                } else {
-//                    chatView.setIsSender(false);
-                //}
-
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
+                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
                     chatView.setIsSender(true);
                 } else {
                     chatView.setIsSender(false);
                 }
+
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null) {
+//                    chatView.setIsSender(true);
+//                } else {
+//                    chatView.setIsSender(false);
+//                }
             }
         };
 
