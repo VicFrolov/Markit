@@ -30,19 +30,20 @@ $(function () {
                 });
             })(i);
         }
-
     };
 
     var showSuggestions = function(suggestions) {
         Promise.resolve(suggestions).then(function(itemList) {
-            console.log(itemList)
+
+            console.log(itemList);
+            for (let i = 0; i < itemList.length; i += 1) {
+            }
         });
     }
 
     auth.onAuthStateChanged(function(user) {
         if (user && $(mostRecentItems).length > 0) {
             getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-            
             showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
         } else if (!user && $(mostRecentItems).length > 0) {
             window.location.href = "../index.html";

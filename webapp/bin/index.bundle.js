@@ -183,6 +183,10 @@
 	};
 
 
+
+	// Remove this function below and replace with the one after it
+	// so that it returns a promise, rather than this anti-patern
+	// of callback + promise
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -192,6 +196,14 @@
 	                console.log(error);
 	            });
 	        }
+	    });
+	};
+
+	var getUserFavorites = function() {
+	    return usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
 	    });
 	};
 
@@ -375,9 +387,12 @@
 	var populateSuggestionsInHub = function(hub, uid) {
 	    return Promise.all([
 	        getItemsInHub(hub), 
-	        getUserSuggestions(uid)]).then(function (results) {
+	        getUserSuggestions(uid), getUserFavorites()]).then(function (results) {
 	            let itemsInHub = results[0];
 	            let userSuggestions = results[1];
+	            let userFavorites = results[2];
+
+	            console.log(userFavorites);
 
 	            // if user has favorites
 	            if (userSuggestions) {
@@ -420,6 +435,12 @@
 	                // iterate through items and display items with highest values
 	                let userItemSuggestions = {}
 	                for (let item in itemsInHub) {
+	                    // immediately check if the item is part of user favorites
+	                    // if it is, skip since no need to suggest a favorited
+	                    // item
+	                    if (itemsInHub[item]['id'] in userFavorites) {
+	                        continue;
+	                    }
 	                    let itemTags = itemsInHub[item]['tags'];
 	                    let tagCount = itemsInHub[item]['tags'].length;
 	                    let itemWeight = 0;
@@ -2416,19 +2437,20 @@
 	                });
 	            })(i);
 	        }
-
 	    };
 
 	    var showSuggestions = function(suggestions) {
 	        Promise.resolve(suggestions).then(function(itemList) {
-	            console.log(itemList)
+
+	            console.log(itemList);
+	            for (let i = 0; i < itemList.length; i += 1) {
+	            }
 	        });
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
-	            
 	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
