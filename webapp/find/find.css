@@ -29,6 +29,12 @@ html, body {
     position: relative;
 }
 
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
 .find-result-price {
     position: absolute;
     left: 0%;
@@ -63,6 +69,29 @@ html, body {
     padding: 20px 10px 10px 10px;
 }
 
+
+/*add tags properties*/
+#find-search .text-core {
+    margin-top: 14px;
+}
+
+label[for="find-tags"] {
+    top: -13px;
+    font-size: 12px;
+}
+
+.text-core .text-wrap textarea,
+.text-core .text-wrap input {
+    padding: 3px 5px 15px 0px;
+    font-size: 14px;
+}
+
+#find-tags {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom-color: #999;
+}
 .search-top {
     margin-bottom: 0px;
 }
