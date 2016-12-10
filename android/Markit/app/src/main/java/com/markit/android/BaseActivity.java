@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -194,7 +195,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     //TODO set Title as a string resource -Peyton
     public void setTitle(CharSequence title) {
-        super.setTitle("Markeet");
+        super.setTitle("Markit");
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -214,6 +215,7 @@ public class BaseActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.nav_slideshow) {
+            startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
 
         } else if (id == R.id.nav_manage) {
 
@@ -222,7 +224,6 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-        System.out.println("SUP MUTHAFUKKA!");
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         layout.closeDrawer(GravityCompat.START);
