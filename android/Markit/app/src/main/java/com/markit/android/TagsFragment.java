@@ -10,12 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.markit.android.R;
-import com.markit.android.dummy.DummyContent;
-import com.markit.android.dummy.DummyContent.DummyItem;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -73,7 +68,7 @@ public class TagsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTagsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyTagsRecyclerViewAdapter(Profile.inputTags, mListener));
         }
         return view;
     }
@@ -108,6 +103,6 @@ public class TagsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(String[] item);
     }
 }

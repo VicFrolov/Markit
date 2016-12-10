@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Enter up to 5 tags"
+        android:text="Item To Look For"
         android:ems="10"
         android:id="@+id/editText3"
         android:fontFamily="sans-serif"
@@ -16,7 +16,16 @@
         android:textAlignment="center"/>
 
     <MultiAutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Add an item title"
+        android:ems="10"
+        android:id="@+id/itemTitle" />
+
+    <MultiAutoCompleteTextView
         android:hint="Seperate tags with spaces"
+        android:fontFamily="sans-serif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tagInput" />

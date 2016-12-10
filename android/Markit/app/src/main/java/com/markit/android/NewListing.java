@@ -342,7 +342,7 @@ public class NewListing extends AppCompatActivity {
                     String description = mDescriptionButton.getText().toString();
                     itemKey = mdatabase.child("items").push().getKey();
                     //hardcoded user id got now because I can't sign in
-                    writeNewListing(title, price, description, "zzcGPAwsZcgtOZsUfwgjSSiJz413", tagsResult, hubsResult, newDate, itemKey);
+                    writeNewListing(title, price, description, user.getUid(), tagsResult, hubsResult, newDate, itemKey);
                     for (int i = 0; i < tagsResult.length; i++) {
                         if (!tagsList.contains(tagsResult[i])) {
                             String child = tagsResult[i];
