@@ -281,8 +281,10 @@ var addHubs = function(itemHubs) {
     });
 };
 
-var initializeMessage = function (id, sellerId, uid, imageLink) {
+var initializeMessage = function (id, sellerId, uid, imageLink, message) {
     let chatKey = usersRef.push().key;
+    let date = (new Date()).toString();
+
 
     let contextUser = {
         itemID: uid,
@@ -296,9 +298,18 @@ var initializeMessage = function (id, sellerId, uid, imageLink) {
         otherUser: id
     };
 
+    let messageObject = {
+        date: date,
+        text: message,
+        type: 'text',
+        user: id
+    }
+
     usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
     usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
 
+    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
+    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
 //     users: {
 //     001: {
 //         chats: {,

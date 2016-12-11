@@ -221,7 +221,6 @@ $(function() {
     let newMessageId;
     let newMessageImagePath;
     $('body').on('click', '.card-contact', function () {
-        // console.log($(this).parent().parent());
         let parentDiv = $(this).parent().parent();
         let imageDiv = parentDiv[0].children[2];
         newMessageImagePath = $(imageDiv)[0].children[0].src;
@@ -236,12 +235,15 @@ $(function() {
 
     $('#message-popup-send-button').click(function() {
         let newMessageSellerId;
+        let newMessageContent = $($(this).parent()[0].children[2]).val();
 
         Promise.resolve(getItemsById([newMessageId])).then(function(items) {
             for (let item in items) {
                 newMessageSellerId = items[item].uid;
             }
-            initializeMessage(auth.currentUser.uid, newMessageSellerId, newMessageId, newMessageImagePath);
+
+            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+                newMessageId, newMessageImagePath, newMessageContent);
         })
 
         // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
