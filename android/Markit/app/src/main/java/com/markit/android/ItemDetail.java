@@ -78,11 +78,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
                 otherUser = (String) dataSnapshot.child("uid").getValue();
                 userId.setText(otherUser);
-//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
-                //String className = dataSnapshot.child("tags").getValue().getClass().getName();
                 ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
                 String tagString = "Tags: ";
                 for(String tag : tagList) {
@@ -104,11 +102,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
-                //String conversationID = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
                 DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
-                //DatabaseReference sellerRef = database.getReference().child("chats/" + contextRef);
-                //String buyer = firebaseAuth.getCurrentUser().getUid();
                 String itemId = uid;
 
                 ConversationItem conversation = new ConversationItem(conversationKey, otherUser, itemId);
