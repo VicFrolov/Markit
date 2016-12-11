@@ -13,6 +13,8 @@ $(function() {
     var getItemsById = require('./firebase.js')['getItemsById'];
 
     var favoriteTemplate = $('#favorite-template');
+    $('#message-popup-confirmation').hide();
+
     var showFavoritesInSidebar = function(favorites) {
         var str = $('#favorite-template').text();
         var compiled = _.template(str);
@@ -244,6 +246,17 @@ $(function() {
 
             initializeMessage(auth.currentUser.uid, newMessageSellerId, 
                 newMessageId, newMessageImagePath, newMessageContent);
+
+            $('#message-popup-content').fadeOut(500);
+
+            setTimeout(function(){
+                $('#message-popup-inner').css({
+                    'display': 'flex',
+                    'align-items': 'center',
+                    'justify-content': 'center'
+                });
+                $('#message-popup-confirmation').fadeIn();
+            }, 500);
         });
     })
 

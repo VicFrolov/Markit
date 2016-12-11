@@ -260,9 +260,6 @@ label[for="find-tags"] {
     min-height: 480px;
     height: 60%;
     padding: 10px 50px 0px 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .close-button {
@@ -274,7 +271,7 @@ label[for="find-tags"] {
 
 #message-popup-inner textarea {
     resize: none;
-    height: 50%;
+    height: 200px;
     margin-bottom: 20px;
     padding: 10px 15px 10px 10px;
 }

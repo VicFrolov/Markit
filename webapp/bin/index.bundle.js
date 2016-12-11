@@ -371,7 +371,6 @@
 	    let chatKey = usersRef.push().key;
 	    let date = (new Date()).toString();
 
-
 	    let contextUser = {
 	        itemID: uid,
 	        itemImageURL: imageLink,
@@ -393,37 +392,9 @@
 
 	    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
 	    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
-
+	    
 	    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
 	    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
-	//     users: {
-	//     001: {
-	//         chats: {,
-	//             conversationID: {
-	//                 context: {
-	//                     itemID: XYZ,
-	//                     otherUser: username,
-	//                     itemImageURL: alsdfjlasdkf,
-	//                 },
-	//                 messages: {
-	//                     message1: {
-	//                         type: "text"
-	//                         text: "hi idiot",
-	//                         sender: username,
-	//                         senderID: userID,
-	//                         timeSent: time
-	//                     },
-	//                     message2: {
-	                  
-	//                     }
-	//                 },
-	//             },
-	//             conversationID: {
-	//                 ...
-	//             }
-	//         }
-	//     }
-	// }
 	}
 
 
@@ -1476,6 +1447,8 @@
 	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 	    var favoriteTemplate = $('#favorite-template');
+	    $('#message-popup-confirmation').hide();
+
 	    var showFavoritesInSidebar = function(favorites) {
 	        var str = $('#favorite-template').text();
 	        var compiled = _.template(str);
@@ -1683,16 +1656,16 @@
 
 	    let newMessageId;
 	    let newMessageImagePath;
+
 	    $('body').on('click', '.card-contact', function () {
 	        let parentDiv = $(this).parent().parent();
 	        let imageDiv = parentDiv[0].children[2];
 	        newMessageImagePath = $(imageDiv)[0].children[0].src;
 	        newMessageId = $(imageDiv)[0].children[0].id;
 
-
 	        $('#message-popup').css('z-index', '100').animate({
-	                opacity: 1
-	            }, 50);
+	            opacity: 1
+	        }, 50);
 	    });
 
 
@@ -1707,12 +1680,25 @@
 
 	            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
 	                newMessageId, newMessageImagePath, newMessageContent);
-	        })
 
-	        // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
-	        // 1) send message to seller, by pushing conversation to new user
-	        // 2) add conversation to current user
-	        // 3) change display to say message sent, and the ability to go to inbox
+	            $('#message-popup-content').fadeOut(500);
+
+
+	            setTimeout(function(){
+	                $('#message-popup-inner').css({
+	                    'display': 'flex',
+	                    'align-items': 'center',
+	                    'justify-content': 'center'
+	                });
+	                $('#message-popup-confirmation').fadeIn();
+	            }, 500);
+
+	            
+
+	            // display: flex;
+	            // align-items: center;
+	            // justify-content: center;
+	        });
 	    })
 
 	});
