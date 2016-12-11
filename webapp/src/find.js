@@ -10,7 +10,6 @@ $(function() {
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var getImage = require('./firebase.js')['getImage'];
 
-
     var favoriteTemplate = $('#favorite-template');
     var showFavoritesInSidebar = function(favorites) {
         var str = $('#favorite-template').text();
@@ -196,6 +195,7 @@ $(function() {
         }
     });
 
+
     $("#find-search-button").click(function () {
         let query = "key=";
         let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
@@ -217,5 +217,13 @@ $(function() {
         newSearch(getListings(), keywords, tags, hubs, priceRange);
     });
 
+    $('body').on('click', '.card-contact', function () {
+        $('#message-popup').fadeIn();
+        console.log('test');
+    });
+
+    $('.close-button').click(function () {
+        $('#message-popup').fadeOut()
+    });
 
 });

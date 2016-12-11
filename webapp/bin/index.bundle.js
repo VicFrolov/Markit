@@ -1414,7 +1414,6 @@
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var getImage = __webpack_require__(2)['getImage'];
 
-
 	    var favoriteTemplate = $('#favorite-template');
 	    var showFavoritesInSidebar = function(favorites) {
 	        var str = $('#favorite-template').text();
@@ -1600,6 +1599,7 @@
 	        }
 	    });
 
+
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
 	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
@@ -1621,6 +1621,14 @@
 	        newSearch(getListings(), keywords, tags, hubs, priceRange);
 	    });
 
+	    $('body').on('click', '.card-contact', function () {
+	        $('#message-popup').fadeIn();
+	        console.log('test');
+	    });
+
+	    $('.close-button').click(function () {
+	        $('#message-popup').fadeOut()
+	    });
 
 	});
 
