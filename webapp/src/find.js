@@ -218,8 +218,10 @@ $(function() {
     });
 
     $('body').on('click', '.card-contact', function () {
-        $('#message-popup').fadeIn();
-        console.log('test');
+        $('#message-popup')
+            .css("display", "flex")
+            .hide()
+            .fadeIn();
     });
 
     $('.close-button').click(function () {
