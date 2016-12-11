@@ -42,7 +42,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     private Button backButton;
     //private MessageAdapter iAdapter;
     private List<Chat> messages;
-    private Context context = this;
+    public Context context = this;
 
     private RecyclerView messageList;
     private LinearLayoutManager llm;
@@ -77,6 +77,30 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 //            }
 //        });
 
+        llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(false);
+
+        messageList.setHasFixedSize(false);
+        messageList.setLayoutManager(llm);
+
+        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
+                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
+            @Override
+            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
+                //messageViewHolder.sender.setText(model.getUser());
+                messageViewHolder.messageText.setText(model.getMessage());
+
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    messageViewHolder.setIsSender(true);
+                } else {
+                    messageViewHolder.setIsSender(false);
+                }
+
+            }
+        };
+        messageList.setAdapter(adapter);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +111,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);
-                ;
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
@@ -114,29 +137,29 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             }
         });
 
-        llm = new LinearLayoutManager(this);
-        llm.setReverseLayout(false);
-
-        messageList.setHasFixedSize(false);
-        messageList.setLayoutManager(llm);
-
-        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
-                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
-            @Override
-            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
-                //messageViewHolder.sender.setText(model.getUser());
-                messageViewHolder.messageText.setText(model.getMessage());
-
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    messageViewHolder.setIsSender(true);
-                } else {
-                    messageViewHolder.setIsSender(false);
-                }
-
-            }
-        };
-        messageList.setAdapter(adapter);
+//        llm = new LinearLayoutManager(this);
+//        llm.setReverseLayout(false);
+//
+//        messageList.setHasFixedSize(false);
+//        messageList.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
+//                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
+//            @Override
+//            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
+//                //messageViewHolder.sender.setText(model.getUser());
+//                messageViewHolder.messageText.setText(model.getMessage());
+//
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null) {
+//                    messageViewHolder.setIsSender(true);
+//                } else {
+//                    messageViewHolder.setIsSender(false);
+//                }
+//
+//            }
+//        };
+//        messageList.setAdapter(adapter);
     }
 
     @Override
