@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.markit.android.ItemDetail.seller;
+import static com.markit.android.ItemDetail.otherUser;
 
 /**
  * Created by annagotsis on 12/7/16.
@@ -38,7 +38,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference conversationRef = database.getReference();
-    //DatabaseReference conversationRef = database.getReference().child("users/" + getUID() + "/chats");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
-        //firebaseAuth.getCurrentUser().getUid();
 
         conversationsList = (RecyclerView) findViewById(R.id.messagesRecyclerView);
 
@@ -65,7 +63,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
                 for (DataSnapshot convos : dataSnapshot.child("users/" + getUID()+ "/chats").getChildren()) {
                     //String conversationName = (String) convos.child(seller).getValue();
-                    String conversationID = (String) convos.child("context/" + "seller").getValue();
+                    String otherUser = (String) convos.child("context/" + "otherUser").getValue();
                     String itemUID = (String) convos.child("itemID").getValue();
                     //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
 
@@ -75,15 +73,16 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String username = (String) usernameRef.getValue();
                     String conversationName = (String) sellerRef.getValue();
 //                    String conversationName = (String) convos.child(seller).getValue();
-                    ConversationItem newConvo = new ConversationItem(conversationID, itemUID);
+                    ConversationItem newConvo = new ConversationItem(otherUser, itemUID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
-                    Log.i("ConversationID", conversationID);
+                    Log.i("ConversationID", otherUser);
                     //its printing out the two conversations that I have but its saying they're null
                 }
 
                 ConversationAdapter iAdapter = new ConversationAdapter(ConversationView.this, conversations);
                 conversationsList.setAdapter(iAdapter);
+                iAdapter.notifyDataSetChanged();
             }
 
             @Override

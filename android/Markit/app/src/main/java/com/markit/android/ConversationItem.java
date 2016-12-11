@@ -11,6 +11,7 @@ public class ConversationItem {
     public String itemID;
     public String seller;
     public String buyer;
+    public String otherUser;
 
     public ConversationItem(){
     }
@@ -24,32 +25,39 @@ public class ConversationItem {
 //        //this.last_message = last_message;
 //    }
 
-    public ConversationItem(String conversationID, String seller, String buyer, String itemID) {
+//    public ConversationItem(String conversationID, String seller, String buyer, String itemID) {
+//        this.conversationID = conversationID;
+//        this.seller = seller;
+//        this.itemID = itemID;
+//        this.buyer = buyer;
+//    }
+
+//    public ConversationItem(String seller, String buyer, String itemID) {
+//        this.seller = seller;
+//        this.itemID = itemID;
+//        this.buyer = buyer;
+//    }
+
+    public ConversationItem(String conversationID, String otherUser, String itemID) {
+        this.otherUser = otherUser;
         this.conversationID = conversationID;
-        this.seller = seller;
-        this.itemID = itemID;
-        this.buyer = buyer;
-    }
-
-    public ConversationItem(String seller, String buyer, String itemID) {
-        this.seller = seller;
-        this.itemID = itemID;
-        this.buyer = buyer;
-    }
-
-    public ConversationItem(String seller, String itemID) {
-        this.seller = seller;
         this.itemID = itemID;
     }
 
-    public String getId() {
-        return conversationID;
+    public ConversationItem(String otherUser, String itemID) {
+        this.otherUser = otherUser;
+        this.itemID = itemID;
     }
 
+//    public String getId() {
+//        return conversationID;
+//    }
 
-    public String getSeller() {
-        return seller;
+
+    public String getOtherUser() {
+        return otherUser;
     }
+
 
     public String getBuyer() {
         return buyer;

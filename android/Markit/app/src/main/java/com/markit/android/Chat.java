@@ -8,81 +8,46 @@ import java.util.Date;
 
 public class Chat {
 
-    public String message;
-    public String sender;
-    public String recipient;
-    public long messageTime;
-    public Date mDate;
-    public String conversationID;
+    String user;
+    String text;
+    String uid;
+    String date;
+    //Date newDate;
+    //String chatId;
+    //private long messageTime;
 
-    private int mRecipientOrSenderStatus;
-
-
-    // Required default constructor for Firebase object mapping
-    @SuppressWarnings("unused")
     public Chat() {
     }
 
-    public Date getDate() {
-        return mDate;
+
+    public Chat(String message, String sender, String date) {
+        this.text = message;
+        this.date = date;
+        this.user = sender;
+
     }
 
-    public void setDate(Date date) {
-        mDate = date;
+    public String getUser() {
+        return user;
     }
 
-    Chat(String message, String recipient, String sender) {
-        this.message = message;
-        this.sender = sender;
-        this.recipient = recipient;
+    public String getUid() {
+        return uid;
     }
 
-//    public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
-//        this.mRecipientOrSenderStatus = recipientOrSenderStatus;
-//    }
-//    public int getRecipientOrSenderStatus() {
-//        return mRecipientOrSenderStatus;
-//    }
-
-    public String getConversationID() {
-        return conversationID;
-    }
-
-    public void setConversationID() {
-        this.conversationID = conversationID;
-    }
+//        public String getChatId() {
+//            return chatId;
+//        }
 
     public String getMessage() {
-        return message;
+        return text;
     }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String user) {
-        this.sender = sender;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
-    }
-
-    public long getMessageTime() {
-        return messageTime;
-    }
-
-    public void setMessageTime(long messageTime) {
-        this.messageTime = messageTime;
-    }
-
-
 }
+
+//        public long getMessageTime() {
+//            return messageTime;
+//        }
+//
+//        public void setMessageTime(long messageTime) {
+//            this.messageTime = messageTime;
+//        }}

@@ -161,7 +161,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
             return true;
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(Profile.this, MainChatActivity.class));
+            startActivity(new Intent(Profile.this, ConversationView.class));
             return true;
         }
         if (id == R.id.new_listing) {

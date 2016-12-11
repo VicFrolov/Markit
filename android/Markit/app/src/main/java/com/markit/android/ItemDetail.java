@@ -34,7 +34,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
     //public List<Chat> messages;
-    public static String seller;
+    //public static String seller;
+    public static String otherUser;
     //public String buyer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -75,8 +76,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
-                seller = (String) dataSnapshot.child("uid").getValue();
-                userId.setText(seller);
+                otherUser = (String) dataSnapshot.child("uid").getValue();
+                userId.setText(otherUser);
 //                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
@@ -103,16 +104,17 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
+                //String conversationID = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                DatabaseReference sellerRef = database.getReference().child("users/" + seller + "/chats/" + conversationKey  + "/context");
+                DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
                 //DatabaseReference sellerRef = database.getReference().child("chats/" + contextRef);
-                String buyer = firebaseAuth.getCurrentUser().getUid();
+                //String buyer = firebaseAuth.getCurrentUser().getUid();
                 String itemId = uid;
 
-                ConversationItem conversation = new ConversationItem(conversationKey, seller, buyer, itemId);
+                ConversationItem conversation = new ConversationItem(conversationKey, otherUser, itemId);
                 contextRef.setValue(conversation);
                 sellerRef.setValue(conversation);
-                startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
+                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
         });
 

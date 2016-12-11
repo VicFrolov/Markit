@@ -54,14 +54,14 @@
         <activity
             android:name=".ConversationView"
             android:label="@string/app_name"></activity>
-        <activity
-            android:name=".ChatListView"
-            android:label="@string/app_name"></activity>
         <activity android:name=".Registration2Activity" />
         <activity android:name=".MobileView" />
         <activity
             android:name=".ItemDetail"
             android:label="@string/title_activity_item_detail"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".MessageDetail"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".NavigationActivity"
