@@ -58,7 +58,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         conversationsList.setLayoutManager(llm);
 
         ValueEventListener itemListener = new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -77,7 +76,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     ConversationItem newConvo = new ConversationItem(otherUser, itemUID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
-                    Log.i("ConversationID", otherUser);
+                    //Log.i("ConversationID", otherUser);
                     //its printing out the two conversations that I have but its saying they're null
                 }
 

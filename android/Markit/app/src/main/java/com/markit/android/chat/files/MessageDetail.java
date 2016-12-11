@@ -42,7 +42,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     private Button backButton;
     //private MessageAdapter iAdapter;
     private List<Chat> messages;
-    private Context context = this;
+    public Context context = this;
 
     private RecyclerView messageList;
     private LinearLayoutManager llm;
@@ -87,7 +87,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);
-                ;
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);

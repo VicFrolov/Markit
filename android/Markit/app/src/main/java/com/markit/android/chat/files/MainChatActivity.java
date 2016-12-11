@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 import com.markit.android.ItemDetail;
 
-//import static com.markit.android.ItemDetail.conversationKey;
+import static com.markit.android.ItemDetail.conversationKey;
 import static com.markit.android.R.id.backButton;
 import static com.markit.android.R.id.conversationID;
 import static com.markit.android.R.id.message_text;
