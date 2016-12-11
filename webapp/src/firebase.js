@@ -495,11 +495,8 @@ module.exports = {
     populateSuggestionsInHub,
     addTagToProfile,
     getItemsById,
-<<<<<<< HEAD
     userImagesRef,
     addProfilePicture,
-    getProfilePicture
-=======
+    getProfilePicture,
     initializeMessage
->>>>>>> 910c2784990421dea6f7c66e9a157c229b2e102f
 };
