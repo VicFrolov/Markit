@@ -67,9 +67,11 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 
 
 //=======
-
+//**************************
         final DatabaseReference rootDatabase = FirebaseDatabase.getInstance().getReference();
-        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
+//**************************
+//        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
+        ItemDetail.this.itemDatabase = rootDatabase.child("items").child(itemID);
         storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
         final StorageReference pathRef = storageRef.child("images/itemImages/");
@@ -107,7 +109,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 //                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(imageView);
 //>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
 //======= TODO had to merge again, possibly messy
+                //otherUser = (String) dataSnapshot.child("items").child(itemID).child("uid").getValue();
                 otherUser = (String) dataSnapshot.child("uid").getValue();
+
                 userId.setText(otherUser);
 //                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
@@ -146,8 +150,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         };
 
 //<<<<<<< HEAD
-//        itemDatabase.addListenerForSingleValueEvent(itemDetails);
-        rootDatabase.addListenerForSingleValueEvent(itemDetails);
+        itemDatabase.addListenerForSingleValueEvent(itemDetails);
+//        rootDatabase.addListenerForSingleValueEvent(itemDetails);
         FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,11 +162,12 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
                 //DatabaseReference sellerRef = database.getReference().child("chats/" + contextRef);
                 //String buyer = firebaseAuth.getCurrentUser().getUid();
-                String itemId = uid;
+                String itemId = itemID;
 
-                ConversationItem conversation = new ConversationItem(conversationKey, otherUser, itemId);
-                contextRef.setValue(conversation);
-                sellerRef.setValue(conversation);
+                ConversationItem myConversation = new ConversationItem(conversationKey, otherUser, itemId);
+                contextRef.setValue(myConversation);
+                ConversationItem theirConversation = new ConversationItem(conversationKey, getUID(), itemId);
+                sellerRef.setValue(theirConversation);
                 startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
         });
