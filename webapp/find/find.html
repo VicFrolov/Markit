@@ -61,7 +61,7 @@
           <script type="text/template" id="find-results-template">
             <% for (var specificItem in filteredItemList) { %>
             <%     var item = filteredItemList[specificItem] %>
-            <div class="col l4 m4 s12">
+            <div class="col l4 m6 s12">
               <div class="card find-result hoverable">
                 <div class="find-result-favorite">
                   <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
@@ -84,6 +84,7 @@
                     Description<i class="material-icons right">close</i>
                     <p><%- item['description'] %></p>
                   </span>
+                  <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
                 </div>
               </div>
             </div>
@@ -133,6 +134,27 @@
           <div id="profile-tags" class="col s12">
             list of tags with red number. when clicked will display
             all the relevant items you are tracking :)
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Contact Seller popup -->
+
+      <div id="message-popup">
+        <div id="message-popup-inner">
+          <div class="close-button grey-text right-align"><i class="small material-icons">close</i></div>
+          <div id="message-popup-content">
+            <h2 class="red-text text-lighten-2 ">
+              Message
+            </h2>
+            <p class="grey-text"> Please type your message to the seller</p>
+            <textarea id="message-popup-text">Hey there, I'm interested in your item, what are your availabilities to meet up?</textarea>
+            <a id="message-popup-send-button" class="waves-effect waves-light btn-large right green lighten-2">Send Message</a>
+          </div>
+          <div id="message-popup-confirmation">
+            <h1 id='message-popup-confirmation-text'>Message Sent</h1>
+            <i class="material-icons large green-text " id="message-popup-checkmark">check_circle</i>
           </div>
         </div>
       </div>

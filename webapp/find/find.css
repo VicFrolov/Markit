@@ -29,10 +29,20 @@ html, body {
     position: relative;
 }
 
+.card-contact {
+    position:absolute;
+    bottom: 30px;
+    width: 88%
+}
 .card-view-hub {
     float: right;
     font-size: 13px;
     color: rgba(0, 0, 0, 0.4);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .find-result-price {
@@ -181,11 +191,7 @@ label[for="find-tags"] {
     margin-bottom: 20px;
 }
 
-@media screen and (max-width: 993px) {
-    #find-favorite-panel {
-        display: none;
-    }
-}
+
 
 #find-favorite-logged-out {
     margin-top: 50%;
@@ -229,4 +235,67 @@ label[for="find-tags"] {
 
 .divider {
     margin: 0px 10px 0px 10px;
+}
+
+/*message popup*/
+
+#message-popup {
+    display: flex;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    top: 0; 
+    left: 0; 
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    z-index: -100;
+}
+
+#message-popup-inner {
+    position: relative;
+    background-color: #fff;
+    width: 70%;
+    min-height: 480px;
+    height: 60%;
+    padding: 10px 50px 0px 50px;
+    display: relative;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+#message-popup-inner textarea {
+    resize: none;
+    height: 200px;
+    margin-bottom: 20px;
+    padding: 10px 15px 10px 10px;
+}
+
+@media screen and (max-width: 993px) {
+    #find-favorite-panel {
+        display: none;
+    }
+
+    #message-popup-inner {
+        width: 100%;
+    }
+}
+
+#message-popup-confirmation {
+    display; flex
+}
+
+#message-popup-checkmark {
+    text-align: center;
+    display: block;
+}
+
+#message-popup-confirmation-text {
+    text-align: center;
 }

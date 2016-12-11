@@ -367,6 +367,35 @@
 	    });
 	};
 
+	var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+	    let chatKey = usersRef.push().key;
+	    let date = (new Date()).toString();
+
+	    let contextUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: sellerId
+	    };
+
+	    let contextOtherUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: id
+	    };
+
+	    let messageObject = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    }
+
+	    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
+	    
+	    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
+	}
 
 
 	// AI algorithm functions for suggestions in hub
@@ -509,7 +538,8 @@
 	    updateUserInfo,
 	    populateSuggestionsInHub,
 	    addTagToProfile,
-	    getItemsById
+	    getItemsById,
+	    initializeMessage
 	};
 
 /***/ },
@@ -1413,9 +1443,12 @@
 	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var getImage = __webpack_require__(2)['getImage'];
-
+	    var initializeMessage = __webpack_require__(2)['initializeMessage'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 	    var favoriteTemplate = $('#favorite-template');
+	    $('#message-popup-confirmation').hide();
+
 	    var showFavoritesInSidebar = function(favorites) {
 	        var str = $('#favorite-template').text();
 	        var compiled = _.template(str);
@@ -1592,13 +1625,6 @@
 	        });
 	    };
 
-	    $('input.autocomplete').autocomplete({
-	        data: {
-	            "Apple": null,
-	            "Microsoft": null,
-	            "Google": 'http://placehold.it/250x250'
-	        }
-	    });
 
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
@@ -1612,7 +1638,7 @@
 	        }
 
 	        for (let i = 0; i < tags.length; i += 1) {
-	            tags[i] = tags[i].toLowerCase()
+	            tags[i] = tags[i].toLowerCase();
 	        }
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
@@ -1621,6 +1647,52 @@
 	        newSearch(getListings(), keywords, tags, hubs, priceRange);
 	    });
 
+	    $('.close-button').click(function () {
+	        $('#message-popup').animate({
+	            opacity: 0,
+	            'z-index': -100
+	        }, 100);
+	    });
+
+	    let newMessageId;
+	    let newMessageImagePath;
+
+	    $('body').on('click', '.card-contact', function () {
+	        let parentDiv = $(this).parent().parent();
+	        let imageDiv = parentDiv[0].children[2];
+	        newMessageImagePath = $(imageDiv)[0].children[0].src;
+	        newMessageId = $(imageDiv)[0].children[0].id;
+
+	        $('#message-popup').css('z-index', '100').animate({
+	            opacity: 1
+	        }, 50);
+	    });
+
+
+	    $('#message-popup-send-button').click(function() {
+	        let newMessageSellerId;
+	        let newMessageContent = $($(this).parent()[0].children[2]).val();
+
+	        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
+	            for (let item in items) {
+	                newMessageSellerId = items[item].uid;
+	            }
+
+	            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+	                newMessageId, newMessageImagePath, newMessageContent);
+
+	            $('#message-popup-content').fadeOut(500);
+
+	            setTimeout(function(){
+	                $('#message-popup-inner').css({
+	                    'display': 'flex',
+	                    'align-items': 'center',
+	                    'justify-content': 'center'
+	                });
+	                $('#message-popup-confirmation').fadeIn();
+	            }, 500);
+	        });
+	    })
 
 	});
 
