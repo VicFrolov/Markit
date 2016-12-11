@@ -9,6 +9,7 @@ $(function() {
     var removeFavorite = require('./firebase.js')['removeFavorite'];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var getImage = require('./firebase.js')['getImage'];
+    var initializeMessage = require('./firebase.js')['initializeMessage'];
 
     var favoriteTemplate = $('#favorite-template');
     var showFavoritesInSidebar = function(favorites) {
@@ -187,14 +188,6 @@ $(function() {
         });
     };
 
-    $('input.autocomplete').autocomplete({
-        data: {
-            "Apple": null,
-            "Microsoft": null,
-            "Google": 'http://placehold.it/250x250'
-        }
-    });
-
 
     $("#find-search-button").click(function () {
         let query = "key=";
@@ -208,7 +201,7 @@ $(function() {
         }
 
         for (let i = 0; i < tags.length; i += 1) {
-            tags[i] = tags[i].toLowerCase()
+            tags[i] = tags[i].toLowerCase();
         }
         
         query += keywords === "" ? "none" : "" + keywords;
@@ -217,19 +210,40 @@ $(function() {
         newSearch(getListings(), keywords, tags, hubs, priceRange);
     });
 
+    $('.close-button').click(function () {
+        $('#message-popup').animate({
+            opacity: 0,
+            'z-index': -100
+        }, 100);
+    });
+
+    let newMessageSellerId;
+    let newMessageId;
+    let newMessageImagePath;
     $('body').on('click', '.card-contact', function () {
+        // console.log($(this).parent().parent());
+        let parentDiv = $(this).parent().parent();
+        let imageDiv = parentDiv[0].children[2];
+        newMessageImagePath = $(imageDiv)[0].children[0].src;
+        newMessageId = $(imageDiv)[0].children[0].id;
+
+
         $('#message-popup').css('z-index', '100').animate({
                 opacity: 1
             }, 50);
     });
 
-    $('.close-button').click(function () {
-        $('#message-popup').animate({
-            opacity: 0,
-            'z-index': -100
-        }, 100)
-    });
 
-    $('#message-popup-send-button')
+    $('#message-popup-send-button').click(function() {
+        initializeMessage(auth.currentUser.uid, 'sellerId', newMessageId, newMessageImagePath);
+        // Promise.resolve(getItemSeller()).then(function(seller) {
+
+        // });
+
+        // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
+        // 1) send message to seller, by pushing conversation to new user
+        // 2) add conversation to current user
+        // 3) change display to say message sent, and the ability to go to inbox
+    })
 
 });

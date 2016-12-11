@@ -281,6 +281,53 @@ var addHubs = function(itemHubs) {
     });
 };
 
+var initializeMessage = function (id, sellerId, uid, imageLink) {
+    let chatKey = usersRef.push().key;
+
+    let contextUser = {
+        itemID: uid,
+        itemImageURL: imageLink,
+        otherUser: sellerId
+    };
+
+    let contextOtherUser = {
+        itemID: uid,
+        itemImageURL: imageLink,
+        otherUser: id
+    };
+
+    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
+    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
+
+//     users: {
+//     001: {
+//         chats: {,
+//             conversationID: {
+//                 context: {
+//                     itemID: XYZ,
+//                     otherUser: username,
+//                     itemImageURL: alsdfjlasdkf,
+//                 },
+//                 messages: {
+//                     message1: {
+//                         type: "text"
+//                         text: "hi idiot",
+//                         sender: username,
+//                         senderID: userID,
+//                         timeSent: time
+//                     },
+//                     message2: {
+                  
+//                     }
+//                 },
+//             },
+//             conversationID: {
+//                 ...
+//             }
+//         }
+//     }
+// }
+}
 
 
 // AI algorithm functions for suggestions in hub
@@ -423,5 +470,6 @@ module.exports = {
     updateUserInfo,
     populateSuggestionsInHub,
     addTagToProfile,
-    getItemsById
+    getItemsById,
+    initializeMessage
 };

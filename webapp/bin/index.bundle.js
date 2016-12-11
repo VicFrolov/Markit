@@ -367,6 +367,53 @@
 	    });
 	};
 
+	var initializeMessage = function (id, sellerId, uid, imageLink) {
+	    let chatKey = usersRef.push().key;
+
+	    let contextUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: sellerId
+	    };
+
+	    let contextOtherUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: id
+	    };
+
+	    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
+
+	//     users: {
+	//     001: {
+	//         chats: {,
+	//             conversationID: {
+	//                 context: {
+	//                     itemID: XYZ,
+	//                     otherUser: username,
+	//                     itemImageURL: alsdfjlasdkf,
+	//                 },
+	//                 messages: {
+	//                     message1: {
+	//                         type: "text"
+	//                         text: "hi idiot",
+	//                         sender: username,
+	//                         senderID: userID,
+	//                         timeSent: time
+	//                     },
+	//                     message2: {
+	                  
+	//                     }
+	//                 },
+	//             },
+	//             conversationID: {
+	//                 ...
+	//             }
+	//         }
+	//     }
+	// }
+	}
 
 
 	// AI algorithm functions for suggestions in hub
@@ -509,7 +556,8 @@
 	    updateUserInfo,
 	    populateSuggestionsInHub,
 	    addTagToProfile,
-	    getItemsById
+	    getItemsById,
+	    initializeMessage
 	};
 
 /***/ },
@@ -1413,6 +1461,7 @@
 	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var getImage = __webpack_require__(2)['getImage'];
+	    var initializeMessage = __webpack_require__(2)['initializeMessage'];
 
 	    var favoriteTemplate = $('#favorite-template');
 	    var showFavoritesInSidebar = function(favorites) {
@@ -1591,14 +1640,6 @@
 	        });
 	    };
 
-	    $('input.autocomplete').autocomplete({
-	        data: {
-	            "Apple": null,
-	            "Microsoft": null,
-	            "Google": 'http://placehold.it/250x250'
-	        }
-	    });
-
 
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
@@ -1612,7 +1653,7 @@
 	        }
 
 	        for (let i = 0; i < tags.length; i += 1) {
-	            tags[i] = tags[i].toLowerCase()
+	            tags[i] = tags[i].toLowerCase();
 	        }
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
@@ -1621,20 +1662,41 @@
 	        newSearch(getListings(), keywords, tags, hubs, priceRange);
 	    });
 
+	    $('.close-button').click(function () {
+	        $('#message-popup').animate({
+	            opacity: 0,
+	            'z-index': -100
+	        }, 100);
+	    });
+
+	    let newMessageSellerId;
+	    let newMessageId;
+	    let newMessageImagePath;
 	    $('body').on('click', '.card-contact', function () {
+	        // console.log($(this).parent().parent());
+	        let parentDiv = $(this).parent().parent();
+	        let imageDiv = parentDiv[0].children[2];
+	        newMessageImagePath = $(imageDiv)[0].children[0].src;
+	        newMessageId = $(imageDiv)[0].children[0].id;
+
+
 	        $('#message-popup').css('z-index', '100').animate({
 	                opacity: 1
 	            }, 50);
 	    });
 
-	    $('.close-button').click(function () {
-	        $('#message-popup').animate({
-	            opacity: 0,
-	            'z-index': -100
-	        }, 100)
-	    });
 
-	    $('#message-popup-send-button')
+	    $('#message-popup-send-button').click(function() {
+	        initializeMessage(auth.currentUser.uid, 'sellerId', newMessageId, newMessageImagePath);
+	        // Promise.resolve(getItemSeller()).then(function(seller) {
+
+	        // });
+
+	        // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
+	        // 1) send message to seller, by pushing conversation to new user
+	        // 2) add conversation to current user
+	        // 3) change display to say message sent, and the ability to go to inbox
+	    })
 
 	});
 
