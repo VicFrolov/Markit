@@ -109,30 +109,47 @@
 	var userImagesRef = firebase.storage().ref('images/profileImages/');
 	var usersRef = database.ref('users/');
 
-	var addProfilePicture = function (uid, image) {
-	    image = image.replace(/^.*base64,/g, '');
-	    var profilePicName = "imageOne";
-	    var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
+	var addProfilePicture = function (uid, image, callback) {
+	    return new Promise(function(resolve, reject) {
+	        image = image.replace(/^.*base64,/g, '');
+	        var profilePicName = "imageOne";
+	        var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
 
-	    uploadTask.on('state_changed', function(snapshot) {
-	        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-	        console.log('Upload is ' + progress + '% done');
+	        uploadTask.on('state_changed', function(snapshot) {
+	            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	            console.log('Upload is ' + progress + '% done');
 
-	        switch (snapshot.state) {
-	            case firebase.storage.TaskState.PAUSED: // or 'paused'
-	                console.log('Upload is paused');
-	                break;
-	            case firebase.storage.TaskState.RUNNING: // or 'running'
-	                console.log('Upload is running');
-	                break;
-	        }
-	    }, function(error) {
-	        console.log("error uploading image");
-	    }, function() {
-	        var downloadURL = uploadTask.snapshot.downloadURL;
-	        console.log(downloadURL);
+	            switch (snapshot.state) {
+	                case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                    console.log('Upload is paused');
+	                    break;
+	                case firebase.storage.TaskState.RUNNING: // or 'running'
+	                    console.log('Upload is running');
+	                    break;
+	            }
+	        }, function(error) {
+	            reject(error);
+	            console.log("error uploading image");
+	        }, function() {
+	            var downloadURL = uploadTask.snapshot.downloadURL;
+	            console.log(downloadURL);
+	            resolve(downloadURL);
+	        });
+	        
+	    })
+	    .then(function () {
+	        getProfilePicture(uid, callback);
 	    });
 	};
+
+	var getProfilePicture = function (uid, callback) {
+	    userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	}
 
 	var addListing = function (title, description, tags, price, hubs, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
@@ -536,7 +553,8 @@
 	    addTagToProfile,
 	    getItemsById,
 	    userImagesRef,
-	    addProfilePicture
+	    addProfilePicture,
+	    getProfilePicture
 	};
 
 /***/ },
@@ -2180,12 +2198,16 @@
 	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
+	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
+	    var reader;
 	    var user;
 	    var uid;
 	    var firebaseUsername;
 	    var likedCardList = $('#profile-liked-card-list');
 	    var sellingCardList = $('#profile-selling-card-list');
-	    var addButton = $('.add-button');
+	    var profilePicture = $('#profile-picture');
+	    var addPhotoButton = $('#add-photo-button');
+	    var addButton = $('#add-button');
 	    var editButton = $('#edit-button');
 	    var saveButton = $('#save-button');
 	    var firstName = $('#profile-first-name');
@@ -2319,12 +2341,19 @@
 	        getUserInfo(uid, loadUserInfo);
 	    };
 
+	    var loadProfilePicture = function () {
+	        getProfilePicture(uid, function (url) {
+	            profilePicture.attr('src', url);
+	        });
+	    }
+
 	    var loadUserInfo = function (userInfo) {
 	        firstName.val(userInfo.firstName);
 	        lastName.val(userInfo.lastName);
 	        username.val(userInfo.username);
 	        firebaseUsername = userInfo.username;
 	        hub.val(userInfo.userHub);
+	        loadProfilePicture();
 	        $('.my-profile-username').text(firebaseUsername);
 	        for (preference in userInfo.paymentPreferences) {
 	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
@@ -2392,8 +2421,17 @@
 	        addToTagsList();
 	    });
 
-	    $('#add-photo-icon').click(function () {
-	        console.log("clicked");
+	    addPhotoButton.change(function () {
+	        reader = new FileReader();
+	        var fileExtension = ['jpeg', 'jpg', 'png'];
+	        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+	        } else {
+	            reader.onload = function (e) {
+	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
 	    });
 
 	    editButton.click(function () {

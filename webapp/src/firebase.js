@@ -23,30 +23,47 @@ var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var userImagesRef = firebase.storage().ref('images/profileImages/');
 var usersRef = database.ref('users/');
 
-var addProfilePicture = function (uid, image) {
-    image = image.replace(/^.*base64,/g, '');
-    var profilePicName = "imageOne";
-    var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
+var addProfilePicture = function (uid, image, callback) {
+    return new Promise(function(resolve, reject) {
+        image = image.replace(/^.*base64,/g, '');
+        var profilePicName = "imageOne";
+        var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
 
-    uploadTask.on('state_changed', function(snapshot) {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+        uploadTask.on('state_changed', function(snapshot) {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
 
-        switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
-                console.log('Upload is running');
-                break;
-        }
-    }, function(error) {
-        console.log("error uploading image");
-    }, function() {
-        var downloadURL = uploadTask.snapshot.downloadURL;
-        console.log(downloadURL);
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function(error) {
+            reject(error);
+            console.log("error uploading image");
+        }, function() {
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            console.log(downloadURL);
+            resolve(downloadURL);
+        });
+        
+    })
+    .then(function () {
+        getProfilePicture(uid, callback);
     });
 };
+
+var getProfilePicture = function (uid, callback) {
+    userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+        callback(url);
+    }).catch(function(error) {
+        console.log("error image not found");
+        console.log("error either in item id, filename, or file doesn't exist");
+    });
+}
 
 var addListing = function (title, description, tags, price, hubs, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
@@ -450,5 +467,6 @@ module.exports = {
     addTagToProfile,
     getItemsById,
     userImagesRef,
-    addProfilePicture
+    addProfilePicture,
+    getProfilePicture
 };

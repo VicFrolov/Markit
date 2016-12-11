@@ -64,7 +64,7 @@ main, body {
 
 .my-profile-picture {
     background-color: #eee;
-    min-width: 100px;
+    min-height: 100px;
     width: 100px;
     margin: 12px;
     position: absolute;

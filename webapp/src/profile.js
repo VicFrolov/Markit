@@ -6,12 +6,16 @@ $(function () {
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
+    var getProfilePicture = require('./firebase.js')['getProfilePicture'];
+    var reader;
     var user;
     var uid;
     var firebaseUsername;
     var likedCardList = $('#profile-liked-card-list');
     var sellingCardList = $('#profile-selling-card-list');
-    var addButton = $('.add-button');
+    var profilePicture = $('#profile-picture');
+    var addPhotoButton = $('#add-photo-button');
+    var addButton = $('#add-button');
     var editButton = $('#edit-button');
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
@@ -145,12 +149,19 @@ $(function () {
         getUserInfo(uid, loadUserInfo);
     };
 
+    var loadProfilePicture = function () {
+        getProfilePicture(uid, function (url) {
+            profilePicture.attr('src', url);
+        });
+    }
+
     var loadUserInfo = function (userInfo) {
         firstName.val(userInfo.firstName);
         lastName.val(userInfo.lastName);
         username.val(userInfo.username);
         firebaseUsername = userInfo.username;
         hub.val(userInfo.userHub);
+        loadProfilePicture();
         $('.my-profile-username').text(firebaseUsername);
         for (preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
@@ -218,8 +229,17 @@ $(function () {
         addToTagsList();
     });
 
-    $('#add-photo-icon').click(function () {
-        console.log("clicked");
+    addPhotoButton.change(function () {
+        reader = new FileReader();
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+        } else {
+            reader.onload = function (e) {
+                addProfilePicture(uid, e.target.result, loadProfilePicture);
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
     });
 
     editButton.click(function () {
