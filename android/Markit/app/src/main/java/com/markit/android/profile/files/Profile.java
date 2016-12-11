@@ -2,6 +2,7 @@ package com.markit.android.profile.files;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,16 +15,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
+import android.widget.Button;
 import android.widget.TextView;
-
 import com.markit.android.CardViewActivity;
 import com.markit.android.FavoritesListView;
 import com.markit.android.login.files.LoginActivity;
@@ -33,14 +32,23 @@ import com.markit.android.R;
 import com.markit.android.WatchListFragment;
 import com.markit.android.base.files.BaseActivity;
 import com.markit.android.dummy.DummyContent.DummyItem;
+import android.widget.Toast;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.markit.android.dummy.DummyContent.DummyItem;
+
+import java.util.ArrayList;
 
 public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
 
-    public void onListFragmentInteraction(DummyItem d) {
+    public void onListFragmentInteraction(String[] d) {
 //        TODO figure out what the fuck this thing is supposed to do
+    }
+
+    public void onListFragmentInteraction(DummyItem d) {
+        // TODO make sure each of the datatypes being passed into each of these fragment interaciton methods is different or they will get confused with one antoher
     }
 
     public void onFragmentInteraction(Uri uri) {
@@ -64,12 +72,27 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private int currentPage;
-    protected static String[] inputTags;
+
+    //TODO use database instead of a created ArrayList here
+    protected static ArrayList<String[]> inputTags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        // Populating the inputTags with local data, will change later
+        String[] item1 = new String[3];
+        String[] item2 = new String[4];
+        item1[0] = "car";
+        item1[1] = "corvette";
+        item1[2] = "red";
+        item2[0] = "iphone";
+        item2[1] = "new";
+        item2[2] = "black";
+        item2[3] = "cellphone";
+        inputTags.add(item1);
+        inputTags.add(item2);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

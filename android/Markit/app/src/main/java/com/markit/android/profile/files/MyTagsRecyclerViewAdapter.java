@@ -11,6 +11,7 @@ import com.markit.android.profile.files.TagsFragment.OnListFragmentInteractionLi
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+import java.util.Arrays;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -19,10 +20,10 @@ import java.util.List;
  */
 public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<String[]> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTagsRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyTagsRecyclerViewAdapter(List<String[]> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -37,8 +38,8 @@ public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position)[(mValues.get(position).length - 1)]);
+        holder.mContentView.setText(Arrays.toString(mValues.get(position)).replace("[", "").replace("]", ""));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +62,7 @@ public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public String[] mItem;
 
         public ViewHolder(View view) {
             super(view);
