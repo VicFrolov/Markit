@@ -220,16 +220,16 @@ $(function() {
 
     let newMessageId;
     let newMessageImagePath;
+
     $('body').on('click', '.card-contact', function () {
         let parentDiv = $(this).parent().parent();
         let imageDiv = parentDiv[0].children[2];
         newMessageImagePath = $(imageDiv)[0].children[0].src;
         newMessageId = $(imageDiv)[0].children[0].id;
 
-
         $('#message-popup').css('z-index', '100').animate({
-                opacity: 1
-            }, 50);
+            opacity: 1
+        }, 50);
     });
 
 
@@ -244,12 +244,7 @@ $(function() {
 
             initializeMessage(auth.currentUser.uid, newMessageSellerId, 
                 newMessageId, newMessageImagePath, newMessageContent);
-        })
-
-        // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
-        // 1) send message to seller, by pushing conversation to new user
-        // 2) add conversation to current user
-        // 3) change display to say message sent, and the ability to go to inbox
+        });
     })
 
 });
