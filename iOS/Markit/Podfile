@@ -13,7 +13,6 @@ target 'Markit' do
   pod 'JSQMessagesViewController'
   pod 'SwiftyJSON', '3.0.0'
   pod 'MARKRangeSlider'
-  pod 'MLPAutoCompleteTextField'
   pod 'FBSDKCoreKit'
   pod 'FBSDKShareKit'
   pod 'FBSDKLoginKit'

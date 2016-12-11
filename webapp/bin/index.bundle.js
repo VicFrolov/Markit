@@ -84,6 +84,8 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict'
+
 	var firebase = __webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(5);
@@ -104,7 +106,50 @@
 	var auth = firebase.auth();
 	var itemsRef = database.ref('items/');
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
+	var userImagesRef = firebase.storage().ref('images/profileImages/');
 	var usersRef = database.ref('users/');
+
+	var addProfilePicture = function (uid, image, callback) {
+	    return new Promise(function(resolve, reject) {
+	        image = image.replace(/^.*base64,/g, '');
+	        var profilePicName = "imageOne";
+	        var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
+
+	        uploadTask.on('state_changed', function(snapshot) {
+	            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	            console.log('Upload is ' + progress + '% done');
+
+	            switch (snapshot.state) {
+	                case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                    console.log('Upload is paused');
+	                    break;
+	                case firebase.storage.TaskState.RUNNING: // or 'running'
+	                    console.log('Upload is running');
+	                    break;
+	            }
+	        }, function(error) {
+	            reject(error);
+	            console.log("error uploading image");
+	        }, function() {
+	            var downloadURL = uploadTask.snapshot.downloadURL;
+	            console.log(downloadURL);
+	            resolve(downloadURL);
+	        });
+	        
+	    })
+	    .then(function () {
+	        getProfilePicture(uid, callback);
+	    });
+	};
+
+	var getProfilePicture = function (uid, callback) {
+	    userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	}
 
 	var addListing = function (title, description, tags, price, hubs, uid, images) {
 	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
@@ -134,7 +179,6 @@
 	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
 	    });
 	    
-	    
 	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
@@ -163,22 +207,28 @@
 	    }
 	};
 
-	var getListings = function (callback) {
-	    itemsRef.once("value").then(function (snapshot) {
-	        callback(snapshot.val());
-	    }, function (error) {
+
+	var getListings = function () {
+	    return itemsRef.once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
 	        console.log(error);
 	    });
 	};
 
 	var getRecentItemsInHub = function (hub, callback) {
-	    database.ref('itemsByHub/' + hub + '/').limitToLast(4).once('value').then(function (snapshot) {
+	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
 	        callback(snapshot.val());
 	    }, function (error) {
 	        console.log(error);
 	    });
 	};
 
+
+
+	// Remove this function below and replace with the one after it
+	// so that it returns a promise, rather than this anti-patern
+	// of callback + promise
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -191,6 +241,14 @@
 	    });
 	};
 
+	var getUserFavorites = function() {
+	    return usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	};
+
 	var getUserInfo = function(uid, callback) {
 	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
 	        var userInfo = snapshot.val();
@@ -199,10 +257,10 @@
 	};
 
 	var updateUserInfo = function(uid, updatedInfo) {
-	    for (update in updatedInfo) {
+	    for (var update in updatedInfo) {
 	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
 	    }
-	}
+	};
 
 	var getImage = function(address, callback) {
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
@@ -238,10 +296,19 @@
 	};
 
 
-
 	var removeFavorite = function (item) {
 	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
 	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+
+	    itemsRef.child(item).once('value').then(function(snapshot) {
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(auth.currentUser.uid + 
+	                '/tagSuggestions/' + itemTags[i]).set(0.5);
+	        }
+
+	    });    
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
@@ -262,8 +329,22 @@
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
 	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+	    
+	    //update suggested tags
+	    itemsRef.child(itemID).once('value').then(function(snapshot) {
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
+	        }
+
+	    });    
+
 	};
 
+	var addTagToProfile = function(uid, tagObject) {
+	    usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
+	};
 
 	var createAccount = function () {
 	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
@@ -328,6 +409,157 @@
 	    });
 	};
 
+	var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+	    let chatKey = usersRef.push().key;
+	    let date = (new Date()).toString();
+
+	    let contextUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: sellerId
+	    };
+
+	    let contextOtherUser = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: id
+	    };
+
+	    let messageObject = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    }
+
+	    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
+	    
+	    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
+	}
+
+
+	// AI algorithm functions for suggestions in hub
+	// next 3 functions
+	var getItemsInHub = function (hub) {
+	    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	// takes array of items
+	var getItemsById = function (itemsToMatch) {
+	    return database.ref('items/').once('value').then(function (snapshot) {
+	        let allItems = snapshot.val();
+	        let matchedItems = {};
+
+	        for (let i = 0; i < itemsToMatch.length; i += 1) {
+	            if (itemsToMatch[i] in allItems) {
+	                matchedItems[itemsToMatch[i]] = allItems[itemsToMatch[i]];
+	            }
+	        }
+	        return matchedItems;
+
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	}
+
+
+	var getUserSuggestions = function (uid) {
+	    usersRef
+	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var populateSuggestionsInHub = function(hub, uid) {
+	    return Promise.all([
+	        getItemsInHub(hub), 
+	        getUserSuggestions(uid), getUserFavorites()]).then(function (results) {
+	            let itemsInHub = results[0];
+	            let userSuggestions = results[1];
+	            let userFavorites = results[2];
+
+	            // if user has favorites
+	            if (userSuggestions) {
+	                // for each item in the hub
+	                for (let item in itemsInHub) {
+	                    let itemTagCount = itemsInHub[item]['tags'].length;
+	                    let tagMatches = {};
+	                    let tagMatchCount = 0;
+	                    let tagWeight = 0;
+	                    let itemTags = itemsInHub[item]['tags'];
+
+	                    // for each tag in each item
+	                    itemTags.forEach(function (tag) {
+	                        // calculate weights
+	                        if (tag in userSuggestions) {
+	                            tagMatches[tag] = userSuggestions[tag];
+	                            tagMatchCount += 1;
+	                            tagWeight += userSuggestions[tag];
+	                            
+	                        }
+	                    });
+
+	                    tagWeight /= itemTagCount;
+
+	                    if (tagMatchCount === 0) {
+	                        continue;
+	                    }
+
+	                    // for each tags in item
+	                    itemTags.forEach(function(tag) {
+	                        // set weights
+	                        if (tag in userSuggestions && userSuggestions[tag] < 1) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set((userSuggestions[tag]));
+	                        } else if (!(tag in userSuggestions)) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set(tagWeight);
+	                        }
+	                    });
+	                }
+
+	                // iterate through items and display items with highest values
+	                let userItemSuggestions = {}
+	                for (let item in itemsInHub) {
+	                    // immediately check if the item is part of user favorites
+	                    // if it is, skip since no need to suggest a favorited
+	                    // item
+	                    if (itemsInHub[item]['id'] in userFavorites) {
+	                        continue;
+	                    }
+	                    let itemTags = itemsInHub[item]['tags'];
+	                    let tagCount = itemsInHub[item]['tags'].length;
+	                    let itemWeight = 0;
+	                    itemTags.forEach(function (tag) {
+	                        if (tag in userSuggestions) {
+	                            itemWeight += userSuggestions[tag];
+	                        }
+	                    });
+	                    itemWeight /= tagCount;
+	                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
+	                }
+
+	                // sorting results in an array, where each
+	                // input is an array [key, value]
+	                var sortedSuggestions = []
+
+	                for (let item in userItemSuggestions) {
+	                    sortedSuggestions.push(item)
+	                }
+
+	                sortedSuggestions.sort(function(a, b) {
+	                    return b - a
+	                });
+
+	                return sortedSuggestions;
+	            }
+
+	        });
+	}
+
+
 	module.exports = {
 	    auth,
 	    signIn,
@@ -345,7 +577,14 @@
 	    getImage,
 	    getRecentItemsInHub,
 	    getUserInfo,
-	    updateUserInfo
+	    updateUserInfo,
+	    populateSuggestionsInHub,
+	    addTagToProfile,
+	    getItemsById,
+	    userImagesRef,
+	    addProfilePicture,
+	    getProfilePicture,
+	    initializeMessage
 	};
 
 /***/ },
@@ -1079,7 +1318,7 @@
 	    $("main").on('click', '#submit-post', function (e) {
 	        if (itemTitle && itemDescription && itemTags && itemPrice) {
 	            addListing(itemTitle, itemDescription, itemTags, itemPrice, itemHub, userID, itemImages);
-	            $("main").text("Item has been Posted :)");
+	            $("#new-post-main").text("Item has been Posted :)");
 	        } else {
 	            alert("please enter a username and comment");
 	        }
@@ -1223,6 +1462,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict'
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var getFavorites = __webpack_require__(2)['getFavorites'];
@@ -1233,11 +1473,13 @@
 	    var removeFavorite = __webpack_require__(2)['removeFavorite'];
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var getImage = __webpack_require__(2)['getImage'];
-
+	    var initializeMessage = __webpack_require__(2)['initializeMessage'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 	    var favoriteTemplate = $('#favorite-template');
+	    $('#message-popup-confirmation').hide();
+
 	    var showFavoritesInSidebar = function(favorites) {
-	        
 	        var str = $('#favorite-template').text();
 	        var compiled = _.template(str);
 
@@ -1247,12 +1489,13 @@
 	        for (var i = 0; i < favorites.length; i += 1) {
 	            (function (x) {
 	                getImage(favorites[x]['id'] + '/imageOne', function(url) {
-	                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	                    let tagToAdd = ".favorite-image img:eq(" + x  + " )";
 	                    $(tagToAdd).attr({src: url});
 	                });
 	            })(i);
 	        }
-	    };    
+	    };
+
 
 
 	    auth.onAuthStateChanged(function(user) {
@@ -1260,7 +1503,6 @@
 	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
-
 
 	            // favorite icon highlight/changes
 	            $('body').on('mouseenter', '.find-result-favorite-image', function() {
@@ -1293,7 +1535,9 @@
 
 	    var slider = $("#search-slider");
 	    if (slider.length > 0) {
-	        
+	        // Add dropdown hub selector
+	        $('select').material_select();
+	        // add slider
 	        noUiSlider.create(slider[0], {
 	            start: [1, 500],
 	            connect: true,
@@ -1308,6 +1552,40 @@
 	                'min': 1,
 	                'max': 3000
 	            }
+	        });
+
+	        slider[0].noUiSlider.get()
+
+
+	        // add autofill tags
+	        var findTags = $('#find-tags');
+	        findTags.textext({plugins : 'tags autocomplete'})
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Table',
+	                        'Desk',
+	                        'Computer',
+	                        'Electronics',
+	                        'iPhone',
+	                        'Cell Phone',
+	                        'Apple',
+	                        'Macbook',
+	                        'Chair',
+	                        'Leather',
+	                        'Clothing',
+	                        'Bedroom',
+	                        'Bathroom',
+	                        'Couch',
+	                        'Kitchen',
+	                        'Living Room',
+	                        'Dinner Table'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
+
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
 	        });
 	    }
 
@@ -1324,102 +1602,127 @@
 	        });
 	    };
 
+	    var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
+	        Promise.resolve(currentItems).then(function(itemList) {
+	            var str = $('#find-results-template').text();
+	            var compiled = _.template(str);
+	            var imagePaths = [];
+	            var filteredItemList = {};        
+	            
+	            for (var item in itemList) {
+	                var currentItem = itemList[item];
+	                var itemID = currentItem['id'];
+	                var itemDescription = currentItem['description'].toLowerCase();
+	                var itemTitle = currentItem['title'].toLowerCase();
+	                var itemPrice = parseInt(currentItem['price'])
+	                imagePaths.push(itemID);
 
-	    var newSearch = function(currentItems) {
-	        $("#find-content").empty();
-	        var imagePaths = [];
-	        
-	        for (var item in currentItems) {
-	            var currentItem = currentItems[item];
-	            var itemID = currentItem['id'];
-	            imagePaths.push(itemID);
-	        
-	            $("#find-content").append(
-	                $("<div></div>").addClass("col l4 m4 s12").append(
-	                    $("<div></div>").addClass("card find-result hoverable").append(
-	                        $("<div></div>").addClass("find-result-favorite").append(
-	                            $("<img/>").addClass("find-result-favorite-image").attr({
-	                                src: "../media/ic_heart.png",
-	                                alt: "heart",
-	                                uid: itemID
-	                            })
-	                        )
-	                    ).append(
-	                        $("<div></div>").addClass("find-result-price").text(
-	                            "$" + currentItem["price"])).append(
-	                        $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
-	                            $("<img/>").addClass("activator").attr({
-	                                src: ''
-	                            })
-	                        )
-	                    ).append(
-	                        $("<div></div>").addClass("card-content").append(
-	                            $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-	                                    currentItem["title"]
-	                            ).append(
-	                                $("<i></i>").addClass("material-icons right").text("more_vert")
-	                            )
-	                        ).append(
-	                            $("<p></p>").append(
-	                                $("<a></a>").attr({
-	                                    href: "#"
-	                                }).text(
-	                                    "view item"
-	                                )
-	                            )
-	                        )
-	                    ).append(
-	                        $("<div></div>").addClass("card-reveal").append(
-	                            $("<span></span>").addClass("card-title grey-text text-darken-4").text(
-	                                "Description"
-	                            ).append(
-	                                $("<i></i>").addClass("material-icons right").text(
-	                                    "close"
-	                                )
-	                            ).append(
-	                                $("<p></p>").text(
-	                                    currentItem["description"]
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
 
-	        getFavorites(showFavoritesInSearches);
+	                if (hubs.length > 0 && !hubs.some(hub => currentItem['hubs'].includes(hub))) {
+	                    continue;
+	                }
 
-	        for (var i = 0; i < imagePaths.length; i += 1) {
-	            (function (x) {
-	                getImage(imagePaths[x] + '/imageOne', function(url) {
-	                    tagToAdd = "img.activator:eq(" + x  + " )";
-	                    $(tagToAdd).attr({src: url});
-	                });
-	            })(i);
-	        }
+	                if (tags.length > 0 && !tags.some(tag => currentItem['tags'].includes(tag))) {
+	                    continue;
+	                }
 
+	                if (keywords.length > 0 && (!keywords.some(key => itemTitle.includes(key)) &&
+	                    !keywords.some(key => itemDescription.includes(key)))) {
+	                        continue
+	                }
+
+	                if (itemPrice < priceRange[0] || itemPrice > priceRange[1]) {
+	                    continue;
+	                }
+
+	                filteredItemList[itemID] = currentItem
+	            }
+
+	            $("#find-content-presearch").hide()
+	            $('#find-results-holder').empty();
+	            $('#find-results-holder').append(compiled({filteredItemList: filteredItemList}));
+
+
+	            getFavorites(showFavoritesInSearches);
+
+	            for (var i = 0; i < imagePaths.length; i += 1) {
+	                (function (x) {
+	                    getImage(imagePaths[x] + '/imageOne', function(url) {
+	                        $("#" + imagePaths[x]).attr({src: url});
+	                    });
+	                })(i);
+	            }            
+	        });
 	    };
 
-	    $('input.autocomplete').autocomplete({
-	        data: {
-	            "Apple": null,
-	            "Microsoft": null,
-	            "Google": 'http://placehold.it/250x250'
-	        }
-	    });
 
 	    $("#find-search-button").click(function () {
-	        var query = "key=";
-	        var keywords = $("#item-post-title").val();
-	        var tags = $("#item-post-tags").val();
+	        let query = "key=";
+	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
+	        let hubs = $("#find-hubs").val();
+	        let tags = $('#find-tags').textext()[0].tags()._formData;
+	        let priceRange = slider[0].noUiSlider.get();
+
+	        for (let i = 0; i < priceRange.length; i += 1) {
+	            priceRange[i] = parseInt(priceRange[i].replace(/[^0-9.]/g, ''));
+	        }
+
+	        for (let i = 0; i < tags.length; i += 1) {
+	            tags[i] = tags[i].toLowerCase();
+	        }
 	        
 	        query += keywords === "" ? "none" : "" + keywords;
 	        location.hash = query;
-	        getListings(newSearch);
+
+	        newSearch(getListings(), keywords, tags, hubs, priceRange);
+	    });
+
+	    $('.close-button').click(function () {
+	        $('#message-popup').animate({
+	            opacity: 0,
+	            'z-index': -100
+	        }, 100);
+	    });
+
+	    let newMessageId;
+	    let newMessageImagePath;
+
+	    $('body').on('click', '.card-contact', function () {
+	        let parentDiv = $(this).parent().parent();
+	        let imageDiv = parentDiv[0].children[2];
+	        newMessageImagePath = $(imageDiv)[0].children[0].src;
+	        newMessageId = $(imageDiv)[0].children[0].id;
+
+	        $('#message-popup').css('z-index', '100').animate({
+	            opacity: 1
+	        }, 50);
 	    });
 
 
+	    $('#message-popup-send-button').click(function() {
+	        let newMessageSellerId;
+	        let newMessageContent = $($(this).parent()[0].children[2]).val();
 
+	        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
+	            for (let item in items) {
+	                newMessageSellerId = items[item].uid;
+	            }
+
+	            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+	                newMessageId, newMessageImagePath, newMessageContent);
+
+	            $('#message-popup-content').fadeOut(500);
+
+	            setTimeout(function(){
+	                $('#message-popup-inner').css({
+	                    'display': 'flex',
+	                    'align-items': 'center',
+	                    'justify-content': 'center'
+	                });
+	                $('#message-popup-confirmation').fadeIn();
+	            }, 500);
+	        });
+	    })
 
 	});
 
@@ -1960,17 +2263,23 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
-
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
+	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
+	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
+	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
+	    var reader;
 	    var user;
 	    var uid;
 	    var firebaseUsername;
 	    var likedCardList = $('#profile-liked-card-list');
 	    var sellingCardList = $('#profile-selling-card-list');
-	    var notificationsList = $('#profile-notification-group');
+	    var profilePicture = $('#profile-picture');
+	    var addPhotoButton = $('#add-photo-button');
+	    var addButton = $('#add-button');
 	    var editButton = $('#edit-button');
 	    var saveButton = $('#save-button');
 	    var firstName = $('#profile-first-name');
@@ -1979,11 +2288,39 @@
 	    var hub = $('#profile-hub-name');
 	    var paymentPreference;
 	    var emailNotifications = $('#email-notifications');
-	    var password = $('#profile-password'); 
+	    var password = $('#profile-password');
+	    var getImage = __webpack_require__(2)["getImage"];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+	    var profileLikedItems = $('#profile-liked-items');
+
+	    if ($(profileLikedItems).length > 0) {
+	        var showFavoritedItems = function(items) {
+	            var imagePaths = []
+	            var str = $('#profile-liked-items').text();
+	            var compiled = _.template(str);
+
+	            $('#profile-liked-holder').empty();
+	            $('#profile-liked-holder').append(compiled({items: items}));
+
+
+	            for (var item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
+
+	            for (var i = 0; i < imagePaths.length; i += 1) {
+	                (function (x) {
+	                    getImage(imagePaths[x] + '/imageOne', function(url) {
+	                        tagToAdd = "img.activator:eq(" + x  + " )";
+	                        $(tagToAdd).attr({src: url});
+	                    });
+	                })(i);
+	            }
+	        };
+	    }
 
 	    var loadLikedCardList = function () {
 	        likedCardList.empty();
-	        for (var i = 0; i < 42; i++) {
+	        for (var i = 0; i < 1; i++) {
 	            likedCardList.append([
 	                $('<div></div>').addClass('col l4 m4 s12').append(
 	                    $('<div></div>').addClass('card hoverable profile-card').append([
@@ -2061,22 +2398,26 @@
 	        }
 	    };
 
-	    var loadNotifications = function () {
-	        notificationsList.empty();
-	        for (var i = 0; i < 21; i++) {
-	            notificationsList.append([
-	                $('<li></li>').addClass('collection-item').append(
-	                    $('<div></div>').append([
-	                        $('<div></div>').addClass("notification").text("Sample Notification")
-	                    ])
-	                )
-	            ]);
-	        }
+	    var loadTagsList = function () {
+
+	    };
+
+	    var addToTagsList = function () {
+	        var addition = {
+	            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
+	        };
+	       addTagToProfile(uid, addition);
 	    };
 
 	    var loadSettings = function () {
 	        getUserInfo(uid, loadUserInfo);
 	    };
+
+	    var loadProfilePicture = function () {
+	        getProfilePicture(uid, function (url) {
+	            profilePicture.attr('src', url);
+	        });
+	    }
 
 	    var loadUserInfo = function (userInfo) {
 	        firstName.val(userInfo.firstName);
@@ -2084,22 +2425,8 @@
 	        username.val(userInfo.username);
 	        firebaseUsername = userInfo.username;
 	        hub.val(userInfo.userHub);
-	        $('#my-profile').empty().append([
-	            $('<img>').addClass('my-profile-hub').attr({
-	                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
-	            }),
-	            $('<img>').addClass('my-profile-picture circle').attr({
-	                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
-	            }),
-	            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
-	            $('<div></div>').addClass('my-profile-stars').append([
-	                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
-	                $('<i></i>').addClass('material-icons star-5').text('star_rate')
-	            ])
-	        ]);
+	        loadProfilePicture();
+	        $('.my-profile-username').text(firebaseUsername);
 	        for (preference in userInfo.paymentPreferences) {
 	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
 	        }
@@ -2128,8 +2455,8 @@
 	            userHub: hub.val(),
 	            paymentPreferences: paymentPreferences
 	        };
-	        $('.my-profile-username').text(username.val());
 	        updateUserInfo(uid, updatedInfo);
+	        loadSettings();
 	    };
 
 
@@ -2142,7 +2469,9 @@
 	                paymentPreference = $('#profile-payment-preference');
 	                loadSettings();
 	                loadLikedCardList();
+	                getFavoriteObjects(showFavoritedItems);
 	            }
+
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }
@@ -2157,7 +2486,24 @@
 	    });
 
 	    $('#notifications-tab').click(function () {
-	        loadNotifications();
+	        loadTagsList();
+	    });
+
+	    addButton.click(function () {
+	        addToTagsList();
+	    });
+
+	    addPhotoButton.change(function () {
+	        reader = new FileReader();
+	        var fileExtension = ['jpeg', 'jpg', 'png'];
+	        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+	        } else {
+	            reader.onload = function (e) {
+	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
 	    });
 
 	    editButton.click(function () {
@@ -2204,7 +2550,8 @@
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
 	    var getImage = __webpack_require__(2)["getImage"];
-
+	    var populateSuggestionsInHub = __webpack_require__(2)['populateSuggestionsInHub'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 
 	    var mostRecentItems = $('#hub-most-recent');
@@ -2214,7 +2561,7 @@
 	        var compiled = _.template(str);
 
 	        $('#hub-recent-holder').empty();
-	        $('#hub-recent-holder').append(compiled({items: items}));
+	        $('#hub-recent-holder').prepend(compiled({items: items}));
 
 
 	        for (var item in items) {
@@ -2229,12 +2576,41 @@
 	                });
 	            })(i);
 	        }
-
 	    };
+
+	    var showSuggestions = function(suggestions) {
+	        Promise.resolve(suggestions).then(function(itemList) {
+	            Promise.resolve(getItemsById(itemList)).then(function(itemsObject) {
+	                if (Object.keys(itemsObject).length > 0) {
+	                    $('#hub-suggestions-holder').empty();
+	                }
+
+	                var imagePaths = []
+	                var str = $('#hub-suggested').text();
+	                var compiled = _.template(str);
+
+	                $('#hub-suggestions-holder').prepend(compiled({itemsObject: itemsObject}));
+
+
+	                for (var item in itemsObject) {
+	                    imagePaths.push(itemsObject[item]['id']);
+	                }
+
+	                for (var i = 0; i < imagePaths.length; i += 1) {
+	                    (function (x) {
+	                        getImage(imagePaths[x] + '/imageOne', function(url) {
+	                            $("#" + imagePaths[x]).attr({src: url});
+	                        });
+	                    })(i);
+	                }
+	            })
+	        });
+	    }
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 

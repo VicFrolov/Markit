@@ -1,15 +1,21 @@
 $(function () {
-
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
+    var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
+    var userImagesRef = require('./firebase.js')['userImagesRef'];
+    var addProfilePicture = require('./firebase.js')['addProfilePicture'];
+    var getProfilePicture = require('./firebase.js')['getProfilePicture'];
+    var reader;
     var user;
     var uid;
     var firebaseUsername;
     var likedCardList = $('#profile-liked-card-list');
     var sellingCardList = $('#profile-selling-card-list');
-    var notificationsList = $('#profile-notification-group');
+    var profilePicture = $('#profile-picture');
+    var addPhotoButton = $('#add-photo-button');
+    var addButton = $('#add-button');
     var editButton = $('#edit-button');
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
@@ -18,11 +24,39 @@ $(function () {
     var hub = $('#profile-hub-name');
     var paymentPreference;
     var emailNotifications = $('#email-notifications');
-    var password = $('#profile-password'); 
+    var password = $('#profile-password');
+    var getImage = require('./firebase.js')["getImage"];
+    var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
+    var profileLikedItems = $('#profile-liked-items');
+
+    if ($(profileLikedItems).length > 0) {
+        var showFavoritedItems = function(items) {
+            var imagePaths = []
+            var str = $('#profile-liked-items').text();
+            var compiled = _.template(str);
+
+            $('#profile-liked-holder').empty();
+            $('#profile-liked-holder').append(compiled({items: items}));
+
+
+            for (var item in items) {
+                imagePaths.push(items[item]['id']);
+            }
+
+            for (var i = 0; i < imagePaths.length; i += 1) {
+                (function (x) {
+                    getImage(imagePaths[x] + '/imageOne', function(url) {
+                        tagToAdd = "img.activator:eq(" + x  + " )";
+                        $(tagToAdd).attr({src: url});
+                    });
+                })(i);
+            }
+        };
+    }
 
     var loadLikedCardList = function () {
         likedCardList.empty();
-        for (var i = 0; i < 42; i++) {
+        for (var i = 0; i < 1; i++) {
             likedCardList.append([
                 $('<div></div>').addClass('col l4 m4 s12').append(
                     $('<div></div>').addClass('card hoverable profile-card').append([
@@ -100,22 +134,26 @@ $(function () {
         }
     };
 
-    var loadNotifications = function () {
-        notificationsList.empty();
-        for (var i = 0; i < 21; i++) {
-            notificationsList.append([
-                $('<li></li>').addClass('collection-item').append(
-                    $('<div></div>').append([
-                        $('<div></div>').addClass("notification").text("Sample Notification")
-                    ])
-                )
-            ]);
-        }
+    var loadTagsList = function () {
+
+    };
+
+    var addToTagsList = function () {
+        var addition = {
+            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
+        };
+       addTagToProfile(uid, addition);
     };
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
     };
+
+    var loadProfilePicture = function () {
+        getProfilePicture(uid, function (url) {
+            profilePicture.attr('src', url);
+        });
+    }
 
     var loadUserInfo = function (userInfo) {
         firstName.val(userInfo.firstName);
@@ -123,22 +161,8 @@ $(function () {
         username.val(userInfo.username);
         firebaseUsername = userInfo.username;
         hub.val(userInfo.userHub);
-        $('#my-profile').empty().append([
-            $('<img>').addClass('my-profile-hub').attr({
-                src: 'http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg'
-            }),
-            $('<img>').addClass('my-profile-picture circle').attr({
-                src: 'https://s3.amazonaws.com/media-speakerfile-pre/images_avatars/38d365421dd9d65327f2b29b10b9613a1443224365_l.jpg'
-            }),
-            $('<span></span>').addClass('my-profile-username').text(firebaseUsername),
-            $('<div></div>').addClass('my-profile-stars').append([
-                $('<i></i>').addClass('material-icons star-1').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-2').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-3').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-4').text('star_rate'),
-                $('<i></i>').addClass('material-icons star-5').text('star_rate')
-            ])
-        ]);
+        loadProfilePicture();
+        $('.my-profile-username').text(firebaseUsername);
         for (preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
@@ -167,8 +191,8 @@ $(function () {
             userHub: hub.val(),
             paymentPreferences: paymentPreferences
         };
-        $('.my-profile-username').text(username.val());
         updateUserInfo(uid, updatedInfo);
+        loadSettings();
     };
 
 
@@ -181,7 +205,9 @@ $(function () {
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
                 loadLikedCardList();
+                getFavoriteObjects(showFavoritedItems);
             }
+
         } else if (!user && window.location.pathname === '/profile/profile.html'){
             window.location.href = "../index.html";
         }
@@ -196,7 +222,24 @@ $(function () {
     });
 
     $('#notifications-tab').click(function () {
-        loadNotifications();
+        loadTagsList();
+    });
+
+    addButton.click(function () {
+        addToTagsList();
+    });
+
+    addPhotoButton.change(function () {
+        reader = new FileReader();
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+        } else {
+            reader.onload = function (e) {
+                addProfilePicture(uid, e.target.result, loadProfilePicture);
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
     });
 
     editButton.click(function () {
