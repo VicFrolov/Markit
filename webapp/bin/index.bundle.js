@@ -1622,15 +1622,19 @@
 	    });
 
 	    $('body').on('click', '.card-contact', function () {
-	        $('#message-popup')
-	            .css("display", "flex")
-	            .hide()
-	            .fadeIn();
+	        $('#message-popup').css('z-index', '100').animate({
+	                opacity: 1
+	            }, 50);
 	    });
 
 	    $('.close-button').click(function () {
-	        $('#message-popup').fadeOut()
+	        $('#message-popup').animate({
+	            opacity: 0,
+	            'z-index': -100
+	        }, 100)
 	    });
+
+	    $('#message-popup-send-button')
 
 	});
 

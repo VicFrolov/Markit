@@ -240,7 +240,8 @@ label[for="find-tags"] {
 /*message popup*/
 
 #message-popup {
-    display: none;
+    display: flex;
+    opacity: 0;
     background: rgba(0, 0, 0, 0.8);
     width: 100%;
     height: 100%;
@@ -249,7 +250,7 @@ label[for="find-tags"] {
     position: fixed;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: -100;
 }
 
 #message-popup-inner {
