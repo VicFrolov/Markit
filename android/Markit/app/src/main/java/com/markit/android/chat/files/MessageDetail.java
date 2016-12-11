@@ -77,6 +77,30 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 //            }
 //        });
 
+        llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(false);
+
+        messageList.setHasFixedSize(false);
+        messageList.setLayoutManager(llm);
+
+        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
+                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
+            @Override
+            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
+                //messageViewHolder.sender.setText(model.getUser());
+                messageViewHolder.messageText.setText(model.getMessage());
+
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    messageViewHolder.setIsSender(true);
+                } else {
+                    messageViewHolder.setIsSender(false);
+                }
+
+            }
+        };
+        messageList.setAdapter(adapter);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,29 +137,29 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             }
         });
 
-        llm = new LinearLayoutManager(this);
-        llm.setReverseLayout(false);
-
-        messageList.setHasFixedSize(false);
-        messageList.setLayoutManager(llm);
-
-        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
-                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
-            @Override
-            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
-                //messageViewHolder.sender.setText(model.getUser());
-                messageViewHolder.messageText.setText(model.getMessage());
-
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    messageViewHolder.setIsSender(true);
-                } else {
-                    messageViewHolder.setIsSender(false);
-                }
-
-            }
-        };
-        messageList.setAdapter(adapter);
+//        llm = new LinearLayoutManager(this);
+//        llm.setReverseLayout(false);
+//
+//        messageList.setHasFixedSize(false);
+//        messageList.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<Chat, MessageViewHolder> adapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
+//                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
+//            @Override
+//            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
+//                //messageViewHolder.sender.setText(model.getUser());
+//                messageViewHolder.messageText.setText(model.getMessage());
+//
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null) {
+//                    messageViewHolder.setIsSender(true);
+//                } else {
+//                    messageViewHolder.setIsSender(false);
+//                }
+//
+//            }
+//        };
+//        messageList.setAdapter(adapter);
     }
 
     @Override
