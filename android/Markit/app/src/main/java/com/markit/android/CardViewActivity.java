@@ -62,9 +62,6 @@ public class CardViewActivity extends BaseActivity {
         public void onFailed(DatabaseError error);
     }
 
-//    FirebaseDatabase database = FirebaseDatabase.getInstance();
-//     mDatabaseReference = database.getReference().child("items");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +74,7 @@ public class CardViewActivity extends BaseActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     hub = (String) dataSnapshot.getValue();
-                    //populateCardView(hub);
+
                 }
 
                 @Override
@@ -90,10 +87,10 @@ public class CardViewActivity extends BaseActivity {
         } else if (hubInfo != null) {
             hub = hubInfo.getString("hub");
             userDatabase.setValue(hub);
-            //populateCardView(hub);
+
         } else {
             hub = "Loyola Marymount University";
-            //populateCardView(hub);
+
         }
         Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
@@ -134,7 +131,6 @@ public class CardViewActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //populateCardView();
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -163,11 +159,6 @@ public class CardViewActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
 
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-//        // Assumes current activity is the searchable activity
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         return true;
     }

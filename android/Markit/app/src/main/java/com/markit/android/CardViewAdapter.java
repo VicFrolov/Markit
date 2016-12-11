@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,6 +50,9 @@ public class CardViewAdapter extends
     @Override
     public void onBindViewHolder(CardViewAdapter.ViewHolder viewHolder, int position) {
         MarketItem item = items.get(position);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
+        final StorageReference pathRef = storageRef.child("images/itemImages/");
 
         // TODO Set item views based on your views and data model -Peyton Cross
 
@@ -67,7 +74,10 @@ public class CardViewAdapter extends
                 context.startActivity(itemDetail);
             }
         });
-        Picasso.with(context).load(item.getImageUrl()).into(photo);
+        //Picasso.with(context).load(item.getImageUrl()).into(photo);
+        String itemPathRef = itemID + "/imageOne";
+        StorageReference pathReference = pathRef.child(itemPathRef);
+        Glide.with(context).using(new FirebaseImageLoader()).load(pathReference).into(photo);
     }
 
     //Returns the total count of items in the list

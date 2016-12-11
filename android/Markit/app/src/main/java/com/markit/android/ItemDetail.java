@@ -8,14 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,7 +32,6 @@ public class ItemDetail extends BaseActivity {
     private String item;
     private DatabaseReference itemDatabase;
     private FirebaseStorage storage;
-    //private Button favorites;
     private boolean inFavorites;
 
     @Override
@@ -43,10 +47,13 @@ public class ItemDetail extends BaseActivity {
         } else{
             itemID = "-KX9d_FL3zJVZgvnl8TW";
         }
+
         final DatabaseReference rootDatabase = FirebaseDatabase.getInstance().getReference();
         itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
         storage = FirebaseStorage.getInstance();
-        final Button favorites = (Button) findViewById(R.id.buyItem);
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
+        final StorageReference pathRef = storageRef.child("images/itemImages/");
+        final Button favorites = (Button) findViewById(R.id.addToWatch);
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -58,8 +65,11 @@ public class ItemDetail extends BaseActivity {
                 uidTitle.setText((String) dataSnapshot.child("items").child(itemID).child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("items").child(itemID).child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("items").child(itemID).child("price").getValue());
-                //String className = dataSnapshot.child("tags").getValue().getClass().getName();
                 ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("items").child(itemID).child("tags").getValue();
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+                ImageView imageView = (ImageView) findViewById(R.id.imageItemDetail);
+                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(imageView);
                 String tagString = "Tags: ";
                 for(String tag : tagList) {
                     tagString = tagString + tag + " ";
@@ -67,14 +77,18 @@ public class ItemDetail extends BaseActivity {
 
                 tags.setText(tagString);
 
-                    inFavorites = (Boolean) dataSnapshot.child("users").child(uid).child("favorites").child(itemID).getValue();
 
+                    if (dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue() == null) {
+                        inFavorites = false;
+                    } else {
+                        inFavorites = (Boolean) dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue();
+                    }
                     if (inFavorites) {
 
                         favorites.setText("Remove from Favorites");
 
                     } else {
-                        favorites.setText("Firebase sucks");
+                        favorites.setText("Add to Favorites");
                     }
 
 
@@ -88,16 +102,11 @@ public class ItemDetail extends BaseActivity {
 
 
         rootDatabase.addListenerForSingleValueEvent(itemDetails);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String uid = firebaseAuth.getCurrentUser().getUid();
-                //String user = "User " + uid.substring(0, 6);
                 startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
