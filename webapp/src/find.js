@@ -10,6 +10,7 @@ $(function() {
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var getImage = require('./firebase.js')['getImage'];
     var initializeMessage = require('./firebase.js')['initializeMessage'];
+    var getItemsById = require('./firebase.js')['getItemsById'];
 
     var favoriteTemplate = $('#favorite-template');
     var showFavoritesInSidebar = function(favorites) {
@@ -217,7 +218,6 @@ $(function() {
         }, 100);
     });
 
-    let newMessageSellerId;
     let newMessageId;
     let newMessageImagePath;
     $('body').on('click', '.card-contact', function () {
@@ -235,10 +235,14 @@ $(function() {
 
 
     $('#message-popup-send-button').click(function() {
-        initializeMessage(auth.currentUser.uid, 'sellerId', newMessageId, newMessageImagePath);
-        // Promise.resolve(getItemSeller()).then(function(seller) {
+        let newMessageSellerId;
 
-        // });
+        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
+            for (let item in items) {
+                newMessageSellerId = items[item].uid;
+            }
+            initializeMessage(auth.currentUser.uid, newMessageSellerId, newMessageId, newMessageImagePath);
+        })
 
         // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
         // 1) send message to seller, by pushing conversation to new user

@@ -1462,6 +1462,7 @@
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var getImage = __webpack_require__(2)['getImage'];
 	    var initializeMessage = __webpack_require__(2)['initializeMessage'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 
 	    var favoriteTemplate = $('#favorite-template');
 	    var showFavoritesInSidebar = function(favorites) {
@@ -1669,7 +1670,6 @@
 	        }, 100);
 	    });
 
-	    let newMessageSellerId;
 	    let newMessageId;
 	    let newMessageImagePath;
 	    $('body').on('click', '.card-contact', function () {
@@ -1687,10 +1687,14 @@
 
 
 	    $('#message-popup-send-button').click(function() {
-	        initializeMessage(auth.currentUser.uid, 'sellerId', newMessageId, newMessageImagePath);
-	        // Promise.resolve(getItemSeller()).then(function(seller) {
+	        let newMessageSellerId;
 
-	        // });
+	        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
+	            for (let item in items) {
+	                newMessageSellerId = items[item].uid;
+	            }
+	            initializeMessage(auth.currentUser.uid, newMessageSellerId, newMessageId, newMessageImagePath);
+	        })
 
 	        // initializeMessage(auth.currentUser.uid, 'sellerId', 'uid', 'imagePath');
 	        // 1) send message to seller, by pushing conversation to new user
