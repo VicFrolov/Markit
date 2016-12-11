@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,10 +39,19 @@ import com.markit.android.newlisting.files.NewListing;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import java.util.ArrayList;
 
 
 public class CardViewActivity extends BaseActivity {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final String TAG = "CardView";
+    private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
+    DatabaseReference rootDatabase = database.getReference();
+    DatabaseReference mDatabaseReference = database.getReference().child("items");
+//    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
+    DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
+//DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
     private RecyclerView recList;
@@ -50,10 +60,17 @@ public class CardViewActivity extends BaseActivity {
     private Menu optionsMenu;
     private Bundle hubInfo;
     private String hub;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference().child("items");
+
+
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
 //    DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
+
+    public interface OnGetDataListener {
+        public void onStart();
+        public void onSuccess(DataSnapshot data);
+        public void onFailed(DatabaseError error);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +78,7 @@ public class CardViewActivity extends BaseActivity {
         super.setContentView(R.layout.activity_card_view);
         hub = "Loyola Marymount University";
         hubInfo = getIntent().getExtras();
+//<<<<<<< HEAD
 
 //        if (hubInfo == null && isLoggedIn()) {
 //            ValueEventListener getHub = new ValueEventListener() {
@@ -85,41 +103,101 @@ public class CardViewActivity extends BaseActivity {
 //            hub = "Loyola Marymount University";
 //            //populateCardView(hub);
 //        }
+//=======
+        if (hubInfo == null && isLoggedIn()) {
+            ValueEventListener getHub = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    hub = (String) dataSnapshot.getValue();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            userDatabase.addListenerForSingleValueEvent(getHub);
+
+        } else if (hubInfo != null) {
+            hub = hubInfo.getString("hub");
+            userDatabase.setValue(hub);
+
+        } else {
+            hub = "Loyola Marymount University";
+
+        }
+//>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
         Toast.makeText(this, hub, Toast.LENGTH_SHORT ).show();
 
         setContentView(R.layout.activity_card_view);
 
-        recList = (RecyclerView) findViewById(R.id.recList);
-        if (recList != null) {
-            recList.setHasFixedSize(true);
-        }
-
-        llm = new LinearLayoutManager(this);
-        recList.setLayoutManager(llm);
-
-        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
-                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
-            @Override
-            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
-                cardViewHolder.title.setText(model.getTitle());
-                final String itemID = model.getId();
-                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
-                        //final String itemID = model.getItemID();
-                        itemDetail.putExtra("uid", itemID);
-                        CardViewActivity.this.startActivity(itemDetail);
-                    }
-                });
-                cardViewHolder.price.setText("$ " + model.getPrice());
-                cardViewHolder.uid.setText(model.getUid());
-                //cardViewHolder.likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
-                //cardViewHolder.id.setText(model.getId());
-                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-            }
-        };
-        recList.setAdapter(adapter);
+//<<<<<<< HEAD TODO, the top one wasn't commented out, possibly delete later
+//        recList = (RecyclerView) findViewById(R.id.recList);
+//        if (recList != null) {
+//            recList.setHasFixedSize(true);
+//        }
+//
+//        llm = new LinearLayoutManager(this);
+//        recList.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+//                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
+//            @Override
+//            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
+//                cardViewHolder.title.setText(model.getTitle());
+//                final String itemID = model.getId();
+//                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
+//                        //final String itemID = model.getItemID();
+//                        itemDetail.putExtra("uid", itemID);
+//                        CardViewActivity.this.startActivity(itemDetail);
+//                    }
+//                });
+//                cardViewHolder.price.setText("$ " + model.getPrice());
+//                cardViewHolder.uid.setText(model.getUid());
+//                //cardViewHolder.likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
+//                //cardViewHolder.id.setText(model.getId());
+//                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+//            }
+//        };
+//        recList.setAdapter(adapter);
+//=======
+//        recList = (RecyclerView) findViewById(R.id.recList);
+//        if (recList != null) {
+//            recList.setHasFixedSize(true);
+//        }
+//
+//        llm = new LinearLayoutManager(this);
+//        recList.setLayoutManager(llm);
+//
+//        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
+//                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
+//            @Override
+//            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
+//
+//                cardViewHolder.title.setText(model.getTitle());
+//
+//                final String itemID = model.getId();
+//                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
+//                        //final String itemID = model.getItemID();
+//                        itemDetail.putExtra("id", itemID);
+//                        CardViewActivity.this.startActivity(itemDetail);
+//                    }
+//                });
+//                cardViewHolder.price.setText("$ " + model.getPrice());
+//                cardViewHolder.uid.setText(model.getDescription());
+//                //cardViewHolder.id.setText(model.getId());
+//                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
+//            }
+//        };
+//        recList.setAdapter(adapter);
+//>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -183,11 +261,6 @@ public class CardViewActivity extends BaseActivity {
         CardViewActivity.this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
 
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-//        // Assumes current activity is the searchable activity
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         return true;
     }
@@ -218,8 +291,8 @@ public class CardViewActivity extends BaseActivity {
         }
         if (id == R.id.change_hub) {
             FragmentManager fm = getSupportFragmentManager();
-//            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
-//            changeHubFragment.show(fm,"fragment_change_hub");
+            ChangeHubFragment changeHubFragment = ChangeHubFragment.newInstance("Change Hub");
+            changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
         if (id == R.id.edit_tags) {
@@ -242,9 +315,62 @@ public class CardViewActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+//
+//<<<<<<< HEAD  TODO related to pervious left in git merge, alternative impleentation
+//=======
+    public void populateCardView (final String hub) {
+        final RecyclerView recList = (RecyclerView) findViewById(R.id.recList);
+        if (recList != null) {
+            recList.setHasFixedSize(true);
+        }
+        llm = new LinearLayoutManager(this);
+        recList.setLayoutManager(llm);
 
+        DatabaseReference itemDatabase = mDatabaseReference.child(hub);
+        final DatabaseReference userDatabase = database.getReference().child("users");
+
+        ValueEventListener itemListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot items : dataSnapshot.child("itemsByHub").child(hub).getChildren()) {
+                    String itemName = (String) items.child("title").getValue();
+                    String itemDescription = (String) items.child("description").getValue();
+                    String itemPrice = (String) items.child("price").getValue();
+                    String itemUID = (String) items.child("uid").getValue();
+                    String itemID = (String) items.child("id").getValue();
+                    DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
+                    String username = (String) usernameRef.getValue();
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
+
+                    itemObjectArray.add(newItem);
+
+
+                }
+
+
+                CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
+
+                recList.setAdapter(iAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        rootDatabase.addListenerForSingleValueEvent(itemListener);
+
+    }
+
+//>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
     @Override
     public void onStart() {
+        if (hub == null) {
+            hub = "Loyola Marymount University";
+        }
+        populateCardView(hub);
         super.onStart();
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#F4A49D"));
