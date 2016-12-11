@@ -260,12 +260,13 @@ label[for="find-tags"] {
     min-height: 480px;
     height: 60%;
     padding: 10px 50px 0px 50px;
+    display: relative;
 }
 
 .close-button {
     position: absolute;
     right: 20px;
-    top: 0px;
+    top: 20px;
     cursor: pointer;
 }
 

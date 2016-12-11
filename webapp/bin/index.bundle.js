@@ -1683,7 +1683,6 @@
 
 	            $('#message-popup-content').fadeOut(500);
 
-
 	            setTimeout(function(){
 	                $('#message-popup-inner').css({
 	                    'display': 'flex',
@@ -1692,12 +1691,6 @@
 	                });
 	                $('#message-popup-confirmation').fadeIn();
 	            }, 500);
-
-	            
-
-	            // display: flex;
-	            // align-items: center;
-	            // justify-content: center;
 	        });
 	    })
 
