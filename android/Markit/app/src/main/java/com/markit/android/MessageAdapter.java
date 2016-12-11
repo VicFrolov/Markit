@@ -5,16 +5,13 @@ package com.markit.android;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.markit.android.R.id.message_text;
@@ -86,8 +82,6 @@ public class MessageAdapter extends
         public MessageViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            //itemView.setOnClickListener(this);
-            sender = (TextView) itemView.findViewById(R.id.user);
             messageTime = (TextView) itemView.findViewById(R.id.message_time);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
         }
@@ -111,11 +105,6 @@ public class MessageAdapter extends
             }
 
             lmessage.setBackgroundColor(color);
-        }
-
-        public void setUser(String user) {
-            TextView field = (TextView) itemView.findViewById(R.id.user);
-            field.setText(user);
         }
 
         public void setMessage(String text) {

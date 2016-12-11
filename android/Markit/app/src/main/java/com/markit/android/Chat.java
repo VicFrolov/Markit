@@ -9,21 +9,19 @@ import java.util.Date;
 public class Chat {
 
     String user;
-    String text;
+    String message;
     String uid;
     String date;
-    //Date newDate;
-    //String chatId;
-    //private long messageTime;
+    String type;
 
     public Chat() {
     }
 
-
-    public Chat(String message, String sender, String date) {
-        this.text = message;
+    Chat(String message, String sender, String date, String type) {
+        this.message = message;
         this.date = date;
         this.user = sender;
+        this.type = type;
 
     }
 
@@ -35,19 +33,7 @@ public class Chat {
         return uid;
     }
 
-//        public String getChatId() {
-//            return chatId;
-//        }
-
     public String getMessage() {
-        return text;
+        return message;
     }
 }
-
-//        public long getMessageTime() {
-//            return messageTime;
-//        }
-//
-//        public void setMessageTime(long messageTime) {
-//            this.messageTime = messageTime;
-//        }}

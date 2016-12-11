@@ -97,17 +97,16 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             public void onClick(View v) {
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = uid.substring(0, 6);
+                String user = uid;
+                String type = "text";
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
-                String newDate = fmt.format(date);;
-                //chatKey = chatRef.push().getKey();
-
-                //List<Chat> messages = new ArrayList<Chat>();
+                String newDate = fmt.format(date);
+                ;
 
                 //message item itself
-                Chat message = new Chat(editMessage.getText().toString(), user, newDate);
-                //chatKey = chatRef.push().getKey();
+                Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
+
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -140,7 +139,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRef) {
             @Override
             public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
-                messageViewHolder.sender.setText(model.getUser());
+                //messageViewHolder.sender.setText(model.getUser());
                 messageViewHolder.messageText.setText(model.getMessage());
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -153,17 +152,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             }
         };
         messageList.setAdapter(adapter);
-
-//        messageList = (RecyclerView) findViewById(R.id.messagesList);
-//
-//        llm = new LinearLayoutManager(this);
-//        llm.setReverseLayout(false);
-//
-//        messageList.setHasFixedSize(false);
-//        messageList.setLayoutManager(llm);
-//
-//        MessageAdapter iAdapter = new MessageAdapter(context, messages);
-//        messageList.setAdapter(iAdapter);
     }
 
     @Override
@@ -275,7 +263,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView sender;
         TextView messageText;
         Context context;
         TextView messageTime;
@@ -283,8 +270,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         public MessageViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            //itemView.setOnClickListener(this);
-            sender = (TextView) itemView.findViewById(R.id.user);
             messageTime = (TextView) itemView.findViewById(R.id.message_time);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
         }
@@ -310,10 +295,10 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             lmessage.setBackgroundColor(color);
         }
 
-        public void setUser(String user) {
-            TextView field = (TextView) itemView.findViewById(R.id.user);
-            field.setText(user);
-        }
+//        public void setUser(String user) {
+//            TextView field = (TextView) itemView.findViewById(R.id.user);
+//            field.setText(user);
+//        }
 
         public void setMessage(String text) {
             TextView field = (TextView) itemView.findViewById(message_text);

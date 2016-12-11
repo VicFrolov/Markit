@@ -178,7 +178,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
 
             @Override
             public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
-                chatView.setUser(chat.getUser());
+                //chatView.setUser(chat.getUser());
                 chatView.setMessage(chat.getMessage());
 
 //                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -315,10 +315,10 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
 //                    .setColorFilter(color, PorterDuff.Mode.SRC);
         }
 
-        public void setUser(String user) {
-            TextView field = (TextView) view.findViewById(R.id.user);
-            field.setText(user);
-        }
+//        public void setUser(String user) {
+//            TextView field = (TextView) view.findViewById(R.id.user);
+//            field.setText(user);
+//        }
 
         public void setMessage(String text) {
             TextView field = (TextView) view.findViewById(message_text);

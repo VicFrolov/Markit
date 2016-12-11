@@ -100,7 +100,8 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
             public void onClick(View v) {
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = uid.substring(0, 6);
+                String user = uid;
+                String type = "text";
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
@@ -109,7 +110,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                 //List<Chat> messages = new ArrayList<Chat>();
 
                 //message item itself
-                Chat message = new Chat(editMessage.getText().toString(), user, newDate);
+                Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
                 //chatKey = chatRef.push().getKey();
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
@@ -178,7 +179,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 
             @Override
             public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
-                chatView.setUser(chat.getUser());
+                //chatView.setUser(chat.getUser());
                 chatView.setMessage(chat.getMessage());
 
 //                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -218,66 +219,53 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
         editMessage.setEnabled(isSignedIn());
     }
 
-    public static class Chat {
-
-        String user;
-        String text;
-        String uid;
-        String date;
-        //Date newDate;
-        //String chatId;
-        //private long messageTime;
-
-        public Chat() {
-        }
-
-//        public String getDate() {
-//            return mDate;
-//        }
-
-//        public void setDate(Date date) {
-//            mDate = date;
-//        }
-
-//        public Chat(String user, String uid, String text) {
-//            this.user = user;
-//            this.text = text;
-//            this.uid = uid;
-//            //this.newDate = newDate;
-//            //this.chatId = chatId;
-//        }
-
-        Chat(String message, String sender, String date) {
-            this.text = message;
-            this.date = date;
-            this.user = sender;
-
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        public String getUid() {
-            return uid;
-        }
-
-//        public String getChatId() {
-//            return chatId;
-//        }
-
-        public String getMessage() {
-            return text;
-        }
-
-//        public long getMessageTime() {
-//            return messageTime;
+//    public static class Chat {
+//
+//        String user;
+//        String message;
+//        String uid;
+//        String date;
+//        String type;
+//        //Date newDate;
+//        //String chatId;
+//        //private long messageTime;
+//
+//        public Chat() {
 //        }
 //
-//        public void setMessageTime(long messageTime) {
-//            this.messageTime = messageTime;
+//
+//        Chat(String message, String sender, String date, String type) {
+//            this.message = message;
+//            this.date = date;
+//            this.user = sender;
+//            this.type = type;
+//
 //        }
-    }
+//
+//        public String getUser() {
+//            return user;
+//        }
+//
+//        public String getUid() {
+//            return uid;
+//        }
+//
+////        public String getChatId() {
+////            return chatId;
+////        }
+//
+//        public String getMessage() {
+//            return message;
+//        }
+//
+////        public long getMessageTime() {
+////            return messageTime;
+////        }
+////
+////        public void setMessageTime(long messageTime) {
+////            this.messageTime = messageTime;
+////        }
+//    }
 
     public static class ChatHolder extends RecyclerView.ViewHolder {
         View view;
@@ -315,10 +303,10 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 //                    .setColorFilter(color, PorterDuff.Mode.SRC);
         }
 
-        public void setUser(String user) {
-            TextView field = (TextView) view.findViewById(R.id.user);
-            field.setText(user);
-        }
+//        public void setUser(String user) {
+//            TextView field = (TextView) view.findViewById(R.id.user);
+//            field.setText(user);
+//        }
 
         public void setMessage(String text) {
             TextView field = (TextView) view.findViewById(message_text);
