@@ -13,6 +13,7 @@ public class Chat {
     public String recipient;
     public long messageTime;
     public Date mDate;
+    public String conversationID;
 
     private int mRecipientOrSenderStatus;
 
@@ -36,11 +37,19 @@ public class Chat {
         this.recipient = recipient;
     }
 
-    public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
-        this.mRecipientOrSenderStatus = recipientOrSenderStatus;
+//    public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
+//        this.mRecipientOrSenderStatus = recipientOrSenderStatus;
+//    }
+//    public int getRecipientOrSenderStatus() {
+//        return mRecipientOrSenderStatus;
+//    }
+
+    public String getConversationID() {
+        return conversationID;
     }
-    public int getRecipientOrSenderStatus() {
-        return mRecipientOrSenderStatus;
+
+    public void setConversationID() {
+        this.conversationID = conversationID;
     }
 
     public String getMessage() {

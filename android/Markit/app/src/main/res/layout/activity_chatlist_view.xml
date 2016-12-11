@@ -9,12 +9,13 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context = ".chat.files.ChatListView">
+    tools:context = ".ConversationView">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:listitem="@layout/chat_list_users"
         android:textSize="18sp"/>
 
 

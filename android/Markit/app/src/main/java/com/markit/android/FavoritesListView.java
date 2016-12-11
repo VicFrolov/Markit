@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageView;
@@ -16,8 +17,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+import com.markit.android.base.files.BaseActivity;
 
-public class FavoritesListView extends AppCompatActivity {
+public class FavoritesListView extends BaseActivity {
 
     private static final String TAG = "Favorites";
     private LinearLayoutManager llm;
@@ -27,7 +29,7 @@ public class FavoritesListView extends AppCompatActivity {
     //TODO filter to get favorites only
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
-            //.child("users").child("uid").child("favorites");
+            //+ "/users" + "/uid" + "/favorites");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,11 @@ public class FavoritesListView extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
         watchlistRecyclerView.setLayoutManager(llm);
 
-        FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder> adapter = new FirebaseRecyclerAdapter<ItemObject, FavoritesListView.FavoritesViewHolder>(
-                ItemObject.class, R.layout.watchlist_item, FavoritesListView.FavoritesViewHolder.class, mDatabaseReference) {
+        FirebaseRecyclerAdapter<MarketItem, FavoritesListView.FavoritesViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, FavoritesListView.FavoritesViewHolder>(
+                MarketItem.class, R.layout.watchlist_item, FavoritesListView.FavoritesViewHolder.class, mDatabaseReference) {
             @Override
-            public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, ItemObject model, int position) {
+            public void populateViewHolder(FavoritesListView.FavoritesViewHolder viewHolder, MarketItem
+                    model, int position) {
                 viewHolder.itemTitle.setText(model.getTitle());
                 final String itemID = model.getId();
                 viewHolder.itemTitle.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +61,7 @@ public class FavoritesListView extends AppCompatActivity {
                 });
                 viewHolder.itemPrice.setText("$ " + model.getPrice());
                 Picasso.with(context).load(model.getImageUrl()).into(viewHolder.itemPhoto);
+                Log.i(TAG, "populated" );
             }
         };
         watchlistRecyclerView.setAdapter(adapter);

@@ -1,23 +1,59 @@
 package com.markit.android;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by pcross on 10/15/16.
  */
-
+@IgnoreExtraProperties
 public class MarketItem {
     private String description;
     private String price;
-    private String[] tags;
+    private ArrayList<String> tags;
     private String title;
     private String uid;
     private String id;
     private String date;
     private String imageUrl;
+    private String username;
+
+
+    public MarketItem(String title, String description, String price, String uid, String id, String username) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.uid = uid;
+        this.id = id;
+        this.username = username;
+
+
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public MarketItem(String description, String price, ArrayList<String> tags, String title, String uid, String id, String date, String imageUrl, String username) {
+
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+        this.title = title;
+        this.uid = uid;
+        this.id = id;
+        this.date = date;
+        this.imageUrl = imageUrl;
+        this.username = username;
+    }
 
     public MarketItem () {
-        
+
     }
 
     public String getDate() {
@@ -32,7 +68,7 @@ public class MarketItem {
         this.imageUrl = imageUrl;
     }
 
-    public MarketItem(String description, String price, String[] tags, String title, String uid, String id, String date, String imageUrl) {
+    public MarketItem(String description, String price, ArrayList<String> tags, String title, String uid, String id, String date, String imageUrl) {
 
         this.description = description;
         this.price = price;
@@ -48,7 +84,6 @@ public class MarketItem {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.tags = tags;
         this.uid = uid;
         this.id = id;
         String date = new Date().toString();
@@ -71,11 +106,11 @@ public class MarketItem {
         this.price = price;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 

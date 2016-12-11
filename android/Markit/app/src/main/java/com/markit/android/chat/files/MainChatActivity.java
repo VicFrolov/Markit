@@ -37,23 +37,46 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.markit.android.R;
+import com.markit.android.base.files.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import com.markit.android.ItemDetail;
+
+//import static com.markit.android.ItemDetail.conversationKey;
 import static com.markit.android.R.id.backButton;
+import static com.markit.android.R.id.conversationID;
 import static com.markit.android.R.id.message_text;
 
-public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
 
     public static final String TAG = "Chat";
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseRef;
-    private DatabaseReference chatRef;
     private Button sendButton;
     private EditText editMessage;
     private Button backButton;
 
+    //public String conversationID = conversationKey;
+
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
+    String chatKey;
+    //public String ItemDetail.seller;
+    //List<Chat> messages = new ArrayList<Chat>();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
+    DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
+    DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.seller + "/chats/" + ItemDetail.conversationKey + "/messages");
+//    DatabaseReference convoRef =
+    //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
+    //.child("items").child("itemID").child("conversationID")
+    //intent.putExtra("uid", item)
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,38 +98,32 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
 //            }
 //        });
 
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        chatRef = databaseRef.child("chats").child("messages");
-
-//        chatRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Chat msg = dataSnapshot.getValue(Chat.class);
-//                adapter.add(msg);
-//                scrollToBottom();
-//            }
-//
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-//            public void onCancelled(DatabaseError databaseError) {}
-//        });
-
-
-        //listView = (ListView) findViewById(R.id.list_of_messages);
-
-        //adapter = new ChatListAdapter(this, R.id.list_of_messages);
-        //listView.setAdapter(adapter);
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //fix to get username not uid
                 String uid = firebaseAuth.getCurrentUser().getUid();
-                String user = "User " + uid.substring(0, 6);
+                String user = uid.substring(0, 6);
+//                Date date = new Date();
+//                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//                String newDate = fmt.format(date);;
+                //chatKey = chatRef.push().getKey();
 
-                Chat chat = new Chat(user, uid, editMessage.getText().toString());
-                chatRef.push().setValue(chat, new DatabaseReference.CompletionListener() {
+                //List<Chat> messages = new ArrayList<Chat>();
+
+                //message item itself
+                Chat message = new Chat(user, uid, editMessage.getText().toString());
+                //chatKey = chatRef.push().getKey();
+                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
+                        if (databaseError != null) {
+                            Log.e(TAG, "Failed to write message", databaseError.toException());
+                        }
+                    }
+                });
+
+                sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
@@ -155,7 +172,8 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
         updateUI();
     }
 
-    //This sends messages
+    //This sends messages & attaches all messages to the activity
+    //need to specify conversation
     private void attachRecyclerViewAdapter() {
         Query lastFifty = chatRef.limitToLast(50);
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
@@ -172,6 +190,13 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
                 } else {
                     chatView.setIsSender(false);
                 }
+
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null) {
+//                    chatView.setIsSender(true);
+//                } else {
+//                    chatView.setIsSender(false);
+//                }
             }
         };
 
@@ -199,17 +224,21 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
     public static class Chat {
 
         String user;
-        String message;
+        String text;
         String uid;
-        private long messageTime;
+        //Date newDate;
+        //String chatId;
+        //private long messageTime;
 
         public Chat() {
         }
 
-        public Chat(String user, String uid, String message) {
+        public Chat(String user, String uid, String text) {
             this.user = user;
-            this.message = message;
+            this.text = text;
             this.uid = uid;
+            //this.newDate = newDate;
+            //this.chatId = chatId;
         }
 
         public String getUser() {
@@ -220,17 +249,25 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
             return uid;
         }
 
+//        public String getChatId() {
+//            return chatId;
+//        }
+
         public String getMessage() {
-            return message;
+            return text;
         }
 
-        public long getMessageTime() {
-            return messageTime;
-        }
+//        Date dNow = new Date();
+//        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//        String newDate = fmt.format(dNow);
 
-        public void setMessageTime(long messageTime) {
-            this.messageTime = messageTime;
-        }
+//        public long getMessageTime() {
+//            return messageTime;
+//        }
+//
+//        public void setMessageTime(long messageTime) {
+//            this.messageTime = messageTime;
+//        }
     }
 
     public static class ChatHolder extends RecyclerView.ViewHolder {
@@ -274,9 +311,9 @@ public class MainChatActivity extends AppCompatActivity implements FirebaseAuth.
             field.setText(user);
         }
 
-        public void setMessage(String message) {
+        public void setMessage(String text) {
             TextView field = (TextView) view.findViewById(message_text);
-            field.setText(message);
+            field.setText(text);
         }
     }
 }

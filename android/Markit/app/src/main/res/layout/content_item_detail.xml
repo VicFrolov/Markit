@@ -43,10 +43,16 @@
             android:id="@+id/tagsItemDetail" />
 
         <TextView
-            android:text="price"
+        android:text="price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceItemDetail" />
+
+        <TextView
+            android:text="userId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/priceItemDetail" />
+            android:id="@+id/userId" />
 
         <LinearLayout
             android:orientation="horizontal"
