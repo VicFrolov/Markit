@@ -260,6 +260,9 @@ label[for="find-tags"] {
     min-height: 480px;
     height: 60%;
     padding: 10px 50px 0px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-button {
@@ -284,4 +287,17 @@ label[for="find-tags"] {
     #message-popup-inner {
         width: 100%;
     }
+}
+
+#message-popup-confirmation {
+    display; flex
+}
+
+#message-popup-checkmark {
+    text-align: center;
+    display: block;
+}
+
+#message-popup-confirmation-text {
+    text-align: center;
 }
