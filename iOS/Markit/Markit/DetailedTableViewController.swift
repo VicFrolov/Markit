@@ -11,15 +11,24 @@ import FontAwesome_swift
 
 class DetailedTableViewController: UITableViewController {
     
+    var detailedViewCell: DetailedTableViewCell = DetailedTableViewCell()
+    
+    // should get this from previous view
+    var currentItem: Item = Item()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("HERE")
-
+        print("HERE in DetailedView")
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,22 +39,26 @@ class DetailedTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 1
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cellID = "detailedViewCell"
+        let row = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        
         // Configure the cell...
+//        detailedViewCell.itemImage.image = currentItem.image
+//        detailedViewCell.itemTitle?.text = currentItem.title
+//        detailedViewCell.itemPrice?.text = currentItem.price
 
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.

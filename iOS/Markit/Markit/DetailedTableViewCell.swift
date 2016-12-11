@@ -17,6 +17,7 @@ class DetailedTableViewCell: UITableViewCell {
     @IBOutlet weak var itemHubs: UILabel!
     @IBOutlet weak var faved: UIImageView!
     @IBOutlet weak var itemPrice: UILabel!
+    @IBOutlet weak var messageSellerButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

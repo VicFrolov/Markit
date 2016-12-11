@@ -90,7 +90,7 @@ class SellingTabTableViewController: UITableViewController {
         incrementTagValues(tags: tagList!)
         
         let hubList         = itemHub?.components(separatedBy: ", ")
-        let uid             = getCurrentUser()
+        let uid             = CustomFirebaseAuth().getCurrentUser()
         
         postNewListing(userID: uid, title: itemTitle!, itemDescription: itemDescription!, price: truncatedPrice!, itemID: itemID, tags: tagList!, hub: hubList!)
         
@@ -98,7 +98,7 @@ class SellingTabTableViewController: UITableViewController {
     }
     
     func populateList () {
-        let uid = getCurrentUser()
+        let uid = CustomFirebaseAuth().getCurrentUser()
         databaseRef.child("itemsByUser").child(uid).observe(.childAdded, with: { (snapshot) -> Void in
             self.currentlySelling.append(snapshot)
             self.tableView.reloadData()
@@ -131,7 +131,7 @@ class SellingTabTableViewController: UITableViewController {
                     print("Something happened: \(error)")
                     return
                 }
-                print(metadata)
+                print(metadata!)
             })
 
         }
@@ -169,10 +169,5 @@ class SellingTabTableViewController: UITableViewController {
                .setValue(true);
         
         print("item posted to database")
-    }
-
-    func getCurrentUser () -> String {
-        let user = FIRAuth.auth()?.currentUser
-        return (user?.uid)!
     }
 }

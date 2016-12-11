@@ -113,12 +113,19 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                     item.favorites = [""]
                 }
                 
+                // There's some problems with the users again :(
                 if let uid = dictionary["uid"] as! String? {
                     self.userRef.child(uid)
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
-                            
-                        item.username = snapshot.value as! String?
+                                    if (snapshot.value as? String?) != nil {
+                                    
+                                        item.username = snapshot.value as! String?
+                                    } else {
+                                        item.username = ""
+                                    }
+//                        item.username = snapshot.value as! String?
+                                    
                     })
                 }
                 
@@ -175,7 +182,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
         let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
         
-        print(keywords)
+        print(keywords!)
         
         if keywords! != "" {
             hasKeyWord = true
@@ -220,7 +227,9 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("toDetailedView")
         listingsTableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "detailedViewSegue", sender: self)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -232,11 +241,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
             return self.filteredItems.count
         }
         return self.itemList.count
-    }
-    
-    func getCurrentUser () -> String {
-        let user = FIRAuth.auth()?.currentUser
-        return (user?.uid)!
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -262,7 +266,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.faved.addTarget(self, action: #selector(faveButtonTouched), for: .touchUpInside)
         
         // Will need to tweak this to change on tap
-        let currentUser = getCurrentUser()
+        let currentUser = CustomFirebaseAuth().getCurrentUser()
         if (item.favorites?.contains(currentUser))! {
             let filledHeart = UIImage.fontAwesomeIcon(name: FontAwesome.heart, textColor: UIColor.gray, size: CGSize(width: 35, height: 35))
             cell.faved?.setImage(filledHeart, for: .normal)
@@ -276,12 +280,12 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailedViewSegue" {
-            var nextScene = segue.destination as! DetailedTableViewController
+            var nextSceneVC = segue.destination as! DetailedTableViewController
         }
     }
     
     @IBAction func faveButtonTouched(_ sender: UIButton) {
-        let currentUser = getCurrentUser()
+        let currentUser = CustomFirebaseAuth().getCurrentUser()
         var itemID = itemList[sender.tag].imageID
         if self.didReceiveAdvancedSearchQuery ||
             self.searchController.isActive &&
