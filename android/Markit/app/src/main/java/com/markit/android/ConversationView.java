@@ -23,7 +23,7 @@ import com.markit.android.base.files.BaseActivity;
 
 import java.util.ArrayList;
 
-import static com.markit.android.ItemDetail.otherUser;
+//import static com.markit.android.ItemDetail.otherUser;
 
 /**
  * Created by annagotsis on 12/7/16.
