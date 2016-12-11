@@ -4,28 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.markit.android.base.files.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.markit.android.chat.files.MainChatActivity;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+import com.markit.android.chat.files.NewConversationActivity;
+
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateListener {
@@ -38,6 +33,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
     public static String seller;
+    //public List<Chat> messages;
+    //public static String seller;
+    public static String otherUser;
     //public String buyer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -86,8 +84,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
-                seller = uid;
-                userId.setText(seller);
+//<<<<<<< HEAD
+//                seller = uid;
+//                userId.setText(seller);
 //<<<<<<< HEAD TODO double check this merge (should be good)
 //                seller = (String) dataSnapshot.child("uid").getValue();
 //                userId.setText(seller);
@@ -98,19 +97,32 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 //                //String className = dataSnapshot.child("tags").getValue().getClass().getName();
 //                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
 //=======
-                uidTitle.setText((String) dataSnapshot.child("items").child(itemID).child("title").getValue());
-                description.setText("Description: " + (String) dataSnapshot.child("items").child(itemID).child("description").getValue());
-                price.setText("Price: $"+(String) dataSnapshot.child("items").child(itemID).child("price").getValue());
-                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("items").child(itemID).child("tags").getValue();
-                String itemPathRef = itemID + "/imageOne";
-                StorageReference pathReference = pathRef.child(itemPathRef);
-                ImageView imageView = (ImageView) findViewById(R.id.imageItemDetail);
-                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(imageView);
+//                uidTitle.setText((String) dataSnapshot.child("items").child(itemID).child("title").getValue());
+//                description.setText("Description: " + (String) dataSnapshot.child("items").child(itemID).child("description").getValue());
+//                price.setText("Price: $"+(String) dataSnapshot.child("items").child(itemID).child("price").getValue());
+//                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("items").child(itemID).child("tags").getValue();
+//                String itemPathRef = itemID + "/imageOne";
+//                StorageReference pathReference = pathRef.child(itemPathRef);
+//                ImageView imageView = (ImageView) findViewById(R.id.imageItemDetail);
+//                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(imageView);
 //>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
+//======= TODO had to merge again, possibly messy
+                otherUser = (String) dataSnapshot.child("uid").getValue();
+                userId.setText(otherUser);
+//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
+                uidTitle.setText((String) dataSnapshot.child("title").getValue());
+                description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
+                price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
+                //String className = dataSnapshot.child("tags").getValue().getClass().getName();
+//                TODO this line below broke, something about a conversion from HashMap to ArrayList
+//                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
+//>>>>>>> 581311d638aaf322e40fa9e01967fee172e9784f
                 String tagString = "Tags: ";
-                for(String tag : tagList) {
-                    tagString = tagString + tag + " ";
-                }
+
+//                TODO same for this for loop, commented out to avoid using tagList
+//                for(String tag : tagList) {
+//                    tagString = tagString + tag + " ";
+//                }
 
                 tags.setText(tagString);
                     if (dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue() == null) {
@@ -141,16 +153,17 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
+                //String conversationID = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                DatabaseReference sellerRef = database.getReference().child("users/" + seller + "/chats/" + conversationKey  + "/context");
+                DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
                 //DatabaseReference sellerRef = database.getReference().child("chats/" + contextRef);
-                String buyer = firebaseAuth.getCurrentUser().getUid();
+                //String buyer = firebaseAuth.getCurrentUser().getUid();
                 String itemId = uid;
 
-                ConversationItem conversation = new ConversationItem(conversationKey, seller, buyer, itemId);
+                ConversationItem conversation = new ConversationItem(conversationKey, otherUser, itemId);
                 contextRef.setValue(conversation);
                 sellerRef.setValue(conversation);
-                startActivity(new Intent(ItemDetail.this, MainChatActivity.class));
+                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
         });
 //=======

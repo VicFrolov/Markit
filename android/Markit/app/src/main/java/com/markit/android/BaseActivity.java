@@ -165,7 +165,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(BaseActivity.this, MainChatActivity.class));
+            startActivity(new Intent(BaseActivity.this, ConversationView.class));
             return true;
         }
 

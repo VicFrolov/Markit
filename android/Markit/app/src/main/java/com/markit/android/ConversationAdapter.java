@@ -6,10 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import com.markit.android.chat.files.MainChatActivity;
+
+import com.markit.android.chat.files.MessageDetail;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,7 @@ public class ConversationAdapter extends
         return context;
     }
 
+
     @Override
     public ConversationAdapter.ConversationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -38,20 +38,34 @@ public class ConversationAdapter extends
         return viewHolder;
     }
 
+    public void updateData(ArrayList<ConversationItem> conversations) {
+        conversations.clear();
+        conversations.addAll(conversations);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(int position, ConversationItem viewModel) {
+        conversations.add(position, viewModel);
+        notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        conversations.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public void onBindViewHolder(ConversationAdapter.ConversationViewHolder viewHolder, int position) {
         ConversationItem convo = conversations.get(position);
-
-        // TODO Set item views based on your views and data model -Peyton Cross
-
+        //conversationName = the person you're chatting (the seller right now, that needs to be fixed)
         TextView conversationName = viewHolder.conversationName;
         TextView conversationID = viewHolder.conversationID;
         //final String conversationID = convo.getId();
-        conversationName.setText(convo.getSeller());
+        conversationName.setText(convo.getOtherUser());
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent chat = new Intent(context, MainChatActivity.class);
+                Intent chat = new Intent(context, MessageDetail.class);
                 //final String itemID = model.getItemID();
                 chat.putExtra("id", ItemDetail.conversationKey);
                 context.startActivity(chat);
@@ -64,6 +78,8 @@ public class ConversationAdapter extends
     public int getItemCount() {
         return conversations.size();
     }
+
+
 
     public static class ConversationViewHolder extends RecyclerView.ViewHolder {
         TextView conversationName;

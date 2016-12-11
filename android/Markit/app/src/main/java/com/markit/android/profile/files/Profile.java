@@ -33,7 +33,7 @@ import com.markit.android.WatchListFragment;
 import com.markit.android.base.files.BaseActivity;
 import com.markit.android.dummy.DummyContent.DummyItem;
 import android.widget.Toast;
-
+import com.markit.android.ConversationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -205,7 +205,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
             return true;
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(Profile.this, MainChatActivity.class));
+            startActivity(new Intent(Profile.this, ConversationView.class));
             return true;
         }
         if (id == R.id.new_listing) {
