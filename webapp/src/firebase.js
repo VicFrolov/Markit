@@ -323,6 +323,35 @@ var addHubs = function(itemHubs) {
     });
 };
 
+var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+    let chatKey = usersRef.push().key;
+    let date = (new Date()).toString();
+
+    let contextUser = {
+        itemID: uid,
+        itemImageURL: imageLink,
+        otherUser: sellerId
+    };
+
+    let contextOtherUser = {
+        itemID: uid,
+        itemImageURL: imageLink,
+        otherUser: id
+    };
+
+    let messageObject = {
+        date: date,
+        text: message,
+        type: 'text',
+        user: id
+    }
+
+    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
+    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
+    
+    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
+    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
+}
 
 
 // AI algorithm functions for suggestions in hub
@@ -466,7 +495,11 @@ module.exports = {
     populateSuggestionsInHub,
     addTagToProfile,
     getItemsById,
+<<<<<<< HEAD
     userImagesRef,
     addProfilePicture,
     getProfilePicture
+=======
+    initializeMessage
+>>>>>>> 910c2784990421dea6f7c66e9a157c229b2e102f
 };
