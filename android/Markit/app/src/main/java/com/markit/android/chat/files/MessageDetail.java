@@ -62,7 +62,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
-    DatabaseReference chatRefPush = convoRefPush.child(conversationID + "/messages");
+    DatabaseReference chatRefPush;
+    DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
     //DatabaseReference sellerRefPush = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/messages");
     //DatabaseReference chatRef = convoRefPush.child(ConversationAdapter.conversationId + "/messages");
 
@@ -77,13 +78,15 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         } else {
             conversationID = "-KX9d_FL3zJVZgvnl8TW";
         }
-
+        chatRefPush = convoRefPush.child(conversationID + "/messages");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
+        //This pushes it to the correct conversation in the Database
         DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
         final DatabaseReference chatRef = convoRef.child(conversationID + "/messages");
         final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/messages");
+
         backButton = (Button) findViewById(R.id.backButton);
 
         sendButton = (Button) findViewById(R.id.sendButton);
@@ -118,7 +121,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
-
+                //This pushes it to the correct conversation in firebase
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -127,6 +130,15 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                         }
                     }
                 });
+                //this makes the message appear in the view but it also pushes it to a null conversation
+//                chatRefPush.push().setValue(message, new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
+//                        if (databaseError != null) {
+//                            Log.e(TAG, "Failed to write message", databaseError.toException());
+//                        }
+//                    }
+//                });
 
                 sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
@@ -140,7 +152,35 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 editMessage.setText("");
             }
         });
+
+        recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
+                Chat.class, R.layout.chat_message, MessageViewHolder.class, chatRefPush) {
+
+            @Override
+            public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
+                //chatView.setUser(chat.getUser());
+                chatView.setMessage(chat.getMessage());
+
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    chatView.setIsSender(true);
+                } else {
+                    chatView.setIsSender(false);
+                }
+            }
+        };
+
+        // Scroll to bottom on new messages
+        recViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                llm.smoothScrollToPosition(messageList, null, recViewAdapter.getItemCount());
+            }
+        });
+
+        messageList.setAdapter(recViewAdapter);
     }
+
 
     @Override
     public void onStart() {
