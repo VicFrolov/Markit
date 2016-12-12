@@ -59,24 +59,17 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
     private EditText editMessage;
     private Button backButton;
 
-    //public String conversationID = conversationKey;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
-    String chatKey;
-    //public String ItemDetail.seller;
-    //List<Chat> messages = new ArrayList<Chat>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
+
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
     DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
     DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
-//    DatabaseReference convoRef =
-    //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
-    //.child("items").child("itemID").child("conversationID")
-    //intent.putExtra("uid", item)
+
 
 
     @Override
@@ -109,9 +102,6 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
-                //chatKey = chatRef.push().getKey();
-
-                //List<Chat> messages = new ArrayList<Chat>();
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
@@ -194,7 +184,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 //                }
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
+                if (currentUser != null && chat.getUser().equals(currentUser.getUid())) {
                     chatView.setIsSender(true);
                 } else {
                     chatView.setIsSender(false);
@@ -223,56 +213,10 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
         editMessage.setEnabled(isSignedIn());
     }
 
-//    public static class Chat {
-//
-//        String user;
-//        String message;
-//        String uid;
-//        String date;
-//        String type;
-//        //Date newDate;
-//        //String chatId;
-//        //private long messageTime;
-//
-//        public Chat() {
-//        }
-//
-//
-//        Chat(String message, String sender, String date, String type) {
-//            this.message = message;
-//            this.date = date;
-//            this.user = sender;
-//            this.type = type;
-//
-//        }
-//
-//        public String getUser() {
-//            return user;
-//        }
-//
-//        public String getUid() {
-//            return uid;
-//        }
-//
-////        public String getChatId() {
-////            return chatId;
-////        }
-//
-//        public String getMessage() {
-//            return message;
-//        }
-//
-////        public long getMessageTime() {
-////            return messageTime;
-////        }
-////
-////        public void setMessageTime(long messageTime) {
-////            this.messageTime = messageTime;
-////        }
-//    }
 
     public static class ChatHolder extends RecyclerView.ViewHolder {
         View view;
+
 
         public ChatHolder(View itemView) {
             super(itemView);
@@ -288,23 +232,17 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
             int color;
             if (isSender) {
                 color = ContextCompat.getColor(view.getContext(), R.color.wallet_holo_blue_light);
-
                 left_arrow.setVisibility(View.GONE);
                 right_arrow.setVisibility(View.VISIBLE);
                 messageContainer.setGravity(Gravity.END);
             } else {
                 color = ContextCompat.getColor(view.getContext(), R.color.wallet_secondary_text_holo_dark);
-
                 left_arrow.setVisibility(View.VISIBLE);
                 right_arrow.setVisibility(View.GONE);
                 messageContainer.setGravity(Gravity.START);
             }
 
             lmessage.setBackgroundColor(color);
-//            ((RotateDrawable) left_arrow.getBackground()).getDrawable()
-//                    .setColorFilter(color, PorterDuff.Mode.SRC);
-//            ((RotateDrawable) right_arrow.getBackground()).getDrawable()
-//                    .setColorFilter(color, PorterDuff.Mode.SRC);
         }
 
 //        public void setUser(String user) {

@@ -49,8 +49,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
-//        Firebase.setAndroidContext(this);
-
         conversationsList = (RecyclerView) findViewById(R.id.messagesRecyclerView);
 
         if (conversationsList != null) {
@@ -67,7 +65,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot convos : dataSnapshot.child("users/" + getUID()+ "/chats").getChildren()) {
-                    //String conversationName = (String) convos.child(seller).getValue();
                     String otherUser = (String) convos.child("context/" + "otherUser").getValue();
                     String itemUID = (String) convos.child("itemID").getValue();
                     String conversationID = (String) convos.child("context/" +"conversationID").getValue();

@@ -32,15 +32,10 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     private DatabaseReference itemDatabase;
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
-   // public static String seller;
-    //public List<Chat> messages;
-    //public static String seller;
     public static String otherUser;
-    //public String buyer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
-    //DatabaseReference convoRef = database.getReference().child("chats");
 
     private FirebaseStorage storage;
     private boolean inFavorites;
@@ -58,15 +53,12 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             itemID = "-KX9d_FL3zJVZgvnl8TW";
         }
 
-//        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
-//
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
-
         final DatabaseReference rootDatabase = FirebaseDatabase.getInstance().getReference();
 
-//        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
+
         ItemDetail.this.itemDatabase = rootDatabase.child("items").child(itemID);
         storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
@@ -86,7 +78,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 otherUser = (String) dataSnapshot.child("uid").getValue();
                 userId.setText(otherUser);
 
-//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) dataSnapshot.child("title").getValue());
                 description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
                 price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
@@ -129,7 +120,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
-                //String conversationID = convoRef.push().getKey();
                 DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
                 DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
                 String itemId = itemID;
