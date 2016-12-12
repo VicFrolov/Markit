@@ -62,6 +62,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
     DatabaseReference chatRefPush;
     DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
     //DatabaseReference sellerRefPush = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/messages");
