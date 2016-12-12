@@ -327,31 +327,49 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
     let chatKey = usersRef.push().key;
     let date = (new Date()).toString();
 
-    let contextUser = {
-        itemID: uid,
-        itemImageURL: imageLink,
-        otherUser: sellerId
-    };
-
-    let contextOtherUser = {
-        itemID: uid,
-        itemImageURL: imageLink,
-        otherUser: id
-    };
-
-    let messageObject = {
-        date: date,
-        text: message,
-        type: 'text',
-        user: id
+    let messageAndContext = {
+        context: {
+            itemID: uid,
+            itemImageURL: imageLink,
+            otherUser: sellerId,
+            latestPost: date,
+            conversationID: chatKey
+        },
+        message: {
+            date: date,
+            text: message,
+            type: 'text',
+            user: id
+        }
     }
 
-    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
-    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
-    
-    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
-    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
+    let messageAndContextSeller = {
+        context: {
+            itemID: uid,
+            itemImageURL: imageLink,
+            otherUser: id,
+            latestPost: date,
+            conversationID: chatKey
+        },
+        message: {
+            date: date,
+            text: message,
+            type: 'text',
+            user: id
+        }
+    }    
+
+    usersRef.child(`/${id}/chats/${chatKey}/`).set(messageAndContext);
+    usersRef.child(`/${sellerId}/chats/${chatKey}/`).set(messageAndContextSeller);
 }
+
+var getUserMessages = function(id) {
+    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
+        console.log(snapshot.val());
+    })
+}
+
+getUserMessages('qnphRQ8PBrffwne2sDEPj39MoZg1')
 
 
 // AI algorithm functions for suggestions in hub

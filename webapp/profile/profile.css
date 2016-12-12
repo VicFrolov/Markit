@@ -204,6 +204,11 @@ main, body {
     background-color: #fff;
 }
 
+#profile-messages .tab-content {
+    background-color: #fff;
+    height: 600px;
+}
+
 .single-setting {
     margin-bottom: 20px;
 }
@@ -256,4 +261,56 @@ main, body {
     height: auto;
     opacity: 1;
     cursor: pointer;
+}
+
+
+#profile-messages-left {
+    padding-right: 0px;
+}
+/* messages css */
+#profile-messages-right {
+    border-left: 2px solid #000;
+    background-color: red;
+    height: 500px;
+}
+
+.message-preview {
+    height: 100px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    margin: 0px 10px 0px 10px;
+}
+
+.message-preview-timestamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.message-preview-image {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    border: 1px solid black;
+}
+
+.message-preview-title {
+    position: absolute;
+    left: 90px;
+    top: 37px;
+    margin: 0px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.message-preview-username {
+    position: absolute;
+    left: 90px;
+    top: 20px;
+    margin: 0px;
+    color: #555;
+    font-size: 14px;
 }

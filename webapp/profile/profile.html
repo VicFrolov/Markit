@@ -99,22 +99,22 @@
       </div>
 
       <div class="container container-margin" id="profile-tagslist">
-          <div class="tagslist tab-content z-depth-1">
-            <div class="col s12" id="tab-header">
-              <h4 id="tab-header-text">Watching List</h4>
+        <div class="tagslist tab-content z-depth-1">
+          <div class="col s12" id="tab-header">
+            <h4 id="tab-header-text">Watching List</h4>
+          </div>
+          <div class="row">
+            <div class="add-button">
+              <a id="add-tag-button" class="waves-effect waves-light btn col s3 offset-s1"><i class="material-icons left">add_circle_outline</i>Add Search Item!</a>
             </div>
-            <div class="row">
-              <div class="add-button">
-                <a id="add-tag-button" class="waves-effect waves-light btn col s3 offset-s1"><i class="material-icons left">add_circle_outline</i>Add Search Item!</a>
+            <div class="tag-item-create">
+              <div class="input-field col s8 offset-s1">
+                <input id="tag-item-name" value="" type="text" class="validate">
+                <label for="tag-item-name">Search Term Title</label>
               </div>
-              <div class="tag-item-create">
-                <div class="input-field col s8 offset-s1">
-                  <input id="tag-item-name" value="" type="text" class="validate">
-                  <label for="tag-item-name">Search Term Title</label>
-                </div>
-                <div class="input-field col s8 offset-s1">
-                  <input id="tag-1" value="" type="text" class="validate">
-                  <label for="tag-1">Tag</label>
+              <div class="input-field col s8 offset-s1">
+                <input id="tag-1" value="" type="text" class="validate">
+                <label for="tag-1">Tag</label>
               </div>
               <div class="input-field col s8 offset-s1">
                 <input id="tag-2" value="" type="text" class="validate">
@@ -126,13 +126,35 @@
       </div>
 
       <div class="container container-margin" id="profile-messages">
-        <div class="col s12" id="tab-header">
-          <h4 id="tab-header-text">Messages</h4>
-        </div> 
+        <div class="profile-message-tab tab-content z-depth-1">
+          <div class="col s12">
+            <h4>Messages</h4>
+          </div>
+          <div class="row">
+            <div class="col s4" id="profile-messages-left">
+
+              <div class="message-preview">
+                <div class="message-preview-timestamp">time</div>
+                <img class="circle message-preview-image" src="../media/HardBoneInTheOpen.jpg" alt="item-image">
+                <p class="message-preview-username">
+                  Username
+                </p>
+                <p class="message-preview-title">
+                  Title
+                </p>
+              </div>
+            </div>
+
+
+            <div class="col s8" id="profile-messages-right">
+                right
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="container container-margin" id="profile-settings">
-        <div class="settings tab-content z-depth-1">
+        <div class="tab-content z-depth-1">
           <div class="col s12" id="tab-header">
             <h4 id="tab-header-text">Settings</h4>
           </div> 
