@@ -3,12 +3,15 @@ package com.markit.android;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.markit.android.chat.files.MessageDetail;
+import com.markit.android.chat.files.Chat;
+import com.markit.android.ItemDetail;
 
 import java.util.ArrayList;
 
@@ -16,6 +19,9 @@ public class ConversationAdapter extends
         RecyclerView.Adapter<ConversationAdapter.ConversationViewHolder> {
 
     private ArrayList<ConversationItem> conversations;
+    public static String conversationId;
+    public static String otherUser;
+    public String TAG = "conversationID";
     private Context context;
 
     public ConversationAdapter(Context context, ArrayList<ConversationItem> conversations) {
@@ -59,15 +65,20 @@ public class ConversationAdapter extends
         ConversationItem convo = conversations.get(position);
         //conversationName = the person you're chatting (the seller right now, that needs to be fixed)
         TextView conversationName = viewHolder.conversationName;
-        TextView conversationID = viewHolder.conversationID;
-        //final String conversationID = convo.getId();
+        TextView conversationId = viewHolder.conversationId;
+        //final String conversationId = viewHolder.conversationID.toString();
+        final String conversationID = convo.getConversationID();
+        final String otherUser = convo.getOtherUser();
+        conversationId.setText(convo.getConversationID());
         conversationName.setText(convo.getOtherUser());
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent chat = new Intent(context, MessageDetail.class);
                 //final String itemID = model.getItemID();
-                chat.putExtra("id", ItemDetail.conversationKey);
+                chat.putExtra("conversationID", conversationID);
+                chat.putExtra("otherUser", otherUser);
+                Log.i(TAG, conversationID);
                 context.startActivity(chat);
             }
         });
@@ -84,7 +95,7 @@ public class ConversationAdapter extends
     public static class ConversationViewHolder extends RecyclerView.ViewHolder {
         TextView conversationName;
         //final TextView conversationMessage;
-        TextView conversationID;
+        TextView conversationId;
         Context context;
 
         public ConversationViewHolder(View itemView) {
@@ -93,7 +104,7 @@ public class ConversationAdapter extends
             //itemView.setOnClickListener(this);
             conversationName = (TextView) itemView.findViewById(R.id.list_item_username);
             //conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
-            conversationID = (TextView) itemView.findViewById(R.id.conversationID);
+            conversationId = (TextView) itemView.findViewById(R.id.conversationID);
         }
 
     }

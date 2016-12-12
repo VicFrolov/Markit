@@ -17,10 +17,14 @@ public class Chat {
     public Chat() {
     }
 
-    Chat(String message, String sender, String date, String type) {
+    public Chat(String message) {
+        this.message = message;
+    }
+
+    Chat(String message, String user, String date, String type) {
         this.message = message;
         this.date = date;
-        this.user = sender;
+        this.user = user;
         this.type = type;
 
     }

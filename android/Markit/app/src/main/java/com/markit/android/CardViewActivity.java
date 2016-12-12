@@ -352,6 +352,7 @@ public class CardViewActivity extends BaseActivity {
             recList.setHasFixedSize(true);
         }
         llm = new LinearLayoutManager(this);
+        //llm.setReverseLayout(true);
         recList.setLayoutManager(llm);
 
         DatabaseReference itemDatabase = mDatabaseReference.child(hub);

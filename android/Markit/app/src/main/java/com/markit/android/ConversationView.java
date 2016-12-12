@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +49,8 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
+//        Firebase.setAndroidContext(this);
+
         conversationsList = (RecyclerView) findViewById(R.id.messagesRecyclerView);
 
         if (conversationsList != null) {
@@ -56,6 +59,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
         llm = new LinearLayoutManager(this);
         llm.setReverseLayout(false);
+        llm.setStackFromEnd(false);
         conversationsList.setLayoutManager(llm);
 
         ValueEventListener itemListener = new ValueEventListener() {
@@ -66,6 +70,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String conversationName = (String) convos.child(seller).getValue();
                     String otherUser = (String) convos.child("context/" + "otherUser").getValue();
                     String itemUID = (String) convos.child("itemID").getValue();
+                    String conversationID = (String) convos.child("context/" +"conversationID").getValue();
                     //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
 
                     //TODO need to find seller (or eventually person who you're chatting
@@ -74,11 +79,9 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String username = (String) usernameRef.getValue();
                     String conversationName = (String) sellerRef.getValue();
 //                    String conversationName = (String) convos.child(seller).getValue();
-                    ConversationItem newConvo = new ConversationItem(otherUser, itemUID);
+                    ConversationItem newConvo = new ConversationItem(conversationID, otherUser, itemUID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
-                    //Log.i("ConversationID", otherUser);
-                    //its printing out the two conversations that I have but its saying they're null
                 }
 
                 ConversationAdapter iAdapter = new ConversationAdapter(ConversationView.this, conversations);

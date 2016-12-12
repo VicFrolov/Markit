@@ -7,6 +7,7 @@ package com.markit.android.chat.files;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,10 @@ import static com.markit.android.R.id.message_text;
 public class MessageAdapter extends
         RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
+    public String TAG = "Sender";
     private List<Chat> messages;
     private Context context;
-    private FirebaseAuth firebaseAuth;
+    public FirebaseAuth firebaseAuth;
 
 
     public MessageAdapter(Context context, List<Chat> messages) {
@@ -37,7 +39,7 @@ public class MessageAdapter extends
         this.messages = messages;
     }
 
-    public Context getContext() {
+    private Context getContext() {
         return context;
     }
 
@@ -56,16 +58,25 @@ public class MessageAdapter extends
     public void onBindViewHolder(MessageAdapter.MessageViewHolder viewHolder, int position) {
         Chat message = messages.get(position);
 
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null && message.getUser().equals(currentUser.getUid())) {
-            viewHolder.setIsSender(true);
-        } else {
-            viewHolder.setIsSender(false);
-        }
+//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            viewHolder.setIsSender(true);
+//        } else {
+//            viewHolder.setIsSender(false);
+//        }
 
-        TextView username = viewHolder.sender;
+//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        if (currentUser != null && message.getUser().equals(currentUser.getUid())) {
+//            viewHolder.setIsSender(true);
+//        } else {
+//            viewHolder.setIsSender(false);
+//        }
+
+        TextView sender = viewHolder.sender;
         TextView messageText = viewHolder.messageText;
-        username.setText(message.getUser());
+        messageText.setText(message.getMessage());
+        //Log.i(TAG, sender.toString());
+        //sender.setText(message.getUser());
     }
 
     @Override
@@ -109,8 +120,13 @@ public class MessageAdapter extends
         }
 
         public void setMessage(String text) {
-            TextView field = (TextView) itemView.findViewById(message_text);
+            TextView field = (TextView) itemView.findViewById(R.id.message_text);
             field.setText(text);
+        }
+
+        public void setUser(String sender) {
+            TextView field = (TextView) itemView.findViewById(R.id.user);
+            field.setText(sender);
         }
 
     }

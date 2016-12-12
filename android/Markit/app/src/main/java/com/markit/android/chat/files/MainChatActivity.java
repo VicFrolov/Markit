@@ -58,24 +58,18 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
     private EditText editMessage;
     private Button backButton;
 
-    //public String conversationID = conversationKey;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private FirebaseRecyclerAdapter<Chat, ChatHolder> recViewAdapter;
     String chatKey;
-    //public String ItemDetail.seller;
-    //List<Chat> messages = new ArrayList<Chat>();
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
     DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
     DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
-//    DatabaseReference convoRef =
-    //DatabaseReference conversationRef = chatRef.child(getID()).child("messages");
-    //.child("items").child("itemID").child("conversationID")
-    //intent.putExtra("uid", item)
+
 
 
     @Override
@@ -107,11 +101,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
-                //chatKey = chatRef.push().getKey();
 
-                //List<Chat> messages = new ArrayList<Chat>();
-
-                //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate);
                 //chatKey = chatRef.push().getKey();
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
@@ -234,22 +224,6 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
         public Chat() {
         }
 
-//        public String getDate() {
-//            return mDate;
-//        }
-
-//        public void setDate(Date date) {
-//            mDate = date;
-//        }
-
-//        public Chat(String user, String uid, String text) {
-//            this.user = user;
-//            this.text = text;
-//            this.uid = uid;
-//            //this.newDate = newDate;
-//            //this.chatId = chatId;
-//        }
-
         Chat(String message, String sender, String date) {
             this.text = message;
             this.date = date;
@@ -265,21 +239,10 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
             return uid;
         }
 
-//        public String getChatId() {
-//            return chatId;
-//        }
-
         public String getMessage() {
             return text;
         }
 
-//        public long getMessageTime() {
-//            return messageTime;
-//        }
-//
-//        public void setMessageTime(long messageTime) {
-//            this.messageTime = messageTime;
-//        }
     }
 
     public static class ChatHolder extends RecyclerView.ViewHolder {
