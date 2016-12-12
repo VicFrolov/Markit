@@ -70,6 +70,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String conversationName = (String) convos.child(seller).getValue();
                     String otherUser = (String) convos.child("context/" + "otherUser").getValue();
                     String itemUID = (String) convos.child("itemID").getValue();
+                    String conversationID = (String) convos.child("context/" +"conversationID").getValue();
                     //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
 
                     //TODO need to find seller (or eventually person who you're chatting
@@ -78,7 +79,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String username = (String) usernameRef.getValue();
                     String conversationName = (String) sellerRef.getValue();
 //                    String conversationName = (String) convos.child(seller).getValue();
-                    ConversationItem newConvo = new ConversationItem(otherUser, itemUID);
+                    ConversationItem newConvo = new ConversationItem(conversationID, otherUser, itemUID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
                 }

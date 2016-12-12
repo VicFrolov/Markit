@@ -25,6 +25,10 @@ public class ConversationItem {
         this.itemID = itemID;
     }
 
+    public String getConversationID() {
+        return conversationID;
+    }
+
 
     public String getOtherUser() {
         return otherUser;

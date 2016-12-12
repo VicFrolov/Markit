@@ -32,7 +32,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     private DatabaseReference itemDatabase;
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
-    public static String seller;
+   // public static String seller;
     //public List<Chat> messages;
     //public static String seller;
     public static String otherUser;
@@ -52,7 +52,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Bundle idInfo = getIntent().getExtras();
-
         if (idInfo != null) {
             itemID = idInfo.getString("id");
         } else{

@@ -21,10 +21,10 @@ public class Chat {
         this.message = message;
     }
 
-    Chat(String message, String sender, String date, String type) {
+    Chat(String message, String user, String date, String type) {
         this.message = message;
         this.date = date;
-        this.user = sender;
+        this.user = user;
         this.type = type;
 
     }

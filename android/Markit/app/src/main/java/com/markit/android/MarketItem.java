@@ -136,7 +136,6 @@ public class MarketItem {
     }
 
     public String getId() {
-
         return id;
     }
 
