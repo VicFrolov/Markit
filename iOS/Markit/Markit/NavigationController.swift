@@ -13,12 +13,12 @@ class NavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if !CustomFirebaseAuth().isSignedIn() {
-            print("Tab Bar Controller")
-            let storyboard: UIStoryboard = UIStoryboard(name: "ListingsWhenNotLoggedIn", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController() as! InitialNotLoggedInViewController
-            self.present(vc, animated: true, completion: { return })
-        }
+//        if !CustomFirebaseAuth().isSignedIn() {
+//            print("Tab Bar Controller")
+//            let storyboard: UIStoryboard = UIStoryboard(name: "ListingsWhenNotLoggedIn", bundle: nil)
+//            let vc = storyboard.instantiateInitialViewController() as! InitialNotLoggedInViewController
+//            self.present(vc, animated: true, completion: { return })
+//        }
 
         // Do any additional setup after loading the view.
     }

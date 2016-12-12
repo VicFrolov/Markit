@@ -47,29 +47,29 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if !CustomFirebaseAuth().isSignedIn() {
-            let loggedIn = UIStoryboard(name: "ListingsWhenNotLoggedIn", bundle: nil).instantiateInitialViewController() as! InitialNotLoggedInViewController
-            self.present(loggedIn, animated: true, completion: nil)
-        }
-    }
-    
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        
-        print("WTF")
-
-        if viewController == ListingsViewController() {
-            print("HERE")
-            if CustomFirebaseAuth().isSignedIn() {
-                return true
-            } else {
-                let signedInVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "listingsLoggedIn") as! ListingsViewController
-                present(signedInVC, animated: true, completion: nil)
-                return false
-            }
-        }
-        return true
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        if !CustomFirebaseAuth().isSignedIn() {
+//            let loggedIn = UIStoryboard(name: "ListingsWhenNotLoggedIn", bundle: nil).instantiateInitialViewController() as! InitialNotLoggedInViewController
+//            self.present(loggedIn, animated: true, completion: nil)
+//        }
+//    }
+//    
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//        
+//        print("WTF")
+//
+//        if viewController == ListingsViewController() {
+//            print("HERE")
+//            if CustomFirebaseAuth().isSignedIn() {
+//                return true
+//            } else {
+//                let signedInVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "listingsLoggedIn") as! ListingsViewController
+//                present(signedInVC, animated: true, completion: nil)
+//                return false
+//            }
+//        }
+//        return true
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

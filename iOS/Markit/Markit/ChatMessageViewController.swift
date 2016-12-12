@@ -24,7 +24,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var otherUserID:   String!
     var otherUserName: String!
     var context:       String!
-
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,18 +34,44 @@ final class ChatMessageViewController: JSQMessagesViewController {
         self.userRef     = ref.child("users")
                               .child(self.senderId)
         self.chatRef     = userRef.child("chats")
-        self.messagesRef = chatRef.child(self.itemID).child("messages")
         
-        self.userRef.child("username").observe(.value, with: { (snapshot) -> Void in
+        context          = chatRef.childByAutoId().key
+        
+        self.messagesRef = chatRef.child(self.context).child("messages")
+        
+        self.userRef.child("username").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             self.senderDisplayName = snapshot.value as! String
         })
+        
+        addTestMessage()
         
         setupNavBar()
         observeConversation()
         
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+        
+        collectionView!.contentInset.top = 64
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+//    override func viewDidLayoutSubviews() {
+//        if let rect = self.navigationController?.navigationBar.frame {
+//            let y = rect.size.height + rect.origin.y
+//            self.collectionView.contentInset = UIEdgeInsetsMake(64, 64, 0, 0)
+//        }
+//    }
     
     func observeConversation () {
         messagesRef.observe(.childAdded, with: { (snapshot) -> Void in
@@ -56,6 +84,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
                                                text: text)
 
             self.messages.append(message!)
+            self.finishReceivingMessage()
         })
     }
     
@@ -104,28 +133,41 @@ final class ChatMessageViewController: JSQMessagesViewController {
     func reloadMessagesView() {
         self.collectionView?.reloadData()
     }
+    
+    func addTestMessage() {
+        senderDisplayName = "WAU"
+        let message1 = JSQMessage(senderId: self.senderId, displayName: senderDisplayName, text: "HELLO")
+        let message2 = JSQMessage(senderId: self.senderId, displayName: senderDisplayName, text: "Let's chat")
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        messages.append(message1!)
+        messages.append(message2!)
     }
     
     // MARK: JSQMessage overrides
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         print("YEAH")
         
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+        
         self.context = "AAA"
         
-        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
+//        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
+        
+        finishSendingMessage()
     }
     
     override func collectionView (_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
         return messages[indexPath.item]
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
+    
+//    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        code
+//    }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = messages[indexPath.item]
@@ -138,5 +180,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didDeleteMessageAt indexPath: IndexPath!) {
+        print("message deleted")
     }
 }
