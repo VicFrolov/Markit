@@ -27,7 +27,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     let chatTableViewCell = ChatTableViewCell()
     var senderDisplayName: String?
     var newConversationTextField: UITextField?
-    private var conversations: [Conversations] = []
     
     private lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages")
     
@@ -62,7 +61,8 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
             case .createNewConversationSection:
                 return 1
             case .currentConversationSection:
-                return conversations.count
+//                return conversations.count
+                return 1
             }
         }
         return 0

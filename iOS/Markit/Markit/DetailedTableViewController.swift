@@ -31,8 +31,10 @@ class DetailedViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let messageVC = segue.destination as! ChatMessageViewController
-            messageVC.senderDisplayName = self.currentItem.username
-            messageVC.senderId          = self.currentItem.imageID
+            messageVC.senderId          = CustomFirebaseAuth().getCurrentUser()
+            messageVC.itemID            = self.currentItem.imageID
+            messageVC.otherUserID       = self.currentItem.uid
+            messageVC.otherUserName     = self.currentItem.username
             //        mesageVC.
         }
     }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1200AFFE1DDD4BD300BAF550 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */; };
 		123E381F1DD13E97005B6659 /* MARKRangeSlider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */; };
-		1240EFDB1DF10E96007749B7 /* Conversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1240EFDA1DF10E96007749B7 /* Conversations.swift */; };
 		1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */; };
 		125E32811DF8B211005DBE31 /* SellingTabTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */; };
 		125E32851DF8F314005DBE31 /* DetailedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125E32841DF8F314005DBE31 /* DetailedTableViewController.swift */; };
@@ -60,7 +59,6 @@
 /* Begin PBXFileReference section */
 		1200AFFD1DDD4BD300BAF550 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		123E381E1DD13E97005B6659 /* MARKRangeSlider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MARKRangeSlider.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/MARKRangeSlider/MARKRangeSlider.framework"; sourceTree = "<group>"; };
-		1240EFDA1DF10E96007749B7 /* Conversations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversations.swift; sourceTree = "<group>"; };
 		1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchView.swift; sourceTree = "<group>"; };
 		125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewCell.swift; sourceTree = "<group>"; };
 		125E32841DF8F314005DBE31 /* DetailedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewController.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				129C2E981DAB1BFF00129143 /* Item.swift */,
-				1240EFDA1DF10E96007749B7 /* Conversations.swift */,
 				129870231DFA9B2100788F46 /* CustomFirebaseAuth.swift */,
 			);
 			name = Model;
@@ -407,7 +404,6 @@
 				380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */,
 				384810CE1D84F4AB00830C95 /* ListingsTableViewCell.swift in Sources */,
 				38FB5CFE1D9B97A400361CB6 /* AccountCreateHubViewController.swift in Sources */,
-				1240EFDB1DF10E96007749B7 /* Conversations.swift in Sources */,
 				129C21511DFABCE800056F82 /* NavigationController.swift in Sources */,
 				129C214F1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift in Sources */,
 				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,

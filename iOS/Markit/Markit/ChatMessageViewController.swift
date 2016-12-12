@@ -12,21 +12,17 @@ import JSQMessagesViewController
 
 final class ChatMessageViewController: JSQMessagesViewController {
     
-    var ref:     FIRDatabaseReference!
-    var userRef: FIRDatabaseReference!
-    var chatRef: FIRDatabaseReference!
-    var chatRefHandle: FIRDatabaseHandle?
-    lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
-    lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
-    var messages = [JSQMessage]()
+    var ref:         FIRDatabaseReference!
+    var userRef:     FIRDatabaseReference!
+    var chatRef:     FIRDatabaseReference!
+    var messagesRef: FIRDatabaseReference!
     
-//    var sender: String!
-
-//    var conversation: Conversation? {
-//        didSet {
-//            
-//        }
-//    }
+    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    var incomingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    var messages                = [JSQMessage]()
+    var itemID:        String!
+    var otherUserID:   String!
+    var otherUserName: String!
     
     func reloadMessagesView() {
         self.collectionView?.reloadData()
@@ -35,34 +31,74 @@ final class ChatMessageViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavBar()
         
         print("In chatmessageviewcontroller")
 
-        self.ref = FIRDatabase.database().reference()
-        self.userRef = ref.child("users")
-        self.chatRef = self.ref.child("chat")
+        self.ref         = FIRDatabase.database().reference()
+        self.userRef     = ref.child("users")
+                              .child(self.senderId)
+        self.chatRef     = userRef.child("chats")
+        self.messagesRef = chatRef.child(self.itemID).child("messages")
         
-//        self.setup()
-//        self.addDemoMessages()
+        self.userRef.child("username").observe(.value, with: { (snapshot) -> Void in
+            self.senderDisplayName = snapshot.value as! String
+        })
+        
+        setupNavBar()
+        observeConversation()
         
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+    }
+    
+    func observeConversation () {
+        messagesRef.observe(.childAdded, with: { (snapshot) -> Void in
+            let conversationDict  = snapshot.value as! NSDictionary?
+            let date              = conversationDict?["date"] as! Date
+            let text              = conversationDict?["text"] as! String
+            let message           = JSQMessage(senderId: self.senderId,
+                                               senderDisplayName: self.senderDisplayName,
+                                               date: date,
+                                               text: text)
+
+            self.messages.append(message!)
+        })
+    }
+    
+    func postMessage(context: String, itemID: String, otherUser: String) {
+        let messageID = ref.childByAutoId().key
+
+        let currentDate      = Date()
+        let formatter        = DateFormatter()
+        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss GMT-0800 (zzz)"
+        let convertedDate    = formatter.string(from: currentDate)
+        
+        let contextDict    = ["conversationID": context,
+                              "itemID": itemID,
+                              "otherUser": otherUser]
+        let messageDict    = ["date": convertedDate,
+                              "message": "heyoo",
+                              "type": "text",
+                              "user": self.senderId]
+        let messageUpdates = ["\(context)/context/": contextDict,
+                              "\(context)/messages/\(messageID)": messageDict]
+        
+        chatRef.updateChildValues(messageUpdates)
     }
     
     func setupNavBar() {
         let deviceBounds  = UIScreen.main.bounds
         let width         = deviceBounds.size.width
         let navigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: width, height: 64))
-        let navItem       = UINavigationItem(title: "Message \(self.senderDisplayName!)")
+        let navItem       = UINavigationItem(title: "Message \(self.otherUserName!)")
         let backItem      = UIBarButtonItem(barButtonSystemItem: .done,
                                             target: self,
                                             action: #selector(goBack))
         
         navItem.leftBarButtonItem = backItem
-        
-        self.view.addSubview(navigationBar)
         navigationBar.setItems([navItem], animated: false)
+
+        self.view.addSubview(navigationBar)
     }
     
     func goBack() {
@@ -81,17 +117,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func observeConversation() {
-        self.chatRefHandle = self.chatRef!.observe(.childAdded, with: { (snapshot) -> Void in
-//            let message = snapshot.value as! Dictionary<String, AnyObject>
-//            let messageID = snapshot.key
-//            
-//            if let text = message["text"] as! String!, text.characters.count > 0 {
-//            }
-        })
+    // MARK: JSQMessage overrides
+    override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        print("YEAH")
     }
     
-    // MARK: JSQMessage overrides
     override func collectionView (_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
         return messages[indexPath.item]
     }
@@ -112,38 +142,4 @@ final class ChatMessageViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
     }
-    
-    private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
-        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
-    }
-    
-    private func setupIncomingBubble() -> JSQMessagesBubbleImage {
-        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
-    }
-    
-    private func addMessage(withId id: String, name: String, text: String) {
-        if let message = JSQMessage(senderId: id, displayName: name, text: text) {
-            messages.append(message)
-        }
-    }
 }
-
-//MARK: - Sample messages
-//extension ChatMessageViewController {
-//    func addDemoMessages() {
-//        for i in 1...10 {
-//            let sender = (i % 2 == 0) ? "Server" : self.senderId
-//            let messageContent = "Message nr. \(i)"
-//            let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
-//            self.messages += [message]
-//        }
-//        self.reloadMessagesView()
-//    }
-//    
-//    func setup() {
-//        self.senderId = UIDevice.current.identifierForVendor?.uuidString
-//        self.senderDisplayName = UIDevice.current.identifierForVendor?.uuidString
-//    }
-//}
