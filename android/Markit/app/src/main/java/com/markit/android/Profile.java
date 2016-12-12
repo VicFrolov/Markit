@@ -19,15 +19,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 
 public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener, ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
 
-    public void onListFragmentInteraction(String[] d) {
+    public void onListFragmentInteraction(Object d) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
 
@@ -57,26 +63,49 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
     private FirebaseAuth.AuthStateListener mAuthListener;
     private int currentPage;
 
+    private DatabaseReference mdatabase;
+    private DatabaseReference tags;
+    private FirebaseUser user;
+
     //TODO use database instead of a created ArrayList here
-    protected static ArrayList<String[]> inputTags = new ArrayList<>();
+    protected static ArrayList<Object> inputTags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         // Populating the inputTags with local data, will change later
-        String[] item1 = new String[3];
-        String[] item2 = new String[4];
-        item1[0] = "car";
-        item1[1] = "corvette";
-        item1[2] = "red";
-        item2[0] = "iphone";
-        item2[1] = "new";
-        item2[2] = "black";
-        item2[3] = "cellphone";
-        inputTags.add(item1);
-        inputTags.add(item2);
+//        String[] item1 = new String[3];
+//        String[] item2 = new String[4];
+//        item1[0] = "car";
+//        item1[1] = "corvette";
+//        item1[2] = "red";
+//        item2[0] = "iphone";
+//        item2[1] = "new";
+//        item2[2] = "black";
+//        item2[3] = "cellphone";
+//        inputTags.add(item1);
+//        inputTags.add(item2);
 
+        mdatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        tags = mdatabase.child("users").child(user.getUid()).child("tagslist");
+
+        tags.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot tags = dataSnapshot;
+
+                for (DataSnapshot tagShot : tags.getChildren()) {
+                    inputTags.add(tagShot);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.print("HELLLL NAWW!");
+                throw databaseError.toException();
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,7 +125,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
             }
         });
 
-
+        System.out.print(inputTags);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

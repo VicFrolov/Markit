@@ -87,9 +87,9 @@ public class NewTagSetDialog extends DialogFragment {
                 //tagsResult[tagsResult.length] = tagSetTitle;
                 tagListRef.child(tagSetTitle).setValue(tagsResult2);
                 Profile.inputTags.add(tagsResult1);
-                for(int i = 0; i < Profile.inputTags.size(); i++) {
-                    System.out.println(Arrays.toString(Profile.inputTags.get(i)));
-                }
+//                for(int i = 0; i < Profile.inputTags.size(); i++) {
+//                    System.out.println(Arrays.toString(Profile.inputTags.get(i)));
+//                }
                 //Profile.inputTags = inputValue.split("\\s*(,|\\s)\\s*");
                 dismiss();
             }
