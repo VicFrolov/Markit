@@ -142,7 +142,7 @@ class SellingTabTableViewController: UITableViewController {
         
         let currentDate = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss zzz"
+        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
         let convertedDate = formatter.string(from: currentDate)
         
         let item = ["date": "\(convertedDate)",

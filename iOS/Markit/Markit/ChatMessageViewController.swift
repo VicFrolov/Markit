@@ -23,17 +23,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var itemID:        String!
     var otherUserID:   String!
     var otherUserName: String!
-    
-    func reloadMessagesView() {
-        self.collectionView?.reloadData()
-    }
+    var context:       String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        print("In chatmessageviewcontroller")
-
         self.ref         = FIRDatabase.database().reference()
         self.userRef     = ref.child("users")
                               .child(self.senderId)
@@ -65,21 +59,23 @@ final class ChatMessageViewController: JSQMessagesViewController {
         })
     }
     
-    func postMessage(context: String, itemID: String, otherUser: String) {
+    
+    func postMessage(context: String, itemID: String, otherUser: String, text: String, date: Date) {
         let messageID = ref.childByAutoId().key
 
-        let currentDate      = Date()
         let formatter        = DateFormatter()
-        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss GMT-0800 (zzz)"
-        let convertedDate    = formatter.string(from: currentDate)
+        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
+        let convertedDate    = formatter.string(from: date)
         
         let contextDict    = ["conversationID": context,
                               "itemID": itemID,
-                              "otherUser": otherUser]
+                              "otherUser": otherUserID,
+                              "latestPost": convertedDate]
         let messageDict    = ["date": convertedDate,
-                              "message": "heyoo",
+                              "message": text,
                               "type": "text",
                               "user": self.senderId]
+        
         let messageUpdates = ["\(context)/context/": contextDict,
                               "\(context)/messages/\(messageID)": messageDict]
         
@@ -105,11 +101,8 @@ final class ChatMessageViewController: JSQMessagesViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        addMessage(withId: "FOO", name: "Adrian", text: "FUCK YOU")
-//        addMessage(withId: senderId, name: "Me", text: "FUCK YO MAMA")
-//        addMessage(withId: senderId, name: "Me", text: "SHE WASN'T EVEN WORTH IT")
-//        finishReceivingMessage()
+    func reloadMessagesView() {
+        self.collectionView?.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -120,6 +113,10 @@ final class ChatMessageViewController: JSQMessagesViewController {
     // MARK: JSQMessage overrides
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         print("YEAH")
+        
+        self.context = "AAA"
+        
+        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
     }
     
     override func collectionView (_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
