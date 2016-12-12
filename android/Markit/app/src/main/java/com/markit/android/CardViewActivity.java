@@ -264,6 +264,30 @@ public class CardViewActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
 
 
+//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+//        AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
+//
+//        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+////                SearchView searchView = (SearchView) optionsMenu.findItem(R.id.search_listings).getActionView();
+//                if ((collapsingToolbar.getHeight() + verticalOffset) < 2 * (ViewCompat.getMinimumHeight(collapsingToolbar))) {
+//                    toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
+////                    searchView.setBackgroundColor(Color.parseColor("#000000"));
+//                } else {
+//                    toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
+////                    searchView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+//                }
+//            }
+//        });
+
         return true;
     }
 
@@ -378,7 +402,7 @@ public class CardViewActivity extends BaseActivity {
         super.onStart();
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#F4A49D"));
-        collapsingToolbarLayout.setTitle("Markyt");
+        collapsingToolbarLayout.setTitle("Markit");
 //        collapsingToolbarLayout.
     }
 

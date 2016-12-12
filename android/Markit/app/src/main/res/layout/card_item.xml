@@ -36,19 +36,6 @@
         android:layout_alignParentEnd="true"
          />
 
-    <TextView
-        android:text="Price"
-        android:layout_width="100dp"
-        android:id="@+id/price"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="125dp"
-        android:layout_height="50dp"
-
-        android:forceHasOverlappingRendering="false"
-        android:textStyle="bold"
-        android:textSize="17sp" />
-
     <!--android:textAppearance="@android:style/TextAppearance.Material.Small"-->
 
     <ImageView
@@ -69,6 +56,20 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="175dp"
         android:layout_marginLeft="175dp"/>
+
+    <TextView
+        android:text="Price"
+        android:layout_width="100dp"
+        android:id="@+id/price"
+        android:layout_height="50dp"
+
+        android:forceHasOverlappingRendering="false"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
     <!--<ImageButton-->
     <!--android:layout_width="wrap_content"-->
