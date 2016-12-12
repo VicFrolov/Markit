@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +49,8 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
+//        Firebase.setAndroidContext(this);
+
         conversationsList = (RecyclerView) findViewById(R.id.messagesRecyclerView);
 
         if (conversationsList != null) {
@@ -55,6 +58,8 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         }
 
         llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(false);
+        llm.setStackFromEnd(false);
         conversationsList.setLayoutManager(llm);
 
         ValueEventListener itemListener = new ValueEventListener() {
@@ -76,8 +81,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     ConversationItem newConvo = new ConversationItem(otherUser, itemUID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
-                    //Log.i("ConversationID", otherUser);
-                    //its printing out the two conversations that I have but its saying they're null
                 }
 
                 ConversationAdapter iAdapter = new ConversationAdapter(ConversationView.this, conversations);

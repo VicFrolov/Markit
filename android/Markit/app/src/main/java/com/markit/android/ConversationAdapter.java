@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.markit.android.chat.files.MessageDetail;
+import com.markit.android.ItemDetail;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class ConversationAdapter extends
         this.conversations = conversations;
     }
 
-    private Context getContext() {
+    public Context getContext() {
         return context;
     }
 
@@ -61,13 +62,14 @@ public class ConversationAdapter extends
         TextView conversationName = viewHolder.conversationName;
         TextView conversationID = viewHolder.conversationID;
         //final String conversationID = convo.getId();
+        conversationID.setText(convo.conversationID);
         conversationName.setText(convo.getOtherUser());
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent chat = new Intent(context, MessageDetail.class);
                 //final String itemID = model.getItemID();
-                chat.putExtra("id", ItemDetail.conversationKey);
+                //chat.putExtra("id", ItemDetail.conversationKey);
                 context.startActivity(chat);
             }
         });
