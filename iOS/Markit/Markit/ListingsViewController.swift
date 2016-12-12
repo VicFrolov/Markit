@@ -229,7 +229,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("toDetailedView")
         listingsTableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "detailedViewSegue", sender: self)
+//        performSegue(withIdentifier: "detailedViewSegue", sender: self)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -280,7 +280,14 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailedViewSegue" {
-            var nextSceneVC = segue.destination as! DetailedTableViewController
+            print("detailedViewSegue activated")
+            if let indexPath = listingsTableView.indexPathForSelectedRow {
+                let selectedRow = indexPath.row
+                let detailedVC = segue.destination as! DetailedViewController
+                
+                detailedVC.currentItem = itemList[selectedRow]
+            }
+
         }
     }
     

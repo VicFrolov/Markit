@@ -25,7 +25,7 @@
 		12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */; };
 		12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */; };
 		12D423B01DF909230032F24B /* FontAwesome_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12D423AF1DF909230032F24B /* FontAwesome_swift.framework */; };
-		12D423B21DF90B330032F24B /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D423B11DF90B320032F24B /* DetailedTableViewCell.swift */; };
+		12D423B21DF90B330032F24B /* DetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D423B11DF90B320032F24B /* DetailedView.swift */; };
 		343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096211DEED966008FB4E4 /* WatchListViewController.swift */; };
 		343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096231DEEDC39008FB4E4 /* WatchListItem.swift */; };
 		343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096251DEEDE6C008FB4E4 /* TagListViewController.swift */; };
@@ -76,7 +76,7 @@
 		12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageViewController.swift; sourceTree = "<group>"; };
 		12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteTextField.swift; sourceTree = "<group>"; };
 		12D423AF1DF909230032F24B /* FontAwesome_swift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FontAwesome_swift.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Markit-garkwovlibfyymfdaualhlefuiux/Build/Products/Debug-iphonesimulator/FontAwesome.swift/FontAwesome_swift.framework"; sourceTree = "<group>"; };
-		12D423B11DF90B320032F24B /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewCell.swift; sourceTree = "<group>"; };
+		12D423B11DF90B320032F24B /* DetailedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedView.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
 		343096211DEED966008FB4E4 /* WatchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
 		343096231DEEDC39008FB4E4 /* WatchListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListItem.swift; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 		384810CC1D84F49B00830C95 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				12D423B11DF90B320032F24B /* DetailedTableViewCell.swift */,
+				12D423B11DF90B320032F24B /* DetailedView.swift */,
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
 				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
 				125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */,
@@ -375,7 +375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */,
-				12D423B21DF90B330032F24B /* DetailedTableViewCell.swift in Sources */,
+				12D423B21DF90B330032F24B /* DetailedView.swift in Sources */,
 				384810CB1D84EC0700830C95 /* ListingsViewController.swift in Sources */,
 				128399C21DEEA26500152948 /* ChatTableViewCell.swift in Sources */,
 				128399C01DEEA23B00152948 /* ChatListViewController.swift in Sources */,
