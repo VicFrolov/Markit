@@ -20,14 +20,16 @@
 
 
     <LinearLayout
-        android:id="@+id/lmessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
-        android:background="@drawable/quantum_ic_play_arrow_white_24"
-        android:orientation="vertical"
-        android:padding="10dp">
+    android:id="@+id/lmessage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="26dp"
+    android:layout_marginRight="26dp"
+    android:background="@drawable/quantum_ic_play_arrow_white_24"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
 
         <TextView
             style="@style/TextAppearance.AppCompat.Small"

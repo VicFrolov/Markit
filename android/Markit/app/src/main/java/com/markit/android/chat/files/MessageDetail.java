@@ -153,32 +153,32 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             }
         });
 
-        recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
-                Chat.class, R.layout.chat_message, MessageViewHolder.class, chatRefPush) {
-
-            @Override
-            public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
-                //chatView.setUser(chat.getUser());
-                chatView.setMessage(chat.getMessage());
-
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    chatView.setIsSender(true);
-                } else {
-                    chatView.setIsSender(false);
-                }
-            }
-        };
-
-        // Scroll to bottom on new messages
-        recViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                llm.smoothScrollToPosition(messageList, null, recViewAdapter.getItemCount());
-            }
-        });
-
-        messageList.setAdapter(recViewAdapter);
+//        recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
+//                Chat.class, R.layout.chat_message, MessageViewHolder.class, chatRefPush) {
+//
+//            @Override
+//            public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
+//                //chatView.setUser(chat.getUser());
+//                chatView.setMessage(chat.getMessage());
+//
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//                if (currentUser != null) {
+//                    chatView.setIsSender(true);
+//                } else {
+//                    chatView.setIsSender(false);
+//                }
+//            }
+//        };
+//
+//        // Scroll to bottom on new messages
+//        recViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//            @Override
+//            public void onItemRangeInserted(int positionStart, int itemCount) {
+//                llm.smoothScrollToPosition(messageList, null, recViewAdapter.getItemCount());
+//            }
+//        });
+//
+//        messageList.setAdapter(recViewAdapter);
     }
 
 
@@ -224,10 +224,10 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 //                    chatView.setIsSender(true);
 //                } else {
 //                    chatView.setIsSender(false);
-//                }
+                //}
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
+                if (currentUser != null && chat.getUser().equals(currentUser.getUid())) {
                     chatView.setIsSender(true);
                 } else {
                     chatView.setIsSender(false);
@@ -299,6 +299,10 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         Context context;
         TextView messageTime;
         TextView user;
+    private final LinearLayout message;
+    private final RelativeLayout messageContainer;
+    private final FrameLayout left_arrow;
+    private final FrameLayout right_arrow;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
@@ -306,13 +310,17 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             messageTime = (TextView) itemView.findViewById(R.id.message_time);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
             user = (TextView) itemView.findViewById(R.id.user);
+            left_arrow = (FrameLayout) itemView.findViewById(R.id.left_arrow);
+            right_arrow = (FrameLayout) itemView.findViewById(R.id.right_arrow);
+            messageContainer = (RelativeLayout) itemView.findViewById(R.id.message_container);
+            message = (LinearLayout) itemView.findViewById(R.id.lmessage);
         }
 
         public void setIsSender(Boolean isSender) {
-            FrameLayout left_arrow = (FrameLayout) itemView.findViewById(R.id.left_arrow);
-            FrameLayout right_arrow = (FrameLayout) itemView.findViewById(R.id.right_arrow);
-            RelativeLayout messageContainer = (RelativeLayout) itemView.findViewById(R.id.message_container);
-            LinearLayout lmessage = (LinearLayout) itemView.findViewById(R.id.lmessage);
+            //FrameLayout left_arrow = (FrameLayout) itemView.findViewById(R.id.left_arrow);
+            //FrameLayout right_arrow = (FrameLayout) itemView.findViewById(R.id.right_arrow);
+//            RelativeLayout messageContainer = (RelativeLayout) itemView.findViewById(R.id.message_container);
+//            LinearLayout lmessage = (LinearLayout) itemView.findViewById(R.id.lmessage);
             int color;
             if (isSender) {
                 color = ContextCompat.getColor(itemView.getContext(), R.color.wallet_holo_blue_light);
@@ -326,7 +334,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 messageContainer.setGravity(Gravity.START);
             }
 
-            lmessage.setBackgroundColor(color);
+            message.setBackgroundColor(color);
         }
 
         public void setUser(String user) {
