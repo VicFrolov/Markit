@@ -34,17 +34,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-         />
+        android:scaleType="centerCrop" />
 
     <!--android:textAppearance="@android:style/TextAppearance.Material.Small"-->
-
-    <ImageView
-        android:id="@+id/likeImageView"
-        card_view:srcCompat="@drawable/ic_favorite_border_black_48px"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="310dp"
-        android:layout_marginLeft="310dp"/>
 
     <TextView
         android:text="uid"
@@ -56,19 +48,35 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="175dp"
         android:layout_marginLeft="175dp"/>
-
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:src="@color/cardview_dark_background"
+        android:alpha="0.4"/>
     <TextView
         android:text="Price"
         android:layout_width="100dp"
         android:id="@+id/price"
         android:layout_height="50dp"
-
+        android:textColor="#FFFFFF"
         android:forceHasOverlappingRendering="false"
         android:textStyle="bold"
         android:textSize="17sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/likeImageView"
+        card_view:srcCompat="@drawable/ic_favorite_border_black_48px"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true" />
 
 
     <!--<ImageButton-->
