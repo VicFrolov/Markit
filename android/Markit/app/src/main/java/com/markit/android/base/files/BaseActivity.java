@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.markit.android.CardViewActivity;
 import com.markit.android.ChangeHubFragment;
+import com.markit.android.ConversationView;
 import com.markit.android.FavoritesListView;
 import com.markit.android.chat.files.MainChatActivity;
 import com.markit.android.MarketItem;
@@ -218,7 +220,7 @@ public class BaseActivity extends AppCompatActivity
 
         }
         if (id == R.id.chat) {
-            startActivity(new Intent(BaseActivity.this, MainChatActivity.class));
+            startActivity(new Intent(BaseActivity.this, ConversationView.class));
             return true;
         }
         if (id == R.id.navigation_drawer) {
@@ -243,21 +245,21 @@ public class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_new_listing) {
             // Handle the camera action
             startActivity(new Intent(BaseActivity.this, NewListing.class));
             return true;
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_profile) {
             startActivity(new Intent(BaseActivity.this, Profile.class));
             return true;
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_browse) {
             startActivity(new Intent(BaseActivity.this, CardViewActivity.class));
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_chat) {
+            startActivity(new Intent(BaseActivity.this, ConversationView.class));
         } else if (id == R.id.nav_send) {
 
         }

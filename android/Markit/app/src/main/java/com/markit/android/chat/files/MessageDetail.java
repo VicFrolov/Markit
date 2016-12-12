@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.markit.android.BaseActivity;
+import com.markit.android.base.files.*;
 import com.markit.android.ItemDetail;
 import com.markit.android.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;

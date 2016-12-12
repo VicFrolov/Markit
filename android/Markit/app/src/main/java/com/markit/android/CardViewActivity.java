@@ -212,10 +212,12 @@ public class CardViewActivity extends BaseActivity {
                 if ((collapsingToolbar.getHeight() + verticalOffset) < 2 * (ViewCompat.getMinimumHeight(collapsingToolbar))) {
                     toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
                     toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
 //                    searchView.setBackgroundColor(Color.parseColor("#000000"));
                 } else {
                     toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
                     toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
+//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
 //                    searchView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 }
             }
@@ -269,6 +271,8 @@ public class CardViewActivity extends BaseActivity {
     public void FindItem (View view) {
 
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

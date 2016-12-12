@@ -55,6 +55,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
         }
 
         llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(false);
         conversationsList.setLayoutManager(llm);
 
         ValueEventListener itemListener = new ValueEventListener() {
