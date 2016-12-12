@@ -273,20 +273,21 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
 
     public void populateAdapter() {
+        Log.i(TAG, "I got to the populate adapter");
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
                 Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRefPush) {
             @Override
             public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
                 //messageViewHolder.sender.setText(model.getUser());
                 messageViewHolder.messageText.setText(model.getMessage());
-
+                Log.i(TAG, "I am attempting to populateViewHolder");
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
                     messageViewHolder.setIsSender(true);
                 } else {
                     messageViewHolder.setIsSender(false);
                 }
-                Log.i(TAG, messageViewHolder.messageText.toString() );
+                Log.i(TAG, messageViewHolder.messageText.toString());
             }
         };
 
