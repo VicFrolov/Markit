@@ -30,7 +30,7 @@ import com.markit.android.chat.files.*;
 import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ChangeHubFragment.ChangeHubListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public DrawerLayout layout;
     public FrameLayout drawerFrame;
@@ -45,15 +45,15 @@ public class BaseActivity extends AppCompatActivity
 
 
     }
-    @Override
-    //TODO Reload current screen rather than CardView -Peyton
-    public void onFinishHub(String hub) {
-
-
-        Intent reload = new Intent(BaseActivity.this,CardViewActivity.class);
-        reload.putExtra("hub", hub);
-        BaseActivity.this.startActivity(reload);
-    }
+//    @Override
+//    //TODO Reload current screen rather than CardView -Peyton
+//    public void onFinishHub(String hub) {
+//
+//
+//        Intent reload = new Intent(BaseActivity.this,CardViewActivity.class);
+//        reload.putExtra("hub", hub);
+//        BaseActivity.this.startActivity(reload);
+//    }
     @Override
     public void setContentView(int layoutResID) {
         layout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);

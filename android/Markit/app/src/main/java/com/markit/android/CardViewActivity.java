@@ -42,7 +42,7 @@ import com.google.firebase.database.DatabaseError;
 import java.util.ArrayList;
 
 
-public class CardViewActivity extends BaseActivity {
+public class CardViewActivity extends BaseActivity implements ChangeHubFragment.ChangeHubListener {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG = "CardView";
@@ -65,10 +65,12 @@ public class CardViewActivity extends BaseActivity {
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
 //    DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
 
-    public interface OnGetDataListener {
-        public void onStart();
-        public void onSuccess(DataSnapshot data);
-        public void onFailed(DatabaseError error);
+    public void onFinishHub(String hub) {
+
+
+        Intent reload = new Intent(CardViewActivity.this,CardViewActivity.class);
+        reload.putExtra("hub", hub);
+        CardViewActivity.this.startActivity(reload);
     }
 
 
