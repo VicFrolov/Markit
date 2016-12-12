@@ -216,7 +216,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
             @Override
             public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
-                //chatView.setUser(chat.getUser());
+                chatView.setUser(chat.getUser());
                 chatView.setMessage(chat.getMessage());
 
 //                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -298,12 +298,14 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         TextView messageText;
         Context context;
         TextView messageTime;
+        TextView user;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             messageTime = (TextView) itemView.findViewById(R.id.message_time);
             messageText = (TextView) itemView.findViewById(R.id.message_text);
+            user = (TextView) itemView.findViewById(R.id.user);
         }
 
         public void setIsSender(Boolean isSender) {
@@ -327,10 +329,10 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             lmessage.setBackgroundColor(color);
         }
 
-//        public void setUser(String user) {
-//            TextView field = (TextView) itemView.findViewById(R.id.user);
-//            field.setText(user);
-//        }
+        public void setUser(String user) {
+            TextView field = (TextView) itemView.findViewById(R.id.user);
+            field.setText(user);
+        }
 
         public void setMessage(String text) {
             TextView field = (TextView) itemView.findViewById(message_text);
