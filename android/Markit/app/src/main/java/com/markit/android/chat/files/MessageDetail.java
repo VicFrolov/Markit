@@ -47,23 +47,24 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     private Button sendButton;
     private EditText editMessage;
     private Button backButton;
-    public FirebaseRecyclerAdapter recViewAdapter;
-    private ArrayList<Chat> messages = new ArrayList<>();
+    private FirebaseRecyclerAdapter<Chat, MessageViewHolder> recViewAdapter;
+    //private ArrayList<Chat> messages = new ArrayList<>();
     public Context context = this;
     private String conversationID;
+    private String otherUser;
 
     private RecyclerView messageList;
     private LinearLayoutManager llm;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference rootDatabase = database.getReference();
+    //DatabaseReference rootDatabase = database.getReference();
 
     //DatabaseReference chatRef = database.getReference().child("chats/" + ItemDetail.conversationKey + "/messages");
     //DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/" + conversationID + "/messages");
 
     DatabaseReference convoRefPull = database.getReference().child("users/" + getUID() + "/chats/");
-    DatabaseReference chatRefPull = convoRefPull.child(conversationID + "/messages");
+    DatabaseReference chatRef = convoRefPull.child(ConversationAdapter.conversationId + "/messages");
 
 
     @Override
@@ -73,6 +74,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         Bundle idInfo = getIntent().getExtras();
         if (idInfo != null) {
             conversationID = idInfo.getString("conversationID");
+            otherUser = idInfo.getString("otherUser");
         } else {
             conversationID = "-KX9d_FL3zJVZgvnl8TW";
         }
@@ -83,7 +85,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         //This pushes it to the correct conversation
         DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
         final DatabaseReference chatRef = convoRef.child(conversationID + "/messages");
-        final DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + conversationID + "/messages");
+        final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/messages");
 
         //final DatabaseReference chatRef = convoRef.child(conversationID + "/messages");
 
@@ -98,9 +100,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         sendButton = (Button) findViewById(R.id.sendButton);
         editMessage = (EditText) findViewById(R.id.messageEdit);
 
-        messageList = (RecyclerView) findViewById(R.id.messagesList);
-
-
 //        backButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -108,11 +107,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 //            }
 //        });
 
-        llm = new LinearLayoutManager(this);
-        llm.setReverseLayout(false);
-
-        messageList.setHasFixedSize(false);
-        messageList.setLayoutManager(llm);
 
         //attachRecyclerViewAdapter();
 
@@ -172,6 +166,13 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             }
         });
 
+        messageList = (RecyclerView) findViewById(R.id.messagesList);
+
+        llm = new LinearLayoutManager(this);
+        llm.setReverseLayout(false);
+
+        messageList.setHasFixedSize(false);
+        messageList.setLayoutManager(llm);
     }
 
     @Override
@@ -184,9 +185,9 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     @Override
     public void onStop() {
         super.onStop();
-         if (recViewAdapter != null) {
-             recViewAdapter.cleanup();
-         }
+//         if (recViewAdapter != null) {
+//             recViewAdapter.cleanup();
+//         }
     }
 
     @Override
@@ -234,9 +235,9 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 //    }
 
     private void attachRecyclerViewAdapter() {
-        //Query lastFifty = chatRef.limitToLast(50);
+        Query lastFifty = chatRef.limitToLast(50);
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
-                Chat.class, R.layout.chat_message, MessageViewHolder.class, chatRefPull) {
+                Chat.class, R.layout.chat_message, MessageViewHolder.class, lastFifty) {
 
             @Override
             public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
@@ -325,7 +326,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             this.message = message;
         }
 
-        Chat(String message, String sender, String date, String type) {
+        public Chat(String message, String sender, String date, String type) {
             this.message = message;
             this.date = date;
             this.user = sender;

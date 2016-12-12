@@ -20,6 +20,7 @@ public class ConversationAdapter extends
 
     private ArrayList<ConversationItem> conversations;
     public static String conversationId;
+    public static String otherUser;
     public String TAG = "conversationID";
     private Context context;
 
@@ -67,6 +68,7 @@ public class ConversationAdapter extends
         TextView conversationId = viewHolder.conversationId;
         //final String conversationId = viewHolder.conversationID.toString();
         final String conversationID = convo.getConversationID();
+        final String otherUser = convo.getOtherUser();
         conversationId.setText(convo.getConversationID());
         conversationName.setText(convo.getOtherUser());
         conversationName.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +77,7 @@ public class ConversationAdapter extends
                 Intent chat = new Intent(context, MessageDetail.class);
                 //final String itemID = model.getItemID();
                 chat.putExtra("conversationID", conversationID);
+                chat.putExtra("otherUser", otherUser);
                 Log.i(TAG, conversationID);
                 context.startActivity(chat);
             }
