@@ -9,29 +9,51 @@
 import UIKit
 import Firebase
 import MARKRangeSlider
-import MLPAutoCompleteTextField
 
-class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegate {
 
-    //  These are for the Advanced Search scene
-    let rangeSlider = MARKRangeSlider()
-//    let autocompleteTextField = MLPAutoCompleteTextField()
+    var rangeSlider:                           MARKRangeSlider!
+    var autoCompleteTextField:                 AutoCompleteTextField!
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
+    
+    var databaseRef: FIRDatabaseReference!
+    var tagRef:      FIRDatabaseReference!
+    var hubRef:      FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        advancedSearchContainerView.tags.delegate = self
+        self.autoCompleteTextField = AutoCompleteTextField()
+        configureTextField()
+        addDoneButtonOnNumericKeyboard()
+
+        self.rangeSlider           = MARKRangeSlider()
+        self.databaseRef           = FIRDatabase.database().reference()
+        self.tagRef                = self.databaseRef.child("tags")
+        self.hubRef                = self.databaseRef.child("hubs")
+        
+        advancedSearchContainerView.tags.delegate     = self
         advancedSearchContainerView.keywords.delegate = self
-        advancedSearchContainerView.hubs.delegate = self
+        advancedSearchContainerView.hubs.delegate     = self
         advancedSearchContainerView.minPrice.delegate = self
         advancedSearchContainerView.maxPrice.delegate = self
-//        autocompleteTextField.delegate = self
-//        autocompleteTextField.autoCompleteDelegate = self
-//        autocompleteTextField.autoCompleteDataSource = self
-//        autocompleteTextField.autoCompleteTableView.delegate = self
         
+        setupRangeSlider()
+        loadTags()        
+    }
+    
+    func configureTextField() {
+        self.autoCompleteTextField.maximumAutoCompleteCount = 5
+        let tags = [String]()
+        self.autoCompleteTextField.autoCompleteStrings = tags
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func setupRangeSlider() {
         advancedSearchContainerView.minPrice?.text = "0.00"
         advancedSearchContainerView.maxPrice?.text = "2500.00"
         rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
@@ -39,12 +61,25 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         advancedSearchContainerView.maxPrice.addTarget(self, action: #selector(didEnterMax), for: .editingDidEnd)
         rangeSlider.setMinValue(0.0, maxValue: 3000.0)
         rangeSlider.setLeftValue(0.0, rightValue: 2500.0)
-//        var image = UIImage(named: "slider")
-//        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0,  right: 0.0))
+        var image = UIImage(named: "slider")
+        image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: 0.0, left: 7.0, bottom: 0.0,  right: 7.0))
+        rangeSlider.rangeImage = image
         
         view.insertSubview(rangeSlider, at: 1)
     }
-        
+    
+//    func handleTextFieldInterface() {
+//        autoCompleteTextField.onTextChange = {[weak self] text in
+//            if !text.isEmpty {
+//                self?.fetchAutoCompleteTags(keyword: text)
+//            }
+//        }
+//        
+//        autoCompleteTextField.onSelect = {[weak self] text, indexPath in
+//            advancedSearchContainerView.hubs?.text = advancedSearchContainerView.hubs?.text + ", " + text
+//        }
+//    }
+    
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
         let width = view.bounds.width - 2.0 * margin
@@ -56,7 +91,23 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func autocomplete () {
+    func loadTags () {
+        var tags: [String] = [String]()
+
+        self.tagRef!.observe(.childAdded, with: { (snapshot) -> Void in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let tag = (dictionary["tags"] as! String?)!
+                
+                print("TAGS \(snapshot)")
+                tags.append(tag)
+                print("HERE \(tag)")
+            }
+        })
+        
+        self.autoCompleteTextField.autoCompleteStrings = tags
+    }
+    
+    func fetchAutoCompleteTags (keyword: String) {
         
     }
 
@@ -96,23 +147,32 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextViewDelegate
         }
         rangeSlider.setLeftValue(minValue, rightValue: maxValue)
     }
-        
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        print("Some text here")
-//    }
-
-//    func textViewDidChange(_ textView: UITextView) {
-//        print(self.advancedSearchContainerView.tags.text)
-//    }
-//    
-//    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, shouldConfigureCell cell: UITableViewCell!, withAutoComplete autocompleteString: String!, with boldedString: NSAttributedString!, forAutoComplete autocompleteObject: MLPAutoCompletionObject!, forRowAt indexPath: IndexPath!) -> Bool {
-//        print("WUUTT")
-//        return false
-//    }
     
     func rangeSliderValueChanged(rangeSlider: MARKRangeSlider) {
         print("Range Slider value changed: (\(rangeSlider.leftValue) \(rangeSlider.rightValue))")
         advancedSearchContainerView.minPrice?.text = String(format: "%.2f", rangeSlider.leftValue)
         advancedSearchContainerView.maxPrice?.text = String(format: "%.2f", rangeSlider.rightValue)
+    }
+    
+    func addDoneButtonOnNumericKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        doneToolbar.barStyle = UIBarStyle.default
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(doneButtonAction))
+        
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(done)
+        
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        self.advancedSearchContainerView.minPrice.inputAccessoryView = doneToolbar
+        self.advancedSearchContainerView.maxPrice.inputAccessoryView = doneToolbar
+    }
+    
+    func doneButtonAction() {
+        self.advancedSearchContainerView.minPrice.resignFirstResponder()
+        self.advancedSearchContainerView.maxPrice.resignFirstResponder()
     }
 }

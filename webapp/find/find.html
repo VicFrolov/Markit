@@ -1,13 +1,17 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
-    <title>thrifti</title>
+    <title>Markyt</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../navbar/navbar.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css">
+    <link href="../tag-plugin/textext.core.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.tags.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.autocomplete.css" rel="stylesheet">     
     <link type="text/css" rel="stylesheet" href="./find.css"  media="screen,projection"/>
+   
   </head>
 
   <body id="find-body">
@@ -21,16 +25,21 @@
         <div id="find-search" class="col l9 m12 s12 z-depth-1">
           <div class="row search-top">
             <div class="input-field col l4 m4 s12">
-              <input id="item-post-title" type="text" class="validate" length="24" placeholder="Enter a few words">
-              <label for="item-post-title">Keywords</label>
+              <input id="find-keywords" type="text" class="validate" length="24" placeholder="Enter a few words">
+              <label for="find-keywords">Keywords</label>
             </div>
             <div class="input-field col l4 m4 s12">
-              <input id="item-post-tag" type="text" class="validate" placeholder="Enter relevant tags">
-              <label for="item-post-tag">Tags</label>
+              <textarea id="find-tags" rows="1" placeholder="(e.g. furniture, Apple, living-room)"></textarea>
+              <label for="find-tags">Tags</label>
+
             </div>  
             <div class="input-field col l4 m4 s12">
-              <input type="text" id="autocomplete-input" class="autocomplete" placeholder="Specify any college (blank for all)">
-              <label for="autocomplete-input">Hub</label>
+              <select id="find-hubs" multiple>
+                <option value="" disabled selected>Choose Hub(s)</option>
+                <option value="Loyola Marymount University">Loyola Marymount University</option>
+                <option value="UCLA">UCLA</option>
+              </select>
+              <label>Select College Campuses</label>
             </div>                 
           </div>
           <div class="search-slider-title">
@@ -48,6 +57,39 @@
             <img id="find-search-image" src="../media/ic_search.png">
             <h6> Please enter some search criteria to see some results. <br><br>Only The Hub field is required, and you can add up to 3 hubs.</h6>
           </div>
+          <div id="find-results-holder"></div>
+          <script type="text/template" id="find-results-template">
+            <% for (var specificItem in filteredItemList) { %>
+            <%     var item = filteredItemList[specificItem] %>
+            <div class="col l4 m6 s12">
+              <div class="card find-result hoverable">
+                <div class="find-result-favorite">
+                  <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
+                </div>
+                <div class="find-result-price">
+                  $ <%- item['price'] %>
+                </div>
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="" id=<%- item['id'] %>>
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
+                  <p>
+                    <a href="#">view item</a>
+                    <span class="card-view-hub"><%- item['hubs'] %></span>
+                  </p>
+                </div>
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">
+                    Description<i class="material-icons right">close</i>
+                    <p><%- item['description'] %></p>
+                  </span>
+                  <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
+                </div>
+              </div>
+            </div>
+            <% }; %>
+          </script>
         </div>
       </div>
       <div class="z-depth-1" id="find-favorite-panel">
@@ -95,6 +137,27 @@
           </div>
         </div>
       </div>
+
+
+      <!-- Contact Seller popup -->
+
+      <div id="message-popup">
+        <div id="message-popup-inner">
+          <div class="close-button grey-text right-align"><i class="small material-icons">close</i></div>
+          <div id="message-popup-content">
+            <h2 class="red-text text-lighten-2 ">
+              Message
+            </h2>
+            <p class="grey-text"> Please type your message to the seller</p>
+            <textarea id="message-popup-text">Hey there, I'm interested in your item, what are your availabilities to meet up?</textarea>
+            <a id="message-popup-send-button" class="waves-effect waves-light btn-large right green lighten-2">Send Message</a>
+          </div>
+          <div id="message-popup-confirmation">
+            <h1 id='message-popup-confirmation-text'>Message Sent</h1>
+            <i class="material-icons large green-text " id="message-popup-checkmark">check_circle</i>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -102,5 +165,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script type="text/javascript" src="../bin/index.bundle.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.js"></script>
+    <script src="../tag-plugin/textext.core.js"></script>
+    <script src="../tag-plugin/textext.plugin.tags.js"></script>
+    <script src="../tag-plugin/textext.plugin.autocomplete.js"></script>    
   </body>
 </html>

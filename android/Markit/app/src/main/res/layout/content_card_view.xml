@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/recList"
     tools:context="com.markit.android.CardViewActivity"
     tools:showIn="@layout/activity_card_view"
-    android:background="@color/cardview_light_background">
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/cardview_light_background">-->
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="18sp">
 
-        <!--&lt;!&ndash;<ListView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/cardListView"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_alignParentEnd="true" />&ndash;&gt;-->
-
-    <!--<ListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/cardListView"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true"/>-->
-
-    <!--</FrameLayout>-->
-
-</android.support.v4.widget.NestedScrollView>
+</android.support.v7.widget.RecyclerView>

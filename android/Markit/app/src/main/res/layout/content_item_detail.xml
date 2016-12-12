@@ -43,10 +43,16 @@
             android:id="@+id/tagsItemDetail" />
 
         <TextView
-            android:text="price"
+        android:text="price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceItemDetail" />
+
+        <TextView
+            android:text="userId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/priceItemDetail" />
+            android:id="@+id/userId" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -61,12 +67,14 @@
                 android:layout_weight="1" />
 
             <Button
-                android:text="Buy Item List"
+                android:text="Buy Item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buyItem"
                 android:layout_weight="1" />
+
         </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
+

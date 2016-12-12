@@ -9,7 +9,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.markit.android.TagsFragment"
+    tools:context="com.markit.android.profile.files.TagsFragment"
     tools:listitem="@layout/fragment_tags" >
 
 </android.support.v7.widget.RecyclerView>

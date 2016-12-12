@@ -1,3 +1,4 @@
+'use strict'
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var getFavorites = require('./firebase.js')['getFavorites'];
@@ -8,11 +9,13 @@ $(function() {
     var removeFavorite = require('./firebase.js')['removeFavorite'];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var getImage = require('./firebase.js')['getImage'];
-
+    var initializeMessage = require('./firebase.js')['initializeMessage'];
+    var getItemsById = require('./firebase.js')['getItemsById'];
 
     var favoriteTemplate = $('#favorite-template');
+    $('#message-popup-confirmation').hide();
+
     var showFavoritesInSidebar = function(favorites) {
-        
         var str = $('#favorite-template').text();
         var compiled = _.template(str);
 
@@ -22,12 +25,13 @@ $(function() {
         for (var i = 0; i < favorites.length; i += 1) {
             (function (x) {
                 getImage(favorites[x]['id'] + '/imageOne', function(url) {
-                    tagToAdd = ".favorite-image img:eq(" + x  + " )";
+                    let tagToAdd = ".favorite-image img:eq(" + x  + " )";
                     $(tagToAdd).attr({src: url});
                 });
             })(i);
         }
-    };    
+    };
+
 
 
     auth.onAuthStateChanged(function(user) {
@@ -35,7 +39,6 @@ $(function() {
             getFavoriteObjects(showFavoritesInSidebar);
             $("#find-favorite-logged-in").css('display', 'block');
             $("#find-favorite-logged-out").css('display', 'none');
-
 
             // favorite icon highlight/changes
             $('body').on('mouseenter', '.find-result-favorite-image', function() {
@@ -68,7 +71,9 @@ $(function() {
 
     var slider = $("#search-slider");
     if (slider.length > 0) {
-        
+        // Add dropdown hub selector
+        $('select').material_select();
+        // add slider
         noUiSlider.create(slider[0], {
             start: [1, 500],
             connect: true,
@@ -83,6 +88,40 @@ $(function() {
                 'min': 1,
                 'max': 3000
             }
+        });
+
+        slider[0].noUiSlider.get()
+
+
+        // add autofill tags
+        var findTags = $('#find-tags');
+        findTags.textext({plugins : 'tags autocomplete'})
+            .bind('getSuggestions', function(e, data){
+                var list = [
+                        'Table',
+                        'Desk',
+                        'Computer',
+                        'Electronics',
+                        'iPhone',
+                        'Cell Phone',
+                        'Apple',
+                        'Macbook',
+                        'Chair',
+                        'Leather',
+                        'Clothing',
+                        'Bedroom',
+                        'Bathroom',
+                        'Couch',
+                        'Kitchen',
+                        'Living Room',
+                        'Dinner Table'
+                    ],
+                    textext = $(e.target).textext()[0],
+                    query = (data ? data.query : '') || '';
+
+                $(this).trigger('setSuggestions',{
+                    result : textext.itemManager().filter(list, query) }
+                );
         });
     }
 
@@ -99,101 +138,126 @@ $(function() {
         });
     };
 
+    var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
+        Promise.resolve(currentItems).then(function(itemList) {
+            var str = $('#find-results-template').text();
+            var compiled = _.template(str);
+            var imagePaths = [];
+            var filteredItemList = {};        
+            
+            for (var item in itemList) {
+                var currentItem = itemList[item];
+                var itemID = currentItem['id'];
+                var itemDescription = currentItem['description'].toLowerCase();
+                var itemTitle = currentItem['title'].toLowerCase();
+                var itemPrice = parseInt(currentItem['price'])
+                imagePaths.push(itemID);
 
-    var newSearch = function(currentItems) {
-        $("#find-content").empty();
-        var imagePaths = [];
-        
-        for (var item in currentItems) {
-            var currentItem = currentItems[item];
-            var itemID = currentItem['id'];
-            imagePaths.push(itemID);
-        
-            $("#find-content").append(
-                $("<div></div>").addClass("col l4 m4 s12").append(
-                    $("<div></div>").addClass("card find-result hoverable").append(
-                        $("<div></div>").addClass("find-result-favorite").append(
-                            $("<img/>").addClass("find-result-favorite-image").attr({
-                                src: "../media/ic_heart.png",
-                                alt: "heart",
-                                uid: itemID
-                            })
-                        )
-                    ).append(
-                        $("<div></div>").addClass("find-result-price").text(
-                            "$" + currentItem["price"])).append(
-                        $("<div></div>").addClass("card-image waves-effect waves-block waves-light").append(
-                            $("<img/>").addClass("activator").attr({
-                                src: ''
-                            })
-                        )
-                    ).append(
-                        $("<div></div>").addClass("card-content").append(
-                            $("<span></span>").addClass("card-title activator grey-text text-darken-4").text(
-                                    currentItem["title"]
-                            ).append(
-                                $("<i></i>").addClass("material-icons right").text("more_vert")
-                            )
-                        ).append(
-                            $("<p></p>").append(
-                                $("<a></a>").attr({
-                                    href: "#"
-                                }).text(
-                                    "view item"
-                                )
-                            )
-                        )
-                    ).append(
-                        $("<div></div>").addClass("card-reveal").append(
-                            $("<span></span>").addClass("card-title grey-text text-darken-4").text(
-                                "Description"
-                            ).append(
-                                $("<i></i>").addClass("material-icons right").text(
-                                    "close"
-                                )
-                            ).append(
-                                $("<p></p>").text(
-                                    currentItem["description"]
-                                )
-                            )
-                        )
-                    )
-                )
-            );
-        }
 
-        getFavorites(showFavoritesInSearches);
+                if (hubs.length > 0 && !hubs.some(hub => currentItem['hubs'].includes(hub))) {
+                    continue;
+                }
 
-        for (var i = 0; i < imagePaths.length; i += 1) {
-            (function (x) {
-                getImage(imagePaths[x] + '/imageOne', function(url) {
-                    tagToAdd = "img.activator:eq(" + x  + " )";
-                    $(tagToAdd).attr({src: url});
-                });
-            })(i);
-        }
+                if (tags.length > 0 && !tags.some(tag => currentItem['tags'].includes(tag))) {
+                    continue;
+                }
 
+                if (keywords.length > 0 && (!keywords.some(key => itemTitle.includes(key)) &&
+                    !keywords.some(key => itemDescription.includes(key)))) {
+                        continue
+                }
+
+                if (itemPrice < priceRange[0] || itemPrice > priceRange[1]) {
+                    continue;
+                }
+
+                filteredItemList[itemID] = currentItem
+            }
+
+            $("#find-content-presearch").hide()
+            $('#find-results-holder').empty();
+            $('#find-results-holder').append(compiled({filteredItemList: filteredItemList}));
+
+
+            getFavorites(showFavoritesInSearches);
+
+            for (var i = 0; i < imagePaths.length; i += 1) {
+                (function (x) {
+                    getImage(imagePaths[x] + '/imageOne', function(url) {
+                        $("#" + imagePaths[x]).attr({src: url});
+                    });
+                })(i);
+            }            
+        });
     };
 
-    $('input.autocomplete').autocomplete({
-        data: {
-            "Apple": null,
-            "Microsoft": null,
-            "Google": 'http://placehold.it/250x250'
-        }
-    });
 
     $("#find-search-button").click(function () {
-        var query = "key=";
-        var keywords = $("#item-post-title").val();
-        var tags = $("#item-post-tags").val();
+        let query = "key=";
+        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
+        let hubs = $("#find-hubs").val();
+        let tags = $('#find-tags').textext()[0].tags()._formData;
+        let priceRange = slider[0].noUiSlider.get();
+
+        for (let i = 0; i < priceRange.length; i += 1) {
+            priceRange[i] = parseInt(priceRange[i].replace(/[^0-9.]/g, ''));
+        }
+
+        for (let i = 0; i < tags.length; i += 1) {
+            tags[i] = tags[i].toLowerCase();
+        }
         
         query += keywords === "" ? "none" : "" + keywords;
         location.hash = query;
-        getListings(newSearch);
+
+        newSearch(getListings(), keywords, tags, hubs, priceRange);
+    });
+
+    $('.close-button').click(function () {
+        $('#message-popup').animate({
+            opacity: 0,
+            'z-index': -100
+        }, 100);
+    });
+
+    let newMessageId;
+    let newMessageImagePath;
+
+    $('body').on('click', '.card-contact', function () {
+        let parentDiv = $(this).parent().parent();
+        let imageDiv = parentDiv[0].children[2];
+        newMessageImagePath = $(imageDiv)[0].children[0].src;
+        newMessageId = $(imageDiv)[0].children[0].id;
+
+        $('#message-popup').css('z-index', '100').animate({
+            opacity: 1
+        }, 50);
     });
 
 
+    $('#message-popup-send-button').click(function() {
+        let newMessageSellerId;
+        let newMessageContent = $($(this).parent()[0].children[2]).val();
 
+        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
+            for (let item in items) {
+                newMessageSellerId = items[item].uid;
+            }
+
+            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+                newMessageId, newMessageImagePath, newMessageContent);
+
+            $('#message-popup-content').fadeOut(500);
+
+            setTimeout(function(){
+                $('#message-popup-inner').css({
+                    'display': 'flex',
+                    'align-items': 'center',
+                    'justify-content': 'center'
+                });
+                $('#message-popup-confirmation').fadeIn();
+            }, 500);
+        });
+    })
 
 });

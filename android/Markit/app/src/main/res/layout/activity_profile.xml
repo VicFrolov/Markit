@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.markit.android.Profile">
+    tools:context="com.markit.android.profile.files.Profile">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -35,8 +35,8 @@
 
 
         <!--<android.support.v4.view.PagerTitleStrip-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_width="match_parent">-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent">-->
 
 
 

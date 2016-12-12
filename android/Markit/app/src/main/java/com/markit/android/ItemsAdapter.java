@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.markit.android.Item;
+import com.markit.android.MarketItem;
 import com.markit.android.R;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
  * Created by pcross on 10/15/16.
  */
 
-public class ItemsAdapter extends ArrayAdapter<Item> {
+public class ItemsAdapter extends ArrayAdapter<MarketItem> {
     Context context;
-    public ItemsAdapter(Context context, ArrayList<Item> items) {
+    public ItemsAdapter(Context context, ArrayList<MarketItem> items) {
         super(context, 0, items);
         this.context = context;
     }
@@ -27,7 +27,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //Get the data item for this position
-        Item item = getItem(position);
+        MarketItem item = getItem(position);
         //Check if an existing view is being reused, otherwise inflate the view
         //@TODO Currently hard-coded have to make it modular for layout
         if (convertView == null) {
