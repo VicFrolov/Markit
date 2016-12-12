@@ -65,11 +65,11 @@ public class ConversationAdapter extends
         ConversationItem convo = conversations.get(position);
         //conversationName = the person you're chatting (the seller right now, that needs to be fixed)
         TextView conversationName = viewHolder.conversationName;
-        TextView conversationId = viewHolder.conversationId;
+        //TextView conversationId = viewHolder.conversationId;
         //final String conversationId = viewHolder.conversationID.toString();
         final String conversationID = convo.getConversationID();
         final String otherUser = convo.getOtherUser();
-        conversationId.setText(convo.getConversationID());
+        //conversationId.setText(convo.getConversationID());
         conversationName.setText(convo.getOtherUser());
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
