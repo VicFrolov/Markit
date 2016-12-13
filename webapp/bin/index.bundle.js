@@ -249,6 +249,14 @@
 	    });
 	};
 
+	// Adding proper promise, but not replacing the callback antipatern
+	// as not to break profile code
+	var getUserInfoProper = function(uid) {
+	    return usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
 	var getUserInfo = function(uid, callback) {
 	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
 	        var userInfo = snapshot.val();
@@ -409,7 +417,7 @@
 	    });
 	};
 
-	var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+	var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUsername, myUsername) {
 	    let chatKey = usersRef.push().key;
 	    let date = (new Date()).toString();
 
@@ -419,7 +427,9 @@
 	            itemImageURL: imageLink,
 	            otherUser: sellerId,
 	            latestPost: date,
-	            conversationID: chatKey
+	            conversationID: chatKey,
+	            otherUsername: otherUsername,
+	            readMessages: true
 	        },
 	        message: {
 	            date: date,
@@ -435,7 +445,9 @@
 	            itemImageURL: imageLink,
 	            otherUser: id,
 	            latestPost: date,
-	            conversationID: chatKey
+	            conversationID: chatKey,
+	            otherUsername: myUsername,
+	            readMessages: false
 	        },
 	        message: {
 	            date: date,
@@ -451,12 +463,43 @@
 
 	var getUserMessages = function(id) {
 	    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
-	        console.log(snapshot.val());
+	        displayMessages(snapshot.val());
 	    })
 	}
 
-	getUserMessages('qnphRQ8PBrffwne2sDEPj39MoZg1')
 
+	var displayMessages = function (messages) {
+	    var str = $('#message-preview-template').text();
+	    var compiled = _.template(str);
+	    var previewMessages = [];
+
+	    for (let messageID in messages) {
+	        var message = messages[messageID]
+	        console.log(message.context.latestPost);
+	        console.log(message);
+	    }
+
+	    // Promise.all([getItem, getUserInfo]).then(function(results) {
+
+
+
+	    //     // $('#message-preview-holder').append(compiled({favorites: favorites}));
+	    // });
+
+
+
+	    // $('#message-preview-holder').empty();
+	    
+
+	    // for (var i = 0; i < favorites.length; i += 1) {
+	    //     (function (x) {
+	    //         getImage(favorites[x]['id'] + '/imageOne', function(url) {
+	    //             let tagToAdd = ".favorite-image img:eq(" + x  + " )";
+	    //             $(tagToAdd).attr({src: url});
+	    //         });
+	    //     })(i);
+	    // }
+	};
 
 	// AI algorithm functions for suggestions in hub
 	// next 3 functions
@@ -602,7 +645,9 @@
 	    userImagesRef,
 	    addProfilePicture,
 	    getProfilePicture,
-	    initializeMessage
+	    initializeMessage,
+	    getUserMessages,
+	    getUserInfoProper
 	};
 
 /***/ },
@@ -1508,6 +1553,7 @@
 	    var getImage = __webpack_require__(2)['getImage'];
 	    var initializeMessage = __webpack_require__(2)['initializeMessage'];
 	    var getItemsById = __webpack_require__(2)['getItemsById'];
+	    var getUserInfoProper = __webpack_require__(2)['getUserInfoProper'];
 
 	    var favoriteTemplate = $('#favorite-template');
 	    $('#message-popup-confirmation').hide();
@@ -1736,25 +1782,42 @@
 	        let newMessageSellerId;
 	        let newMessageContent = $($(this).parent()[0].children[2]).val();
 
-	        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
-	            for (let item in items) {
-	                newMessageSellerId = items[item].uid;
-	            }
+	        Promise.resolve(getItemsById([newMessageId]))
+	            .then(function(items) {
+	                
+	                for (let item in items) {
+	                    newMessageSellerId = items[item].uid;
+	                }
 
-	            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
-	                newMessageId, newMessageImagePath, newMessageContent);
+	                return Promise.all([getUserInfoProper(newMessageSellerId), 
+	                    getUserInfoProper(auth.currentUser.uid)]); 
+	            })
+	            .then(function(results) {
+	                let currentUser = results[1];
+	                let otherUser = results[0]
+	                let myUsername = currentUser['username'];
+	                let otherUsername = otherUser['username'];
+	                initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+	                    newMessageId, newMessageImagePath, newMessageContent, otherUsername, myUsername);
 
-	            $('#message-popup-content').fadeOut(500);
+	                $('#message-popup-content').fadeOut(500);
 
-	            setTimeout(function(){
-	                $('#message-popup-inner').css({
-	                    'display': 'flex',
-	                    'align-items': 'center',
-	                    'justify-content': 'center'
-	                });
-	                $('#message-popup-confirmation').fadeIn();
-	            }, 500);
-	        });
+	                setTimeout(function(){
+	                    $('#message-popup-inner').css({
+	                        'display': 'flex',
+	                        'align-items': 'center',
+	                        'justify-content': 'center'
+	                    });
+	                    $('#message-popup-confirmation').fadeIn();
+	                }, 500);
+
+	            })
+	            
+	            // for (let item in items) {
+	            //     newMessageSellerId = items[item].uid;
+	            // }
+
+	        // });
 	    })
 
 	});
@@ -2304,6 +2367,7 @@
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
+	    var getUserMessages = __webpack_require__(2)['getUserMessages'];
 	    var reader;
 	    var user;
 	    var uid;
@@ -2350,46 +2414,6 @@
 	            }
 	        };
 	    }
-
-	    var loadLikedCardList = function () {
-	        likedCardList.empty();
-	        for (var i = 0; i < 1; i++) {
-	            likedCardList.append([
-	                $('<div></div>').addClass('col l4 m4 s12').append(
-	                    $('<div></div>').addClass('card hoverable profile-card').append([
-	                        $('<div></div>').addClass('profile-favorite').append(
-	                            $('<img>').addClass('profile-favorite-image').attr({
-	                                src: '../media/ic_heart.png'
-	                            })
-	                        ),
-	                        $('<div></div>').addClass('profile-price').text('$69'),
-	                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
-	                            $('<img>').addClass('activator').attr({
-	                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
-	                            }),
-	                        ]),
-	                        $('<div></div>').addClass('card-content').append([
-	                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone').append(
-	                                $('<i></i>').addClass('material-icons right').text('more_vert')
-	                            ),
-
-	                            $('<p></p>').append(
-	                                $('<a></a>').text('view item').attr({
-	                                    href: '#'
-	                                })
-	                            )
-	                        ]),
-	                        $('<div></div>').addClass('card-reveal').append([
-	                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
-	                                $('<i></i>').addClass('material-icons right').text('close')
-	                            ),
-	                            $('<p></p>').text('This is a test description')
-	                        ])
-	                    ])
-	                )
-	            ]);
-	        }
-	    };
 
 	    var loadSellingCardList = function () {
 	        sellingCardList.empty();
@@ -2492,6 +2516,9 @@
 	        loadSettings();
 	    };
 
+	    var displayMessages = function () {
+	        console.log('test');
+	    }
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
@@ -2501,8 +2528,8 @@
 	                $('select').material_select();
 	                paymentPreference = $('#profile-payment-preference');
 	                loadSettings();
-	                loadLikedCardList();
 	                getFavoriteObjects(showFavoritedItems);
+	                getUserMessages(uid);
 	            }
 
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
@@ -2514,9 +2541,6 @@
 	        loadSellingCardList();
 	    });
 
-	    $('#liked-tab').click(function () {
-	        loadLikedCardList();
-	    });
 
 	    $('#notifications-tab').click(function () {
 	        loadTagsList();

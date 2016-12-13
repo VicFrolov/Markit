@@ -163,6 +163,14 @@ var getUserFavorites = function() {
     });
 };
 
+// Adding proper promise, but not replacing the callback antipatern
+// as not to break profile code
+var getUserInfoProper = function(uid) {
+    return usersRef.child(uid + '/').once('value').then(function(snapshot) {
+        return snapshot.val();
+    });
+};
+
 var getUserInfo = function(uid, callback) {
     usersRef.child(uid + '/').once('value').then(function(snapshot) {
         var userInfo = snapshot.val();
@@ -323,7 +331,7 @@ var addHubs = function(itemHubs) {
     });
 };
 
-var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUsername, myUsername) {
     let chatKey = usersRef.push().key;
     let date = (new Date()).toString();
 
@@ -333,7 +341,9 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
             itemImageURL: imageLink,
             otherUser: sellerId,
             latestPost: date,
-            conversationID: chatKey
+            conversationID: chatKey,
+            otherUsername: otherUsername,
+            readMessages: true
         },
         message: {
             date: date,
@@ -341,7 +351,7 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
             type: 'text',
             user: id
         }
-    }
+    };
 
     let messageAndContextSeller = {
         context: {
@@ -349,7 +359,9 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
             itemImageURL: imageLink,
             otherUser: id,
             latestPost: date,
-            conversationID: chatKey
+            conversationID: chatKey,
+            otherUsername: myUsername,
+            readMessages: false
         },
         message: {
             date: date,
@@ -357,7 +369,7 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
             type: 'text',
             user: id
         }
-    }    
+    };  
 
     usersRef.child(`/${id}/chats/${chatKey}/`).set(messageAndContext);
     usersRef.child(`/${sellerId}/chats/${chatKey}/`).set(messageAndContextSeller);
@@ -365,12 +377,43 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
 
 var getUserMessages = function(id) {
     usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
-        console.log(snapshot.val());
+        displayMessages(snapshot.val());
     })
 }
 
-getUserMessages('qnphRQ8PBrffwne2sDEPj39MoZg1')
 
+var displayMessages = function (messages) {
+    var str = $('#message-preview-template').text();
+    var compiled = _.template(str);
+    var previewMessages = [];
+
+    for (let messageID in messages) {
+        var message = messages[messageID]
+        console.log(message.context.latestPost);
+        console.log(message);
+    }
+
+    // Promise.all([getItem, getUserInfo]).then(function(results) {
+
+
+
+    //     // $('#message-preview-holder').append(compiled({favorites: favorites}));
+    // });
+
+
+
+    // $('#message-preview-holder').empty();
+    
+
+    // for (var i = 0; i < favorites.length; i += 1) {
+    //     (function (x) {
+    //         getImage(favorites[x]['id'] + '/imageOne', function(url) {
+    //             let tagToAdd = ".favorite-image img:eq(" + x  + " )";
+    //             $(tagToAdd).attr({src: url});
+    //         });
+    //     })(i);
+    // }
+};
 
 // AI algorithm functions for suggestions in hub
 // next 3 functions
@@ -516,5 +559,7 @@ module.exports = {
     userImagesRef,
     addProfilePicture,
     getProfilePicture,
-    initializeMessage
+    initializeMessage,
+    getUserMessages,
+    getUserInfoProper
 };

@@ -11,6 +11,7 @@ $(function() {
     var getImage = require('./firebase.js')['getImage'];
     var initializeMessage = require('./firebase.js')['initializeMessage'];
     var getItemsById = require('./firebase.js')['getItemsById'];
+    var getUserInfoProper = require('./firebase.js')['getUserInfoProper'];
 
     var favoriteTemplate = $('#favorite-template');
     $('#message-popup-confirmation').hide();
@@ -239,25 +240,42 @@ $(function() {
         let newMessageSellerId;
         let newMessageContent = $($(this).parent()[0].children[2]).val();
 
-        Promise.resolve(getItemsById([newMessageId])).then(function(items) {
-            for (let item in items) {
-                newMessageSellerId = items[item].uid;
-            }
+        Promise.resolve(getItemsById([newMessageId]))
+            .then(function(items) {
+                
+                for (let item in items) {
+                    newMessageSellerId = items[item].uid;
+                }
 
-            initializeMessage(auth.currentUser.uid, newMessageSellerId, 
-                newMessageId, newMessageImagePath, newMessageContent);
+                return Promise.all([getUserInfoProper(newMessageSellerId), 
+                    getUserInfoProper(auth.currentUser.uid)]); 
+            })
+            .then(function(results) {
+                let currentUser = results[1];
+                let otherUser = results[0]
+                let myUsername = currentUser['username'];
+                let otherUsername = otherUser['username'];
+                initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+                    newMessageId, newMessageImagePath, newMessageContent, otherUsername, myUsername);
 
-            $('#message-popup-content').fadeOut(500);
+                $('#message-popup-content').fadeOut(500);
 
-            setTimeout(function(){
-                $('#message-popup-inner').css({
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'justify-content': 'center'
-                });
-                $('#message-popup-confirmation').fadeIn();
-            }, 500);
-        });
+                setTimeout(function(){
+                    $('#message-popup-inner').css({
+                        'display': 'flex',
+                        'align-items': 'center',
+                        'justify-content': 'center'
+                    });
+                    $('#message-popup-confirmation').fadeIn();
+                }, 500);
+
+            })
+            
+            // for (let item in items) {
+            //     newMessageSellerId = items[item].uid;
+            // }
+
+        // });
     })
 
 });

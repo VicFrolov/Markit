@@ -133,17 +133,22 @@
           <div class="row">
             <div class="col s4" id="profile-messages-left">
 
-              <div class="message-preview">
-                <div class="message-preview-timestamp">time</div>
-                <img class="circle message-preview-image" src="../media/HardBoneInTheOpen.jpg" alt="item-image">
-                <p class="message-preview-username">
-                  Username
-                </p>
-                <p class="message-preview-title">
-                  Title
-                </p>
-              </div>
+
+              <% for (var messageID in messageList) { %>
+              <%     var message = messageList[messageID] %>
+                <div class="message-preview">
+                  <div class="message-preview-timestamp">time</div>
+                  <img class="circle message-preview-image" src="../media/HardBoneInTheOpen.jpg" alt="item-image">
+                  <p class="message-preview-username">
+                    Username
+                  </p>
+                  <p class="message-preview-title">
+                    Title
+                  </p>
+                </div>
+              <% } %>
             </div>
+
 
 
             <div class="col s8" id="profile-messages-right">
