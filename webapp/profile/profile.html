@@ -132,21 +132,21 @@
           </div>
           <div class="row">
             <div class="col s4" id="profile-messages-left">
-
-
-              <% for (var messageID in messageList) { %>
-              <%     var message = messageList[messageID] %>
-                <div class="message-preview">
-                  <div class="message-preview-timestamp">time</div>
-                  <img class="circle message-preview-image" src="../media/HardBoneInTheOpen.jpg" alt="item-image">
-                  <p class="message-preview-username">
-                    Username
-                  </p>
-                  <p class="message-preview-title">
-                    Title
-                  </p>
-                </div>
-              <% } %>
+              <div id="messages-preview-holder"></div>
+              <script type="text/template" id="messages-preview-template">
+                <% for (let i = 0; i < previewMessages.length; i +=1) { %>
+                  <div class="message-preview">
+                    <div class="message-preview-timestamp"><%- previewMessages[i].timeStamp %></div>
+                    <img class="circle message-preview-image" src=<%- previewMessages[i].picture %> alt="item-image">
+                    <p class="message-preview-username">
+                      <%- previewMessages[i].user %>
+                    </p>
+                    <p class="message-preview-title">
+                      <%- previewMessages[i].title %>
+                    </p>
+                  </div>
+                <% } %>
+              </script>
             </div>
 
 

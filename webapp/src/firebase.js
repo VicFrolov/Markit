@@ -379,51 +379,10 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUs
 
 var getUserMessages = function(id) {
     usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
+
         displayMessages(snapshot.val());
     })
 }
-
-
-var displayMessages = function (messages) {
-    var str = $('#message-preview-template').text();
-    var compiled = _.template(str);
-    var previewMessages = [];
-
-    for (let messageID in messages) {
-        var message = messages[messageID]
-        console.log(message.context.latestPost);
-        console.log(message);
-    }
-
-    // Promise.all([getItem, getUserInfo]).then(function(results) {
-
-
-
-    //     // $('#message-preview-holder').append(compiled({favorites: favorites}));
-    // });
-
-
-
-    // $('#message-preview-holder').empty();
-    
-
-    // for (var i = 0; i < favorites.length; i += 1) {
-    //     (function (x) {
-    //         getImage(favorites[x]['id'] + '/imageOne', function(url) {
-    //             let tagToAdd = ".favorite-image img:eq(" + x  + " )";
-    //             $(tagToAdd).attr({src: url});
-    //         });
-    //     })(i);
-    // }
-};
-
-// AI algorithm functions for suggestions in hub
-// next 3 functions
-var getItemsInHub = function (hub) {
-    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
-        return snapshot.val();
-    });
-};
 
 // takes array of items
 var getItemsById = function (itemsToMatch) {
@@ -443,6 +402,47 @@ var getItemsById = function (itemsToMatch) {
     });
 }
 
+var displayMessages = function (messages) {
+    var str = $('#messages-preview-template').text();
+    var compiled = _.template(str);
+
+    let previewMessages = [];
+    let promises = [];
+
+    // Build the array of promises
+    for (let messageID in messages) {
+        let message = messages[messageID];
+        let messageObj = {};
+        previewMessages.push(messageObj);
+
+        messageObj.timeStamp = message.context.latestPost;
+        messageObj.user = message.context.otherUsername;
+        messageObj.picture = message.context.itemImageURL;
+        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
+            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
+        }));
+    }
+    // Wait for them all to complete
+    Promise.all(promises).then(() => {
+        previewMessages.sort(function(a, b){
+            return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+        });
+
+        console.log(previewMessages);
+        console.log('lol');
+
+        $('#messages-preview-holder').empty();
+        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
+    });
+};
+
+// AI algorithm functions for suggestions in hub
+// next 3 functions
+var getItemsInHub = function (hub) {
+    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
 
 var getUserSuggestions = function (uid) {
     usersRef
