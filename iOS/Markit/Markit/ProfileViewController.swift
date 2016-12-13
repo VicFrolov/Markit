@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class ProfileViewController: UIViewController {
     @IBOutlet var collectionOfStars: Array<UIImageView>?
@@ -29,9 +30,11 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var cashPaymentLabel: UILabel!
     var ref: FIRDatabaseReference!
     var firstName = "", lastName = "", paymentPreference : NSArray = []
+    var profilePic: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         drawButtonWhiteBorder(button: editButton)
         drawButtonWhiteBorder(button: logOutButton)
         
@@ -46,12 +49,13 @@ class ProfileViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToEditProfile" {
             if let destination = segue.destination as? EditProfileViewController {
-                destination.firstName = self.firstName
-                destination.lastName  = self.lastName
-                destination.email     = self.emailLabel.text!
-                destination.username  = self.usernameLabel.text!
-                destination.hub       = self.hubLabel.text!
+                destination.firstName         = self.firstName
+                destination.lastName          = self.lastName
+                destination.email             = self.emailLabel.text!
+                destination.username          = self.usernameLabel.text!
+                destination.hub               = self.hubLabel.text!
                 destination.paymentPreference = self.paymentPreference
+                destination.profilePic        = self.profilePic!
             }
         }
         if let profilePageViewController = segue.destination as? ProfilePageViewController {
@@ -59,13 +63,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindEditProfile(segue: UIStoryboardSegue) {
-        
-    }
+    @IBAction func unwindEditProfile(segue: UIStoryboardSegue) { }
     
-    @IBAction func unwindNotifications(segue: UIStoryboardSegue) {
-        
-    }
+    @IBAction func unwindNotifications(segue: UIStoryboardSegue) { }
     
     @IBAction func logOut(sender: UIButton) {
         try! FIRAuth.auth()!.signOut()
@@ -74,13 +74,33 @@ class ProfileViewController: UIViewController {
         })
     }
     
-    
     override func viewDidLayoutSubviews() {
-        makeProfilePicCircular()
+        self.updateProfilePic()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         updateProfile()
+        makeProfilePicCircular()
+    }
+    
+    func updateProfilePic() {
+        let user = FIRAuth.auth()?.currentUser
+        let storage = FIRStorage.storage()
+        let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
+        let profilePicRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne.png")
+        
+        profilePicRef.data(withMaxSize: 10 * 1024 * 1024) { (data, error) -> Void in
+            if (error != nil) {
+                // Uh-oh, an error occurred!
+            } else {
+                // Data for "images/island.jpg" is returned
+                // ... let islandImage: UIImage! = UIImage(data: data!)
+                print("IS IT WORKING??")
+                self.profilePic = UIImage(data: data!)
+                self.profilePicture.contentMode = .scaleAspectFill
+                self.profilePicture.image = self.profilePic
+            }
+        }
     }
     
     func makeProfilePicCircular() {
@@ -129,6 +149,7 @@ class ProfileViewController: UIViewController {
             } else {
                 self.noRatingLabel.isHidden = false
             }
+            
             
         }) { (error) in
             print(error.localizedDescription)

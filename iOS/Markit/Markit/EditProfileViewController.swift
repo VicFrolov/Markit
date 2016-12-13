@@ -28,20 +28,22 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     var paymentPreferenceDict = ["0": "", "1": "", "2": ""]
     var ref: FIRDatabaseReference!
     let imagePicker = UIImagePickerController()
+    var profilePic: UIImage!
     
-
     override func viewDidLoad() {
-        firstNameTextField.text = self.firstName
-        lastNameTextField.text  = self.lastName
-        emailTextField.text     = self.email
-        usernameTextField.text  = self.username
-        hubTextField.text       = self.hub
-        
         imagePicker.delegate = self
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(imageTapped(img:)))
         profilePicture.isUserInteractionEnabled = true
         profilePicture.addGestureRecognizer(tapGestureRecognizer)
         
+        
+        firstNameTextField.text = self.firstName
+        lastNameTextField.text  = self.lastName
+        emailTextField.text     = self.email
+        usernameTextField.text  = self.username
+        hubTextField.text       = self.hub
+        profilePicture.image    = self.profilePic
+        checkPaymentPreference(paymentPrefence: self.paymentPreference, paymentOptions: ["cash", "venmo", "other"])
     }
     
     func checkPaymentPreference(paymentPrefence: NSArray, paymentOptions: [String]){
@@ -60,6 +62,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
+
         for view in self.view.subviews as [UIView] {
             if let textField = view as? UITextField {
                 drawBottomBorder(textField: textField)
@@ -75,30 +78,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let user = FIRAuth.auth()?.currentUser
-            
+            self.profilePic = image
             self.profilePicture.contentMode = .scaleAspectFill
-            self.profilePicture.image = image
-            let storage = FIRStorage.storage()
-            let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
-            let imagesRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne.png")
-            let newProfilePic = UIImagePNGRepresentation(image) as Data?
-            _ = imagesRef.put(newProfilePic!, metadata: nil) { metadata, error in
-                if (error != nil) {
-                    print("Error uploading profile image")
-                } else {
-                    print("Working!!")
-                    _ = metadata!.downloadURL
-                }
-            }
-            
-            
+            self.profilePicture.image = profilePic
         } else {
             print("Something went wrong")
         }
-        
         imagePicker.dismiss(animated: true, completion: {})
-        
     }
     
     @IBAction func updateProfile(sender: UIButton) {
@@ -111,6 +97,20 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                               "username"          : self.usernameTextField.text as String!,
                               "paymentPreference" : paymentPreferenceDict] as [String : Any]
         ref.child("/users/\(userID!)").updateChildValues(updatedProfile)
+        
+        let storage = FIRStorage.storage()
+        let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
+        let imagesRef = storageRef.child("images/profileImages/\(userID!)/imageOne.png")
+        let newProfilePic = profilePic.jpegData(.lowest)
+        
+        _ = imagesRef.put(newProfilePic!, metadata: nil) { metadata, error in
+            if (error != nil) {
+                print("Error uploading profile image")
+            } else {
+                print("Working!!")
+                _ = metadata!.downloadURL
+            }
+        }
         
     }
     
@@ -157,8 +157,29 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         border.borderWidth = width
         textField.layer.addSublayer(border)
         textField.layer.masksToBounds = true
-        
     }
     
 
+}
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest  = 0
+        case low     = 0.25
+        case medium  = 0.5
+        case high    = 0.75
+        case highest = 1
+    }
+    
+    /// Returns the data for the specified image in PNG format
+    /// If the image object’s underlying image data has been purged, calling this function forces that data to be reloaded into memory.
+    ///
+    /// Returns a data object containing the PNG data, or nil if there was a problem generating the data. This function may return nil if the image has no data or if the underlying CGImageRef contains data in an unsupported bitmap format.
+    var pngData: Data? { return UIImagePNGRepresentation(self) }
+    
+    /// Returns the data for the specified image in JPEG format.
+    /// If the image object’s underlying image data has been purged, calling this function forces that data to be reloaded into memory.
+    /// - returns: A data object containing the JPEG data, or nil if there was a problem generating the data. This function may return nil if the image has no data or if the underlying CGImageRef contains data in an unsupported bitmap format.
+    func jpegData(_ quality: JPEGQuality) -> Data? {
+        return UIImageJPEGRepresentation(self, quality.rawValue)
+    }
 }
