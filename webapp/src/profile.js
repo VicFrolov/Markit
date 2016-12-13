@@ -59,6 +59,23 @@ $(function () {
 
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
+        // $(this).css({'background-color': '#eee', 'border-bottom': '1px solid #ccc'});
+
+     // Lets check if the clicked link is already active
+        // And if it is active, don't let them click it!
+        if($(this).closest('div').hasClass('active')) {
+            return false;   
+        }
+
+        // Now lets remove any active classes that exist
+        $('.active').toggleClass('active');
+
+        // And apply an active class to the clicked buttons
+        // parent div
+        $(this).closest('div').toggleClass('active');
+
+
+
         $('#message-detail-content').empty().fadeOut(100);
         displayMessagesDetail(uid, chatid);
     });

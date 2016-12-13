@@ -294,6 +294,16 @@ main, body {
     padding-left: 10px;
 }
 
+.message-preview:hover {
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+}
+
+.active {
+    background-color:#eee;
+    border-bottom: 1px solid #ccc;
+}
+
 .message-preview-timestamp {
     position: absolute;
     top: 10px;
