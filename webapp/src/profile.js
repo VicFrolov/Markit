@@ -7,6 +7,9 @@ $(function () {
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
+    var getUserMessages = require('./firebase.js')['getUserMessages'];
+    var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+
     var reader;
     var user;
     var uid;
@@ -54,45 +57,20 @@ $(function () {
         };
     }
 
-    var loadLikedCardList = function () {
-        likedCardList.empty();
-        for (var i = 0; i < 1; i++) {
-            likedCardList.append([
-                $('<div></div>').addClass('col l4 m4 s12').append(
-                    $('<div></div>').addClass('card hoverable profile-card').append([
-                        $('<div></div>').addClass('profile-favorite').append(
-                            $('<img>').addClass('profile-favorite-image').attr({
-                                src: '../media/ic_heart.png'
-                            })
-                        ),
-                        $('<div></div>').addClass('profile-price').text('$69'),
-                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
-                            $('<img>').addClass('activator').attr({
-                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
-                            }),
-                        ]),
-                        $('<div></div>').addClass('card-content').append([
-                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone').append(
-                                $('<i></i>').addClass('material-icons right').text('more_vert')
-                            ),
+    $('#messages-preview-holder').on('click', '.message-preview', function() {
+        let chatid = $(this).attr('chatid');
 
-                            $('<p></p>').append(
-                                $('<a></a>').text('view item').attr({
-                                    href: '#'
-                                })
-                            )
-                        ]),
-                        $('<div></div>').addClass('card-reveal').append([
-                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
-                                $('<i></i>').addClass('material-icons right').text('close')
-                            ),
-                            $('<p></p>').text('This is a test description')
-                        ])
-                    ])
-                )
-            ]);
+        // toggling clicked/selected div colors
+        if($(this).closest('div').hasClass('active')) {
+            return false;   
         }
-    };
+
+        $('.active').toggleClass('active');
+        $(this).closest('div').toggleClass('active');
+        $('#message-detail-content').empty().fadeOut(100);
+        
+        displayMessagesDetail(uid, chatid);
+    });
 
     var loadSellingCardList = function () {
         sellingCardList.empty();
@@ -195,7 +173,6 @@ $(function () {
         loadSettings();
     };
 
-
     auth.onAuthStateChanged(function(user) {
         if (user) {
             user = auth.currentUser.email;
@@ -204,8 +181,8 @@ $(function () {
                 $('select').material_select();
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
-                loadLikedCardList();
                 getFavoriteObjects(showFavoritedItems);
+                getUserMessages(uid);
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
@@ -217,9 +194,6 @@ $(function () {
         loadSellingCardList();
     });
 
-    $('#liked-tab').click(function () {
-        loadLikedCardList();
-    });
 
     $('#notifications-tab').click(function () {
         loadTagsList();

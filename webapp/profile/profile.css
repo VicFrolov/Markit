@@ -204,6 +204,11 @@ main, body {
     background-color: #fff;
 }
 
+#profile-messages .tab-content {
+    background-color: #fff;
+    height: 600px;
+}
+
 .single-setting {
     margin-bottom: 20px;
 }
@@ -256,4 +261,160 @@ main, body {
     height: auto;
     opacity: 1;
     cursor: pointer;
+}
+
+
+#profile-messages-left {
+    padding-right: 0px;
+    padding-left: 0px;
+    overflow-y: scroll;
+    height: 500px;
+    border-top: 1px solid #eee;
+}
+/* messages css */
+
+.profile-message-tab {
+    background-color: #fff;
+    margin-bottom: 100px;
+}
+
+.profile-message-tab h4 {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+
+
+.message-preview {
+    height: 100px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.message-preview:hover {
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+}
+
+.active {
+    background-color:#eee;
+    border-bottom: 1px solid #ccc;
+}
+
+.message-preview-timestamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.message-preview-image {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top: 15px;
+    border: 1px solid #777;
+}
+
+.message-preview-title {
+    position: absolute;
+    left: 90px;
+    top: 10px;
+    margin: 0px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.message-preview-username {
+    position: absolute;
+    left: 90px;
+    top: 23px;
+    margin: 0px;
+    color: #555;
+    font-size: 13px;
+}
+
+/*right message side*/
+
+#message-send-text {
+    padding-left: 15px;
+    background-color: #fff;
+    border-radius: 15px;
+    height: 30px;
+    border-color: #ddd;
+    resize: none;
+    margin: 0px;
+}
+
+#message-send-text:focus {
+    outline: none;
+    border-color: 1px solid #2196F3;
+    box-shadow: 0 0 7px #2196F3;
+}
+
+#profile-messages-right {
+    border-left: 1px solid #eee;
+    background-color: #fff;
+    height: 500px;
+    border-top: 1px solid #eee;
+    position: relative;
+}
+
+#message-send-outer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: #eee;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.profile-message-tab .row {
+    margin: 0px;
+}
+
+#message-send-button {
+    background-color: #2196F3;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 90%;
+    padding: 0px;
+}
+
+.message-bubble-other {
+    background-color: #eee;
+    border-radius: 10px;
+    max-width: 60%;
+    padding: 5px 10px 5px 10px;
+    display: inline-block;
+    float: left;
+    clear: both;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+.message-bubble-self {
+    background-color: #2196F3;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: #fff;
+    max-width: 60%;
+    display: inline-block;
+    float: right;
+    clear: both;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+#message-detail-content {
+    padding-top: 20px;
 }

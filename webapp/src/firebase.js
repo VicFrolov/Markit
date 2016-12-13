@@ -163,6 +163,14 @@ var getUserFavorites = function() {
     });
 };
 
+// Adding proper promise, but not replacing the callback antipatern
+// as not to break profile code
+var getUserInfoProper = function(uid) {
+    return usersRef.child(uid + '/').once('value').then(function(snapshot) {
+        return snapshot.val();
+    });
+};
+
 var getUserInfo = function(uid, callback) {
     usersRef.child(uid + '/').once('value').then(function(snapshot) {
         var userInfo = snapshot.val();
@@ -323,20 +331,29 @@ var addHubs = function(itemHubs) {
     });
 };
 
-var initializeMessage = function (id, sellerId, uid, imageLink, message) {
+var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUsername, myUsername) {
     let chatKey = usersRef.push().key;
     let date = (new Date()).toString();
 
-    let contextUser = {
+    let context = {
         itemID: uid,
         itemImageURL: imageLink,
-        otherUser: sellerId
+        otherUser: sellerId,
+        latestPost: date,
+        conversationID: chatKey,
+        otherUsername: otherUsername,
+        readMessages: true
     };
 
-    let contextOtherUser = {
+    let contextOther = {
         itemID: uid,
         itemImageURL: imageLink,
-        otherUser: id
+        otherUser: id,
+        latestPost: date,
+        conversationID: chatKey,
+        otherUsername: myUsername,
+        readMessages: false
+
     };
 
     let messageObject = {
@@ -344,23 +361,27 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message) {
         text: message,
         type: 'text',
         user: id
-    }
+    };
 
-    usersRef.child(`/${id}/chats/${chatKey}'/context/`).set(contextUser);
-    usersRef.child(`/${sellerId}/chats/${chatKey}'/context/`).set(contextOtherUser);
-    
-    usersRef.child(`/${id}/chats/${chatKey}'/messages/`).push(messageObject);
-    usersRef.child(`/${sellerId}/chats/${chatKey}'/messages/`).push(messageObject);
+    let messageObjectOther = {
+        date: date,
+        text: message,
+        type: 'text',
+        user: id
+    };
+
+    usersRef.child(`/${id}/chats/${chatKey}/context`).set(context);
+    usersRef.child(`/${id}/chats/${chatKey}/messages`).push(messageObject);
+
+    usersRef.child(`/${sellerId}/chats/${chatKey}/context`).set(contextOther);
+    usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
 }
 
-
-// AI algorithm functions for suggestions in hub
-// next 3 functions
-var getItemsInHub = function (hub) {
-    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
-        return snapshot.val();
-    });
-};
+var getUserMessages = function(id) {
+    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
+        displayMessages(snapshot.val());
+    })
+}
 
 // takes array of items
 var getItemsById = function (itemsToMatch) {
@@ -380,6 +401,82 @@ var getItemsById = function (itemsToMatch) {
     });
 }
 
+var displayMessages = function (messages) {
+    var str = $('#messages-preview-template').text();
+    var compiled = _.template(str);
+
+    let previewMessages = [];
+    let promises = [];
+
+    // Build the array of promises
+    for (let messageID in messages) {
+        let message = messages[messageID];
+        let messageObj = {};
+
+        messageObj.timeStamp = message.context.latestPost;
+        messageObj.user = message.context.otherUsername;
+        messageObj.picture = message.context.itemImageURL;
+        messageObj.messageID = messageID
+        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
+            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
+        }));
+
+        previewMessages.push(messageObj);
+    }
+    // Wait for them all to complete
+    Promise.all(promises).then(() => {
+        previewMessages.sort(function(a, b){
+            return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+        });
+
+        for (var i = 0; i < previewMessages.length; i += 1) {
+            previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
+        }
+
+        $('#messages-preview-holder').empty();
+        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
+    });
+};
+
+var displayMessagesDetail = function (uid, chatID) {
+    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
+        let message = snapshot.val();
+        let userClass = (message.user === auth.currentUser.uid ? 
+            'message-bubble-self' : 
+            'message-bubble-other'
+        );
+
+        setTimeout(function() {
+            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
+            $('#message-detail-content').fadeIn();
+        }, 100);
+    });
+};
+
+var getSpecificChat = function (uid, chatID) {
+    return usersRef.ref(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
+
+var postNewMessage = function(uid, chatID) {
+    // have to get chatID, perhaps set it to 
+    // send button on every conversation change
+    Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
+        // update lastPost for both users
+        // update readMessages to false for OTHERUSER
+        // push new message to BOTH users
+    })
+}
+
+// AI algorithm functions for suggestions in hub
+// next 3 functions
+var getItemsInHub = function (hub) {
+    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+        return snapshot.val();
+    });
+};
 
 var getUserSuggestions = function (uid) {
     usersRef
@@ -498,5 +595,8 @@ module.exports = {
     userImagesRef,
     addProfilePicture,
     getProfilePicture,
-    initializeMessage
+    initializeMessage,
+    getUserMessages,
+    getUserInfoProper,
+    displayMessagesDetail
 };
