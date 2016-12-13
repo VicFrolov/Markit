@@ -446,17 +446,15 @@ var displayMessagesDetail = function (uid, chatID) {
             'message-bubble-other'
         );
 
-        
-        
         setTimeout(function() {
             usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
             $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
-            $('#message-detail-content').fadeIn()
+            $('#message-detail-content').fadeIn();
         }, 100);
     });
 };
 
-displayMessagesDetail('qnphRQ8PBrffwne2sDEPj39MoZg1', '-KYrPJMeoLiaoYgsATeX')
+var postNewMessage = function()
 
 // AI algorithm functions for suggestions in hub
 // next 3 functions

@@ -532,17 +532,13 @@
 	            'message-bubble-other'
 	        );
 
-	        
-	        
 	        setTimeout(function() {
 	            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
 	            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
-	            $('#message-detail-content').fadeIn()
+	            $('#message-detail-content').fadeIn();
 	        }, 100);
 	    });
 	};
-
-	displayMessagesDetail('qnphRQ8PBrffwne2sDEPj39MoZg1', '-KYrPJMeoLiaoYgsATeX')
 
 	// AI algorithm functions for suggestions in hub
 	// next 3 functions
@@ -2444,22 +2440,15 @@
 
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
 	        let chatid = $(this).attr('chatid');
-	        // $(this).css({'background-color': '#eee', 'border-bottom': '1px solid #ccc'});
 
-	     // Lets check if the clicked link is already active
-	        // And if it is active, don't let them click it!
+
+	        // toggling clicked/selected div colors
 	        if($(this).closest('div').hasClass('active')) {
 	            return false;   
 	        }
 
-	        // Now lets remove any active classes that exist
 	        $('.active').toggleClass('active');
-
-	        // And apply an active class to the clicked buttons
-	        // parent div
 	        $(this).closest('div').toggleClass('active');
-
-
 
 	        $('#message-detail-content').empty().fadeOut(100);
 	        displayMessagesDetail(uid, chatid);
