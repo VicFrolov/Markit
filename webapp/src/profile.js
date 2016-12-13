@@ -55,6 +55,11 @@ $(function () {
         };
     }
 
+    $('#messages-preview-holder').on('click', '.message-preview', function() {
+        console.log($(this).itemid);
+        console.log('fuck');
+    });
+
     var loadSellingCardList = function () {
         sellingCardList.empty();
         for (var i = 0; i < 31; i++) {

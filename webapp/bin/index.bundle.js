@@ -465,7 +465,6 @@
 
 	var getUserMessages = function(id) {
 	    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
-
 	        displayMessages(snapshot.val());
 	    })
 	}
@@ -499,14 +498,16 @@
 	    for (let messageID in messages) {
 	        let message = messages[messageID];
 	        let messageObj = {};
-	        previewMessages.push(messageObj);
 
 	        messageObj.timeStamp = message.context.latestPost;
 	        messageObj.user = message.context.otherUsername;
 	        messageObj.picture = message.context.itemImageURL;
+	        messageObj.messageID = messageID
 	        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
 	            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
 	        }));
+
+	        previewMessages.push(messageObj);
 	    }
 	    // Wait for them all to complete
 	    Promise.all(promises).then(() => {
@@ -522,6 +523,23 @@
 	        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
 	    });
 	};
+
+	var displayMessagesDetail = function (uid, chatID) {
+	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
+	        console.log(snapshot.val());
+	        let message = snapshot.val();
+	        let userClass = ''
+	        if (message.user === auth.currentUser.uid) {
+	            userClass = 'message-bubble-self'
+	        } else {
+	            userClass = 'message-bubble-other'
+	        }
+	        $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
+	        usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+	    });
+	};
+
+	displayMessagesDetail('qnphRQ8PBrffwne2sDEPj39MoZg1', '-KYrPJMeoLiaoYgsATeX')
 
 	// AI algorithm functions for suggestions in hub
 	// next 3 functions
@@ -2417,6 +2435,11 @@
 	            }
 	        };
 	    }
+
+	    $('#messages-preview-holder').on('click', '.message-preview', function() {
+	        console.log($(this).itemid);
+	        console.log('fuck');
+	    });
 
 	    var loadSellingCardList = function () {
 	        sellingCardList.empty();
