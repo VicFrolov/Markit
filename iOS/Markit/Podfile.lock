@@ -63,6 +63,17 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - MARKRangeSlider (1.1.0)
+  - PromiseKit (4.0.5):
+    - PromiseKit/Foundation (= 4.0.5)
+    - PromiseKit/QuartzCore (= 4.0.5)
+    - PromiseKit/UIKit (= 4.0.5)
+  - PromiseKit/CorePromise (4.0.5)
+  - PromiseKit/Foundation (4.0.5):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.0.5):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.0.5):
+    - PromiseKit/CorePromise
   - SwiftyJSON (3.0.0)
 
 DEPENDENCIES:
@@ -76,6 +87,7 @@ DEPENDENCIES:
   - FontAwesome.swift
   - JSQMessagesViewController
   - MARKRangeSlider
+  - PromiseKit (~> 4.0)
   - SwiftyJSON (= 3.0.0)
 
 SPEC CHECKSUMS:
@@ -98,8 +110,9 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MARKRangeSlider: decd9efaf827d443579d698f3c740f3cd6a13fbf
+  PromiseKit: 593b5e24ded6cbb1ebc708bc2c3428a8a5632d91
   SwiftyJSON: f57b2b44bc166617372d1c70773591fe9f0f5fd4
 
-PODFILE CHECKSUM: 9e91d056b810f059c0d23660af11a1f1c9ab1281
+PODFILE CHECKSUM: 625e8e0a22e2e9fac1a721f2b93da884b6ce82ec
 
 COCOAPODS: 1.1.0.rc.2

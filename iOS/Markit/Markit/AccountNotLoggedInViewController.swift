@@ -51,11 +51,11 @@ class AccountNotLoggedInViewController: UIViewController, FBSDKLoginButtonDelega
             (connection, result, err) in
             
             if err != nil {
-                print("FAILED TO START GRAPH REQUEST:", err)
+                print("FAILED TO START GRAPH REQUEST:", err!)
                 return
             }
             
-            print(result)
+            print(result!)
         }
     }
 

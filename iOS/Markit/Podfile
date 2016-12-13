@@ -4,6 +4,7 @@
 target 'Markit' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
+  swift_version = '3.0'
 
   # Pods for Markit
   pod 'Firebase'
@@ -17,4 +18,6 @@ target 'Markit' do
   pod 'FBSDKShareKit'
   pod 'FBSDKLoginKit'
   pod 'FontAwesome.swift'
+  pod 'PromiseKit', '~> 4.0'
+
 end

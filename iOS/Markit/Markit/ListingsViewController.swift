@@ -117,13 +117,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.userRef.child(uid)
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
-                                    if (snapshot.value as? String?) != nil {
-                                    
-                                        item.username = snapshot.value as! String?
-                                    } else {
-                                        item.username = ""
-                                    }
-//                        item.username = snapshot.value as! String?
+                        item.username = snapshot.value as? String ?? ""
                                     
                     })
                 }
