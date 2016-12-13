@@ -421,44 +421,46 @@
 	    let chatKey = usersRef.push().key;
 	    let date = (new Date()).toString();
 
-	    let messageAndContext = {
-	        context: {
-	            itemID: uid,
-	            itemImageURL: imageLink,
-	            otherUser: sellerId,
-	            latestPost: date,
-	            conversationID: chatKey,
-	            otherUsername: otherUsername,
-	            readMessages: true
-	        },
-	        message: {
-	            date: date,
-	            text: message,
-	            type: 'text',
-	            user: id
-	        }
-	    }
+	    let context = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: sellerId,
+	        latestPost: date,
+	        conversationID: chatKey,
+	        otherUsername: otherUsername,
+	        readMessages: true
+	    };
 
-	    let messageAndContextSeller = {
-	        context: {
-	            itemID: uid,
-	            itemImageURL: imageLink,
-	            otherUser: id,
-	            latestPost: date,
-	            conversationID: chatKey,
-	            otherUsername: myUsername,
-	            readMessages: false
-	        },
-	        message: {
-	            date: date,
-	            text: message,
-	            type: 'text',
-	            user: id
-	        }
-	    }    
+	    let contextOther = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: id,
+	        latestPost: date,
+	        conversationID: chatKey,
+	        otherUsername: myUsername,
+	        readMessages: false
 
-	    usersRef.child(`/${id}/chats/${chatKey}/`).set(messageAndContext);
-	    usersRef.child(`/${sellerId}/chats/${chatKey}/`).set(messageAndContextSeller);
+	    };
+
+	    let messageObject = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    };
+
+	    let messageObjectOther = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    };
+
+	    usersRef.child(`/${id}/chats/${chatKey}/context`).set(context);
+	    usersRef.child(`/${id}/chats/${chatKey}/messages`).push(messageObject);
+
+	    usersRef.child(`/${sellerId}/chats/${chatKey}/context`).set(contextOther);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
 	}
 
 	var getUserMessages = function(id) {
