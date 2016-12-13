@@ -25,25 +25,20 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var otherUserName: String!
     var context:       String!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.ref         = FIRDatabase.database().reference()
         self.userRef     = ref.child("users")
-                              .child(self.senderId)
+                              .child(self.otherUserID)
         self.chatRef     = userRef.child("chats")
-        
-        context          = chatRef.childByAutoId().key
-        
-        self.messagesRef = chatRef.child(self.context).child("messages")
+        self.context     = chatRef.childByAutoId().key
+        self.messagesRef = chatRef.child(self.context)
+                                  .child("messages")
         
         self.userRef.child("username").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             self.senderDisplayName = snapshot.value as! String
         })
-        
-        addTestMessage()
         
         setupNavBar()
         observeConversation()
@@ -51,7 +46,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
-        collectionView!.contentInset.top = 64
+        self.topContentAdditionalInset = 64
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,20 +61,19 @@ final class ChatMessageViewController: JSQMessagesViewController {
         super.didReceiveMemoryWarning()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        if let rect = self.navigationController?.navigationBar.frame {
-//            let y = rect.size.height + rect.origin.y
-//            self.collectionView.contentInset = UIEdgeInsetsMake(64, 64, 0, 0)
-//        }
-//    }
-    
     func observeConversation () {
         messagesRef.observe(.childAdded, with: { (snapshot) -> Void in
             let conversationDict  = snapshot.value as! NSDictionary?
-            let date              = conversationDict?["date"] as! Date
-            let text              = conversationDict?["text"] as! String
-            let message           = JSQMessage(senderId: self.senderId,
-                                               senderDisplayName: self.senderDisplayName,
+            let stringDate        = conversationDict?["date"] as! String
+            
+            let dateFormatter     = DateFormatter()
+            dateFormatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
+            dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
+            
+            let date              = dateFormatter.date(from: stringDate)
+            let text              = conversationDict?["message"] as! String
+            let message           = JSQMessage(senderId: self.senderId!,
+                                               senderDisplayName: self.senderDisplayName!,
                                                date: date,
                                                text: text)
 
@@ -99,6 +93,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
         let contextDict    = ["conversationID": context,
                               "itemID": itemID,
                               "otherUser": otherUserID,
+                              "otherUserName": otherUserName,
                               "latestPost": convertedDate]
         let messageDict    = ["date": convertedDate,
                               "message": text,
@@ -134,24 +129,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
         self.collectionView?.reloadData()
     }
     
-    func addTestMessage() {
-        senderDisplayName = "WAU"
-        let message1 = JSQMessage(senderId: self.senderId, displayName: senderDisplayName, text: "HELLO")
-        let message2 = JSQMessage(senderId: self.senderId, displayName: senderDisplayName, text: "Let's chat")
-
-        messages.append(message1!)
-        messages.append(message2!)
-    }
-    
     // MARK: JSQMessage overrides
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-        print("YEAH")
-        
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
-        self.context = "AAA"
-        
-//        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
+        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
         
         finishSendingMessage()
     }
@@ -164,10 +146,6 @@ final class ChatMessageViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
-    
-//    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        code
-//    }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = messages[indexPath.item]

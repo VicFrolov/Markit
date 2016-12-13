@@ -52,7 +52,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @IBAction func advancedSearchButtonTouched(_ sender: UIBarButtonItem) {
-        print("HERE")
         dismissSearchBar()
     }
     
@@ -227,9 +226,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("toDetailedView")
         listingsTableView.deselectRow(at: indexPath, animated: true)
-//        performSegue(withIdentifier: "detailedViewSegue", sender: self)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -287,7 +284,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                 detailedVC.currentItem = itemList[selectedRow]
             }
-
         }
     }
     
@@ -301,21 +297,10 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
             itemID = filteredItems[sender.tag].imageID
         }
 
-        let itemFavoriteRef        = self.itemsRef.child(itemID!)
-                                                  .child("favorites")
-                                                  .child(currentUser)
-        
-        let itemsByHubFavoriteRef  = self.itemsByHubRef.child(itemID!)
-                                                       .child("favorites")
-                                                       .child(currentUser)
-        
-        let itemsByUserFavoriteRef = self.itemsByUserRef.child(itemID!)
-                                                        .child("favorites")
-                                                        .child(currentUser)
-        
-        let userFavoriteRef        = self.userRef.child(currentUser)
-                                                 .child("favorites")
-                                                 .child(itemID!)
+        let itemFavoriteRef        = self.itemsRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByHubFavoriteRef  = self.itemsByHubRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(itemID!)/favorites/\(currentUser)")
+        let userFavoriteRef        = self.userRef.child("\(currentUser)/favorites/\(itemID!)")
         
         itemFavoriteRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             if snapshot.exists() {
