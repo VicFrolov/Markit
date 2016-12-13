@@ -12,34 +12,46 @@ import JSQMessagesViewController
 
 final class ChatMessageViewController: JSQMessagesViewController {
     
-    var ref:         FIRDatabaseReference!
-    var userRef:     FIRDatabaseReference!
-    var chatRef:     FIRDatabaseReference!
-    var messagesRef: FIRDatabaseReference!
+    var databaseRef:   FIRDatabaseReference!
+    var userRef:       FIRDatabaseReference!
+    var chatRef:       FIRDatabaseReference!
+    var messagesRef:   FIRDatabaseReference!
+    var storageRef:    FIRStorageReference!
+    var imageRef:      FIRStorageReference!
     
-    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
-    var incomingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
-    var messages                = [JSQMessage]()
     var itemID:        String!
     var otherUserID:   String!
     var otherUserName: String!
     var context:       String!
+    var itemImageURL:  String!
+    
+    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory()
+                                    .outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    var incomingBubbleImageView = JSQMessagesBubbleImageFactory()
+                                    .outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    var messages                = [JSQMessage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.ref         = FIRDatabase.database().reference()
-        self.userRef     = ref.child("users")
-                              .child(self.otherUserID)
+        self.databaseRef = FIRDatabase.database().reference()
+        self.storageRef  = FIRStorage.storage().reference()
+        self.imageRef    = storageRef.child("images/itemImages/\(self.itemID!)/imageOne")
+        self.userRef     = databaseRef.child("users")
+                                      .child(self.otherUserID)
         self.chatRef     = userRef.child("chats")
-        self.context     = chatRef.childByAutoId().key
-        self.messagesRef = chatRef.child(self.context)
+        
+        if self.context == nil {
+            self.context = chatRef.childByAutoId().key
+        }
+        self.messagesRef = chatRef.child(self.context!)
                                   .child("messages")
         
         self.userRef.child("username").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             self.senderDisplayName = snapshot.value as! String
         })
         
+        getImageURL()
         setupNavBar()
         observeConversation()
         
@@ -61,16 +73,27 @@ final class ChatMessageViewController: JSQMessagesViewController {
         super.didReceiveMemoryWarning()
     }
     
+    func getImageURL () {
+        imageRef.downloadURL { (url, error) in
+            if error != nil {
+                print("Something happened with the image: \(error?.localizedDescription)")
+                return
+            }
+            self.itemImageURL = url?.absoluteString
+            return
+        }
+    }
+    
     func observeConversation () {
         messagesRef.observe(.childAdded, with: { (snapshot) -> Void in
             let conversationDict  = snapshot.value as! NSDictionary?
-            let stringDate        = conversationDict?["date"] as! String
+            let stringDate        = conversationDict?["date"] as! String?
             
             let dateFormatter     = DateFormatter()
             dateFormatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
             dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
             
-            let date              = dateFormatter.date(from: stringDate)
+            let date              = dateFormatter.date(from: stringDate!)
             let text              = conversationDict?["message"] as! String
             let message           = JSQMessage(senderId: self.senderId!,
                                                senderDisplayName: self.senderDisplayName!,
@@ -82,9 +105,8 @@ final class ChatMessageViewController: JSQMessagesViewController {
         })
     }
     
-    
-    func postMessage(context: String, itemID: String, otherUser: String, text: String, date: Date) {
-        let messageID = ref.childByAutoId().key
+    func postMessage(text: String, date: Date) {
+        let messageID = messageRef.childByAutoId().key
 
         let formatter        = DateFormatter()
         formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
@@ -92,6 +114,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
         
         let contextDict    = ["conversationID": context,
                               "itemID": itemID,
+                              "itemImageURL": itemImageURL,
                               "otherUser": otherUserID,
                               "otherUserName": otherUserName,
                               "latestPost": convertedDate]
@@ -100,8 +123,8 @@ final class ChatMessageViewController: JSQMessagesViewController {
                               "type": "text",
                               "user": self.senderId]
         
-        let messageUpdates = ["\(context)/context/": contextDict,
-                              "\(context)/messages/\(messageID)": messageDict]
+        let messageUpdates = ["\(context!)/context/": contextDict,
+                              "\(context!)/messages/\(messageID)": messageDict]
         
         chatRef.updateChildValues(messageUpdates)
     }
@@ -133,7 +156,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
-        postMessage(context: self.context, itemID: self.itemID, otherUser: self.otherUserID, text: text, date: date)
+        postMessage(text: text, date: date)
         
         finishSendingMessage()
     }

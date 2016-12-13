@@ -9,44 +9,44 @@
 import UIKit
 import Firebase
 
-enum Section: Int {
-    case createNewConversationSection = 0
-    case currentConversationSection
-}
-
 class ChatListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var chatTableViewController: UITableView!
+    @IBOutlet weak var chatTableView: UITableView!
     
-    // These are temporary local data
-    let sampleImages      = ["cafedeadend.jpg", "homei.jpg"]
-    let users             = ["User-A", "User-B"]
-    var message           = ["Hi", "Hello"]
-    let lastSent          = ["Yesterday", "7 years ago"]
-    
-    let chatTableViewCell = ChatTableViewCell()
-    var senderDisplayName: String?
-    var newConversationTextField: UITextField?
-    
-    private lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages")
+    var conversations = [FIRDataSnapshot]()
+    var databaseRef: FIRDatabaseReference!
+    var userRef:     FIRDatabaseReference!
+    var chatRef:     FIRDatabaseReference!
+    var currentUser: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-//         self.clearsSelectionOnViewWillAppear = false
+        currentUser = CustomFirebaseAuth().getCurrentUser()
         
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        databaseRef = FIRDatabase.database().reference()
+        userRef     = databaseRef.child("users").child(currentUser)
+        chatRef     = userRef.child("chats")
         
-        self.chatTableViewController.delegate = self
-        self.chatTableViewController.dataSource = self
+        chatTableView.delegate = self
+        chatTableView.dataSource = self
         
-        self.chatTableViewController.reloadData()
+        getMessages()
+        
+        chatTableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getMessages() {
+        chatRef.queryOrdered(byChild: "latestPost").observe(.childAdded, with: { (snapshot) -> Void in
+            self.conversations.append(snapshot)
+            
+            self.chatTableView.reloadData()
+        })
     }
     
     // MARK: - Table view data source
@@ -55,52 +55,46 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return users.count
-        if let currentSection: Section = Section(rawValue: section) {
-            switch currentSection {
-            case .createNewConversationSection:
-                return 1
-            case .currentConversationSection:
-//                return conversations.count
-                return 1
-            }
-        }
-        return 0
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellID = "ChatCell"
+        let row = indexPath.row
         let cell   = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatTableViewCell
         
-        if (indexPath as NSIndexPath).section == Section.createNewConversationSection.rawValue {
-//            if let createNewChannelCell = cell as
-        } else if (indexPath as NSIndexPath).section == Section.currentConversationSection.rawValue {
-            let row    = indexPath.row
-            cell.chatImageView?.image     = UIImage(named: sampleImages[row])
-            cell.chatUsername?.text       = users[row]
-            cell.chatMessagePreview?.text = message[row]
-            cell.lastSent?.text           = lastSent[row]
-        }
+        let conversation = conversations[row].value as! NSDictionary
+        let context      = conversation["context"] as! NSDictionary
+        let message      = conversation["messages"] as! NSDictionary
+        
+        cell.chatUsername?.text       = context["otherUser"] as! String?
+//        cell.chatImageView?.image = //get image from url -> context["itemImageURL"] as! String?)
+        cell.lastSent?.text           = context["latestPost"] as! String?
+        cell.chatMessagePreview?.text = message["message"] as! String?
         
         return cell
     }
 
     // MARK: - Table view delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.chatTableViewController.deselectRow(at: indexPath, animated: true)
-        let row = indexPath.row
-        print(users[row])
+        chatTableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-//        if let conversation = sender as? Conversation {
-//            let chatVC = segue.destination as! ChatMessageViewController
-//            chatVC.senderId = conversation.sender
-//            chatVC.conversation = conversation
-////            chatVC.messageRef =
-//        }
-        
+        if segue.identifier == "viewRecentMessageSegue" {
+            
+            if let indexPath = chatTableView.indexPathForSelectedRow {
+                let selectedRow         = indexPath.row
+                let selectedConvo       = conversations[selectedRow].value as! NSDictionary
+                let context             = selectedConvo["context"] as! NSDictionary
+                let messageVC           = segue.destination as! ChatMessageViewController
+                
+                messageVC.context       = context["conversationID"] as! String?
+                messageVC.senderId      = currentUser
+                messageVC.itemID        = context["itemID"] as! String?
+                messageVC.otherUserID   = context["otherUser"] as! String?
+                messageVC.otherUserName = context["otherUseName"] as! String?
+            }
+        }
     }
 }

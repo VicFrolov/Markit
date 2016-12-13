@@ -277,7 +277,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailedViewSegue" {
-            print("detailedViewSegue activated")
             if let indexPath = listingsTableView.indexPathForSelectedRow {
                 let selectedRow = indexPath.row
                 let detailedVC = segue.destination as! DetailedViewController

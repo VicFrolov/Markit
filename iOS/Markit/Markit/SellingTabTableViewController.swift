@@ -17,7 +17,6 @@ class SellingTabTableViewController: UITableViewController {
     var itemImagesRef: FIRStorageReference!
     
     var currentlySelling: [FIRDataSnapshot]!
-    var sellingTabCell = SellingTabTableViewCell()
     
     @IBAction func close(segue: UIStoryboardSegue) {}
 
