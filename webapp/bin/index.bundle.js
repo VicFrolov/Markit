@@ -540,6 +540,22 @@
 	    });
 	};
 
+	var getSpecificChat = function (uid, chatID) {
+	    return usersRef.ref(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var postNewMessage = function(uid, chatID) {
+	    // have to get chatID, perhaps set it to 
+	    // send button on every conversation change
+	    Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
+	        // update lastPost for both users
+	        // update readMessages to false for OTHERUSER
+	        // push new message to BOTH users
+	    })
+	}
+
 	// AI algorithm functions for suggestions in hub
 	// next 3 functions
 	var getItemsInHub = function (hub) {
@@ -2441,7 +2457,6 @@
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
 	        let chatid = $(this).attr('chatid');
 
-
 	        // toggling clicked/selected div colors
 	        if($(this).closest('div').hasClass('active')) {
 	            return false;   
@@ -2449,8 +2464,8 @@
 
 	        $('.active').toggleClass('active');
 	        $(this).closest('div').toggleClass('active');
-
 	        $('#message-detail-content').empty().fadeOut(100);
+	        
 	        displayMessagesDetail(uid, chatid);
 	    });
 
