@@ -135,7 +135,7 @@
               <div id="messages-preview-holder"></div>
               <script type="text/template" id="messages-preview-template">
                 <% for (let i = 0; i < previewMessages.length; i +=1) { %>
-                  <div class="message-preview" itemid=<%- previewMessages[i].messageID%> >
+                  <div class="message-preview" chatid=<%- previewMessages[i].messageID%> >
                     <div class="message-preview-timestamp"><%- previewMessages[i].timeStamp %></div>
                     <img class="circle message-preview-image" src=<%- previewMessages[i].picture %> alt="item-image">
                     <p class="message-preview-username">

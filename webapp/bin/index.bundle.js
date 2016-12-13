@@ -526,16 +526,19 @@
 
 	var displayMessagesDetail = function (uid, chatID) {
 	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
-	        console.log(snapshot.val());
 	        let message = snapshot.val();
-	        let userClass = ''
-	        if (message.user === auth.currentUser.uid) {
-	            userClass = 'message-bubble-self'
-	        } else {
-	            userClass = 'message-bubble-other'
-	        }
-	        $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
-	        usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+	        let userClass = (message.user === auth.currentUser.uid ? 
+	            'message-bubble-self' : 
+	            'message-bubble-other'
+	        );
+
+	        
+	        
+	        setTimeout(function() {
+	            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+	            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
+	            $('#message-detail-content').fadeIn()
+	        }, 100);
 	    });
 	};
 
@@ -668,7 +671,8 @@
 	    getProfilePicture,
 	    initializeMessage,
 	    getUserMessages,
-	    getUserInfoProper
+	    getUserInfoProper,
+	    displayMessagesDetail
 	};
 
 /***/ },
@@ -2389,6 +2393,8 @@
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var getUserMessages = __webpack_require__(2)['getUserMessages'];
+	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
+
 	    var reader;
 	    var user;
 	    var uid;
@@ -2437,8 +2443,9 @@
 	    }
 
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
-	        console.log($(this).itemid);
-	        console.log('fuck');
+	        let chatid = $(this).attr('chatid');
+	        $('#message-detail-content').empty().fadeOut(100);
+	        displayMessagesDetail(uid, chatid);
 	    });
 
 	    var loadSellingCardList = function () {
@@ -2541,10 +2548,6 @@
 	        updateUserInfo(uid, updatedInfo);
 	        loadSettings();
 	    };
-
-	    var displayMessages = function () {
-	        console.log('test');
-	    }
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {

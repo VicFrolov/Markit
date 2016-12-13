@@ -440,16 +440,19 @@ var displayMessages = function (messages) {
 
 var displayMessagesDetail = function (uid, chatID) {
     usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
-        console.log(snapshot.val());
         let message = snapshot.val();
-        let userClass = ''
-        if (message.user === auth.currentUser.uid) {
-            userClass = 'message-bubble-self'
-        } else {
-            userClass = 'message-bubble-other'
-        }
-        $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
-        usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+        let userClass = (message.user === auth.currentUser.uid ? 
+            'message-bubble-self' : 
+            'message-bubble-other'
+        );
+
+        
+        
+        setTimeout(function() {
+            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
+            $('#message-detail-content').fadeIn()
+        }, 100);
     });
 };
 
@@ -582,5 +585,6 @@ module.exports = {
     getProfilePicture,
     initializeMessage,
     getUserMessages,
-    getUserInfoProper
+    getUserInfoProper,
+    displayMessagesDetail
 };

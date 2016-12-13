@@ -8,6 +8,8 @@ $(function () {
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var getUserMessages = require('./firebase.js')['getUserMessages'];
+    var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+
     var reader;
     var user;
     var uid;
@@ -56,8 +58,9 @@ $(function () {
     }
 
     $('#messages-preview-holder').on('click', '.message-preview', function() {
-        console.log($(this).itemid);
-        console.log('fuck');
+        let chatid = $(this).attr('chatid');
+        $('#message-detail-content').empty().fadeOut(100);
+        displayMessagesDetail(uid, chatid);
     });
 
     var loadSellingCardList = function () {
@@ -160,10 +163,6 @@ $(function () {
         updateUserInfo(uid, updatedInfo);
         loadSettings();
     };
-
-    var displayMessages = function () {
-        console.log('test');
-    }
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
