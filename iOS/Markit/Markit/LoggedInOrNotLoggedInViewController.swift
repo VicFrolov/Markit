@@ -18,13 +18,9 @@ class LoggedInOrNotLoggedInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil && FIRAuth.auth()?.currentUser?.isAnonymous != true {
             // User is signed in.
-            // ...
-            print("Logged in")
             performSegue(withIdentifier: "segueToProfileView", sender: nil)
         } else {
             // No user is signed in.
-            // ...
-            print("No user logged in")
             performSegue(withIdentifier: "segueToAccountNotLoggedIn", sender: nil)
         }
     }

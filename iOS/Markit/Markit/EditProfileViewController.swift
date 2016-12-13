@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -26,6 +27,7 @@ class EditProfileViewController: UIViewController {
     var paymentPreference : NSArray = []
     var paymentPreferenceDict = ["0": "", "1": "", "2": ""]
     var ref: FIRDatabaseReference!
+    let imagePicker = UIImagePickerController()
     
 
     override func viewDidLoad() {
@@ -35,11 +37,16 @@ class EditProfileViewController: UIViewController {
         usernameTextField.text  = self.username
         hubTextField.text       = self.hub
         
+        imagePicker.delegate = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(imageTapped(img:)))
+        profilePicture.isUserInteractionEnabled = true
+        profilePicture.addGestureRecognizer(tapGestureRecognizer)
+        
     }
     
     func checkPaymentPreference(paymentPrefence: NSArray, paymentOptions: [String]){
         for option in paymentOptions {
-                            print("FDSA \(option)")
+            print("FDSA \(option)")
             if paymentPreference.contains(option) {
                 if (option == "cash") {
                     buttonSelect(button: cashPaymentButton)
@@ -60,6 +67,39 @@ class EditProfileViewController: UIViewController {
         }
     }
     
+    func imageTapped(img: AnyObject) {
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let user = FIRAuth.auth()?.currentUser
+            
+            self.profilePicture.contentMode = .scaleAspectFill
+            self.profilePicture.image = image
+            let storage = FIRStorage.storage()
+            let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
+            let imagesRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne.png")
+            let newProfilePic = UIImagePNGRepresentation(image) as Data?
+            _ = imagesRef.put(newProfilePic!, metadata: nil) { metadata, error in
+                if (error != nil) {
+                    print("Error uploading profile image")
+                } else {
+                    print("Working!!")
+                    _ = metadata!.downloadURL
+                }
+            }
+            
+            
+        } else {
+            print("Something went wrong")
+        }
+        
+        imagePicker.dismiss(animated: true, completion: {})
+        
+    }
     
     @IBAction func updateProfile(sender: UIButton) {
         ref = FIRDatabase.database().reference()

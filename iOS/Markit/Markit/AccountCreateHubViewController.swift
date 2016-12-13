@@ -32,7 +32,7 @@ class AccountCreateHubViewController: UIViewController {
                 
                 let date = Date()
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss zzz"
+                dateFormatter.dateFormat = "EEE MMM dd yyy hh:mm:ss 'GMT'Z (zzz)"
                 let currentDate = dateFormatter.string(from: date as Date)
                 
                 NSLog(String(format: "Successfully created user: %@", self.userInfo[2]))
