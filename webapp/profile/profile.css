@@ -329,6 +329,7 @@ main, body {
 /*right message side*/
 
 #message-send-text {
+    padding-left: 15px;
     background-color: #fff;
     border-radius: 15px;
     height: 30px;
@@ -344,8 +345,8 @@ main, body {
 }
 
 #profile-messages-right {
-    border-left: 2px solid #000;
-    background-color: red;
+    border-left: 1px solid #eee;
+    background-color: #fff;
     height: 500px;
     border-top: 1px solid #eee;
     position: relative;
@@ -359,8 +360,18 @@ main, body {
     height: 50px;
     background-color: #eee;
     margin-bottom: 0px;
+    text-align: center;
 }
 
 .profile-message-tab .row {
     margin: 0px;
+}
+
+#message-send-button {
+    background-color: #2196F3;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 90%;
+    padding: 0px;
 }
