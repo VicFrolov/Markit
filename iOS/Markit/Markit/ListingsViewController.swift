@@ -8,10 +8,11 @@
 
 import UIKit
 import Firebase
+import FontAwesome_swift
 
 class ListingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchResultsUpdating {
     
-    @IBOutlet weak var listingsTableViewController: UITableView!
+    @IBOutlet weak var listingsTableView: UITableView!
 
     var ref:            FIRDatabaseReference!
     var itemsRef:       FIRDatabaseReference!
@@ -29,12 +30,9 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer (target: self, action: #selector(dismissSearchBar))
-        self.view.addGestureRecognizer(tap)
 
-        self.listingsTableViewController.delegate = self
-        self.listingsTableViewController.dataSource = self
+        self.listingsTableView.delegate = self
+        self.listingsTableView.dataSource = self
         
         self.didReceiveAdvancedSearchQuery = false
         
@@ -51,6 +49,10 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         if searchController.searchBar.text == "" {
             self.searchController.isActive = false
         }
+    }
+    
+    @IBAction func advancedSearchButtonTouched(_ sender: UIBarButtonItem) {
+        dismissSearchBar()
     }
     
     func setupFirebaseReferences() {
@@ -72,7 +74,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.filteredItems = itemList.filter { item in
             return (item.title!.lowercased().contains(searchText.lowercased()))
         }
-        listingsTableViewController.reloadData()
+        listingsTableView.reloadData()
     }
     
     func searchItems() {
@@ -85,7 +87,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         searchController.searchBar.frame.size.width = 100
         
         definesPresentationContext = true
-        self.listingsTableViewController.tableHeaderView = searchController.searchBar
+        self.listingsTableView.tableHeaderView = searchController.searchBar
     }
     
     func fetchItems() {
@@ -93,52 +95,36 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                       .observe(.childAdded, with: { (snapshot) -> Void in
 
             if let dictionary = snapshot.value as? [String: AnyObject] {
-//                print("The dict is \(dictionary)")
                 
                 let item     = Item()
                 item.uid     = dictionary["uid"] as! String?
                 item.desc    = dictionary["description"] as! String?
                 item.title   = dictionary["title"] as! String?
-                
-                if let date = dictionary["date"] as! String? {
-                    item.date = date
-                } else {
-                    item.date = "NOW"
-                }
-                
-                if let imageID = dictionary["id"] as! String? {
-                    item.imageID = imageID
-                }
-
-                if let price = dictionary["price"] as! String? {
-                    item.price = price
-                } else {
-                    item.price = "0.01"
-                }
-                
-                if let tags = dictionary["tags"] as? Array as [String]? {
-                    item.tags = tags
-                } else {
-                    item.tags = [""]
-                }
-                
-                if let hub = dictionary["hubs"] as? Array as [String]? {
-                    item.hubs = hub
-                } else {
-                    item.hubs = [""]
-                }
-                
+                item.date    = dictionary["date"] as! String?
+                item.imageID = dictionary["id"] as! String?
+                item.price   = dictionary["price"] as! String?
+                item.tags    = dictionary["tags"] as? Array as [String]?
+                item.hubs     = dictionary["hubs"] as? Array as [String]?
+                    
                 if let favorites = dictionary["favorites"] as? Array as [String]? {
                     item.favorites = favorites
                 } else {
                     item.favorites = [""]
                 }
                 
+                // There's some problems with the users again :(
                 if let uid = dictionary["uid"] as! String? {
                     self.userRef.child(uid)
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
-                        item.username = snapshot.value as! String?
+                                    if (snapshot.value as? String?) != nil {
+                                    
+                                        item.username = snapshot.value as! String?
+                                    } else {
+                                        item.username = ""
+                                    }
+//                        item.username = snapshot.value as! String?
+                                    
                     })
                 }
                 
@@ -147,32 +133,28 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.itemList.append(item)
             }
                         
-            self.listingsTableViewController.reloadData()
+            self.listingsTableView.reloadData()
         })
         
     }
     
     func getImage (imageID: String, item: Item) {
-//        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").downloadURL(completion: { (url, error) -> Void in
         self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
             DispatchQueue.main.async(execute: {
                 if (error != nil) {
                     print("Image download failed: \(error?.localizedDescription)")
                     return
                 }
-//                let imageURL = url
-//                let imageData = NSData(contentsOf: imageURL! as URL)
-//                item.image = UIImage(data: imageData! as Data)
+
                 item.image = UIImage(data: data!)
-                self.listingsTableViewController.reloadData()
+                self.listingsTableView.reloadData()
                 return
             })
-//        })
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        listingsTableViewController.reloadData()
+        listingsTableView.reloadData()
     }
     
     @IBAction func cancelAdvancedSearch (segue: UIStoryboardSegue) {}
@@ -199,7 +181,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
         let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
         
-        print(keywords)
+        print(keywords!)
         
         if keywords! != "" {
             hasKeyWord = true
@@ -242,6 +224,10 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        listingsTableView.deselectRow(at: indexPath, animated: true)
+    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -254,7 +240,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return self.itemList.count
     }
 
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "Cell"
         let row = indexPath.row
@@ -264,7 +249,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
             item = self.filteredItems[row]
-            
         } else {
             item = itemList[row]
         }
@@ -272,8 +256,63 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Configure the cell...
         cell.itemLabel?.text           = item.title
         cell.thumbnailImageView?.image = item.image
-        cell.priceLabel?.text          = item.price
+        cell.priceLabel?.text          = "$\(item.price!)"
         cell.userLabel?.text           = item.username
+        cell.faved.tag                 = row
+        
+        cell.faved.addTarget(self, action: #selector(faveButtonTouched), for: .touchUpInside)
+        
+        // Will need to tweak this to change on tap
+        let currentUser = CustomFirebaseAuth().getCurrentUser()
+        if (item.favorites?.contains(currentUser))! {
+            let filledHeart = UIImage.fontAwesomeIcon(name: FontAwesome.heart, textColor: UIColor.gray, size: CGSize(width: 35, height: 35))
+            cell.faved?.setImage(filledHeart, for: .normal)
+        } else {
+            let emptyHeart = UIImage.fontAwesomeIcon(name: FontAwesome.heartO, textColor: UIColor.gray, size: CGSize(width: 35, height: 35))
+            cell.faved?.setImage(emptyHeart, for: .normal)
+        }
+        
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailedViewSegue" {
+            if let indexPath = listingsTableView.indexPathForSelectedRow {
+                let selectedRow = indexPath.row
+                let detailedVC = segue.destination as! DetailedViewController
+                
+                detailedVC.currentItem = itemList[selectedRow]
+            }
+        }
+    }
+    
+    @IBAction func faveButtonTouched(_ sender: UIButton) {
+        let currentUser = CustomFirebaseAuth().getCurrentUser()
+        var itemID = itemList[sender.tag].imageID
+        if self.didReceiveAdvancedSearchQuery ||
+            self.searchController.isActive &&
+            self.searchController.searchBar.text != "" {
+            
+            itemID = filteredItems[sender.tag].imageID
+        }
+
+        let itemFavoriteRef        = self.itemsRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByHubFavoriteRef  = self.itemsByHubRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(itemID!)/favorites/\(currentUser)")
+        let userFavoriteRef        = self.userRef.child("\(currentUser)/favorites/\(itemID!)")
+        
+        itemFavoriteRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+            if snapshot.exists() {
+                itemFavoriteRef.removeValue()
+                itemsByHubFavoriteRef.removeValue()
+                itemsByUserFavoriteRef.removeValue()
+                userFavoriteRef.removeValue()
+            } else {
+                itemFavoriteRef.setValue(true)
+                itemsByHubFavoriteRef.setValue(true)
+                itemsByUserFavoriteRef.setValue(true)
+                userFavoriteRef.setValue(true)
+            }
+        })
     }
 }

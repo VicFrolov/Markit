@@ -14,7 +14,8 @@ class ListingsTableViewCell: UITableViewCell {
     @IBOutlet var itemLabel: UILabel!
     @IBOutlet var priceLabel: UILabel!
     @IBOutlet var thumbnailImageView: UIImageView!
-
+    @IBOutlet weak var faved: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

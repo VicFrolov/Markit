@@ -16,5 +16,5 @@ target 'Markit' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKShareKit'
   pod 'FBSDKLoginKit'
-
+  pod 'FontAwesome.swift'
 end
