@@ -266,12 +266,28 @@ main, body {
 
 #profile-messages-left {
     padding-right: 0px;
+    overflow-y: scroll;
+    height: 500px;
+    border-top: 1px solid #eee;
 }
 /* messages css */
+
+.profile-message-tab {
+    background-color: #fff;
+    margin-bottom: 100px;
+}
+
+.profile-message-tab h4 {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
 #profile-messages-right {
     border-left: 2px solid #000;
     background-color: red;
     height: 500px;
+    border-top: 1px solid #eee;
 }
 
 .message-preview {
