@@ -335,13 +335,13 @@ main, body {
     height: 30px;
     border-color: #ddd;
     resize: none;
+    margin: 0px;
 }
 
 #message-send-text:focus {
     outline: none;
-    border-color: #2196F3;
-    box-shadow: 0 0 10px #2196F3;
-    border-radius: 15px;
+    border-color: 1px solid #2196F3;
+    box-shadow: 0 0 7px #2196F3;
 }
 
 #profile-messages-right {
@@ -374,4 +374,35 @@ main, body {
     text-align: center;
     width: 90%;
     padding: 0px;
+}
+
+.message-bubble-other {
+    background-color: #eee;
+    border-radius: 10px;
+    max-width: 60%;
+    padding: 5px 10px 5px 10px;
+    display: inline-block;
+    float: left;
+    clear: both;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+.message-bubble-self {
+    background-color: #2196F3;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: #fff;
+    max-width: 60%;
+    display: inline-block;
+    float: right;
+    clear: both;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+#message-detail-content {
+    padding-top: 20px;
 }
