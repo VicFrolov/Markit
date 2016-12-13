@@ -306,27 +306,27 @@ main, body {
 }
 
 .message-preview-image {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     position: absolute;
-    top: 10px;
+    top: 15px;
     border: 1px solid #777;
 }
 
 .message-preview-title {
     position: absolute;
     left: 90px;
-    top: 37px;
+    top: 10px;
     margin: 0px;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .message-preview-username {
     position: absolute;
     left: 90px;
-    top: 20px;
+    top: 23px;
     margin: 0px;
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
 }

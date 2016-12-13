@@ -514,8 +514,9 @@
 	            return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
 	        });
 
-	        console.log(previewMessages);
-	        console.log('lol');
+	        for (var i = 0; i < previewMessages.length; i += 1) {
+	            previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
+	        }
 
 	        $('#messages-preview-holder').empty();
 	        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
