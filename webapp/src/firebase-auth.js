@@ -1,11 +1,18 @@
 $(function() {
     var auth = require('./firebase.js')["auth"];
+    let uid;
+    
+    var getProfilePicture = require('./firebase.js')["getProfilePicture"];
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
-            console.log('user is signed in');
+            uid = auth.currentUser.uid;
+            
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+                let profilePic = $('#navbar-user-photo');
+
                 $(".dropdown-button").dropdown();
+
                 $("#navbar-logout-button").click(function () {
                     auth.signOut();
                 });
@@ -21,7 +28,14 @@ $(function() {
                 $('#navbar-settings').click(function () {
                     $('ul.tabs').tabs('select_tab', 'profile-settings');
                 });
-                
+
+
+                Promise.resolve(getProfilePicture(uid)).then(url => {
+                    console.log(uid);
+                    console.log(url);
+                    profilePic.attr('src', url);
+                });
+
             });
         } else {
             console.log('user is NOT signed in');
