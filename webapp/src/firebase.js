@@ -428,8 +428,23 @@ var sortConversations = function(uid) {
 
 var displayConversations = function (uid) {
     usersRef.child(`${uid}/chats/`).limitToLast(1).on('child_added', function(snapshot) {
-        sortConversations(uid)
+        updateExistingConversations(uid);
         console.log('child added conversation listener fire');
+    });
+}
+
+var updateExistingConversations = function(uid) {
+    usersRef.child(`${uid}/chats/`).once('value', function(snapshot) {
+        let chats = snapshot.val();
+        for (let chatID in chats) {
+            //turn off potential previous listeners
+            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
+            
+            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
+                console.log('timestamp listener is running');
+                sortConversations(uid)
+            });
+        }
     });
 }
 
