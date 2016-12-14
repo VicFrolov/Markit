@@ -486,7 +486,7 @@
 
 	            var date = new Date(message.context.latestPost);
 	            let hours = date.getHours();
-	            var time = `${date.getUTCHours()}:${date.getMinutes()}:${date.getSeconds()}`
+	            var time = `${date.getUTCHours()}:${date.getMinutes()}`;
 	            time += (hours >= 12) ? " PM" : " AM";
 
 	            messageObj.timeStamp = message.context.latestPost;
