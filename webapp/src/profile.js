@@ -9,7 +9,6 @@ $(function () {
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
-    var postNewMessage = require('./firebase.js')['postNewMessage'];
 
     var reader;
     var user;

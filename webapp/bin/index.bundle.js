@@ -463,15 +463,22 @@
 	    usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
 	}
 
-	var sortConversations = function(uid) {
+	var getLastMessage = function(messageObject) {
+	    let listOfKeys = Object.keys(messageObject);
+	    let lastMessage = messageObject[listOfKeys[listOfKeys.length - 1]].text;;
+
+	    return lastMessage;
+	}
+
+	var sortConversations = function(uid, chatID) {
 	    usersRef.child(`${uid}/chats/`).once('value').then(function(snapshot) {
-	        console.log('im running');
 	        let messages = snapshot.val()
 	        var str = $('#messages-preview-template').text();
 	        var compiled = _.template(str);
 
 	        let previewMessages = [];
 	        let promises = [];
+
 
 	        for (let messageID in messages) {
 	            let message = messages[messageID];
@@ -484,7 +491,7 @@
 
 	            messageObj.timeStamp = message.context.latestPost;
 	            messageObj.time = time
-
+	            messageObj.lastMessage = getLastMessage(message['messages']);
 	            messageObj.user = message.context.otherUsername;
 	            messageObj.picture = message.context.itemImageURL;
 	            messageObj.messageID = messageID
@@ -493,6 +500,7 @@
 	            promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
 	                messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
 	            }));
+
 
 	            previewMessages.push(messageObj);
 	        }
@@ -509,13 +517,13 @@
 	            $('#messages-preview-holder').empty();
 	            $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
 	        });
+
 	    });
 	}
 
 	var displayConversations = function (uid) {
 	    usersRef.child(`${uid}/chats/`).limitToLast(1).on('child_added', function(snapshot) {
 	        updateExistingConversations(uid);
-	        console.log('child added conversation listener fire');
 	    });
 	}
 
@@ -527,7 +535,6 @@
 	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
 
 	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
-	                console.log('timestamp listener is running');
 	                sortConversations(uid)
 	            });
 	        }
@@ -615,6 +622,7 @@
 	        usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
 
 	        usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
+
 	    });
 	};
 
@@ -625,7 +633,7 @@
 
 
 	$("#message-send-text").keyup(function(event){
-	    if(event.keyCode == 13){
+	    if (event.keyCode == 13) {
 	        $("#message-send-button").click();
 	    }
 	});
@@ -2475,7 +2483,6 @@
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
-	    var postNewMessage = __webpack_require__(2)['postNewMessage'];
 
 	    var reader;
 	    var user;
