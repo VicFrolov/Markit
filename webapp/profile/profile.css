@@ -20,6 +20,9 @@ main, body {
     height: 70%;
 }
 
+.container {
+    width: 100%;
+}
 .profile-name {
     margin-top: 20px;
 }
@@ -152,6 +155,7 @@ main, body {
     position: relative;
     left: 98px;
     bottom: 3px;
+    cursor: pointer;
 }
 
 .profile-price {
@@ -402,7 +406,7 @@ main, body {
 }
 
 .message-bubble-self {
-    background-color: #2196F3;
+    background-color: #2bbbad;
     border-radius: 10px;
     padding: 5px 10px 5px 10px;
     color: #fff;

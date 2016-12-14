@@ -499,6 +499,13 @@ $('#message-send-button').on('click', function() {
     $('#message-send-text').val('');
 });
 
+
+$("#message-send-text").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#message-send-button").click();
+    }
+});
+
 // AI algorithm functions for suggestions in hub
 // next 3 functions
 var getItemsInHub = function (hub) {
