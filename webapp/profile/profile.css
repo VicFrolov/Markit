@@ -406,6 +406,7 @@ main, body {
     margin-bottom: 0px;
     margin-top: 3px;
     font-size: 14px;
+    word-break: break-all;
 }
 
 .message-bubble-self {
@@ -420,6 +421,7 @@ main, body {
     margin-bottom: 0px;
     margin-top: 3px;
     font-size: 14px;
+    word-break: break-all;
 }
 
 #message-detail-content {
