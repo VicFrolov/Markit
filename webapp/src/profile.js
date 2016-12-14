@@ -68,6 +68,7 @@ $(function () {
             return false;   
         }
 
+        $(this).find('.material-icons').remove();
         $('.active').toggleClass('active');
         $(this).closest('div').toggleClass('active');
         $('#message-detail-content').empty().fadeOut(100);

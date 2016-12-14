@@ -450,3 +450,7 @@ main, body {
     font-size: 8px;
     border-radius: 8px;
 }
+
+.invisible {
+    opacity: 0;
+}

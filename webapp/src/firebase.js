@@ -439,7 +439,7 @@ var updateExistingConversations = function(uid) {
         for (let chatID in chats) {
             //turn off potential previous listeners
             usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
-            
+
             usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
                 console.log('timestamp listener is running');
                 sortConversations(uid)
@@ -497,7 +497,11 @@ var displayMessagesDetail = function (uid, chatID) {
             var height = wtf[0].scrollHeight;
             wtf.scrollTop(height);
         }, 100);
+    }, function() {
+        sortConversations(uid)
     });
+
+
 };
 
 var getSpecificChat = function (uid, chatID) {

@@ -525,7 +525,7 @@
 	        for (let chatID in chats) {
 	            //turn off potential previous listeners
 	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
-	            
+
 	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
 	                console.log('timestamp listener is running');
 	                sortConversations(uid)
@@ -583,7 +583,11 @@
 	            var height = wtf[0].scrollHeight;
 	            wtf.scrollTop(height);
 	        }, 100);
+	    }, function() {
+	        sortConversations(uid)
 	    });
+
+
 	};
 
 	var getSpecificChat = function (uid, chatID) {
@@ -2530,6 +2534,7 @@
 	            return false;   
 	        }
 
+	        $(this).find('.material-icons').remove();
 	        $('.active').toggleClass('active');
 	        $(this).closest('div').toggleClass('active');
 	        $('#message-detail-content').empty().fadeOut(100);
