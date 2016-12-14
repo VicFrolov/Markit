@@ -485,12 +485,6 @@ var postNewMessage = function(uid, chatID, message) {
         usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
 
         usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
-
-
-        // update lastPost for both users
-        // update readMessages to false for OTHERUSER
-        // push new message to BOTH users
-
     });
 };
 
