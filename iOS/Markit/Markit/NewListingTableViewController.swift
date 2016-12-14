@@ -20,6 +20,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     var databaseRef: FIRDatabaseReference!
     var tagRef:      FIRDatabaseReference!
+    var hubRef:      FIRDatabaseReference!
     var tagList:     [String] = [String]()
     var hubList:     [String] = [String]()
     
@@ -94,7 +95,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         var userPrice = (priceVC?.priceLabel.text)!
         
         if (userPrice != "...") {
-            userPrice = "$" + userPrice;
+            userPrice = "$" + userPrice
             let blingedOutUserPrice = NSMutableAttributedString(string: userPrice as String)
             blingedOutUserPrice.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255, green: 218, blue: 0, alpha: 0.7), range: NSRange(location:0,length:1))
 
@@ -155,9 +156,12 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         
         postButton.isUserInteractionEnabled = false
         postButton.alpha = 0.1
+        postButton.layer.cornerRadius = 10
         
         databaseRef = FIRDatabase.database().reference()
         tagRef      = databaseRef.child("tags")
+        hubRef      = databaseRef.child("hubs")
+        
         getTags()
     }
     

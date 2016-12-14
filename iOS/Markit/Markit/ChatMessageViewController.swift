@@ -234,11 +234,23 @@ final class ChatMessageViewController: JSQMessagesViewController {
         return messages[indexPath.item]
     }
     
-//    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-//        let message = messages[indexPath.item]
-//        
-//        
-//    }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        if indexPath.item % 7 == 0 {
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }
+        
+        return 0.0
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        if indexPath.item % 7 == 0 {
+            let message = messages[indexPath.item]
+            return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+        }
+        
+        return nil
+        
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
