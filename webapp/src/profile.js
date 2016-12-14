@@ -59,7 +59,7 @@ $(function () {
 
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
-
+        $('#message-send-button').attr('chatid', chatid)
         // toggling clicked/selected div colors
         if($(this).closest('div').hasClass('active')) {
             return false;   

@@ -260,7 +260,7 @@ $(function() {
 
                 $('#message-popup-content').fadeOut(500);
 
-                setTimeout(function(){
+                setTimeout(function () {
                     $('#message-popup-inner').css({
                         'display': 'flex',
                         'align-items': 'center',
@@ -270,12 +270,6 @@ $(function() {
                 }, 500);
 
             })
-            
-            // for (let item in items) {
-            //     newMessageSellerId = items[item].uid;
-            // }
-
-        // });
-    })
+    });
 
 });

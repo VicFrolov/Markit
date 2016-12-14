@@ -1839,7 +1839,7 @@
 
 	                $('#message-popup-content').fadeOut(500);
 
-	                setTimeout(function(){
+	                setTimeout(function () {
 	                    $('#message-popup-inner').css({
 	                        'display': 'flex',
 	                        'align-items': 'center',
@@ -1849,13 +1849,7 @@
 	                }, 500);
 
 	            })
-	            
-	            // for (let item in items) {
-	            //     newMessageSellerId = items[item].uid;
-	            // }
-
-	        // });
-	    })
+	    });
 
 	});
 
@@ -2456,7 +2450,7 @@
 
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
 	        let chatid = $(this).attr('chatid');
-
+	        $('#message-send-button').attr('chatid', chatid)
 	        // toggling clicked/selected div colors
 	        if($(this).closest('div').hasClass('active')) {
 	            return false;   
