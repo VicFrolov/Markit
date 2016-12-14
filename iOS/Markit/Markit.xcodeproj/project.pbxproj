@@ -26,6 +26,7 @@
 		345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */; };
 		345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
+		3485C7591E011CEB00CEC63D /* SellingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */; };
 		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
 		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
@@ -72,6 +73,7 @@
 		345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInOrNotLoggedInViewController.swift; sourceTree = "<group>"; };
 		345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
+		3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingListTableViewCell.swift; sourceTree = "<group>"; };
 		34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
@@ -187,7 +189,6 @@
 				343096251DEEDE6C008FB4E4 /* TagListViewController.swift */,
 				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
 				345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */,
-				343096231DEEDC39008FB4E4 /* WatchListItem.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -198,6 +199,8 @@
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
 				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
 				128399C11DEEA26500152948 /* ChatTableViewCell.swift */,
+				3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */,
+				343096231DEEDC39008FB4E4 /* WatchListItem.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
+				3485C7591E011CEB00CEC63D /* SellingListTableViewCell.swift in Sources */,
 				12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */,
 				343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */,
 				345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */,

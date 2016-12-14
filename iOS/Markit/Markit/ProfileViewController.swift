@@ -75,12 +75,12 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        self.updateProfilePic()
+        updateProfilePic()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         updateProfile()
-        makeProfilePicCircular()
+        updateProfilePic()
     }
     
     func updateProfilePic() {
@@ -89,15 +89,15 @@ class ProfileViewController: UIViewController {
         let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
         let profilePicRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne.png")
         
-        profilePicRef.data(withMaxSize: 10 * 1024 * 1024) { (data, error) -> Void in
+        profilePicRef.data(withMaxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             if (error != nil) {
                 // Uh-oh, an error occurred!
             } else {
                 // Data for "images/island.jpg" is returned
                 // ... let islandImage: UIImage! = UIImage(data: data!)
-                print("IS IT WORKING??")
                 self.profilePic = UIImage(data: data!)
                 self.profilePicture.contentMode = .scaleAspectFill
+                self.makeProfilePicCircular()
                 self.profilePicture.image = self.profilePic
             }
         }
@@ -132,7 +132,7 @@ class ProfileViewController: UIViewController {
             let email = value?["email"] as? String ?? ""
             let hub = value?["userHub"] as? String ?? ""
             let rating = value?["rating"] as? String ?? "-1"
-            let stars = Int(rating)!
+            let stars = Int(rating)! - 1
             self.paymentPreference = value?["paymentPreference"] as! NSArray
             self.paymentContains(array: self.paymentPreference, paymentOptions: ["cash", "venmo", "other"])
             

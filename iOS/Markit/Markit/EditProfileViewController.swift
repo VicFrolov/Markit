@@ -27,8 +27,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     var paymentPreference : NSArray = []
     var paymentPreferenceDict = ["0": "", "1": "", "2": ""]
     var ref: FIRDatabaseReference!
-    let imagePicker = UIImagePickerController()
     var profilePic: UIImage!
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         imagePicker.delegate = self
@@ -48,14 +48,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func checkPaymentPreference(paymentPrefence: NSArray, paymentOptions: [String]){
         for option in paymentOptions {
-            print("FDSA \(option)")
             if paymentPreference.contains(option) {
                 if (option == "cash") {
                     buttonSelect(button: cashPaymentButton)
+                    paymentPreferenceDict["0"] = "cash"
                 } else if (option == "venmo") {
                     buttonSelect(button: venmoPaymentButton)
+                    paymentPreferenceDict["1"] = "venmo"
                 } else if (option == "other") {
                     buttonSelect(button: otherPaymentButton)
+                    paymentPreferenceDict["2"] = "other"
                 }
             }
         }
