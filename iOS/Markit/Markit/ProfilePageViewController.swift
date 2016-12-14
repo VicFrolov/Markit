@@ -14,7 +14,7 @@ class ProfilePageViewController: UIPageViewController {
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [self.newViewController(title: "ProfilePage"),
-                self.newViewController(title: "WatchListPage"),
+                self.newViewController(title: "FavoriteListPage"),
                 self.newViewController(title: "TagPage")]
     }()
     

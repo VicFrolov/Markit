@@ -30,7 +30,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var cashPaymentLabel: UILabel!
     var ref: FIRDatabaseReference!
     var firstName = "", lastName = "", paymentPreference : NSArray = []
-    var profilePic: UIImage!
+    var profilePic = UIImage(named: "profilepicture")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +75,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        makeProfilePicCircular()
         updateProfilePic()
     }
     
@@ -91,13 +92,14 @@ class ProfileViewController: UIViewController {
         
         profilePicRef.data(withMaxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             if (error != nil) {
-                // Uh-oh, an error occurred!
+                print("NO PICTURE????")
+                self.profilePicture.image = self.profilePic
             } else {
                 // Data for "images/island.jpg" is returned
                 // ... let islandImage: UIImage! = UIImage(data: data!)
                 self.profilePic = UIImage(data: data!)
                 self.profilePicture.contentMode = .scaleAspectFill
-                self.makeProfilePicCircular()
+                //self.makeProfilePicCircular()
                 self.profilePicture.image = self.profilePic
             }
         }

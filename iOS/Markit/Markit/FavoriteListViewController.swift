@@ -1,5 +1,5 @@
 //
-//  TagListViewController.swift
+//  WatchListViewController.swift
 //  Markit
 //
 //  Created by Bryan Ku on 11/30/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TagListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FavoriteListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     var items = [String]()
     
@@ -18,7 +18,7 @@ class TagListViewController: UIViewController, UITableViewDataSource, UITableVie
         if items.count > 0 {
             return
         }
-        items.append("TagListView")
+        items.append("FavoriteListView")
         items.append("Iphone 7")
         items.append("Chair")
         items.append("Panda Cup")
@@ -48,4 +48,5 @@ class TagListViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.itemImageView?.image = UIImage(named: itemName)
         
         return cell
-    }}
+    }
+}
