@@ -11,11 +11,13 @@ import UIKit
 class AddHubViewController: UIViewController {
     
     @IBOutlet weak var hubsLabel: UILabel!
-    @IBOutlet weak var hubs: UITextField!
+    @IBOutlet weak var hubsField: AutoCompleteTextField!
+    
+    var hubList: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hubs.addTarget(self, action: #selector(textViewDidChange), for: .editingChanged)
+        hubsField.addTarget(self, action: #selector(textViewDidChange), for: .editingChanged)
 
         // Do any additional setup after loading the view.
     }
@@ -26,21 +28,21 @@ class AddHubViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        hubs.becomeFirstResponder()
+        hubsField.becomeFirstResponder()
     }
     
     func textViewDidChange(textView: UITextView) {
-        hubsLabel.text = hubs.text
+        hubsLabel.text = hubsField.text
     }
     
     @IBAction func submitHubs(_ sender: UIButton) {
-        let trimmedHubs = hubs.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedHubs = hubsField.text!.trim()
         
         if trimmedHubs.characters.count != 0 {
-            performSegue(withIdentifier: "unwindHub", sender: self)
+            performSegue(withIdentifier: "unwindAddHub", sender: self)
         } else {
-            let alertController = UIAlertController(title: "Empty description", message:
-                "Please give this item a hub", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Invalid Hub(s)", message:
+                "Please designate a hub.\n(Ex. Loyola Marymount University)", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }

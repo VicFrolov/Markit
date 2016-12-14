@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import JSQMessagesViewController
+import PromiseKit
 
 final class ChatMessageViewController: JSQMessagesViewController {
     
@@ -29,36 +30,26 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var isInitialMessage: Bool = false
     
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory()
-                                    .outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+                                    .outgoingMessagesBubbleImage(with: UIColor(red: 0.169, green: 0.733, blue: 0.678, alpha: 1.0))
+ 
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory()
-                                    .incomingMessagesBubbleImage(with: UIColor.gray)
+                                    .incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     var messages                = [JSQMessage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.databaseRef      = FIRDatabase.database().reference()
-        self.storageRef       = FIRStorage.storage().reference()
-        self.imageRef         = storageRef.child("images/itemImages/\(self.itemID!)/imageOne")
-        self.userRef          = databaseRef.child("users")
-        self.userChatRef      = userRef.child(self.senderId).child("chats")
-        self.otherUserChatRef = userRef.child(self.otherUserID).child("chats")
+        setupReferences()
         
         if self.context == nil {
             self.isInitialMessage = true
-            self.context = userChatRef.childByAutoId().key
+            self.context = self.userChatRef.childByAutoId().key
         } else {
             self.userChatRef.child("\(self.context!)/context/readMessages").setValue(true)
         }
         
-        self.messagesRef = userChatRef.child(self.context!)
-                                  .child("messages")
-        
-        self.userRef.child(self.senderId)
-                    .child("username")
-                    .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-            self.senderDisplayName = snapshot.value as! String
-        })
+        self.messagesRef = self.userChatRef.child(self.context!)
+                                           .child("messages")
         
         getImageURL()
         setupNavBar()
@@ -68,6 +59,21 @@ final class ChatMessageViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
         self.topContentAdditionalInset = 64
+    }
+    
+    func setupReferences() {
+        self.databaseRef      = FIRDatabase.database().reference()
+        self.storageRef       = FIRStorage.storage().reference()
+        self.imageRef         = self.storageRef.child("images/itemImages/\(self.itemID!)/imageOne")
+        self.userRef          = self.databaseRef.child("users")
+        self.userChatRef      = self.userRef.child(self.senderId).child("chats")
+        self.otherUserChatRef = self.userRef.child(self.otherUserID).child("chats")
+        
+        self.userRef.child(self.senderId)
+            .child("username")
+            .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                self.senderDisplayName = snapshot.value as! String
+            })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -102,30 +108,29 @@ final class ChatMessageViewController: JSQMessagesViewController {
             // Need to replace this with getting username from database
             let senderDisplayName = conversationDict?["username"] as? String ?? senderId
             
-            let dateFormatter     = DateFormatter()
-            dateFormatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
-            dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone!
-            
-            let date              = dateFormatter.date(from: stringDate!)
+            let date              = Date().parse(dateString: stringDate!)
             let text              = conversationDict?["text"] as! String
             let message           = JSQMessage(senderId: senderId!,
                                                senderDisplayName: senderDisplayName!,
-                                               date: date ?? Date(),
+                                               date: date,
                                                text: text)
             self.messages.append(message!)
-            
-//            self.reloadMessagesView()
             
             self.finishReceivingMessage()
         })
     }
     
+    func getUsername(userID: String) -> Promise<String> {
+        var username: String = ""
+        userRef.child(userID).child("username").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+            username = snapshot.value as! String
+        })
+        return Promise(value: username)
+    }
+    
     func postMessage(text: String, date: Date) {
-        let messageID = messagesRef.childByAutoId().key
-
-        let formatter        = DateFormatter()
-        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
-        let convertedDate    = formatter.string(from: date)
+        let messageID     = messagesRef.childByAutoId().key
+        let convertedDate = date.toString()
         
         if isInitialMessage {
             initializeMessage(thisUserID: self.senderId, thisUserName: self.senderDisplayName, otherUserID: otherUserID, otherUserName: otherUserName, date: convertedDate, text: text, messageID: messageID)
@@ -133,8 +138,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
             return
         }
         
-        let userContextDict  = ["latestPost": convertedDate,
-                                "readMessages": true] as [String : Any]
+        let userContextDict  = ["latestPost": convertedDate]
         
         let messageDict      = ["date": convertedDate,
                                 "text": text,
@@ -230,6 +234,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
         return messages[indexPath.item]
     }
     
+//    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+//        let message = messages[indexPath.item]
+//        
+//        
+//    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
@@ -242,6 +251,17 @@ final class ChatMessageViewController: JSQMessagesViewController {
         } else {
             return incomingBubbleImageView
         }
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let message = messages[indexPath.item]
+        let customCell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+        
+        if message.senderId != senderId {
+            customCell.textView.textColor = UIColor.black
+        }
+        
+        return customCell
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {

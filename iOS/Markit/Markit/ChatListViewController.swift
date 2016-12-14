@@ -70,7 +70,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         let conversationID        = conversations[row].key
         var latestMessage: String = ""
         
-//        DispatchQueue.async
         self.chatRef.child(conversationID).child("messages").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) -> Void in
             // Ugh this looks horrible
             let messageDict = snapshot.value as! NSDictionary
@@ -85,6 +84,13 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         if let url = URL(string: (context["itemImageURL"] as! String?)!) {
             if let data = NSData(contentsOf: url as URL) {
                 cell.chatImageView?.image = UIImage(data: data as Data)
+                
+                // Change images to circles
+                cell.chatImageView.layer.borderWidth = 1.0
+                cell.chatImageView.layer.masksToBounds = false
+                cell.chatImageView.layer.borderColor = UIColor.white.cgColor
+                cell.chatImageView.layer.cornerRadius = cell.chatImageView.frame.height / 2
+                cell.chatImageView.clipsToBounds = true
             }
         }
         

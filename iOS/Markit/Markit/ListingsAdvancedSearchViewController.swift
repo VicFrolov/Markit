@@ -24,14 +24,13 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegat
         super.viewDidLoad()
 
         self.autoCompleteTextField = AutoCompleteTextField()
+        
         configureTextField()
         addDoneButtonOnNumericKeyboard()
+        setupReferences()
 
         self.rangeSlider           = MARKRangeSlider()
-        self.databaseRef           = FIRDatabase.database().reference()
-        self.tagRef                = self.databaseRef.child("tags")
-        self.hubRef                = self.databaseRef.child("hubs")
-        
+
         advancedSearchContainerView.tags.delegate     = self
         advancedSearchContainerView.keywords.delegate = self
         advancedSearchContainerView.hubs.delegate     = self
@@ -40,6 +39,12 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegat
         
         setupRangeSlider()
         loadTags()        
+    }
+    
+    func setupReferences() {
+        self.databaseRef           = FIRDatabase.database().reference()
+        self.tagRef                = self.databaseRef.child("tags")
+        self.hubRef                = self.databaseRef.child("hubs")
     }
     
     func configureTextField() {

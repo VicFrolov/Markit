@@ -6,8 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -36,48 +34,49 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I4b-1u-bZZ">
-                                                    <rect key="frame" x="8" y="8" width="103" height="81"/>
+                                                    <rect key="frame" x="31" y="8" width="80" height="80"/>
                                                     <color key="tintColor" red="0.83137254901960789" green="0.49411764705882355" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="103" id="bnJ-7u-0ms"/>
+                                                        <constraint firstAttribute="width" constant="80" id="F7d-Va-DSJ"/>
+                                                        <constraint firstAttribute="height" constant="80" id="MiB-7u-zvv"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="VIR-Dc-0E6"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJO-3s-xLa">
-                                                    <rect key="frame" x="119" y="8" width="122" height="21"/>
+                                                    <rect key="frame" x="132" y="8" width="109" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text message..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vta-wr-aOQ">
-                                                    <rect key="frame" x="119" y="37" width="248" height="51"/>
+                                                    <rect key="frame" x="132" y="23" width="235" height="65"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Sent" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psl-Hc-WKe">
-                                                    <rect key="frame" x="260" y="8" width="107" height="21"/>
+                                                    <rect key="frame" x="260" y="11" width="107" height="17"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="107" id="Ykv-4j-lfR"/>
+                                                        <constraint firstAttribute="width" constant="107" id="tP2-cb-ZmI"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" id="4GY-ML-Opj"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="leading" secondItem="vJO-3s-xLa" secondAttribute="trailing" constant="19" id="6wk-vk-8aj"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="leading" secondItem="3TE-2e-QOU" secondAttribute="leadingMargin" id="9Ck-Qx-oNc"/>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="vta-wr-aOQ" secondAttribute="leading" id="AEg-Hj-8cR"/>
-                                                <constraint firstItem="vta-wr-aOQ" firstAttribute="bottom" secondItem="3TE-2e-QOU" secondAttribute="bottomMargin" id="BFL-O3-JS0"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="baseline" secondItem="vJO-3s-xLa" secondAttribute="firstBaseline" id="F9x-Sp-ua6"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="centerY" secondItem="3TE-2e-QOU" secondAttribute="centerY" id="ajD-Pj-oim"/>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="baseline" secondItem="psl-Hc-WKe" secondAttribute="baseline" id="atm-hC-fBI"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="vJO-3s-xLa" secondAttribute="top" id="dAy-nH-4MN"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="3TE-2e-QOU" secondAttribute="trailingMargin" id="iTl-0X-EEy"/>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="I4b-1u-bZZ" secondAttribute="trailing" constant="8" symbolic="YES" id="mnx-Ir-1Sh"/>
-                                                <constraint firstItem="vta-wr-aOQ" firstAttribute="top" secondItem="vJO-3s-xLa" secondAttribute="bottom" constant="8" symbolic="YES" id="nrl-R8-cDD"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="vta-wr-aOQ" secondAttribute="trailing" id="sV1-Vm-9kY"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="I4b-1u-bZZ" secondAttribute="trailing" constant="21" id="2sp-XE-6bs"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="vJO-3s-xLa" secondAttribute="top" id="DCh-kt-pgA"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="3TE-2e-QOU" secondAttribute="trailingMargin" id="GwI-nu-M94"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="leading" secondItem="3TE-2e-QOU" secondAttribute="leadingMargin" constant="23" id="TPq-f5-h4c"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="leading" secondItem="vJO-3s-xLa" secondAttribute="trailing" constant="19" id="YbG-Ce-eEu"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="3TE-2e-QOU" secondAttribute="bottomMargin" id="eui-DH-qu8"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="vta-wr-aOQ" secondAttribute="bottom" id="fLR-FO-gvU"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="vta-wr-aOQ" secondAttribute="leading" id="mUK-AX-yZ6"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" id="n8V-LQ-XCM"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="baseline" secondItem="psl-Hc-WKe" secondAttribute="baseline" id="sWg-h8-BSZ"/>
+                                                <constraint firstItem="vta-wr-aOQ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" constant="15" id="ukN-FI-WeA"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="vta-wr-aOQ" secondAttribute="trailing" id="wj5-Jf-dj2"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration">

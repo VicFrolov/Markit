@@ -2,30 +2,47 @@
 //  DetailedTableViewController.swift
 //  Markit
 //
-//  Created by Trixie on 12/7/16.
+//  Created by Trixie on 12/13/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
 
 import UIKit
 import FontAwesome_swift
 
-class DetailedViewController: UIViewController {
+class DetailedTableViewController: UITableViewController {
     
     var currentItem: Item!
-    @IBOutlet weak var detailedView: DetailedView!
     
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemPrice: UILabel!
+    @IBOutlet weak var itemTitle: UILabel!
+    @IBOutlet weak var itemDescription: UILabel!
+    @IBOutlet weak var itemTags: UILabel!
+    @IBOutlet weak var itemHubs: UILabel!
+    @IBOutlet weak var messageSellerButton: UIButton!
+    @IBOutlet weak var faved: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setHeartImage()
+        
         print("HERE in DetailedView")
         self.title = self.currentItem.title
+                
+        itemImageView?.image  = self.currentItem.image!
+        itemTitle?.text       = self.currentItem.title
+        itemPrice?.text       = "$\(self.currentItem.price!)"
+        itemDescription?.text = self.currentItem.desc!
+        //        detailedView.itemTags.             = self.currentItem.tags
+        //        detailedView.itemHubs             = self.currentItem.hubs
         
-        detailedView.itemImageView?.image  = self.currentItem.image!
-        detailedView.itemTitle?.text       = self.currentItem.title
-        detailedView.itemPrice?.text       = "$\(self.currentItem.price!)"
-        detailedView.itemDescription?.text = self.currentItem.desc!
-//        detailedView.itemTags.             = self.currentItem.tags
-//        detailedView.itemHubs             = self.currentItem.hubs
-        
+        messageSellerButton.layer.cornerRadius = 20
+    }
+    
+    func setHeartImage() {
+        let emptyHeart = UIImage.fontAwesomeIcon(name: FontAwesome.heartO, textColor: UIColor.gray, size: CGSize(width: 35, height: 35))
+        faved.setImage(emptyHeart, for: .normal)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -39,4 +56,8 @@ class DetailedViewController: UIViewController {
         }
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 }
