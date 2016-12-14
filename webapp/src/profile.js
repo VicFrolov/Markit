@@ -7,7 +7,7 @@ $(function () {
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
-    var getUserMessages = require('./firebase.js')['getUserMessages'];
+    var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
     var postNewMessage = require('./firebase.js')['postNewMessage'];
 
@@ -58,6 +58,7 @@ $(function () {
         };
     }
 
+    
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
         $('#message-send-button').attr('chatid', chatid)
@@ -184,7 +185,7 @@ $(function () {
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
                 getFavoriteObjects(showFavoritedItems);
-                getUserMessages(uid);
+                displayConversations(uid);
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){

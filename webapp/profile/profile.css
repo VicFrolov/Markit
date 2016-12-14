@@ -319,6 +319,15 @@ main, body {
     color: #aaa;
 }
 
+.message-preview-time {
+    position: absolute;
+    top: 25px;
+    right: 10px;
+    font-size: 12px;
+    color: #aaa;
+
+}
+
 .message-preview-image {
     width: 70px;
     height: 70px;

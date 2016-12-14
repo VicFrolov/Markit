@@ -463,10 +463,60 @@
 	    usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
 	}
 
-	var getUserMessages = function(id) {
-	    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
-	        displayMessages(snapshot.val());
-	    })
+	var sortConversations = function(uid) {
+	    usersRef.child(`${uid}/chats/`).once('value').then(function(snapshot) {
+	        console.log('im running');
+	        let messages = snapshot.val()
+	        var str = $('#messages-preview-template').text();
+	        var compiled = _.template(str);
+
+	        let previewMessages = [];
+	        let promises = [];
+
+	        for (let messageID in messages) {
+	            let message = messages[messageID];
+	            let messageObj = {};
+
+	            var date = new Date(message.context.latestPost);
+	            let hours = date.getHours();
+	            var time = `${date.getUTCHours()}:${date.getMinutes()}:${date.getSeconds()}`
+	            time += (hours >= 12) ? " PM" : " AM";
+
+	            messageObj.timeStamp = message.context.latestPost;
+	            messageObj.time = time
+
+	            messageObj.user = message.context.otherUsername;
+	            messageObj.picture = message.context.itemImageURL;
+	            messageObj.messageID = messageID
+	            messageObj.readStatus = message.context.readMessages;
+
+	            promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
+	                messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
+	            }));
+
+	            previewMessages.push(messageObj);
+	        }
+	        // Wait for them all to complete
+	        Promise.all(promises).then(() => {
+	            previewMessages.sort(function(a, b){
+	                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+	            });
+
+	            for (var i = 0; i < previewMessages.length; i += 1) {
+	                previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
+	            }
+
+	            $('#messages-preview-holder').empty();
+	            $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
+	        });
+	    });
+	}
+
+	var displayConversations = function (uid) {
+	    usersRef.child(`${uid}/chats/`).limitToLast(1).on('child_added', function(snapshot) {
+	        sortConversations(uid)
+	        console.log('child added conversation listener fire');
+	    });
 	}
 
 	// takes array of items
@@ -487,50 +537,10 @@
 	    });
 	}
 
-	var displayMessages = function (messages) {
-	    var str = $('#messages-preview-template').text();
-	    var compiled = _.template(str);
-
-	    let previewMessages = [];
-	    let promises = [];
-
-	    // Build the array of promises
-	    for (let messageID in messages) {
-	        let message = messages[messageID];
-	        let messageObj = {};
-
-	        messageObj.timeStamp = message.context.latestPost;
-	        messageObj.user = message.context.otherUsername;
-	        messageObj.picture = message.context.itemImageURL;
-	        messageObj.messageID = messageID
-	        messageObj.readStatus = message.context.readMessages;
-	        console.log(messageObj.readStatus);
-	        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
-	            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
-	        }));
-
-	        previewMessages.push(messageObj);
-	    }
-	    // Wait for them all to complete
-	    Promise.all(promises).then(() => {
-	        previewMessages.sort(function(a, b){
-	            return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
-	        });
-
-	        for (var i = 0; i < previewMessages.length; i += 1) {
-	            previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
-	        }
-
-	        $('#messages-preview-holder').empty();
-	        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
-	    });
-	};
-
 
 	var previousListener = [null, null];
 
 	var shutOffMessageDetailListener = function(uid, chatID) {
-	    console.log('previous listener closed?');
 	    usersRef.child(`${uid}/chats/${chatID}/messages`).off();
 	}
 
@@ -542,7 +552,6 @@
 	    previousListener = [uid, chatID];
 
 	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
-	        console.log('maybe im updating the ' + chatID);
 	        let message = snapshot.val();
 	        let userClass = (message.user === auth.currentUser.uid ? 
 	            'message-bubble-self' : 
@@ -570,7 +579,6 @@
 
 	var postNewMessage = function(uid, chatID, message) {
 	    Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
-	        console.log(result);
 	        let otherUserID = result.context.otherUser;
 	        let date = (new Date()).toString()
 
@@ -729,7 +737,7 @@
 	    addProfilePicture,
 	    getProfilePicture,
 	    initializeMessage,
-	    getUserMessages,
+	    displayConversations,
 	    getUserInfoProper,
 	    displayMessagesDetail,
 	    postNewMessage
@@ -2446,7 +2454,7 @@
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
-	    var getUserMessages = __webpack_require__(2)['getUserMessages'];
+	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
 	    var postNewMessage = __webpack_require__(2)['postNewMessage'];
 
@@ -2497,6 +2505,7 @@
 	        };
 	    }
 
+	    
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
 	        let chatid = $(this).attr('chatid');
 	        $('#message-send-button').attr('chatid', chatid)
@@ -2623,7 +2632,7 @@
 	                paymentPreference = $('#profile-payment-preference');
 	                loadSettings();
 	                getFavoriteObjects(showFavoritedItems);
-	                getUserMessages(uid);
+	                displayConversations(uid);
 	            }
 
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
