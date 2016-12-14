@@ -176,6 +176,17 @@ $(function () {
         loadSettings();
     };
 
+    var rerouteProfileHash = function(hash) {
+        console.log('test');
+        if (window.location.hash.substr(1) === 'messages') {
+            $('ul.tabs').tabs('select_tab', 'profile-messages');
+        } else if (window.location.hash.substr(1) === 'notifications') {
+            $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+        } else if (window.location.hash.substr(1) === 'settings') {
+            $('ul.tabs').tabs('select_tab', 'profile-settings');
+        }
+    } 
+
     auth.onAuthStateChanged(function(user) {
         if (user) {
             user = auth.currentUser.email;
@@ -186,12 +197,17 @@ $(function () {
                 loadSettings();
                 getFavoriteObjects(showFavoritedItems);
                 displayConversations(uid);
+                rerouteProfileHash();
+
+
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
             window.location.href = "../index.html";
         }
     });
+
+    $('#')
 
     $('#selling-tab').click(function () {
         loadSellingCardList();

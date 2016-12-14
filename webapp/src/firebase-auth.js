@@ -9,6 +9,19 @@ $(function() {
                 $("#navbar-logout-button").click(function () {
                     auth.signOut();
                 });
+
+                $('#navbar-message').click(function()  {
+                    $('ul.tabs').tabs('select_tab', 'profile-messages');
+                });
+
+                $('#navbar-notifications').click(function () {
+                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+                });
+
+                $('#navbar-settings').click(function () {
+                    $('ul.tabs').tabs('select_tab', 'profile-settings');
+                });
+                
             });
         } else {
             console.log('user is NOT signed in');

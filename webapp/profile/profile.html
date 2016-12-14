@@ -138,7 +138,6 @@
                   <div class="message-preview" chatid=<%- previewMessages[i].messageID%> >
                     <div class="message-preview-timestamp"><%- previewMessages[i].timeStamp %></div>
                     <div class="message-preview-time"><%- previewMessages[i].time %></div>
-
                     <div class="message-preview-last"> <%- previewMessages[i].lastMessage %> </div>
                     <img class="circle message-preview-image" src=<%- previewMessages[i].picture %> alt="item-image">
                     <p class="message-preview-username">
@@ -147,9 +146,6 @@
                         (<%- previewMessages[i].title %>)
                       </span>
                     </p>
-                    
-                      
-                    
                     <span class='messages-preview-unread'>
                     <% if (!previewMessages[i].readStatus) { %>
                       <i class="material-icons">info</i>

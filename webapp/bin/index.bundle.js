@@ -69,6 +69,19 @@
 	                $("#navbar-logout-button").click(function () {
 	                    auth.signOut();
 	                });
+
+	                $('#navbar-message').click(function()  {
+	                    $('ul.tabs').tabs('select_tab', 'profile-messages');
+	                });
+
+	                $('#navbar-notifications').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	                });
+
+	                $('#navbar-settings').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
+	                });
+	                
 	            });
 	        } else {
 	            console.log('user is NOT signed in');
@@ -2650,6 +2663,17 @@
 	        loadSettings();
 	    };
 
+	    var rerouteProfileHash = function(hash) {
+	        console.log('test');
+	        if (window.location.hash.substr(1) === 'messages') {
+	            $('ul.tabs').tabs('select_tab', 'profile-messages');
+	        } else if (window.location.hash.substr(1) === 'notifications') {
+	            $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	        } else if (window.location.hash.substr(1) === 'settings') {
+	            $('ul.tabs').tabs('select_tab', 'profile-settings');
+	        }
+	    } 
+
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            user = auth.currentUser.email;
@@ -2660,12 +2684,17 @@
 	                loadSettings();
 	                getFavoriteObjects(showFavoritedItems);
 	                displayConversations(uid);
+	                rerouteProfileHash();
+
+
 	            }
 
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }
 	    });
+
+	    $('#')
 
 	    $('#selling-tab').click(function () {
 	        loadSellingCardList();
