@@ -536,25 +536,54 @@
 	            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
 	            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
 	            $('#message-detail-content').fadeIn();
+	            
+	            // sroll to bottom of chat
+	            var wtf = $('#message-detail-content');
+	            var height = wtf[0].scrollHeight;
+	            wtf.scrollTop(height);
 	        }, 100);
 	    });
 	};
 
 	var getSpecificChat = function (uid, chatID) {
-	    return usersRef.ref(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
+	    return usersRef.child(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
 	        return snapshot.val();
 	    });
 	};
 
-	var postNewMessage = function(uid, chatID) {
-	    // have to get chatID, perhaps set it to 
-	    // send button on every conversation change
+	var postNewMessage = function(uid, chatID, message) {
 	    Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
+	        console.log(result);
+	        let otherUserID = result.context.otherUser;
+	        let date = (new Date()).toString()
+
+	        let messageObject = {
+	            date: date,
+	            text: message,
+	            type: 'text',
+	            user: uid
+	        };
+
+	        usersRef.child(`${uid}/chats/${chatID}/messages`).push(messageObject);
+	        usersRef.child(`${otherUserID}/chats/${chatID}/messages`).push(messageObject);
+
+	        usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).set(date);
+	        usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
+
+	        usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
+
+
 	        // update lastPost for both users
 	        // update readMessages to false for OTHERUSER
 	        // push new message to BOTH users
-	    })
-	}
+
+	    });
+	};
+
+	$('#message-send-button').on('click', function() {
+	    postNewMessage(auth.currentUser.uid, $(this).attr('chatid'), $('#message-send-text').val());
+	    $('#message-send-text').val('');
+	});
 
 	// AI algorithm functions for suggestions in hub
 	// next 3 functions
@@ -565,7 +594,7 @@
 	};
 
 	var getUserSuggestions = function (uid) {
-	    usersRef
+
 	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
 	        return snapshot.val();
 	    });
@@ -684,7 +713,8 @@
 	    initializeMessage,
 	    getUserMessages,
 	    getUserInfoProper,
-	    displayMessagesDetail
+	    displayMessagesDetail,
+	    postNewMessage
 	};
 
 /***/ },
@@ -2400,6 +2430,7 @@
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var getUserMessages = __webpack_require__(2)['getUserMessages'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
+	    var postNewMessage = __webpack_require__(2)['postNewMessage'];
 
 	    var reader;
 	    var user;
@@ -2451,6 +2482,7 @@
 	    $('#messages-preview-holder').on('click', '.message-preview', function() {
 	        let chatid = $(this).attr('chatid');
 	        $('#message-send-button').attr('chatid', chatid)
+
 	        // toggling clicked/selected div colors
 	        if($(this).closest('div').hasClass('active')) {
 	            return false;   

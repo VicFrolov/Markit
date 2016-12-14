@@ -9,6 +9,7 @@ $(function () {
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var getUserMessages = require('./firebase.js')['getUserMessages'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+    var postNewMessage = require('./firebase.js')['postNewMessage'];
 
     var reader;
     var user;
@@ -60,6 +61,7 @@ $(function () {
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
         $('#message-send-button').attr('chatid', chatid)
+
         // toggling clicked/selected div colors
         if($(this).closest('div').hasClass('active')) {
             return false;   

@@ -416,5 +416,8 @@ main, body {
 }
 
 #message-detail-content {
+    height: 450px;
     padding-top: 20px;
+    padding-bottom: 20px;
+    overflow: scroll;
 }
