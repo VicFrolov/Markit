@@ -8,16 +8,18 @@
 
 import UIKit
 import Firebase
+import PromiseKit
 
 class ChatListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var chatTableView: UITableView!
     
     var conversations = [FIRDataSnapshot]()
-    var databaseRef: FIRDatabaseReference!
-    var userRef:     FIRDatabaseReference!
-    var chatRef:     FIRDatabaseReference!
-    var currentUser: String!
+    var databaseRef:    FIRDatabaseReference!
+    var userRef:        FIRDatabaseReference!
+    var chatRef:        FIRDatabaseReference!
+    var currentUser:    String!
+    var lastMessageKey: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +27,7 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         currentUser = CustomFirebaseAuth().getCurrentUser()
         
         databaseRef = FIRDatabase.database().reference()
-        userRef     = databaseRef.child("users").child(currentUser)
+        userRef     = databaseRef.child("users/\(currentUser!)")
         chatRef     = userRef.child("chats")
         
         chatTableView.delegate = self
@@ -63,14 +65,28 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         let row = indexPath.row
         let cell   = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatTableViewCell
         
-        let conversation = conversations[row].value as! NSDictionary
-        let context      = conversation["context"] as! NSDictionary
-        let message      = conversation["messages"] as! NSDictionary
+        let conversation          = conversations[row].value as! NSDictionary
+        let context               = conversation["context"] as! NSDictionary
+        let conversationID        = conversations[row].key
+        var latestMessage: String = ""
         
-        cell.chatUsername?.text       = context["otherUser"] as! String?
-//        cell.chatImageView?.image = //get image from url -> context["itemImageURL"] as! String?)
+//        DispatchQueue.async
+        self.chatRef.child(conversationID).child("messages").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) -> Void in
+            // Ugh this looks horrible
+            let messageDict = snapshot.value as! NSDictionary
+            latestMessage = messageDict["text"]! as! String
+            
+        })
+    
+        cell.chatUsername?.text       = context["otherUsername"] as! String?
         cell.lastSent?.text           = context["latestPost"] as! String?
-        cell.chatMessagePreview?.text = message["message"] as! String?
+        cell.chatMessagePreview?.text = latestMessage
+        
+        if let url = URL(string: (context["itemImageURL"] as! String?)!) {
+            if let data = NSData(contentsOf: url as URL) {
+                cell.chatImageView?.image = UIImage(data: data as Data)
+            }
+        }
         
         return cell
     }
@@ -93,7 +109,10 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
                 messageVC.senderId      = currentUser
                 messageVC.itemID        = context["itemID"] as! String?
                 messageVC.otherUserID   = context["otherUser"] as! String?
-                messageVC.otherUserName = context["otherUseName"] as! String?
+                
+                let otherUserDefaultValue = context["otherUser"] as! String?
+                
+                messageVC.otherUserName = context["otherUsername"] as! String? ?? otherUserDefaultValue
             }
         }
     }

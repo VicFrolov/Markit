@@ -47,6 +47,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let chatListVC = segue.destination as! ChatListViewController
+//        chatListVC.currentUser = CustomFirebaseAuth().getCurrentUser()
+//    }
+//    
 //    override func viewWillAppear(_ animated: Bool) {
 //        if !CustomFirebaseAuth().isSignedIn() {
 //            let loggedIn = UIStoryboard(name: "ListingsWhenNotLoggedIn", bundle: nil).instantiateInitialViewController() as! InitialNotLoggedInViewController

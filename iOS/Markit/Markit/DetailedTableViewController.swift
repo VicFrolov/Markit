@@ -35,6 +35,7 @@ class DetailedViewController: UIViewController {
             messageVC.itemID            = self.currentItem.imageID
             messageVC.otherUserID       = self.currentItem.uid
             messageVC.otherUserName     = self.currentItem.username
+            messageVC.itemTitle         = self.currentItem.title
         }
     }
 

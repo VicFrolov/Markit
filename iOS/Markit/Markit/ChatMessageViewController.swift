@@ -31,7 +31,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory()
                                     .outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory()
-                                    .outgoingMessagesBubbleImage(with: UIColor.gray)
+                                    .incomingMessagesBubbleImage(with: UIColor.gray)
     var messages                = [JSQMessage]()
     
     override func viewDidLoad() {
@@ -40,11 +40,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
         self.databaseRef      = FIRDatabase.database().reference()
         self.storageRef       = FIRStorage.storage().reference()
         self.imageRef         = storageRef.child("images/itemImages/\(self.itemID!)/imageOne")
-        self.userRef          = databaseRef.child("users").child(self.senderId)
-        self.userChatRef      = userRef.child("chats")
-        self.otherUserChatRef = databaseRef.child("users")
-                                           .child(self.otherUserID)
-                                           .child("chats")
+        self.userRef          = databaseRef.child("users")
+        self.userChatRef      = userRef.child(self.senderId).child("chats")
+        self.otherUserChatRef = userRef.child(self.otherUserID).child("chats")
         
         if self.context == nil {
             self.isInitialMessage = true
@@ -56,7 +54,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
         self.messagesRef = userChatRef.child(self.context!)
                                   .child("messages")
         
-        self.userRef.child("username").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+        self.userRef.child(self.senderId)
+                    .child("username")
+                    .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             self.senderDisplayName = snapshot.value as! String
         })
         
@@ -98,6 +98,8 @@ final class ChatMessageViewController: JSQMessagesViewController {
             let conversationDict  = snapshot.value as! NSDictionary?
             let stringDate        = conversationDict?["date"] as! String?
             let senderId          = conversationDict?["user"] as! String?
+            
+            // Need to replace this with getting username from database
             let senderDisplayName = conversationDict?["username"] as? String ?? senderId
             
             let dateFormatter     = DateFormatter()
@@ -110,10 +112,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
                                                senderDisplayName: senderDisplayName!,
                                                date: date ?? Date(),
                                                text: text)
-
             self.messages.append(message!)
             
-            self.reloadMessagesView()
+//            self.reloadMessagesView()
             
             self.finishReceivingMessage()
         })
@@ -138,16 +139,17 @@ final class ChatMessageViewController: JSQMessagesViewController {
         let messageDict      = ["date": convertedDate,
                                 "text": text,
                                 "type": "text",
-                                "user": self.senderId]
+                                "user": self.senderId!]
         
         let otherContextDict = ["latestPost": convertedDate,
                                 "readMessages": false] as [String : Any]
         
-        userChatRef.child("\(context!)/context/").updateChildValues(userContextDict)
-        userChatRef.child("\(context!)/messages/\(messageID)").setValue(messageDict)
+        let childUpdates = ["\(self.senderId!)/chats/\(context!)/messages/\(messageID)": messageDict,
+                            "\(self.otherUserID!)/chats/\(context!)/messages/\(messageID)": messageDict]
         
-        otherUserChatRef.child("\(context!)/context/").updateChildValues(otherContextDict)
-        otherUserChatRef.child("\(context!)/messages/\(messageID)").setValue(messageDict)
+        userRef.updateChildValues(childUpdates)
+        userChatRef.child(context!).child("context").updateChildValues(userContextDict)
+        otherUserChatRef.child(context!).child("context").updateChildValues(otherContextDict)
     }
     
     func initializeMessage (thisUserID: String, thisUserName: String, otherUserID: String, otherUserName: String, date: String, text: String, messageID: String) {
