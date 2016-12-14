@@ -306,7 +306,7 @@ main, body {
     border-bottom: 1px solid #ccc;
 }
 
-.active {
+.active-message {
     background-color:#eee;
     border-bottom: 1px solid #ccc;
 }

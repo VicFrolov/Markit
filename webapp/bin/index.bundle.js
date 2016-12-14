@@ -2555,8 +2555,8 @@
 	        }
 
 	        $(this).find('.material-icons').remove();
-	        $('.active').toggleClass('active');
-	        $(this).closest('div').toggleClass('active');
+	        $('.active-message').toggleClass('active-message');
+	        $(this).closest('div').toggleClass('active-message');
 	        $('#message-detail-content').empty().fadeOut(100);
 	        
 	        displayMessagesDetail(uid, chatid);
