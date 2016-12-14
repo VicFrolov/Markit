@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailedView: UIView {
+class DetailedTableView: UITableView {
 
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPrice: UILabel!
@@ -16,12 +16,13 @@ class DetailedView: UIView {
     @IBOutlet weak var itemDescription: UILabel!
     @IBOutlet weak var itemTags: UILabel!
     @IBOutlet weak var itemHubs: UILabel!
-    @IBOutlet weak var faved: UIImageView!
     @IBOutlet weak var messageSellerButton: UIButton!
+    @IBOutlet weak var faved: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        messageSellerButton.layer.cornerRadius = 10        
     }
 
 }

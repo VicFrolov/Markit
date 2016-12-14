@@ -18,7 +18,7 @@ class AddPriceViewController: UIViewController {
             performSegue(withIdentifier: "unwindAddPrice", sender: self)
         } else {
             let alertController = UIAlertController(title: "Invalid Price", message:
-                "Please enter a valid price :)", preferredStyle: UIAlertControllerStyle.alert)
+                "Please enter a valid price.\n(Ex. 599.99)", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }

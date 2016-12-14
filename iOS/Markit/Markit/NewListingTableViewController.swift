@@ -11,13 +11,18 @@ import Firebase
 
 class NewListingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let imagePicker: UIImagePickerController! = UIImagePickerController()
-    var priceSelected = false
-    var titleSelected = false
-    var photoSelected = false
-    var tagSelected = false
-    var hubSelected = false
+    var priceSelected       = false
+    var titleSelected       = false
+    var photoSelected       = false
+    var tagSelected         = false
+    var hubSelected         = false
     var descriptionSelected = false
-    let tagRef = FIRDatabase.database().reference().child("tags")
+    
+    var databaseRef: FIRDatabaseReference!
+    var tagRef:      FIRDatabaseReference!
+    var hubRef:      FIRDatabaseReference!
+    var tagList:     [String] = [String]()
+    var hubList:     [String] = [String]()
     
     @IBOutlet weak var price: UIButton!
     @IBOutlet weak var itemImage: UIImageView!
@@ -64,27 +69,33 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         }
         
         imagePicker.dismiss(animated: true, completion: {})
+        
+        if photoSelected && priceSelected {
+            price.layer.zPosition = 2
+            itemImage.layer.zPosition = 1
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
     
-//    func getTags () -> [String: AnyObject] {
-//        var tags = [String]()
-//        
-//        tagRef.observe(.childAdded, with: { (snapshot) -> Void in
-//            let value = snapshot.value as? NSDictionary
-//            tags.append(value[])
-//        })
-//    }
+    func getTags () {
+        tagRef.observe(.childAdded, with: { (snapshot) -> Void in
+            if let tagValue = snapshot.value as! Int? {
+                if tagValue > 7 {
+                    self.tagList.append(snapshot.key.trim())
+                }
+            }
+        })
+    }
     
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         let priceVC = segue.source as? AddPriceViewController
         var userPrice = (priceVC?.priceLabel.text)!
         
         if (userPrice != "...") {
-            userPrice = "$" + userPrice;
+            userPrice = "$" + userPrice
             let blingedOutUserPrice = NSMutableAttributedString(string: userPrice as String)
             blingedOutUserPrice.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255, green: 218, blue: 0, alpha: 0.7), range: NSRange(location:0,length:1))
 
@@ -118,7 +129,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     @IBAction func unwindTag(segue: UIStoryboardSegue) {
         let tagVC = segue.source as? AddTagsViewController
-        let userTags = tagVC?.tags.text?.lowercased()
+        let userTags = tagVC?.tagsField.text?.lowercased()
         
         if userTags != "" {
             tags.setAttributedTitle(NSMutableAttributedString(string: userTags! as String), for: .normal)
@@ -129,7 +140,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     @IBAction func unwindAddHubs(segue: UIStoryboardSegue) {
         let hubVC = segue.source as? AddHubViewController
-        let userHubs = hubVC?.hubs.text
+        let userHubs = hubVC?.hubsField.text
         
         if userHubs != "" {
             hubs.setAttributedTitle(NSMutableAttributedString(string: userHubs! as String), for: .normal)
@@ -145,6 +156,13 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         
         postButton.isUserInteractionEnabled = false
         postButton.alpha = 0.1
+        postButton.layer.cornerRadius = 10
+        
+        databaseRef = FIRDatabase.database().reference()
+        tagRef      = databaseRef.child("tags")
+        hubRef      = databaseRef.child("hubs")
+        
+        getTags()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -162,6 +180,16 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTagSegue" {
+            let addTagVC = segue.destination as! AddTagsViewController
+            addTagVC.tagList = self.tagList
+        } else if segue.identifier == "addHubSegue" {
+            let addHubVC = segue.destination as! AddHubViewController
+            addHubVC.hubList = self.hubList
+        }
     }
     
     @IBAction func cancelToNewListings(segue: UIStoryboardSegue) {}

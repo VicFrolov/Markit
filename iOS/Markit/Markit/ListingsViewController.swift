@@ -37,12 +37,17 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.didReceiveAdvancedSearchQuery = false
         
         setupFirebaseReferences()
+        
         fetchItems()
         searchItems()
     }
     
     func dismissSearchBar() {
         self.searchController.searchBar.resignFirstResponder()
+    }
+    
+    func sortItemsBy () {
+        
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -117,13 +122,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.userRef.child(uid)
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
-                                    if (snapshot.value as? String?) != nil {
-                                    
-                                        item.username = snapshot.value as! String?
-                                    } else {
-                                        item.username = ""
-                                    }
-//                        item.username = snapshot.value as! String?
+                        item.username = snapshot.value as? String ?? ""
                                     
                     })
                 }
@@ -139,7 +138,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func getImage (imageID: String, item: Item) {
-        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 1024 * 1024) { (data, error) in
+        self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 2048 * 2048) { (data, error) in
             DispatchQueue.main.async(execute: {
                 if (error != nil) {
                     print("Image download failed: \(error?.localizedDescription)")
@@ -272,6 +271,8 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.faved?.setImage(emptyHeart, for: .normal)
         }
         
+        cell.faved.layer.shadowColor = UIColor.white.cgColor
+        
         return cell
     }
     
@@ -279,7 +280,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         if segue.identifier == "detailedViewSegue" {
             if let indexPath = listingsTableView.indexPathForSelectedRow {
                 let selectedRow = indexPath.row
-                let detailedVC = segue.destination as! DetailedViewController
+                let detailedVC = segue.destination as! DetailedTableViewController
                 
                 detailedVC.currentItem = itemList[selectedRow]
             }

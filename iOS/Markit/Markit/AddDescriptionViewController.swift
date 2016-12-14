@@ -23,13 +23,13 @@ class AddDescriptionViewController: UIViewController {
     }
     
     @IBAction func submitDescription(_ sender: UIButton) {
-        let trimmedDescription = itemDescription.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedDescription = itemDescription.text!.trim()
         
         if trimmedDescription.characters.count != 0 {
-            performSegue(withIdentifier: "unwindDescription", sender: self)
+            performSegue(withIdentifier: "unwindAddDescription", sender: self)
         } else {
-            let alertController = UIAlertController(title: "Empty description", message:
-                "Please give a short description of the item", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Invalid Description", message:
+                "Please give a short description of the item.", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }

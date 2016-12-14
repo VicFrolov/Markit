@@ -14,13 +14,13 @@ class AddTitleViewController: UIViewController {
     @IBOutlet weak var itemTitleLabel: UILabel!
     
     @IBAction func tapButton(sender: UIButton) {
-        let trimmedTitle = itemTitle.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedTitle = itemTitle.text!.trim()
         
         if trimmedTitle.characters.count > 4 && trimmedTitle.characters.count < 24 {
             performSegue(withIdentifier: "unwindAddTitle", sender: self)
         } else {
-            let alertController = UIAlertController(title: "Invalid Price", message:
-                "Please enter a valid title :)", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Invalid Title", message:
+                "Please enter a valid title.\n(Ex. Used iPhone)", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
@@ -30,7 +30,7 @@ class AddTitleViewController: UIViewController {
         let fontSize: CGFloat = 30.0
         if itemTitle.text!.characters.count > 24 {
             itemTitleLabel.font = UIFont(name: "HelveticaNeue", size: (fontSize - 13.0))
-            itemTitleLabel.text = "Please choose a shorter title\n (under 24 characters)"
+            itemTitleLabel.text = "Please choose a shorter title\n (under 24 characters)."
         } else {
             itemTitleLabel.font = UIFont(name: "HelveticaNeue", size: fontSize)
             itemTitleLabel.text = itemTitle.text

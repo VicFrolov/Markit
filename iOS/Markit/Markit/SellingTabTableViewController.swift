@@ -139,10 +139,7 @@ class SellingTabTableViewController: UITableViewController {
     
     func postNewListing (userID: String, title: String, itemDescription: String, price: String, itemID: String, tags: [String], hub: [String]) {
         
-        let currentDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzz)"
-        let convertedDate = formatter.string(from: currentDate)
+        let convertedDate = Date().toString()
         
         let item = ["date": "\(convertedDate)",
                     "description": itemDescription,
