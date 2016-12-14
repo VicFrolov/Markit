@@ -325,6 +325,7 @@ main, body {
     position: absolute;
     top: 15px;
     border: 1px solid #777;
+    left: 18px;
 }
 
 .message-preview-title {
@@ -429,4 +430,14 @@ main, body {
     padding-top: 20px;
     padding-bottom: 20px;
     overflow: scroll;
+}
+
+.messages-preview-unread i {
+    position: absolute;
+    left: 5px;
+    top: 46px;
+    background-color: #2196F3;
+    color: #2196F3;
+    font-size: 8px;
+    border-radius: 8px;
 }

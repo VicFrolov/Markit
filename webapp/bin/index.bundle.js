@@ -142,9 +142,9 @@
 	    });
 	};
 
-	var getProfilePicture = function (uid, callback) {
-	    userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
-	        callback(url);
+	var getProfilePicture = function (uid) {
+	    return userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+	        return url;
 	    }).catch(function(error) {
 	        console.log("error image not found");
 	        console.log("error either in item id, filename, or file doesn't exist");
@@ -503,6 +503,8 @@
 	        messageObj.user = message.context.otherUsername;
 	        messageObj.picture = message.context.itemImageURL;
 	        messageObj.messageID = messageID
+	        messageObj.readStatus = message.context.readMessages;
+	        console.log(messageObj.readStatus);
 	        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
 	            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
 	        }));
@@ -524,8 +526,23 @@
 	    });
 	};
 
+
+	var previousListener = [null, null];
+
+	var shutOffMessageDetailListener = function(uid, chatID) {
+	    console.log('previous listener closed?');
+	    usersRef.child(`${uid}/chats/${chatID}/messages`).off();
+	}
+
 	var displayMessagesDetail = function (uid, chatID) {
+	    if (previousListener[0] !== null) {
+	        shutOffMessageDetailListener(previousListener[0], previousListener[1]);
+	    }
+
+	    previousListener = [uid, chatID];
+
 	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
+	        console.log('maybe im updating the ' + chatID);
 	        let message = snapshot.val();
 	        let userClass = (message.user === auth.currentUser.uid ? 
 	            'message-bubble-self' : 
@@ -571,12 +588,6 @@
 	        usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
 
 	        usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
-
-
-	        // update lastPost for both users
-	        // update readMessages to false for OTHERUSER
-	        // push new message to BOTH users
-
 	    });
 	};
 
@@ -2558,7 +2569,7 @@
 	    };
 
 	    var loadProfilePicture = function () {
-	        getProfilePicture(uid, function (url) {
+	        Promise.resolve(getProfilePicture(uid)).then(url => {
 	            profilePicture.attr('src', url);
 	        });
 	    }

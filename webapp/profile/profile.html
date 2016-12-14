@@ -144,6 +144,11 @@
                     <p class="message-preview-title">
                       <%- previewMessages[i].title %>
                     </p>
+                    <span class='messages-preview-unread'>
+                    <% if (!previewMessages[i].readStatus) { %>
+                      <i class="material-icons">info</i>
+                    <% } %>
+                    </span>
                   </div>
                 <% } %>
               </script>

@@ -130,7 +130,7 @@ $(function () {
     };
 
     var loadProfilePicture = function () {
-        getProfilePicture(uid, function (url) {
+        Promise.resolve(getProfilePicture(uid)).then(url => {
             profilePicture.attr('src', url);
         });
     }
