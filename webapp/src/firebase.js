@@ -56,9 +56,9 @@ var addProfilePicture = function (uid, image, callback) {
     });
 };
 
-var getProfilePicture = function (uid, callback) {
-    userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
-        callback(url);
+var getProfilePicture = function (uid) {
+    return userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+        return url;
     }).catch(function(error) {
         console.log("error image not found");
         console.log("error either in item id, filename, or file doesn't exist");
@@ -377,10 +377,82 @@ var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUs
     usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
 }
 
-var getUserMessages = function(id) {
-    usersRef.child(`${id}/chats/`).on('value', function(snapshot) {
-        displayMessages(snapshot.val());
-    })
+var getLastMessage = function(messageObject) {
+    let listOfKeys = Object.keys(messageObject);
+    let lastMessage = messageObject[listOfKeys[listOfKeys.length - 1]].text;;
+
+    return lastMessage;
+}
+
+var sortConversations = function(uid, chatID) {
+    usersRef.child(`${uid}/chats/`).once('value').then(function(snapshot) {
+        let messages = snapshot.val()
+        var str = $('#messages-preview-template').text();
+        var compiled = _.template(str);
+
+        let previewMessages = [];
+        let promises = [];
+
+
+        for (let messageID in messages) {
+            let message = messages[messageID];
+            let messageObj = {};
+
+            var date = new Date(message.context.latestPost);
+            let hours = date.getHours();
+            var time = `${date.getUTCHours()}:${date.getMinutes()}`;
+            time += (hours >= 12) ? " PM" : " AM";
+
+            messageObj.timeStamp = message.context.latestPost;
+            messageObj.time = time
+            messageObj.lastMessage = getLastMessage(message['messages']);
+            messageObj.user = message.context.otherUsername;
+            messageObj.picture = message.context.itemImageURL;
+            messageObj.messageID = messageID
+            messageObj.readStatus = message.context.readMessages;
+
+            promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
+                messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
+            }));
+
+
+            previewMessages.push(messageObj);
+        }
+        // Wait for them all to complete
+        Promise.all(promises).then(() => {
+            previewMessages.sort(function(a, b){
+                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+            });
+
+            for (var i = 0; i < previewMessages.length; i += 1) {
+                previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
+            }
+
+            $('#messages-preview-holder').empty();
+            $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
+        });
+
+    });
+}
+
+var displayConversations = function (uid) {
+    usersRef.child(`${uid}/chats/`).limitToLast(1).on('child_added', function(snapshot) {
+        updateExistingConversations(uid);
+    });
+}
+
+var updateExistingConversations = function(uid) {
+    usersRef.child(`${uid}/chats/`).once('value', function(snapshot) {
+        let chats = snapshot.val();
+        for (let chatID in chats) {
+            //turn off potential previous listeners
+            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
+
+            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
+                sortConversations(uid)
+            });
+        }
+    });
 }
 
 // takes array of items
@@ -401,44 +473,20 @@ var getItemsById = function (itemsToMatch) {
     });
 }
 
-var displayMessages = function (messages) {
-    var str = $('#messages-preview-template').text();
-    var compiled = _.template(str);
 
-    let previewMessages = [];
-    let promises = [];
+var previousListener = [null, null];
 
-    // Build the array of promises
-    for (let messageID in messages) {
-        let message = messages[messageID];
-        let messageObj = {};
-
-        messageObj.timeStamp = message.context.latestPost;
-        messageObj.user = message.context.otherUsername;
-        messageObj.picture = message.context.itemImageURL;
-        messageObj.messageID = messageID
-        promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
-            messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
-        }));
-
-        previewMessages.push(messageObj);
-    }
-    // Wait for them all to complete
-    Promise.all(promises).then(() => {
-        previewMessages.sort(function(a, b){
-            return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
-        });
-
-        for (var i = 0; i < previewMessages.length; i += 1) {
-            previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
-        }
-
-        $('#messages-preview-holder').empty();
-        $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
-    });
-};
+var shutOffMessageDetailListener = function(uid, chatID) {
+    usersRef.child(`${uid}/chats/${chatID}/messages`).off();
+}
 
 var displayMessagesDetail = function (uid, chatID) {
+    if (previousListener[0] !== null) {
+        shutOffMessageDetailListener(previousListener[0], previousListener[1]);
+    }
+
+    previousListener = [uid, chatID];
+
     usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
         let message = snapshot.val();
         let userClass = (message.user === auth.currentUser.uid ? 
@@ -450,25 +498,59 @@ var displayMessagesDetail = function (uid, chatID) {
             usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
             $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
             $('#message-detail-content').fadeIn();
+            
+            // sroll to bottom of chat
+            var wtf = $('#message-detail-content');
+            var height = wtf[0].scrollHeight;
+            wtf.scrollTop(height);
         }, 100);
+    }, function() {
+        sortConversations(uid)
     });
+
+
 };
 
 var getSpecificChat = function (uid, chatID) {
-    return usersRef.ref(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
+    return usersRef.child(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
         return snapshot.val();
     });
 };
 
-var postNewMessage = function(uid, chatID) {
-    // have to get chatID, perhaps set it to 
-    // send button on every conversation change
+var postNewMessage = function(uid, chatID, message) {
     Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
-        // update lastPost for both users
-        // update readMessages to false for OTHERUSER
-        // push new message to BOTH users
-    })
-}
+        let otherUserID = result.context.otherUser;
+        let date = (new Date()).toString()
+
+        let messageObject = {
+            date: date,
+            text: message,
+            type: 'text',
+            user: uid
+        };
+
+        usersRef.child(`${uid}/chats/${chatID}/messages`).push(messageObject);
+        usersRef.child(`${otherUserID}/chats/${chatID}/messages`).push(messageObject);
+
+        usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).set(date);
+        usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
+
+        usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
+
+    });
+};
+
+$('#message-send-button').on('click', function() {
+    postNewMessage(auth.currentUser.uid, $(this).attr('chatid'), $('#message-send-text').val());
+    $('#message-send-text').val('');
+});
+
+
+$("#message-send-text").keyup(function(event){
+    if (event.keyCode == 13) {
+        $("#message-send-button").click();
+    }
+});
 
 // AI algorithm functions for suggestions in hub
 // next 3 functions
@@ -479,7 +561,7 @@ var getItemsInHub = function (hub) {
 };
 
 var getUserSuggestions = function (uid) {
-    usersRef
+
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
         return snapshot.val();
     });
@@ -596,7 +678,8 @@ module.exports = {
     addProfilePicture,
     getProfilePicture,
     initializeMessage,
-    getUserMessages,
+    displayConversations,
     getUserInfoProper,
-    displayMessagesDetail
+    displayMessagesDetail,
+    postNewMessage
 };

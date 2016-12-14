@@ -7,7 +7,7 @@ $(function () {
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
-    var getUserMessages = require('./firebase.js')['getUserMessages'];
+    var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
 
     var reader;
@@ -57,14 +57,17 @@ $(function () {
         };
     }
 
+    
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
+        $('#message-send-button').attr('chatid', chatid)
 
         // toggling clicked/selected div colors
         if($(this).closest('div').hasClass('active')) {
             return false;   
         }
 
+        $(this).find('.material-icons').remove();
         $('.active').toggleClass('active');
         $(this).closest('div').toggleClass('active');
         $('#message-detail-content').empty().fadeOut(100);
@@ -128,7 +131,7 @@ $(function () {
     };
 
     var loadProfilePicture = function () {
-        getProfilePicture(uid, function (url) {
+        Promise.resolve(getProfilePicture(uid)).then(url => {
             profilePicture.attr('src', url);
         });
     }
@@ -182,7 +185,7 @@ $(function () {
                 paymentPreference = $('#profile-payment-preference');
                 loadSettings();
                 getFavoriteObjects(showFavoritedItems);
-                getUserMessages(uid);
+                displayConversations(uid);
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
