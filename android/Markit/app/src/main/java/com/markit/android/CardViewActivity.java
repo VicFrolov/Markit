@@ -1,8 +1,7 @@
 package com.markit.android;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -11,34 +10,29 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
-import com.markit.android.base.files.BaseActivity;
-import com.markit.android.profile.files.Profile;
-import com.markit.android.newlisting.files.NewListing;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.markit.android.base.files.BaseActivity;
+import com.markit.android.newlisting.files.NewListing;
+import com.markit.android.profile.files.Profile;
+
 import java.util.ArrayList;
 
 
@@ -51,7 +45,7 @@ public class CardViewActivity extends BaseActivity {
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
     DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
-//DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
+    //DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
     private RecyclerView recList;

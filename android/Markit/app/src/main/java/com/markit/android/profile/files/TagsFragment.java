@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class TagsFragment extends Fragment {
 
     private ArrayList<String[]> tagSets = new ArrayList<String[]>();
+    protected static MyTagsRecyclerViewAdapter iAdapter;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -70,7 +71,10 @@ public class TagsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTagsRecyclerViewAdapter(Profile.inputTags, mListener));
+            //recyclerView.setAdapter(new MyTagsRecyclerViewAdapter(Profile.inputTags, mListener));
+            this.iAdapter = new MyTagsRecyclerViewAdapter(Profile.inputTags, mListener);
+            recyclerView.setAdapter(iAdapter);
+
         }
         return view;
     }
