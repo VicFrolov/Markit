@@ -31,8 +31,6 @@ $(function() {
 
 
                 Promise.resolve(getProfilePicture(uid)).then(url => {
-                    console.log(uid);
-                    console.log(url);
                     profilePic.attr('src', url);
                 });
 

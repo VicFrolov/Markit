@@ -177,7 +177,6 @@ $(function () {
     };
 
     var rerouteProfileHash = function(hash) {
-        console.log('test');
         if (window.location.hash.substr(1) === 'messages') {
             $('ul.tabs').tabs('select_tab', 'profile-messages');
         } else if (window.location.hash.substr(1) === 'notifications') {

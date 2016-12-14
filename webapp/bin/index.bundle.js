@@ -91,8 +91,6 @@
 
 
 	                Promise.resolve(getProfilePicture(uid)).then(url => {
-	                    console.log(uid);
-	                    console.log(url);
 	                    profilePic.attr('src', url);
 	                });
 
@@ -2678,7 +2676,6 @@
 	    };
 
 	    var rerouteProfileHash = function(hash) {
-	        console.log('test');
 	        if (window.location.hash.substr(1) === 'messages') {
 	            $('ul.tabs').tabs('select_tab', 'profile-messages');
 	        } else if (window.location.hash.substr(1) === 'notifications') {
