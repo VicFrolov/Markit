@@ -22,6 +22,9 @@ main, body {
 
 .container {
     width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 80%;
 }
 .profile-name {
     margin-top: 20px;
