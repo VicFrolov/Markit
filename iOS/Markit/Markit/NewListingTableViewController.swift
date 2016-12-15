@@ -82,8 +82,8 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     func getTags () {
         tagRef.observe(.childAdded, with: { (snapshot) -> Void in
-            if let tagValue = snapshot.value as! Int? {
-                if tagValue > 7 {
+            if snapshot.value is Int {
+                if (snapshot.value as! Int?)! > 7 {
                     self.tagList.append(snapshot.key.trim())
                 }
             }
