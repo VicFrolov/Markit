@@ -32,8 +32,6 @@
 
     </com.markit.android.resources.RoundedImageView>
 
-
-    <?xml version="1.0" encoding="utf-8"?>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_items"
         android:layout_width="match_parent"
