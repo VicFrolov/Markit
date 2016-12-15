@@ -1888,7 +1888,7 @@
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = {};        
+	            var filteredItemList = {};      
 	            
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
@@ -2645,20 +2645,45 @@
 	    });
 
 	    var loadSellingCardList = function () {
-	        sellingCardList.empty();
 	        Promise.resolve(getUserSelling(uid)).then(function(items) {
 	            if (Object.keys(items).length >= 1) {
-	                let listOfItems = [];
+	                let itemList = [];
 	                for (itemId in items) {
-	                    listOfItems.push(itemId)
+	                    itemList.push(itemId)
 	                }
 
-	                console.log(listOfItems);
-	                Promise.resolve(getItemsById(listOfItems)).then(function(itemObjects) {
-	                    console.log(itemObjects);
+	                Promise.resolve(getItemsById(itemList)).then(function(itemObjects) {
+	                    let filteredItemList = {};
+	                    var str = $('#profile-selling-template').text();
+	                    var compiled = _.template(str);
+	                    var imagePaths = [];
+
+	                    for (var item in itemObjects) {
+	                        var currentItem = itemObjects[item];
+	                        var itemID = currentItem['id'];
+	                        var itemDescription = currentItem['description'].toLowerCase();
+	                        var itemTitle = currentItem['title'].toLowerCase();
+	                        var itemPrice = parseInt(currentItem['price']);
+	                        imagePaths.push(itemID);
+
+	                        filteredItemList[itemID] = currentItem;
+	                    }
+
+	                    $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
+	                    console.log(filteredItemList);
+
+	                    for (var i = 0; i < imagePaths.length; i += 1) {
+	                        (function (x) {
+	                            getImage(imagePaths[x] + '/imageOne', function(url) {
+	                                $("#" + imagePaths[x]).attr({src: url});
+	                            });
+	                        })(i);
+	                    } 
 	                });
+
 	            } else {
 	                console.log('haha');
+	                // show a div saying user has no items for sale
 	            }
 	        });
 	    };

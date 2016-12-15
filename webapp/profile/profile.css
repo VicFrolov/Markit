@@ -49,6 +49,8 @@ main, body {
     margin-top: 20px;
 }
 
+/*card view*/
+
 .card .card-title {
     font-size: 16px;
 }
@@ -62,6 +64,23 @@ main, body {
     margin: 20px 10px 20px 10px;
     position: relative;
 }
+
+.card-contact {
+    position:absolute;
+    bottom: 30px;
+    width: 88%
+}
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+/*end card view*/
 
 .my-profile-hub {
     height: 300px;
@@ -509,4 +528,29 @@ main, body {
 #message-offer-button {
     color: #fff;
     width: 100px;
+}
+
+
+#profile-selling-holder {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+/*  */
+
+#selling-sold-button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 3;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+#selling-sold-button:hover {
+    background-color: rgba(255, 0, 0, 1);   
+}
+.find-result {
+    position: relative;
 }

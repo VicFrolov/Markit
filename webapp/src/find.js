@@ -144,7 +144,7 @@ $(function() {
             var str = $('#find-results-template').text();
             var compiled = _.template(str);
             var imagePaths = [];
-            var filteredItemList = {};        
+            var filteredItemList = {};      
             
             for (var item in itemList) {
                 var currentItem = itemList[item];
