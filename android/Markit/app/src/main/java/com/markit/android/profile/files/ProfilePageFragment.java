@@ -53,6 +53,7 @@ public class ProfilePageFragment extends Fragment {
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        System.out.print("new instance baby!");
         return fragment;
     }
 
@@ -62,6 +63,7 @@ public class ProfilePageFragment extends Fragment {
         if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
+                System.out.print("ProfileFragement Start ");
         }
     }
 
@@ -69,7 +71,7 @@ public class ProfilePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_page, container, false);
-
+        System.out.print("Help! Someone HELP!");
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.my_items);
 //        TODO this if statement is kinda pointless, but we'll address that later
         if (recyclerView instanceof RecyclerView) {
