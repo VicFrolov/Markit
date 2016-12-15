@@ -127,8 +127,9 @@
       <!-- messages -->
       <div class="container container-margin" id="profile-messages">
         <div class="profile-message-tab z-depth-1">
-          <div class="col s12">
+          <div id="messages-header">
             <h4>Messages</h4>
+            <a class="btn-floating btn-large waves-effect waves-light green lighten-2" id="messages-offer-button"><i class="material-icons">attach_money</i></a>
           </div>
           <div class="row">
             <div class="col s4" id="profile-messages-left">
@@ -138,7 +139,6 @@
                   <div class="message-preview" chatid=<%- previewMessages[i].messageID%> >
                     <div class="message-preview-timestamp"><%- previewMessages[i].timeStamp %></div>
                     <div class="message-preview-time"><%- previewMessages[i].time %></div>
-
                     <div class="message-preview-last"> <%- previewMessages[i].lastMessage %> </div>
                     <img class="circle message-preview-image" src=<%- previewMessages[i].picture %> alt="item-image">
                     <p class="message-preview-username">
@@ -147,9 +147,6 @@
                         (<%- previewMessages[i].title %>)
                       </span>
                     </p>
-                    
-                      
-                    
                     <span class='messages-preview-unread'>
                     <% if (!previewMessages[i].readStatus) { %>
                       <i class="material-icons">info</i>
@@ -160,13 +157,20 @@
               </script>
             </div>
             <div class="col s8" id="profile-messages-right">
-              <div id="message-detail-content"></div>
+              <div id="message-offer-popup" class="invisible-div">
+                <p id="message-offer-blurb">Make an Offer</p>
+                <input class="valign" placeholder="$ 55.50" id="message-offer-value">
+                <a class="waves-effect waves-light btn green lighten-2" id="message-offer-button"><i class="material-icons">send</i></a>
+
+              </div>
+              <div id="message-detail-content">
+              </div>
               <div id="message-send-outer" class="row valign-wrapper">
                 <div class="col l10 m9 s8">
                   <input class="valign" placeholder="Type a message" id="message-send-text">
                 </div>
                 <div class="col l2 m3 s4">
-                  <a class="waves-effect waves-light btn" id="message-send-button">Send</a>
+                  <a class="waves-effect waves-light btn" id="message-send-button"><i class="material-icons">send</i></a>
                 </div>                
               </div>
             </div>

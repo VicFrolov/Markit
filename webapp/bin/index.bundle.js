@@ -60,15 +60,40 @@
 
 	$(function() {
 	    var auth = __webpack_require__(2)["auth"];
+	    let uid;
+	    
+	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
-	            console.log('user is signed in');
+	            uid = auth.currentUser.uid;
+	            
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+	                let profilePic = $('#navbar-user-photo');
+
 	                $(".dropdown-button").dropdown();
+
 	                $("#navbar-logout-button").click(function () {
 	                    auth.signOut();
 	                });
+
+	                $('#navbar-message').click(function()  {
+	                    $('ul.tabs').tabs('select_tab', 'profile-messages');
+	                });
+
+	                $('#navbar-notifications').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	                });
+
+	                $('#navbar-settings').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
+	                });
+
+
+	                Promise.resolve(getProfilePicture(uid)).then(url => {
+	                    profilePic.attr('src', url);
+	                });
+
 	            });
 	        } else {
 	            console.log('user is NOT signed in');
@@ -2473,6 +2498,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
+	    $('#message-offer-popup').fadeOut(1);
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
@@ -2516,6 +2542,8 @@
 	            $('#profile-liked-holder').append(compiled({items: items}));
 
 
+
+
 	            for (var item in items) {
 	                imagePaths.push(items[item]['id']);
 	            }
@@ -2542,8 +2570,8 @@
 	        }
 
 	        $(this).find('.material-icons').remove();
-	        $('.active').toggleClass('active');
-	        $(this).closest('div').toggleClass('active');
+	        $('.active-message').toggleClass('active-message');
+	        $(this).closest('div').toggleClass('active-message');
 	        $('#message-detail-content').empty().fadeOut(100);
 	        
 	        displayMessagesDetail(uid, chatid);
@@ -2650,6 +2678,16 @@
 	        loadSettings();
 	    };
 
+	    var rerouteProfileHash = function(hash) {
+	        if (window.location.hash.substr(1) === 'messages') {
+	            $('ul.tabs').tabs('select_tab', 'profile-messages');
+	        } else if (window.location.hash.substr(1) === 'notifications') {
+	            $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	        } else if (window.location.hash.substr(1) === 'settings') {
+	            $('ul.tabs').tabs('select_tab', 'profile-settings');
+	        }
+	    } 
+
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            user = auth.currentUser.email;
@@ -2660,6 +2698,7 @@
 	                loadSettings();
 	                getFavoriteObjects(showFavoritedItems);
 	                displayConversations(uid);
+	                rerouteProfileHash();
 	            }
 
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
@@ -2675,6 +2714,15 @@
 	    $('#notifications-tab').click(function () {
 	        loadTagsList();
 	    });
+
+	    $('#messages-offer-button').click(function() {
+	        if ($('#message-offer-popup').hasClass('invisible-div')) {
+	            $('#message-offer-popup').removeClass('invisible-div').fadeIn(1000);
+	        }
+	        else {
+	            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
+	        }        
+	    })
 
 	    addButton.click(function () {
 	        addToTagsList();

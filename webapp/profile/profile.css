@@ -306,7 +306,7 @@ main, body {
     border-bottom: 1px solid #ccc;
 }
 
-.active {
+.active-message {
     background-color:#eee;
     border-bottom: 1px solid #ccc;
 }
@@ -339,7 +339,8 @@ main, body {
 
 .message-preview-title {
     font-weight: 300;
-    font-size: 14px;
+    font-size: 12px;
+    line-height: 12px;
     margin: 0px;
 }
 
@@ -401,7 +402,7 @@ main, body {
     height: 28px;
     line-height: 28px;
     text-align: center;
-    width: 90%;
+    width: 70%;
     padding: 0px;
 }
 
@@ -420,7 +421,7 @@ main, body {
 }
 
 .message-bubble-self {
-    background-color: #2bbbad;
+    background-color: #2196F3;
     border-radius: 10px;
     padding: 5px 10px 5px 10px;
     color: #fff;
@@ -463,4 +464,49 @@ main, body {
     max-height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+#message-offer-popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    margin-left: -10px;
+    z-index: 3;
+    text-align: center;
+}
+
+
+#messages-header {
+    position: relative;
+    display: flex;
+}
+
+#messages-offer-button {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+}
+
+#message-offer-blurb {
+    font-size: 4em;
+    letter-spacing: -2px;
+    font-weight: 700;
+    color: #F4A49D;
+}
+
+#message-offer-value {
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+#message-offer-button {
+    color: #fff;
+    width: 100px;
 }
