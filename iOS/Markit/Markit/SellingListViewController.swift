@@ -20,6 +20,10 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            print("APPLE \(self.tableView)")
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,10 +33,10 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         let userID = FIRAuth.auth()?.currentUser?.uid
         
         ref.child("users/\(userID!)/itemsForSale").observeSingleEvent(of: .value, with: { (snapshot) in
-            self.itemsForSale = snapshot.value as? NSDictionary
+            self.itemsForSale = snapshot.value as? NSDictionary ?? ["":""]
             
             self.ref.child("items/").observeSingleEvent(of: .value, with: { (snapshot) in
-                self.itemsFromDatabase = snapshot.value as? NSDictionary
+                self.itemsFromDatabase = snapshot.value as? NSDictionary ?? ["":""]
                 
                 for (keyFavItems, _) in self.itemsForSale! {
                     for (keyItemsFD, _) in self.itemsFromDatabase! {
@@ -51,12 +55,7 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         }) { (error) in
             print(error.localizedDescription)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async{
-            self.tableView.reloadData()
-        }
+
     }
     
     private func numberOfSectionsInTableView(tableView: UITableView) -> Int {

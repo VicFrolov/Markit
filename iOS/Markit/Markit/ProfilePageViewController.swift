@@ -35,7 +35,7 @@ class ProfilePageViewController: UIPageViewController {
             let afterVC = pageViewController(self, viewControllerAfter: firstViewController) as UIViewController!
             setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
             setViewControllers([beforeVC!], direction: .forward, animated: false, completion: nil)
-            //setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
             
         }
         

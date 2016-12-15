@@ -26,14 +26,14 @@
 		12D423B01DF909230032F24B /* FontAwesome_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12D423AF1DF909230032F24B /* FontAwesome_swift.framework */; };
 		12D423B21DF90B330032F24B /* DetailedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D423B11DF90B320032F24B /* DetailedTableView.swift */; };
 		12D5DF631E0116E60085A094 /* DetailedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D5DF621E0116E60085A094 /* DetailedTableViewController.swift */; };
-		3407FA5E1DF546D1006BDC3A /* InitialTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */; };
 		343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096231DEEDC39008FB4E4 /* WatchListItem.swift */; };
 		343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096251DEEDE6C008FB4E4 /* TagListViewController.swift */; };
 		343096281DEEDE98008FB4E4 /* SellingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096271DEEDE98008FB4E4 /* SellingListViewController.swift */; };
-		34431D011E025CC2005C868E /* HubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D001E025CC2005C868E /* HubViewController.swift */; };
 		34431D031E02684D005C868E /* SelectNewHubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D021E02684D005C868E /* SelectNewHubViewController.swift */; };
 		34431D051E026AD1005C868E /* HubTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D041E026AD1005C868E /* HubTableViewCell.swift */; };
 		34431D071E0272A6005C868E /* HubListingsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D061E0272A6005C868E /* HubListingsPageViewController.swift */; };
+		34431D091E02B030005C868E /* LGHorizontalLinearFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D081E02B030005C868E /* LGHorizontalLinearFlowLayout.swift */; };
+		34431D0F1E02B9DD005C868E /* HubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34431D0E1E02B9DD005C868E /* HubViewController.swift */; };
 		345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */; };
 		345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
@@ -83,14 +83,14 @@
 		12D423B11DF90B320032F24B /* DetailedTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableView.swift; sourceTree = "<group>"; };
 		12D5DF621E0116E60085A094 /* DetailedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewController.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
-		3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialTabBarController.swift; sourceTree = "<group>"; };
 		343096231DEEDC39008FB4E4 /* WatchListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListItem.swift; sourceTree = "<group>"; };
 		343096251DEEDE6C008FB4E4 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		343096271DEEDE98008FB4E4 /* SellingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingListViewController.swift; sourceTree = "<group>"; };
-		34431D001E025CC2005C868E /* HubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubViewController.swift; sourceTree = "<group>"; };
 		34431D021E02684D005C868E /* SelectNewHubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNewHubViewController.swift; sourceTree = "<group>"; };
 		34431D041E026AD1005C868E /* HubTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubTableViewCell.swift; sourceTree = "<group>"; };
 		34431D061E0272A6005C868E /* HubListingsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubListingsPageViewController.swift; sourceTree = "<group>"; };
+		34431D081E02B030005C868E /* LGHorizontalLinearFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGHorizontalLinearFlowLayout.swift; path = "../../../../../../Downloads/evizija-ios-collectionview-4ca00b1f830f/collectionView/LGHorizontalLinearFlowLayout.swift"; sourceTree = "<group>"; };
+		34431D0E1E02B9DD005C868E /* HubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubViewController.swift; sourceTree = "<group>"; };
 		345593551D98B24E00B82721 /* Markit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Markit.entitlements; sourceTree = "<group>"; };
 		345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInOrNotLoggedInViewController.swift; sourceTree = "<group>"; };
 		345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +143,7 @@
 				129C2E981DAB1BFF00129143 /* Item.swift */,
 				129870231DFA9B2100788F46 /* CustomFirebaseAuth.swift */,
 				1236F07D1E00E934007F94A6 /* Extensions.swift */,
+				34431D081E02B030005C868E /* LGHorizontalLinearFlowLayout.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -187,13 +188,12 @@
 		384810C51D83B9E600830C95 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				34431D001E025CC2005C868E /* HubViewController.swift */,
+				34431D0E1E02B9DD005C868E /* HubViewController.swift */,
 				34431D061E0272A6005C868E /* HubListingsPageViewController.swift */,
 				34431D021E02684D005C868E /* SelectNewHubViewController.swift */,
 				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				129C21501DFABCE700056F82 /* NavigationController.swift */,
 				129C214E1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift */,
-				3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */,
 				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				384810CA1D84EC0700830C95 /* ListingsViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
@@ -397,12 +397,12 @@
 				343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */,
 				12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */,
 				129C2E991DAB1BFF00129143 /* Item.swift in Sources */,
-				3407FA5E1DF546D1006BDC3A /* InitialTabBarController.swift in Sources */,
 				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				343096281DEEDE98008FB4E4 /* SellingListViewController.swift in Sources */,
 				125E32811DF8B211005DBE31 /* SellingTabTableViewCell.swift in Sources */,
 				34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,
+				34431D0F1E02B9DD005C868E /* HubViewController.swift in Sources */,
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
 				129870241DFA9B2100788F46 /* CustomFirebaseAuth.swift in Sources */,
@@ -415,6 +415,7 @@
 				12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */,
 				343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */,
 				381CDC511D97D91500AA54DB /* NewListingTableViewController.swift in Sources */,
+				34431D091E02B030005C868E /* LGHorizontalLinearFlowLayout.swift in Sources */,
 				34431D071E0272A6005C868E /* HubListingsPageViewController.swift in Sources */,
 				12CBFE871DEF770C006683DF /* AutoCompleteTextField.swift in Sources */,
 				38FB5CF41D9B70D400361CB6 /* AddTagsViewController.swift in Sources */,
@@ -426,7 +427,6 @@
 				129C21511DFABCE800056F82 /* NavigationController.swift in Sources */,
 				1236F07E1E00E934007F94A6 /* Extensions.swift in Sources */,
 				129C214F1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift in Sources */,
-				34431D011E025CC2005C868E /* HubViewController.swift in Sources */,
 				38FB5CFA1D9B913200361CB6 /* AccountNotLoggedInViewController.swift in Sources */,
 				12D5DF631E0116E60085A094 /* DetailedTableViewController.swift in Sources */,
 				1258434C1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift in Sources */,

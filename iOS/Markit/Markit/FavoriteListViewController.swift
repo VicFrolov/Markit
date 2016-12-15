@@ -21,15 +21,15 @@ class FavoriteListViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if items.count > 0 {
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            self.tableView.reloadData()
         }
         
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         
         ref.child("users/\(userID!)/favorites").observeSingleEvent(of: .value, with: { (snapshot) in
-            self.favoriteItems = snapshot.value as? NSDictionary
+            self.favoriteItems = snapshot.value as? NSDictionary ?? ["":""]
             
             self.ref.child("items/").observeSingleEvent(of: .value, with: { (snapshot) in
                 self.itemsFromDatabase = snapshot.value as? NSDictionary
@@ -58,7 +58,7 @@ class FavoriteListViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
