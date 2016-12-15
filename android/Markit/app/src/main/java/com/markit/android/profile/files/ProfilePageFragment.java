@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.markit.android.MyItemsRecyclerViewAdapter;
 import com.markit.android.R;
 
 /**
@@ -28,7 +31,8 @@ public class ProfilePageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListener;
+    protected static MyItemsRecyclerViewAdapter iAdapter;
 
     public ProfilePageFragment() {
         // Required empty public constructor
@@ -64,22 +68,34 @@ public class ProfilePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile_page, container, false);
+
+        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.my_items);
+//        TODO this if statement is kinda pointless, but we'll address that later
+        if (recyclerView instanceof RecyclerView) {
+            Context context = view.getContext();
+//            RecyclerView recyclerView = (RecyclerView) view;
+            // TODO: add compatability for multiple columns
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            this.iAdapter = new MyItemsRecyclerViewAdapter(Profile.items, mListener);
+            recyclerView.setAdapter(iAdapter);
+        }
         return inflater.inflate(R.layout.fragment_profile_page, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onListFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -102,9 +118,9 @@ public class ProfilePageFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onListFragmentInteraction(Object o);
     }
 }
 

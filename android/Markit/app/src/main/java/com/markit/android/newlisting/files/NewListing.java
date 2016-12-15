@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.markit.android.CardViewActivity;
 import com.markit.android.R;
 import com.markit.android.base.files.BaseActivity;
 
@@ -389,6 +390,8 @@ public class NewListing extends BaseActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Toast.makeText(NewListing.this, "Item Posted!", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(NewListing.this, CardViewActivity.class));
                             }
                         });
                     }
@@ -437,6 +440,7 @@ public class NewListing extends BaseActivity {
         //to avoid a pushing error, must push lists not arrays
         List<String> taggys = Arrays.asList(listing1.tags);
         List<String> hubbys = Arrays.asList(listing1.hubs);
+        mdatabase.child("users").child(listing1.uID).child("itemsForSale").child(id).setValue("true");
         mdatabase.child("items").child(id).child("title").setValue(listing1.title);
         mdatabase.child("items").child(id).child("description").setValue(listing1.description);
         mdatabase.child("items").child(id).child("tags").setValue(taggys);
