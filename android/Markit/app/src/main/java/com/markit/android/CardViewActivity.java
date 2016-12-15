@@ -53,7 +53,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
     DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
-    DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
+//    DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
     //DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
