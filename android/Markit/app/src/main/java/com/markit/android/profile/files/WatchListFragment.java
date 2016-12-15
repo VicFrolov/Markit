@@ -230,8 +230,7 @@ public class WatchListFragment extends Fragment {
             } else {
                 watchlistRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            this.iAdapter = new MyWatchListRecyclerViewAdapter(Profile.inputItems, mListener, context);
-            watchlistRecyclerView.setAdapter(iAdapter);
+
         }
         return view;
     }

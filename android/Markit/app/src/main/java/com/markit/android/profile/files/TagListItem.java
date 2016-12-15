@@ -1,4 +1,5 @@
 package com.markit.android.profile.files;
+
 /**
  * Created by Mike on 12/12/16.
  */
@@ -26,4 +27,5 @@ public class TagListItem {
     public void setTags(Object tags) {
         this.tags = tags;
     }
+
 }

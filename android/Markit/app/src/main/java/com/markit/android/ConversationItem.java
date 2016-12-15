@@ -78,6 +78,10 @@ public class ConversationItem {
         return otherUsername;
     }
 
+    public String getOtherUser() {
+        return otherUser;
+    }
+
     public String getItemImageURL() {
         return itemImageURL;
     }

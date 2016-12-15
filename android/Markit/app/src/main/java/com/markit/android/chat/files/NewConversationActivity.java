@@ -1,7 +1,9 @@
 package com.markit.android.chat.files;
 
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +30,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.core.Context;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -35,6 +39,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.markit.android.ConversationItem;
 import com.markit.android.ItemDetail;
 import com.markit.android.R;
 import com.markit.android.base.files.BaseActivity;
@@ -47,6 +54,9 @@ import java.util.List;
 import com.markit.android.chat.files.*;
 
 //import static com.markit.android.ItemDetail.conversationKey;
+import static com.markit.android.ItemDetail.otherUser;
+import static com.markit.android.ItemDetail.otherUsername;
+import static com.markit.android.ItemDetail.username;
 import static com.markit.android.R.id.backButton;
 import static com.markit.android.R.id.conversationID;
 import static com.markit.android.R.id.message_text;
@@ -58,6 +68,8 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
     private Button sendButton;
     private EditText editMessage;
     private Button backButton;
+    private String itemID;
+    public static String conversationKey;
 
 
     private RecyclerView recyclerView;
@@ -67,8 +79,10 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
-    DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
-    DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
+    DatabaseReference chatRef;
+//    DatabaseReference contextRef = convoRef.child(ItemDetail.conversationKey + "/context");
+//    DatabaseReference sellerRefContext = database.getReference().child("users/" + otherUser + "/chats/" + ItemDetail.conversationKey + "/context");
+//    DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
 
 
 
@@ -76,6 +90,13 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        Bundle idInfo = getIntent().getExtras();
+
+        if (idInfo != null) {
+            itemID = idInfo.getString("id");
+        } else{
+            itemID = "-KX9d_FL3zJVZgvnl8TW";
+        }
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
@@ -85,12 +106,16 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
         sendButton = (Button) findViewById(R.id.sendButton);
         editMessage = (EditText) findViewById(R.id.messageEdit);
 
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainChatActivity.this, ChatListView.class));
-//            }
-//        });
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/");
+        final StorageReference pathRef = storageRef.child("images/itemImages/");
+
+
+        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+//        final DatabaseReference chatRef = convoRef.child(conversationKey + "/messages");
+        final DatabaseReference sellerRefContext = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/context");
+//        final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/messages");
+
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,17 +128,63 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
 
-                //message item itself
-                Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
-                //chatKey = chatRef.push().getKey();
-                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+                conversationKey = convoRef.push().getKey();
+
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+
+                System.out.println(pathRef);
+                System.out.println(itemPathRef);
+
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
+
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
-                        if (databaseError != null) {
-                            Log.e(TAG, "Failed to write message", databaseError.toException());
-                        }
+                    public void onSuccess(Uri uri) {
+                        String itemImageURL = uri.toString();
+
+                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                        DatabaseReference sellerContextRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+
+                        String itemId = itemID;
+
+                        Date date = new Date();
+                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                        String newDate = fmt.format(date);
+
+                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
+                        contextRef.setValue(myConversation);
+
+                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
+                        sellerContextRef.setValue(theirConversation);
+
+                        //startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
                     }
                 });
+
+                final DatabaseReference chatRef = convoRef.child(conversationKey + "/messages");
+                final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/messages");
+
+                //message item itself
+                Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
+                chatRef.push().setValue(message);
+
+//                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
+//                        if (databaseError != null) {
+//                            Log.e(TAG, "Failed to write message", databaseError.toException());
+//                        }
+//                    }
+//                });
+                //contextRef.child("latestPost").setValue(newDate);
+//                System.out.println(newDate);
 
                 sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
@@ -140,7 +211,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
     @Override
     public void onStart() {
         super.onStart();
-        attachRecyclerViewAdapter();
+        //attachRecyclerViewAdapter();
     }
 
     @Override

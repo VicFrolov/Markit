@@ -54,7 +54,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     public Context context = this;
     private String conversationID;
     private String otherUser;
-
+    private String otherUsername;
 
     private RecyclerView messageList;
     private LinearLayoutManager llm;
@@ -62,8 +62,19 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
+
+    DatabaseReference sellerRefPush;
     //DatabaseReference chatRef = contextRef.child(ItemDetail.conversationKey + "/context");
    // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
+
+    //this pushes it to the other person correctly
+    //DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + NewConversationActivity.conversationKey + "/messages");
+    DatabaseReference otherContextRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + NewConversationActivity.conversationKey + "/context/" + "latestPost");
+
+    DatabaseReference contextRef;
+    //DatabaseReference otherContextRef;
+    DatabaseReference sellerRef;
+
     DatabaseReference chatRefPush;
     //DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
 
@@ -75,17 +86,30 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         if (idInfo != null) {
             conversationID = idInfo.getString("conversationID");
             otherUser = idInfo.getString("otherUser");
+            otherUsername = idInfo.getString("otherUsername");
         } else {
             conversationID = "-KX9d_FL3zJVZgvnl8TW";
         }
+
         chatRefPush = convoRefPush.child(conversationID + "/messages");
+        contextRef = convoRefPush.child(conversationID + "/context/" + "latestPost");
+
+        sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + conversationID + "/messages");
+
+        ///final DatabaseReference sellerRefPush =  database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
         //This pushes it to the correct conversation in the Database
         DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
         final DatabaseReference chatRef = convoRef.child(conversationID + "/messages");
-        final DatabaseReference otherUserRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/messages");
+
+        //this pushes it to the username - but its getting a null username
+
+        final DatabaseReference otherUserRef = database.getReference().child("users/" + otherUsername + "/chats/" + conversationID + "/messages");
+
+        //otherContextRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationID + "/context/" + "latestPost");
 
         backButton = (Button) findViewById(R.id.backButton);
 
@@ -116,14 +140,16 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 String user = uid;
                 String type = "text";
                 Date date = new Date();
-                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
+
                 //This pushes it to the correct conversation in firebase
                 //contextRef.push(setValue)
-                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+
+                chatRefPush.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
@@ -131,8 +157,13 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                         }
                     }
                 });
+
+                contextRef.setValue(newDate);
+                System.out.println(newDate);
+
+
                 //This pushes it to the otherUser's chats
-                otherUserRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+                sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
@@ -140,6 +171,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                         }
                     }
                 });
+
+                otherContextRef.setValue(newDate);
 
                 editMessage.setText("");
             }

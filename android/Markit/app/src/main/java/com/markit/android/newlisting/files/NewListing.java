@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.markit.android.CardViewActivity;
 import com.markit.android.R;
 import com.markit.android.base.files.BaseActivity;
 
@@ -96,8 +97,6 @@ public class NewListing extends BaseActivity {
 
         Firebase.setAndroidContext(this);
 
-//        TODO
-        //tagsList.add("dog");
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -120,6 +119,8 @@ public class NewListing extends BaseActivity {
 
         Log.i(TAGS, "onCreate");
 
+
+        //TODO change all onclick a modal input
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -389,6 +390,8 @@ public class NewListing extends BaseActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Toast.makeText(NewListing.this, "Item Posted!", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(NewListing.this, CardViewActivity.class));
                             }
                         });
                     }
@@ -428,6 +431,7 @@ public class NewListing extends BaseActivity {
         }
     }
 
+    // TODO refractor, make push more simple.
     // very ugly way of doing it but only way I could find to post to all three, would not let me push an object
     public void writeNewListing (String title, String price, String description, String uID, String[] tags, String[] hubs, String date, String id) {
         Listing listing1 = new Listing(title, price, description, uID, tags, hubs, date, id);
@@ -437,6 +441,7 @@ public class NewListing extends BaseActivity {
         //to avoid a pushing error, must push lists not arrays
         List<String> taggys = Arrays.asList(listing1.tags);
         List<String> hubbys = Arrays.asList(listing1.hubs);
+        mdatabase.child("users").child(listing1.uID).child("itemsForSale").child(id).setValue("true");
         mdatabase.child("items").child(id).child("title").setValue(listing1.title);
         mdatabase.child("items").child(id).child("description").setValue(listing1.description);
         mdatabase.child("items").child(id).child("tags").setValue(taggys);
