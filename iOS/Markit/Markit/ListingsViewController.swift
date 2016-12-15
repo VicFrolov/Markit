@@ -25,7 +25,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     // These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
-    var didReceiveAdvancedSearchQuery: Bool!
+    var didReceiveAdvancedSearchQuery: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,7 +212,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
             return self.filteredItems.count
         }
         return self.itemList.count
@@ -225,7 +225,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                                                  for: indexPath) as! ListingsTableViewCell
         let item: Item
         
-        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
             item = self.filteredItems[row]
         } else {
             item = itemList[row]
@@ -261,11 +261,11 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let selectedRow = indexPath.row
                 let detailedVC = segue.destination as! DetailedTableViewController
                 
-//                if self.didReceiveAdvancedSearchQuery {
-//                    detailedVC.currentItem = filteredItems[selectedRow]
-//                } else {
+                if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
+                    detailedVC.currentItem = filteredItems[selectedRow]
+                } else {
                     detailedVC.currentItem = itemList[selectedRow]
-//                }
+                }
             }
         }
     }
@@ -275,7 +275,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         var itemID      = itemList[sender.tag].imageID
         var hubs        = itemList[sender.tag].hubs
         var sellerID    = itemList[sender.tag].uid
-        if self.didReceiveAdvancedSearchQuery ||
+        if self.didReceiveAdvancedSearchQuery! ||
             self.searchController.isActive &&
             self.searchController.searchBar.text != "" {
             

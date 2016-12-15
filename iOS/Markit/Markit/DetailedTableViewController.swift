@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import FontAwesome_swift
 
 class DetailedTableViewController: UITableViewController {
@@ -21,11 +22,15 @@ class DetailedTableViewController: UITableViewController {
     @IBOutlet weak var itemHubs: UILabel!
     @IBOutlet weak var messageSellerButton: UIButton!
     @IBOutlet weak var faved: UIButton!
+    
+    var databaseRef: FIRDatabaseReference!
+    var userRef: FIRDatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setHeartImage()
+        setupReferences()
         
         print("HERE in DetailedView")
         self.title = self.currentItem.title
@@ -40,6 +45,12 @@ class DetailedTableViewController: UITableViewController {
         messageSellerButton.layer.cornerRadius = 20
     }
     
+    func setupReferences () {
+        self.databaseRef      = FIRDatabase.database().reference()
+        self.userRef          = self.databaseRef.child("users")
+
+    }
+    
     func setHeartImage() {
         let emptyHeart = UIImage.fontAwesomeIcon(name: FontAwesome.heartO, textColor: UIColor.gray, size: CGSize(width: 35, height: 35))
         faved.setImage(emptyHeart, for: .normal)
@@ -48,11 +59,18 @@ class DetailedTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let messageVC = segue.destination as! ChatMessageViewController
-            messageVC.senderId          = CustomFirebaseAuth().getCurrentUser()
+            let userID                  = CustomFirebaseAuth().getCurrentUser()
+            messageVC.senderId          = userID
             messageVC.itemID            = self.currentItem.imageID
             messageVC.otherUserID       = self.currentItem.uid
             messageVC.otherUserName     = self.currentItem.username
             messageVC.itemTitle         = self.currentItem.title
+            
+            self.userRef.child(userID)
+                .child("username")
+                .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                    messageVC.senderDisplayName = snapshot.value as! String
+                })
         }
     }
 

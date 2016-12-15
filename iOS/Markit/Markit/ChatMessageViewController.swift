@@ -69,11 +69,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
         self.userChatRef      = self.userRef.child(self.senderId).child("chats")
         self.otherUserChatRef = self.userRef.child(self.otherUserID).child("chats")
         
-        self.userRef.child(self.senderId)
-            .child("username")
-            .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-                self.senderDisplayName = snapshot.value as! String
-            })
+//        self.userRef.child(self.senderId)
+//            .child("username")
+//            .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+//                self.senderDisplayName = snapshot.value as! String
+//            })
     }
     
     override func viewDidAppear(_ animated: Bool) {
