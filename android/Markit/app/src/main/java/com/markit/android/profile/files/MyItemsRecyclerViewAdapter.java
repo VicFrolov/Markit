@@ -7,38 +7,37 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.markit.android.R;
-import com.markit.android.dummy.DummyContent.DummyItem;
 import com.markit.android.profile.files.TagsFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
+import java.util.Arrays;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Created by Joseph on 12/14/2016.
  */
-public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<TagListItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ViewHolder> {
 
-    public MyTagsRecyclerViewAdapter(List<TagListItem> items, OnListFragmentInteractionListener listener) {
+    private final List<String[]> mValues;
+    private final TagsFragment.OnListFragmentInteractionListener mListener;
+
+    public MyItemsRecyclerViewAdapter(List<String[]> items, TagsFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyItemsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_tags, parent, false);
-        return new ViewHolder(view);
+        return new MyItemsRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyItemsRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getItemName());
-        holder.mContentView.setText((mValues.get(position).getTags()).replace("[", "").replace("]", ""));
+        holder.mIdView.setText(mValues.get(position)[(mValues.get(position).length - 1)]);
+        holder.mContentView.setText(Arrays.toString(mValues.get(position)).replace("[", "").replace("]", ""));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +60,7 @@ public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public TagListItem mItem;
+        public String[] mItem;
 
         public ViewHolder(View view) {
             super(view);
