@@ -249,9 +249,10 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextChange (String newText) {
-                Toast.makeText(CardViewActivity.this, "Got to the onQueryTextChange", Toast.LENGTH_SHORT ).show();
+                //Toast.makeText(CardViewActivity.this, "Got to the onQueryTextChange", Toast.LENGTH_SHORT ).show();
                 Log.i(TAG, "Got to the on query text listener");
                 itemObjectArray = new ArrayList<MarketItem>();
                 for(MarketItem item : masterObjectArray) {
@@ -259,8 +260,9 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                         itemObjectArray.add(item);
                     }
                 }
-                iAdapter.notifyDataSetChanged();
-                recList.setAdapter(iAdapter);
+                iAdapter.swap(itemObjectArray);
+
+                //recList.setAdapter(iAdapter);
                 return true;
             }
             @Override
@@ -272,8 +274,8 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                         itemObjectArray.add(item);
                     }
                 }
-                iAdapter.notifyDataSetChanged();
-                recList.setAdapter(iAdapter);
+                iAdapter.swap(itemObjectArray);
+                //recList.setAdapter(iAdapter);
                 return true;
             }
         });
@@ -336,7 +338,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
 //<<<<<<< HEAD  TODO related to pervious left in git merge, alternative impleentation
 //=======
     public void populateCardView (final String hub) {
-        final RecyclerView recList = (RecyclerView) findViewById(R.id.recList);
+        recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
             recList.setHasFixedSize(true);
         }

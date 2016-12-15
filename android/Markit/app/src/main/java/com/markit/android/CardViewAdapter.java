@@ -37,6 +37,14 @@ public class CardViewAdapter extends
         return context;
     }
 
+    public void swap(ArrayList<MarketItem> newItems) {
+        items.clear();
+        for(MarketItem singleItem : newItems) {
+            newItems.add(singleItem);
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public CardViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
