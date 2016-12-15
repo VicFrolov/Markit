@@ -21,16 +21,37 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
     
     fileprivate var collectionViewLayout: LGHorizontalLinearFlowLayout!
     
-    var stringArray: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+    var stringArray = [Item]()
     var selectedCell: Int! = 0
-    var ref: FIRDatabaseReference!
     var firstName: String!, hub: String!
+    
+    var ref: FIRDatabaseReference!
+    var itemsRef : FIRDatabaseReference!
+    var itemImageRef : FIRStorageReference!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavBarInvis()
         
         ref = FIRDatabase.database().reference()
+        itemsRef = ref.child("items")
+        itemImageRef = FIRStorage.storage().reference()
+        
+        fetchItems()
+        fetchName()
+        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = false
+        
+        selectedCell = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            self.collectionViewLayout = LGHorizontalLinearFlowLayout
+                .configureLayout(self.collectionView, itemSize: CGSize(width: 90, height: 90), minimumLineSpacing: 10)
+        }
+    }
+    
+    func fetchName() {
         let userID = FIRAuth.auth()?.currentUser?.uid
         
         if FIRAuth.auth()?.currentUser != nil {
@@ -43,7 +64,7 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
                 print(error.localizedDescription)
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 self.greetingNameLabel.text    = "Hi, \(self.firstName!)"
                 self.greetingMessageLabel.text = "Here's whats going on at \(self.hub!)"
                 self.collectionView.reloadData()
@@ -52,14 +73,41 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
             greetingNameLabel.text    = "Welcome!"
             greetingMessageLabel.text = "Here's whats going on around you."
         }
+    }
+    
+    func fetchItems() {
+        self.itemsRef!.queryOrdered(byChild: "title")
+            .observe(.childAdded, with: { (snapshot) -> Void in
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    
+                    let item = Item()
+                    item.title = dictionary["title"] as! String?
+                    item.imageID = dictionary["id"] as! String?
+                    self.getImage(imageID: item.imageID!, item: item)
+                    self.stringArray.append(item)
+                    
+                }
+            })
         
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = false
-        
-        selectedCell = 0
-        
-        self.collectionViewLayout = LGHorizontalLinearFlowLayout
-            .configureLayout(self.collectionView, itemSize: CGSize(width: 90, height: 90), minimumLineSpacing: 10)
+    }
+    
+    func getImage (imageID: String, item: Item) {
+        itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 2048 * 2048) { (data, error) in
+            DispatchQueue.main.async(execute: {
+                if (error != nil) {
+                    print("Image download failed: \(error?.localizedDescription)")
+                    return
+                }
+                
+                item.image = UIImage(data: data!)
+                return
+            })
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: 500, height: 500);
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -70,18 +118,18 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath)
             as! collectionViewCell
         
-        cell.label.text = stringArray[(indexPath as NSIndexPath).item]
+        cell.label.text = stringArray[(indexPath as NSIndexPath).item].title
         
         cell.layer.shouldRasterize = true;
         cell.layer.rasterizationScale = UIScreen.main.scale
         
         if(selectedCell != nil){
             if((indexPath as NSIndexPath).item == selectedCell){
-                cell.image.image = UIImage(named: "FullCircle")!
+                cell.image.image = stringArray[(indexPath as NSIndexPath).item].image
                 cell.label.textColor = UIColor.white
             }
             else{
-                cell.image.image = UIImage(named: "EmptyCircle")!
+                cell.image.image = stringArray[(indexPath as NSIndexPath).item].image
                 cell.label.textColor = UIColor.black
             }
         }
@@ -107,34 +155,19 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
         }
         
         let index = collectionView!.indexPathForItem(at: centerPoint)
-        let cell = collectionView!.cellForItem(at: IndexPath(item: 0, section: 0)) as? collectionViewCell
         
         if(index != nil){
             for cell in self.collectionView.visibleCells   {
                 let currentCell = cell as! collectionViewCell
-                currentCell.image.image = UIImage(named: "EmptyCircle")!
+                currentCell.image.image = stringArray[(index as IndexPath!).item].image
                 currentCell.label.textColor = UIColor.black
             }
             
             let cell = collectionView.cellForItem(at: index!) as? collectionViewCell
             if(cell != nil){
-                cell!.image.image = UIImage(named: "FullCircle")!
+                cell!.image.image = stringArray[(index as IndexPath!).item].image
                 selectedCell = (collectionView.indexPath(for: cell!) as NSIndexPath?)?.item
-                self.countLabel.text = stringArray[selectedCell!]
-            }
-        }
-        else if(cell != nil){
-            let actualPosition = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-            for cellView in self.collectionView.visibleCells   {
-                let currentCell = cellView as? collectionViewCell
-                currentCell!.image.image = UIImage(named: "EmptyCircle")!
-                currentCell!.label.textColor = UIColor.black
-                
-                if(currentCell == cell! && (selectedCell == 0 || selectedCell == 1) && actualPosition.x > 0){
-                    cell!.image.image = UIImage(named: "FullCircle")!
-                    selectedCell = (collectionView.indexPath(for: cell!) as NSIndexPath?)?.item
-                    self.countLabel.text = stringArray[selectedCell!]
-                }
+                self.countLabel.text = stringArray[selectedCell!].title
             }
         }
     }

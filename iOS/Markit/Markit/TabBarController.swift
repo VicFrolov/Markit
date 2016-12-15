@@ -35,6 +35,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if FIRAuth.auth()?.currentUser != nil {
+        } else {
+            FIRAuth.auth()?.signInAnonymously() { (user, error) in
+            }
+        }
         tabBarController?.delegate = self
         
         if let tabBarItems = tabBar.items {
@@ -46,11 +51,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 }
             }
         }
-        if FIRAuth.auth()?.currentUser != nil {
-        } else {
-            FIRAuth.auth()?.signInAnonymously() { (user, error) in
-            }
-        }
+        
     }
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
