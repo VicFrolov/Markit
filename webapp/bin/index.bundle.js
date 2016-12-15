@@ -51,7 +51,8 @@
 	__webpack_require__(11);
 	__webpack_require__(12);
 	__webpack_require__(13);
-	module.exports = __webpack_require__(14);
+	__webpack_require__(14);
+	module.exports = __webpack_require__(2);
 
 
 /***/ },
@@ -61,17 +62,33 @@
 	$(function() {
 	    var auth = __webpack_require__(2)["auth"];
 	    let uid;
+	    let navbarProfilePic;
+	    let profilePic;
 	    
 	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
 	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
+	 
+	    var updateNavbarName = function () {
+	        console.log('blabla');
+
+	        Promise.resolve(getUserInfo(uid)).then(userData => {
+	            profileName.text(userData.username);
+	        });        
+	    };
+
+	    var updateNavbarPic = function () {
+	        Promise.resolve(getProfilePicture(uid)).then(url => {
+	            navbarProfilePic.attr('src', url);
+	        });
+	    }
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            uid = auth.currentUser.uid;
 	            
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
-	                let profilePic = $('#navbar-user-photo');
-	                let profileName = $('#profile-name');
+	                navbarProfilePic = $('#navbar-user-photo');
+	                profileName = $('#profile-name');
 
 	                $(".dropdown-button").dropdown();
 
@@ -98,14 +115,10 @@
 	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
 	                });
 
+	                updateNavbarName();
+	                updateNavbarPic();
 
-	                Promise.resolve(getProfilePicture(uid)).then(url => {
-	                    profilePic.attr('src', url);
-	                });
 
-	                Promise.resolve(getUserInfo(uid)).then(userData => {
-	                    profileName.text(userData.firstName);
-	                });
 
 	            });
 	        } else {
@@ -124,6 +137,11 @@
 	        }
 	    });
 
+	    module.exports = {
+	        updateNavbarName,
+	        updateNavbarPic
+	    }
+
 	});
 
 /***/ },
@@ -136,8 +154,6 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
-
-
 
 	firebase.initializeApp({
 	    // serviceAccount: "./MarkIt-3489756f4a28.json",
@@ -154,6 +170,7 @@
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 	var userImagesRef = firebase.storage().ref('images/profileImages/');
 	var usersRef = database.ref('users/');
+
 
 	var addProfilePicture = function (uid, image, callback) {
 	    return new Promise(function(resolve, reject) {
@@ -180,7 +197,9 @@
 	            var downloadURL = uploadTask.snapshot.downloadURL;
 	            console.log(downloadURL);
 	            resolve(downloadURL);
-	            $('#profile-picture').attr('src', downloadURL)
+	            $('#profile-picture').attr('src', downloadURL);
+
+	            $('#navbar-user-photo').attr('src', downloadURL);
 	        });
 	        
 	    });
@@ -2544,6 +2563,9 @@
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
+	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
+	    
+	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
 
 	    var reader;
 	    var user;
@@ -2567,6 +2589,8 @@
 	    var getImage = __webpack_require__(2)["getImage"];
 	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
 	    var profileLikedItems = $('#profile-liked-items');
+	    var navbarProfilePic = $('#navbar-user-photo');
+	    var profileName = $('#profile-name');
 
 	    if ($(profileLikedItems).length > 0) {
 	        var showFavoritedItems = function(items) {
@@ -2666,6 +2690,7 @@
 
 	    var loadSettings = function () {
 	        getUserInfo(uid, loadUserInfo);
+	        updateNavbarName();
 	    };
 
 	    var loadProfilePicture = function () {
@@ -2687,6 +2712,7 @@
 	        }
 
 	        $('select').material_select();
+
 	    };
 
 	    var checkInput = function (input) {

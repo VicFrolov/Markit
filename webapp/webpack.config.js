@@ -8,7 +8,8 @@ module.exports = {
             './src/navbar-signup.js',
             './src/detailed-view.js',
             './src/profile.js',
-            './src/hub.js'           
+            './src/hub.js',
+            './src/firebase.js'          
         ]
      },
      output: {

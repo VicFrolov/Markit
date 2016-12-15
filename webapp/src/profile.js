@@ -12,6 +12,9 @@ $(function () {
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+    var updateNavbarName = require('./firebase-auth.js')['updateNavbarName'];
+    
+    var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
     var reader;
     var user;
@@ -35,6 +38,8 @@ $(function () {
     var getImage = require('./firebase.js')["getImage"];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var profileLikedItems = $('#profile-liked-items');
+    var navbarProfilePic = $('#navbar-user-photo');
+    var profileName = $('#profile-name');
 
     if ($(profileLikedItems).length > 0) {
         var showFavoritedItems = function(items) {
@@ -134,6 +139,7 @@ $(function () {
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
+        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
@@ -155,6 +161,7 @@ $(function () {
         }
 
         $('select').material_select();
+
     };
 
     var checkInput = function (input) {

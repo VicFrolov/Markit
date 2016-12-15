@@ -5,8 +5,6 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 
-
-
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
     apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -22,6 +20,7 @@ var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var userImagesRef = firebase.storage().ref('images/profileImages/');
 var usersRef = database.ref('users/');
+
 
 var addProfilePicture = function (uid, image, callback) {
     return new Promise(function(resolve, reject) {
@@ -48,7 +47,9 @@ var addProfilePicture = function (uid, image, callback) {
             var downloadURL = uploadTask.snapshot.downloadURL;
             console.log(downloadURL);
             resolve(downloadURL);
-            $('#profile-picture').attr('src', downloadURL)
+            $('#profile-picture').attr('src', downloadURL);
+
+            $('#navbar-user-photo').attr('src', downloadURL);
         });
         
     });
