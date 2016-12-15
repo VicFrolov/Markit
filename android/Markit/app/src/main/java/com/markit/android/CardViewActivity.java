@@ -240,13 +240,6 @@ public class CardViewActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.profile) {
-            startActivity(new Intent(CardViewActivity.this, Profile.class));
-            return true;
-        }
         if (id == R.id.watching) {
             startActivity(new Intent(CardViewActivity.this, FavoritesListView.class));
             return true;
@@ -257,24 +250,9 @@ public class CardViewActivity extends BaseActivity {
             changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
-        if (id == R.id.edit_tags) {
-            Intent tagPage = new Intent(CardViewActivity.this, Profile.class);
-            tagPage.putExtra("ARG_SECTION_NUMBER", 2);
-            startActivity(tagPage);
-            return true;
-        }
-        if (id == R.id.new_listing) {
-            startActivity(new Intent(CardViewActivity.this, NewListing.class));
-            return true;
-        }
-        if (id == R.id.chat) {
-            startActivity(new Intent(CardViewActivity.this, ConversationView.class));
-            return true;
-        }
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
-
         return super.onOptionsItemSelected(item);
     }
 //

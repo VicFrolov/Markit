@@ -32,6 +32,21 @@
 
     </com.markit.android.resources.RoundedImageView>
 
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_items"
+        android:layout_width="match_parent"
+        android:layout_height="324dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.markit.android.profile.files.ProfilePageFragment"
+        tools:listitem="@layout/card_item"
+        android:layout_gravity="bottom">
+
+    </android.support.v7.widget.RecyclerView>
+
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent">-->

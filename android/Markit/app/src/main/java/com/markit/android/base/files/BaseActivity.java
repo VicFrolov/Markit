@@ -223,10 +223,6 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(BaseActivity.this, ConversationView.class));
             return true;
         }
-        if (id == R.id.navigation_drawer) {
-            startActivity(new Intent(BaseActivity.this, NavigationActivity.class));
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
