@@ -288,3 +288,12 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 .row.login-fields {
     margin-bottom: 0px;
 }
+
+nav .button-collapse {
+    color: black;
+    float: right;
+}
+
+nav .side-nav-less {
+    font-weight: 300;
+}
