@@ -1,6 +1,7 @@
 package com.markit.android.profile.files;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -148,6 +149,9 @@ public class Profile extends BaseActivity implements WatchListFragment.OnListFra
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setTitle("Profile");
+        toolbar.setTitleTextColor(Color.parseColor("#F4A49D"));
 
         DrawerLayout drawer = super.getDrawerLayout();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
