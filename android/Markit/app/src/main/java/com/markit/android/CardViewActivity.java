@@ -305,13 +305,10 @@ public class CardViewActivity extends BaseActivity {
                     String itemID = (String) items.child("id").getValue();
                     DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
                     String username = (String) usernameRef.getValue();
+
                     MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
-
                     itemObjectArray.add(newItem);
-
-
                 }
-
 
                 CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
 

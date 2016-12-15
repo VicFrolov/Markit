@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.ads.formats.NativeAd;
 import com.markit.android.base.files.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +24,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.markit.android.chat.files.NewConversationActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateListener {
@@ -32,10 +38,19 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
     private DatabaseReference itemDatabase;
     public static String conversationKey;
     private FirebaseAuth firebaseAuth;
+    public static String seller;
+    //public List<Chat> messages;
+    //public static String seller;
     public static String otherUser;
+    public static String otherUsername;
+    public static String username;
+    //public String buyer;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    //DatabaseReference usernameReference = database.getReference().child("users/" + getUID() + "/username/");
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
+    DatabaseReference currentUserName = database.getReference().child("users/" + getUID() + "/username/");
+    //DatabaseReference convoRef = database.getReference().child("chats");
 
     private FirebaseStorage storage;
     private boolean inFavorites;
@@ -47,18 +62,24 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Bundle idInfo = getIntent().getExtras();
+
         if (idInfo != null) {
             itemID = idInfo.getString("id");
         } else{
             itemID = "-KX9d_FL3zJVZgvnl8TW";
         }
 
+//        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(uid);
+//
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
+        //DatabaseReference currentUsername = database.getReference().child("users/" + getUID() + "/username/")
+
+
         final DatabaseReference rootDatabase = FirebaseDatabase.getInstance().getReference();
 
-
+//        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
         ItemDetail.this.itemDatabase = rootDatabase.child("items").child(itemID);
         storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
@@ -68,43 +89,54 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String uid = (String) dataSnapshot.child("items").child(itemID).child("uid").getValue();
+                DataSnapshot itemRef = dataSnapshot.child("items").child(itemID);
+                //final String username;
                 TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
                 TextView userId = (TextView) findViewById(R.id.userId);
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
 
-                otherUser = (String) dataSnapshot.child("uid").getValue();
-                userId.setText(otherUser);
+                otherUser = (String) itemRef.child("uid").getValue();
+                otherUsername = (String) dataSnapshot.child("users").child(otherUser).child("username").getValue();
+                userId.setText("Seller: " + otherUsername);
 
-                uidTitle.setText((String) dataSnapshot.child("title").getValue());
-                description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
-                price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
+                username = (String) dataSnapshot.child("users/" + getUID() + "/username").getValue();
+
+//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
+                uidTitle.setText((String) itemRef.child("title").getValue());
+                description.setText("Description: " + (String) itemRef.child("description").getValue());
+                price.setText("Price: $"+(String) itemRef.child("price").getValue());
                 //String className = dataSnapshot.child("tags").getValue().getClass().getName();
-//                TODO this line below broke, something about a conversion from HashMap to ArrayList
-//                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
+                //TODO this line below broke, something about a conversion from HashMap to ArrayList
+                //ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
 
                 String tagString = "Tags: ";
 
 //                TODO same for this for loop, commented out to avoid using tagList
-//                for(String tag : tagList) {
-//                    tagString = tagString + tag + " ";
-//                }
+                for(DataSnapshot tag :  itemRef.child("tags").getChildren()) {
+                    tagString = tagString + (String)tag.getValue() + " ";
+                }
+                tags.setText(tagString);
+
+                ImageView photo = (ImageView) findViewById(R.id.imageItemDetail);
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(photo);
 
                 tags.setText(tagString);
-                    if (dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue() == null) {
-                        inFavorites = false;
-                    } else {
-                        inFavorites = (Boolean) dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue();
-                    }
-                    if (inFavorites) {
+                if (dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue() == null) {
+                    inFavorites = false;
+                } else {
+                    inFavorites = (Boolean) dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue();
+                }
+                if (inFavorites) {
 
-                        favorites.setText("Remove from Favorites");
+                    favorites.setText("Remove from Favorites");
 
-                    } else {
-                        favorites.setText("Add to Favorites");
-                    }
+                } else {
+                    favorites.setText("Add to Favorites");
+                }
             }
 
             @Override
@@ -113,21 +145,40 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             }
         };
 
-        itemDatabase.addListenerForSingleValueEvent(itemDetails);
-//        rootDatabase.addListenerForSingleValueEvent(itemDetails);
+        rootDatabase.addListenerForSingleValueEvent(itemDetails);
         FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
-                DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
-                String itemId = itemID;
+                //String conversationID = convoRef.push().getKey();
 
-                ConversationItem myConversation = new ConversationItem(conversationKey, otherUser, itemId);
+                storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
+                final StorageReference pathRef = storageRef.child("images/itemImages/");
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+
+                DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                //DatabaseReference currentUserName = database.getReference().child("users/" + getUID() + "username");
+                DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+
+                String itemId = itemID;
+                String itemImageURL = pathReference.toString();
+                //String currentUsername = database.getReference().child("users/" + getUID() + "/username").getValue();
+
+                //
+                // String username = username.toString();
+
+                Date date = new Date();
+                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                String newDate = fmt.format(date);
+
+                ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
                 contextRef.setValue(myConversation);
-                ConversationItem theirConversation = new ConversationItem(conversationKey, getUID(), itemId);
+                ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
                 sellerRef.setValue(theirConversation);
+
                 startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
         });

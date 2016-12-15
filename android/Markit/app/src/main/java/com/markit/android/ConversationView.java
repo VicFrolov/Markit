@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -65,9 +66,11 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot convos : dataSnapshot.child("users/" + getUID()+ "/chats").getChildren()) {
-                    String otherUser = (String) convos.child("context/" + "otherUser").getValue();
-                    String itemUID = (String) convos.child("itemID").getValue();
-                    String conversationID = (String) convos.child("context/" +"conversationID").getValue();
+                    String otherUsername = (String) convos.child("context/" + "otherUsername").getValue();
+                    String itemID = (String) convos.child("itemID").getValue();
+                    String conversationID = (String) convos.child("context/" + "conversationID").getValue();
+                    //ImageView photo = (ImageView) findViewById(R.id.imageUrl);
+
                     //DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
 
                     //TODO need to find seller (or eventually person who you're chatting
@@ -76,7 +79,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
                     //String username = (String) usernameRef.getValue();
                     String conversationName = (String) sellerRef.getValue();
 //                    String conversationName = (String) convos.child(seller).getValue();
-                    ConversationItem newConvo = new ConversationItem(conversationID, otherUser, itemUID);
+                    ConversationItem newConvo = new ConversationItem(conversationID, otherUsername, itemID);
                     conversations.add(newConvo);
                     //TODO map conversationID to username
                 }

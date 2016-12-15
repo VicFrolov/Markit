@@ -9,46 +9,51 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.markit.android.CardViewActivity;
 import com.markit.android.FavoritesListView;
+import com.markit.android.MarketItem;
 import com.markit.android.login.files.LoginActivity;
-import com.markit.android.chat.files.MainChatActivity;
 import com.markit.android.newlisting.files.NewListing;
 import com.markit.android.R;
-import com.markit.android.WatchListFragment;
 import com.markit.android.base.files.BaseActivity;
-import com.markit.android.dummy.DummyContent.DummyItem;
-import android.widget.Toast;
 import com.markit.android.ConversationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.markit.android.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 
-public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnListFragmentInteractionListener,ProfilePageFragment.OnFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
 
     public void onListFragmentInteraction(String[] d) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
 
-    public void onListFragmentInteraction(DummyItem d) {
-        // TODO make sure each of the datatypes being passed into each of these fragment interaciton methods is different or they will get confused with one antoher
+    public void onListFragmentInteraction(Object d) {
+//        TODO figure out what the fuck this thing is supposed to do
+    }
+
+    public void onListFragmentInteraction(MarketItem item) {
+//        TODO figure out what the fuck this thing is supposed to do
     }
 
     public void onFragmentInteraction(Uri uri) {
@@ -73,25 +78,86 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
     private FirebaseAuth.AuthStateListener mAuthListener;
     private int currentPage;
 
+    public static String TAG = "Favorites";
+
+    private DatabaseReference mdatabase;
+    private DatabaseReference tags;
+    public DatabaseReference items;
+    private FirebaseUser user;
+    private String itemID;
+    public String username;
+
     //TODO use database instead of a created ArrayList here
-    protected static ArrayList<String[]> inputTags = new ArrayList<>();
+    protected static ArrayList<TagListItem> inputTags = new ArrayList<>();
+    public static ArrayList<MarketItem> inputItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        // Populating the inputTags with local data, will change later
-        String[] item1 = new String[3];
-        String[] item2 = new String[4];
-        item1[0] = "car";
-        item1[1] = "corvette";
-        item1[2] = "red";
-        item2[0] = "iphone";
-        item2[1] = "new";
-        item2[2] = "black";
-        item2[3] = "cellphone";
-        inputTags.add(item1);
-        inputTags.add(item2);
+
+        Bundle idInfo = getIntent().getExtras();
+        if (idInfo != null) {
+            itemID = idInfo.getString("id");
+            username = idInfo.getString("username");
+        } else{
+            itemID = "-KX9d_FL3zJVZgvnl8TW";
+        }
+
+        mdatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        tags = mdatabase.child("users").child(user.getUid()).child("tagslist");
+        items = mdatabase.child("users/" + user.getUid() + "/favorites");
+
+        tags.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot tags = dataSnapshot;
+                ArrayList<TagListItem> newTagList = new ArrayList<TagListItem>();
+                for (DataSnapshot tagShot : tags.getChildren()) {
+                    String key = tagShot.getKey();
+                    Object value = tagShot.getValue();
+                    TagListItem newItem = new TagListItem(key, value);
+                    newTagList.add(newItem);
+                }
+                inputTags = newTagList;
+                Log.i(TAG, inputTags.toString());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.print("HELLLL NAWW!");
+                throw databaseError.toException();
+            }
+        });
+
+        ValueEventListener itemListener =
+       // items.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    //DataSnapshot favorites = dataSnapshot;
+                    //ArrayList<MarketItem> newFavorites = new ArrayList<MarketItem>();
+                for (DataSnapshot favorites : dataSnapshot.child(itemID).getChildren()) {
+                    String itemName = (String) favorites.child("title").getValue();
+                    String itemDescription = (String) favorites.child("description").getValue();
+                    String itemPrice = (String) favorites.child("price").getValue();
+                    String itemUID = (String) favorites.child("uid").getValue();
+                    String itemID = (String) favorites.child("id").getValue();
+//                    DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
+//                    String username = (String) usernameRef.getValue();
+                    MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID);
+                    inputItems.add(newItem);
+                    Log.i(TAG, inputItems.toString());
+                }
+                //inputItems = favorites;
+            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+        };
+        items.addListenerForSingleValueEvent(itemListener);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -293,7 +359,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
                 case 0:
                     return ProfilePageFragment.newInstance();
                 case 1:
-                    return WatchListFragment.newInstance(1);
+                    return WatchListFragment.newInstance();
                 case 2:
                     int COLUMN_COUNT = 1;
                     return TagsFragment.newInstance(COLUMN_COUNT);
@@ -314,7 +380,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
                 case 0:
                     return "My Profile";
                 case 1:
-                    return "Watch List";
+                    return "WatchList";
                 case 2:
                     return "Tags";
             }
