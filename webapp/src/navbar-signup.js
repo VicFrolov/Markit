@@ -1,5 +1,6 @@
 $(function() {
     var createAccount = require('./firebase.js')["createAccount"];
+    var sendVerificationEmail = require('./firebase.js')['sendVerificationEmail'];
 
     $('#navbar-placeholder').on('click', '#sign-up-button', function () {
         $('#sign-up-popup1').fadeIn();
@@ -51,6 +52,7 @@ $(function() {
     $('body').on('click', '#create-account-button', function() {
         if (checkInput()) {
             createAccount();
+            sendVerificationEmail();
         } else {
             if (!hubValid) {
                 $('#hub-unavailable').show();

@@ -57,8 +57,6 @@ $(function() {
                 updateNavbarName();
                 updateNavbarPic();
 
-
-
             });
         } else {
             console.log('user is NOT signed in');

@@ -64,6 +64,16 @@ var getProfilePicture = function (uid) {
     });
 }
 
+var sendVerificationEmail = function () {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user.sendEmailVerification().then(function() {
+            });   
+        }
+    });
+    console.log(firebase.auth.currentUser.emailVerified)
+};
+
 var addListing = function (title, description, tags, price, hubs, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
     var myDate = Date();
@@ -137,14 +147,13 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
-
-
 // Remove this function below and replace with the one after it
 // so that it returns a promise, rather than this anti-patern
 // of callback + promise
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
+            // console.log(currentUser.emailVerified)
             usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
                 callback(snapshot.val());
             }, function (error) {
@@ -694,5 +703,6 @@ module.exports = {
     displayConversations,
     getUserInfoProper,
     displayMessagesDetail,
-    postNewMessage
+    postNewMessage,
+    sendVerificationEmail
 };
