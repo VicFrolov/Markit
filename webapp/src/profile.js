@@ -15,6 +15,7 @@ $(function () {
     var updateNavbarName = require('./firebase-auth.js')['updateNavbarName'];
     var getUserSelling = require('./firebase.js')['getUserSelling'];
     var getItemsById = require('./firebase.js')['getItemsById'];
+    var setItemAsSold = require('./firebase.js')['setItemAsSold'];
     
     var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
@@ -105,14 +106,13 @@ $(function () {
                     for (var item in itemObjects) {
                         var currentItem = itemObjects[item];
                         var itemID = currentItem['id'];
-                        var itemDescription = currentItem['description'].toLowerCase();
-                        var itemTitle = currentItem['title'].toLowerCase();
-                        var itemPrice = parseInt(currentItem['price']);
+
                         imagePaths.push(itemID);
 
                         filteredItemList[itemID] = currentItem;
                     }
 
+                    $('#profile-selling-holder').empty();
                     $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
                     console.log(filteredItemList);
 
@@ -248,6 +248,16 @@ $(function () {
 
     addPhotoButton.click(function () {
         addPhotoInput.click();
+    });
+
+    $('#profile-selling-holder').on('click', '.selling-sold-button', function () {
+        let chatID = $($(this).parent()[0].children[2])[0].children[0].id;
+        setItemAsSold(chatID);
+        loadSellingCardList();
+
+        //get itemID
+        // mark this item as sold in items, itemsByHub, itemsByUser
+        // refresh items
     });
 
     addPhotoInput.change(function () {

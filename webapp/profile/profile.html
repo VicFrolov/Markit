@@ -93,13 +93,15 @@
           <div class="row" id="profile-selling-card-list">
             <div id="profile-selling-holder" class="row"> </div>
             <script type="text/template" id="profile-selling-template">
-              <% console.log('lol') %>
               <% for (var specificItem in filteredItemList) { %>
               <%     var item = filteredItemList[specificItem] %>
-
-              <div class="col l4 m6 s12">
+              <div class="col l4 m6 s12"> 
                 <div class="card find-result hoverable">
-                  <a id="selling-sold-button" class="waves-effect waves-light btn">Mark as Sold</a>
+                  <% if (item.hasOwnProperty('sold') && item['sold'] === true) { %>
+                    <div class="sold-item-layer"><img src='../media/sold.png'> </div>
+                  <% } else { %> 
+                    <a  class="waves-effect waves-light btn selling-sold-button">Mark as Sold</a>
+                  <% } %> 
                   <div class="find-result-price">
                     $ <%- item['price'] %>
                   </div>

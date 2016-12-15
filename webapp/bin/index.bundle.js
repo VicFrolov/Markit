@@ -639,6 +639,10 @@
 	}
 
 
+	var setItemAsSold = function(itemID) {
+	    itemsRef.child(`${itemID}/sold/`).set(true);
+	}
+
 	var previousListener = [null, null];
 
 	var shutOffMessageDetailListener = function(uid, chatID) {
@@ -726,7 +730,6 @@
 	};
 
 	var getUserSuggestions = function (uid) {
-
 	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
 	        return snapshot.val();
 	    });
@@ -849,7 +852,8 @@
 	    getUserInfoProper,
 	    displayMessagesDetail,
 	    postNewMessage,
-	    getUserSelling
+	    getUserSelling,
+	    setItemAsSold
 	};
 
 /***/ },
@@ -2571,6 +2575,7 @@
 	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
 	    var getUserSelling = __webpack_require__(2)['getUserSelling'];
 	    var getItemsById = __webpack_require__(2)['getItemsById'];
+	    var setItemAsSold = __webpack_require__(2)['setItemAsSold'];
 	    
 	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
 
@@ -2661,14 +2666,13 @@
 	                    for (var item in itemObjects) {
 	                        var currentItem = itemObjects[item];
 	                        var itemID = currentItem['id'];
-	                        var itemDescription = currentItem['description'].toLowerCase();
-	                        var itemTitle = currentItem['title'].toLowerCase();
-	                        var itemPrice = parseInt(currentItem['price']);
+
 	                        imagePaths.push(itemID);
 
 	                        filteredItemList[itemID] = currentItem;
 	                    }
 
+	                    $('#profile-selling-holder').empty();
 	                    $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
 	                    console.log(filteredItemList);
 
@@ -2804,6 +2808,16 @@
 
 	    addPhotoButton.click(function () {
 	        addPhotoInput.click();
+	    });
+
+	    $('#profile-selling-holder').on('click', '.selling-sold-button', function () {
+	        let chatID = $($(this).parent()[0].children[2])[0].children[0].id;
+	        setItemAsSold(chatID);
+	        loadSellingCardList();
+
+	        //get itemID
+	        // mark this item as sold in items, itemsByHub, itemsByUser
+	        // refresh items
 	    });
 
 	    addPhotoInput.change(function () {

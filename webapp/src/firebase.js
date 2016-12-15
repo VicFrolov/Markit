@@ -491,6 +491,10 @@ var getItemsById = function (itemsToMatch) {
 }
 
 
+var setItemAsSold = function(itemID) {
+    itemsRef.child(`${itemID}/sold/`).set(true);
+}
+
 var previousListener = [null, null];
 
 var shutOffMessageDetailListener = function(uid, chatID) {
@@ -578,7 +582,6 @@ var getItemsInHub = function (hub) {
 };
 
 var getUserSuggestions = function (uid) {
-
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
         return snapshot.val();
     });
@@ -701,5 +704,6 @@ module.exports = {
     getUserInfoProper,
     displayMessagesDetail,
     postNewMessage,
-    getUserSelling
+    getUserSelling,
+    setItemAsSold
 };

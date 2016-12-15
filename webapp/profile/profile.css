@@ -539,7 +539,7 @@ main, body {
 
 /*  */
 
-#selling-sold-button {
+.selling-sold-button {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -548,9 +548,26 @@ main, body {
     background-color: rgba(255, 0, 0, 0.3);
 }
 
-#selling-sold-button:hover {
+.selling-sold-button:hover {
     background-color: rgba(255, 0, 0, 1);   
 }
+
 .find-result {
     position: relative;
+}
+
+.sold-item-layer {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.sold-item-layer img {
+    position: absolute;
+    z-index: 4;
+    width: 10;
+    top: 3px;
+    width: 70%;
+    margin-top: 20px;
+    margin-left: 10%;
+    opacity: 0.5;
 }
