@@ -394,15 +394,7 @@
 	};
 
 	var removeProfileTag = function (itemTitle) {
-	    return new Promise(function(resolve, reject) {
-	    }, function (error) {
-	        reject(error);
-	    }, function () {
-	        resolve(usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove());
-	    })
-	    .then(function () {
-	        getProfileTags();
-	    });
+	    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 	};
 
 	var createAccount = function () {
@@ -2516,6 +2508,8 @@
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
+	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
+	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
 	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
@@ -2531,7 +2525,7 @@
 	    var sellingCardList = $('#profile-selling-card-list');
 	    var profilePicture = $('#profile-picture');
 	    var addPhotoButton = $('#add-photo-button');
-	    var addButton = $('#add-button');
+	    var addButton = $('.add-button');
 	    var editButton = $('#edit-button');
 	    var saveButton = $('#save-button');
 	    var firstName = $('#profile-first-name');
@@ -2638,7 +2632,7 @@
 	        var addition = {
 	            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
 	        };
-	       addTagToProfile(uid, addition);
+	        addTagToProfile(uid, addition);
 	    };
 
 	    var loadSettings = function () {

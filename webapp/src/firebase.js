@@ -277,15 +277,7 @@ var getProfileTags = function () {
 };
 
 var removeProfileTag = function (itemTitle) {
-    return new Promise(function(resolve, reject) {
-    }, function (error) {
-        reject(error);
-    }, function () {
-        resolve(usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove());
-    })
-    .then(function () {
-        getProfileTags();
-    });
+    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 };
 
 var createAccount = function () {
