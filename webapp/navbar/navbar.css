@@ -1,4 +1,7 @@
 /*NAVBAR*/
+.select-wrapper input.select-dropdown {
+    border-bottom: 0px !important;
+}
 
 #dropdown-help {
     margin-top: 64px;
@@ -29,7 +32,7 @@ nav ul a:hover {
 }
 
 .navbar-buttons > li:last-child {
-    width: 130px;
+    min-width: 130px;
     text-align: center;
 }
 
@@ -58,7 +61,7 @@ i.right {
 }
 
 #navbar-searchbar {
-    width: 400px;
+    width: 330px;
 }
 
 #navbar-searchbar:hover {
@@ -136,7 +139,7 @@ nav .input-field label i {
 }
 
 #sign-up-popup1 {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
@@ -147,7 +150,7 @@ nav .input-field label i {
 }
 
 #sign-up-popup2 {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
@@ -254,7 +257,6 @@ nav .input-field label i {
 
 .login-fields .row .col {
     text-align: left;
-    padding: 0;
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -287,4 +289,13 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 
 .row.login-fields {
     margin-bottom: 0px;
+}
+
+nav .button-collapse {
+    color: black;
+    float: right;
+}
+
+nav .side-nav-less {
+    font-weight: 300;
 }

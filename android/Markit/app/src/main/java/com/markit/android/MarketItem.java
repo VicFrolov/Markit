@@ -10,15 +10,15 @@ import java.util.Date;
  */
 @IgnoreExtraProperties
 public class MarketItem {
-    private String description;
-    private String price;
-    private ArrayList<String> tags;
-    private String title;
-    private String uid;
-    private String id;
-    private String date;
-    private String imageUrl;
-    private String username;
+    public String description;
+    public String price;
+    public ArrayList<String> tags;
+    public String title;
+    public String uid;
+    public String id;
+    public String date;
+    public String imageUrl;
+    public String username;
 
 
     public MarketItem(String title, String description, String price, String uid, String id, String username) {

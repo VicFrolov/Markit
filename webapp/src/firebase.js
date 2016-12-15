@@ -5,8 +5,6 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 
-
-
 firebase.initializeApp({
     // serviceAccount: "./MarkIt-3489756f4a28.json",
     apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
@@ -22,6 +20,7 @@ var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var userImagesRef = firebase.storage().ref('images/profileImages/');
 var usersRef = database.ref('users/');
+
 
 var addProfilePicture = function (uid, image, callback) {
     return new Promise(function(resolve, reject) {
@@ -48,7 +47,9 @@ var addProfilePicture = function (uid, image, callback) {
             var downloadURL = uploadTask.snapshot.downloadURL;
             console.log(downloadURL);
             resolve(downloadURL);
-            $('#profile-picture').attr('src', downloadURL)
+            $('#profile-picture').attr('src', downloadURL);
+
+            $('#navbar-user-photo').attr('src', downloadURL);
         });
         
     });
@@ -62,6 +63,16 @@ var getProfilePicture = function (uid) {
         console.log("error either in item id, filename, or file doesn't exist");
     });
 }
+
+var sendVerificationEmail = function () {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user.sendEmailVerification().then(function() {
+            });   
+        }
+    });
+    console.log(firebase.auth.currentUser.emailVerified)
+};
 
 var addListing = function (title, description, tags, price, hubs, uid, images) {
     var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
@@ -136,14 +147,13 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
-
-
 // Remove this function below and replace with the one after it
 // so that it returns a promise, rather than this anti-patern
 // of callback + promise
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
+            // console.log(currentUser.emailVerified)
             usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
                 callback(snapshot.val());
             }, function (error) {
@@ -160,6 +170,14 @@ var getUserFavorites = function() {
         console.log(error);
     });
 };
+
+var getUserSelling = function (uid) {
+    return usersRef.child(`${uid}/itemsForSale/`).once('value').then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
 
 // Adding proper promise, but not replacing the callback antipatern
 // as not to break profile code
@@ -215,7 +233,6 @@ var getFavoriteObjects = function (callback) {
     });
 };
 
-
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
@@ -262,8 +279,20 @@ var addFavoriteToProfile = function(uid, itemID) {
 
 };
 
-var addTagToProfile = function(uid, tagObject) {
+var addTagToProfile = function (uid, tagObject) {
     usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
+};
+
+var getProfileTags = function () {
+    return usersRef.child(auth.currentUser.uid + '/tagsList/').once("value").then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
+        console.log(error);
+    });
+};
+
+var removeProfileTag = function (itemTitle) {
+    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 };
 
 var createAccount = function () {
@@ -472,6 +501,10 @@ var getItemsById = function (itemsToMatch) {
 }
 
 
+var setItemAsSold = function(itemID) {
+    itemsRef.child(`${itemID}/sold/`).set(true);
+}
+
 var previousListener = [null, null];
 
 var shutOffMessageDetailListener = function(uid, chatID) {
@@ -559,7 +592,6 @@ var getItemsInHub = function (hub) {
 };
 
 var getUserSuggestions = function (uid) {
-
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
         return snapshot.val();
     });
@@ -671,6 +703,8 @@ module.exports = {
     updateUserInfo,
     populateSuggestionsInHub,
     addTagToProfile,
+    getProfileTags,
+    removeProfileTag,
     getItemsById,
     userImagesRef,
     addProfilePicture,
@@ -679,5 +713,8 @@ module.exports = {
     displayConversations,
     getUserInfoProper,
     displayMessagesDetail,
-    postNewMessage
+    postNewMessage,
+    sendVerificationEmail,
+    getUserSelling,
+    setItemAsSold
 };

@@ -63,7 +63,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
     //DatabaseReference chatRef = contextRef.child(ItemDetail.conversationKey + "/context");
-    // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
+   // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
     DatabaseReference chatRefPush;
     //DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
 
@@ -183,7 +183,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
                 //This displays the username as well but we don't really need it
                 //chatView.setUser(chat.getUser());
-                chatView.setMessage(chat.getMessage());
+                chatView.setText(chat.getText());
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null && chat.getUser().equals(currentUser.getUid())) {
@@ -219,7 +219,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     public static class Chat {
 
         String user;
-        String message;
+        String text;
         String uid;
         String date;
         String type;
@@ -228,11 +228,11 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         }
 
         public Chat(String message) {
-            this.message = message;
+            this.text = text;
         }
 
-        Chat(String message, String sender, String date, String type) {
-            this.message = message;
+        Chat(String text, String sender, String date, String type) {
+            this.text = text;
             this.date = date;
             this.user = sender;
             this.type = type;
@@ -247,8 +247,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             return uid;
         }
 
-        public String getMessage() {
-            return message;
+        public String getText() {
+            return text;
         }
     }
 
@@ -296,7 +296,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
             field.setText(user);
         }
 
-        public void setMessage(String text) {
+        public void setText(String text) {
             TextView field = (TextView) itemView.findViewById(message_text);
             field.setText(text);
         }

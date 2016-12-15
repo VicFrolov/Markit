@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,8 +52,8 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
     DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
-    DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
-    //DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
+    DatabaseReference userDatabase = rootDatabase.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
+//    DatabaseReference userDatabase = rootDatabase.child("users").child(super.getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
     private RecyclerView recList;
@@ -216,30 +215,6 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         });
 
 
-//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-//        AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
-//
-//        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-////                SearchView searchView = (SearchView) optionsMenu.findItem(R.id.search_listings).getActionView();
-//                if ((collapsingToolbar.getHeight() + verticalOffset) < 2 * (ViewCompat.getMinimumHeight(collapsingToolbar))) {
-//                    toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
-//                    toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
-//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_dark_background), PorterDuff.Mode.SRC_ATOP);
-////                    searchView.setBackgroundColor(Color.parseColor("#000000"));
-//                } else {
-//                    toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
-//                    toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
-//                    toolbar.getMenu().findItem(R.id.search_listings).getIcon().setColorFilter(getResources().getColor(R.color.cardview_light_background), PorterDuff.Mode.SRC_ATOP);
-////                    searchView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-//                }
-//            }
-//        });
-
         return true;
     }
 
@@ -300,18 +275,11 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
                     DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
-                    String username;
-                    try {
-                        username = (String) usernameRef.getValue();
-                    } catch(Exception E){
-                        username = "Invalid username";
-                    }
+
+                    String username = (String) usernameRef.getValue();
 
                     MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
-
                     itemObjectArray.add(newItem);
-
-
                 }
 
                 masterObjectArray = new ArrayList<MarketItem>(itemObjectArray);
