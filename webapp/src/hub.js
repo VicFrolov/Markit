@@ -6,6 +6,7 @@ $(function () {
     var getImage = require('./firebase.js')["getImage"];
     var populateSuggestionsInHub = require('./firebase.js')['populateSuggestionsInHub'];
     var getItemsById = require('./firebase.js')['getItemsById'];
+    var getUserInfo = require('./firebase.js')['getUserInfo'];
 
 
     var mostRecentItems = $('#hub-most-recent');
@@ -59,10 +60,15 @@ $(function () {
                 }
             })
         });
+    };
+
+    var showUserInfo = function (userData) {
+        $('#hub-username-blurb').text(userData.firstName);
     }
 
     auth.onAuthStateChanged(function(user) {
         if (user && $(mostRecentItems).length > 0) {
+            getUserInfo(auth.currentUser.uid, showUserInfo);
             getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
             showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
         } else if (!user && $(mostRecentItems).length > 0) {
