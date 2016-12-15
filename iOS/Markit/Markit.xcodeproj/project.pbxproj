@@ -148,7 +148,6 @@
 				12A4E28F1E02353100BE6BD0 /* Conversation.swift */,
 				129870231DFA9B2100788F46 /* CustomFirebaseAuth.swift */,
 				1236F07D1E00E934007F94A6 /* Extensions.swift */,
-				34431D081E02B030005C868E /* LGHorizontalLinearFlowLayout.swift */,
 				12A4E28D1E0222F200BE6BD0 /* Helpers.swift */,
 			);
 			name = Model;
@@ -232,6 +231,7 @@
 		384810CC1D84F49B00830C95 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				34431D081E02B030005C868E /* LGHorizontalLinearFlowLayout.swift */,
 				12D423B11DF90B320032F24B /* DetailedTableView.swift */,
 				384810CD1D84F4AB00830C95 /* ListingsTableViewCell.swift */,
 				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
