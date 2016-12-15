@@ -29,18 +29,17 @@ class DetailedTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setHeartImage()
-        setupReferences()
+        self.setHeartImage()
+        self.setupReferences()
         
-        print("HERE in DetailedView")
         self.title = self.currentItem.title
-                
-        itemImageView?.image  = self.currentItem.image!
-        itemTitle?.text       = self.currentItem.title
-        itemPrice?.text       = "$\(self.currentItem.price!)"
-        itemDescription?.text = self.currentItem.desc!
-        itemTags?.text        = self.currentItem.tags?.joined(separator: ", ")
-        itemHubs?.text        = self.currentItem.hubs?.joined(separator: ", ")
+        
+        self.itemImageView?.image  = self.currentItem.image!
+        self.itemTitle?.text       = self.currentItem.title
+        self.itemPrice?.text       = "$\(self.currentItem.price!)"
+        self.itemDescription?.text = self.currentItem.desc!
+        self.itemTags?.text        = self.currentItem.tags?.joined(separator: ", ")
+        self.itemHubs?.text        = self.currentItem.hubs?.joined(separator: ", ")
         
         messageSellerButton.layer.cornerRadius = 20
     }
@@ -69,7 +68,8 @@ class DetailedTableViewController: UITableViewController {
             self.userRef.child(userID)
                 .child("username")
                 .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-                    messageVC.senderDisplayName = snapshot.value as! String
+                    messageVC.senderDisplayName = snapshot.value as! String?
+                    
                 })
         }
     }

@@ -38,9 +38,11 @@ final class ChatMessageViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.setupReferences()
         
-        setupReferences()
-        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5, execute: {
+
         if self.context == nil {
             self.isInitialMessage = true
             self.context = self.userChatRef.childByAutoId().key
@@ -48,32 +50,34 @@ final class ChatMessageViewController: JSQMessagesViewController {
             self.userChatRef.child("\(self.context!)/context/readMessages").setValue(true)
         }
         
-        self.messagesRef = self.userChatRef.child(self.context!)
-                                           .child("messages")
+            self.messagesRef = self.userChatRef.child(self.context!)
+                .child("messages")
+            
+            self.getImageURL()
+            self.setupNavBar()
+            self.observeConversation()
+        })
         
-        getImageURL()
-        setupNavBar()
-        observeConversation()
-        
-        collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
-        collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+        self.collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
+        self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
         self.topContentAdditionalInset = 64
+        
+        if self.senderDisplayName == nil {
+            self.senderDisplayName = ""
+        }
+
     }
     
     func setupReferences() {
+
         self.databaseRef      = FIRDatabase.database().reference()
         self.storageRef       = FIRStorage.storage().reference()
         self.imageRef         = self.storageRef.child("images/itemImages/\(self.itemID!)/imageOne")
         self.userRef          = self.databaseRef.child("users")
         self.userChatRef      = self.userRef.child(self.senderId).child("chats")
         self.otherUserChatRef = self.userRef.child(self.otherUserID).child("chats")
-        
-//        self.userRef.child(self.senderId)
-//            .child("username")
-//            .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-//                self.senderDisplayName = snapshot.value as! String
-//            })
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,12 +110,12 @@ final class ChatMessageViewController: JSQMessagesViewController {
             let senderId          = conversationDict?["user"] as! String?
             
             // Need to replace this with getting username from database
-            let senderDisplayName = conversationDict?["username"] as? String ?? senderId
+            let senderDisplayName = senderId ?? ""
             
             let date              = Date().parse(dateString: stringDate!)
             let text              = conversationDict?["text"] as! String
             let message           = JSQMessage(senderId: senderId!,
-                                               senderDisplayName: senderDisplayName!,
+                                               senderDisplayName: senderDisplayName,
                                                date: date,
                                                text: text)
             self.messages.append(message!)
@@ -132,9 +136,9 @@ final class ChatMessageViewController: JSQMessagesViewController {
         let messageID     = messagesRef.childByAutoId().key
         let convertedDate = date.toString()
         
-        if isInitialMessage {
-            initializeMessage(thisUserID: self.senderId, thisUserName: self.senderDisplayName, otherUserID: otherUserID, otherUserName: otherUserName, date: convertedDate, text: text, messageID: messageID)
-            isInitialMessage = false
+        if self.isInitialMessage {
+            self.initializeMessage(thisUserID: self.senderId, thisUserName: self.senderDisplayName, otherUserID: self.otherUserID, otherUserName: self.otherUserName, date: convertedDate, text: text, messageID: messageID)
+            self.isInitialMessage = false
             return
         }
         
