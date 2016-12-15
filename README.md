@@ -1,4 +1,7 @@
-# Markit
+<img src="https://github.com/VicFrolov/Markit/blob/master/SharedResources/writtenLogo.png" width="50%"></br>
+
+<img src="https://img.shields.io/badge/platform-web%20%7C%20iOS%20%7C%20Android-blue.svg">
+
 #What is it?
 Markit is your go to app for selling and purchasing used goods within a college community. Users can search, sell, purchase and track items via Android, iPhone or on your favorite web browser. Markit has a dynamic chat and offering system which provides great communication between the buyer and seller. Worried about being robbed or cheated? Markit allows users to rate each other! Are you looking for an item but it's not available? Markit will track that for you! Markit is your one stop app for buying and selling used goods!
 
@@ -94,11 +97,11 @@ While the web app will perform functionally the same as both of the mobile apps,
 
 #Tools used to develop
 
-web- Cloud9, Rails
+web - Cloud9, Rails
 
-iOS- Xcode
+iOS - Xcode 8 (Swift 3), Cocoapods
 
-Android- Android Studio
+Android - Android Studio
 
 #Teams
 * Web App
