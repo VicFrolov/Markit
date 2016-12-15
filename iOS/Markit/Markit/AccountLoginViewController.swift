@@ -33,7 +33,9 @@ class AccountLoginViewController: UIViewController {
                 if let error = error {
                     print("Sign in failed:", error.localizedDescription)
                 } else {
-                    self.performSegue(withIdentifier: "userLoggedIn", sender: self)
+                    self.dismiss(animated: false, completion: {
+                        self.performSegue(withIdentifier: "userLoggedIn", sender: self)
+                    })
                     print("user signed in")
                 }
             }
