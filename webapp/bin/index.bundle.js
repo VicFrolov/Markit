@@ -71,7 +71,10 @@
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
 	                let profilePic = $('#navbar-user-photo');
 
+	                console.log('fuck you');
 	                $(".dropdown-button").dropdown();
+
+	                $(".button-collapse").sideNav();
 
 	                $("#navbar-logout-button").click(function () {
 	                    auth.signOut();
