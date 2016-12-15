@@ -45,12 +45,19 @@ public class Registration2Activity extends AppCompatActivity {
     private String email;
     private boolean IsconfigChange ;
     private DatabaseReference hubList;
+    private String username2;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle usernameInfo = getIntent().getExtras();
+        if (usernameInfo != null) {
+            username2 = usernameInfo.getString("username");
+        } else{
+            username2 = "Whoops! Something went wrong!";
+        }
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_registration2);
         Firebase.setAndroidContext(this);
@@ -94,11 +101,10 @@ public class Registration2Activity extends AppCompatActivity {
         lastNameView = (EditText)findViewById(R.id.lastName);
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = fUser.getUid();
-        String displayName = fUser.getDisplayName();
+        String username = username2;
         String email = fUser.getEmail();
-        //String favorites = fUser.getFavorites();
         favorites = new ArrayList<String>();
-        postUserInfo(uid,displayName,email,favorites);
+        postUserInfo(uid,username,email,favorites);
     }
 
 

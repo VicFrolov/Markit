@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //startActivity(new Intent(LoginActivity.this, Profile.class));
+
+                    displayName = displayNameView.getText().toString();
+
                     UserProfileChangeRequest update = new UserProfileChangeRequest.Builder().setDisplayName(displayName).build();
                     user.updateProfile(update).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -124,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else{
-                                startActivity(new Intent(MainActivity.this, Registration2Activity.class));
+                                Intent moveToAdditionalRegistration = new Intent(MainActivity.this, Registration2Activity.class);
+                                moveToAdditionalRegistration.putExtra("username", displayName);
+                                startActivity(moveToAdditionalRegistration);
 
                             }
 
