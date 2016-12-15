@@ -6,12 +6,16 @@ $(function () {
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var getProfileTags = require('./firebase.js')['getProfileTags'];
     var removeProfileTag = require('./firebase.js')['removeProfileTag'];
-    var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
+    var nameSizeMin = require('./navbar-signup.js')['nameSizeMin'];
+    var nameSizeMax = require('./navbar-signup.js')['nameSizeMax'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+    var updateNavbarName = require('./firebase-auth.js')['updateNavbarName'];
+    
+    var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
     var reader;
     var user;
@@ -35,6 +39,8 @@ $(function () {
     var getImage = require('./firebase.js')["getImage"];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var profileLikedItems = $('#profile-liked-items');
+    var navbarProfilePic = $('#navbar-user-photo');
+    var profileName = $('#profile-name');
 
     if ($(profileLikedItems).length > 0) {
         var showFavoritedItems = function(items) {
@@ -134,6 +140,7 @@ $(function () {
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
+        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
@@ -155,10 +162,15 @@ $(function () {
         }
 
         $('select').material_select();
+
     };
 
     var checkInput = function (input) {
-        return input.val().length > nameSizeLimit;
+        return input.val().length > nameSizeMin;
+    }
+
+    var checkUsername = function (input) {
+        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
     }
 
     var updateSettings = function () {
@@ -263,7 +275,7 @@ $(function () {
     });
 
     saveButton.click(function () {
-        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
             Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
             return;
         }

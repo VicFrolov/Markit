@@ -72,10 +72,12 @@ $(function() {
         return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
     };
 
-    var nameSizeLimit = 1;
-    
+    var nameSizeMin = 3;
+    var nameSizeMax = 15;
+    var usernameLength;
+
     $('body').on('keyup', '#sign-up-first-name', function() {
-        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
+        if ($('#sign-up-first-name').val().length >= nameSizeMin) {
             firstNameValid = true;
             $('#first-name-unavailable').hide();
             $('#first-name-available').show();
@@ -86,7 +88,7 @@ $(function() {
     });
 
      $('body').on('keyup', '#sign-up-last-name', function() {
-        if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
+        if ($('#sign-up-last-name').val().length >= nameSizeMin) {
             lastNameValid = true;
             $('#last-name-unavailable').hide();
             $('#last-name-available').show();
@@ -97,7 +99,8 @@ $(function() {
     });
 
     $('body').on('keyup', '#sign-up-username', function() {
-        if ($('#sign-up-username').val().length >= nameSizeLimit) {
+        var usernameLength = $('#sign-up-username').val().length;
+        if (usernameLength >= nameSizeMin && usernameLength <= nameSizeMax) {
             usernameValid = true;
             $('#username-unavailable').hide();
             $('#username-available').show();
@@ -108,7 +111,7 @@ $(function() {
     });
 
     $('body').on('keyup', '#sign-up-hub', function() {
-        if ($('#sign-up-hub').val().length >= nameSizeLimit) {
+        if ($('#sign-up-hub').val().length >= nameSizeMin) {
             hubValid = true;
             $('#hub-unavailable').hide();
             $('#hub-available').show();
@@ -154,7 +157,8 @@ $(function() {
     });
 
     module.exports = {
-        nameSizeLimit
+        nameSizeMin,
+        nameSizeMax
     }    
 
 });

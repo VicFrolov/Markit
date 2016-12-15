@@ -29,7 +29,7 @@ nav ul a:hover {
 }
 
 .navbar-buttons > li:last-child {
-    width: 130px;
+    min-width: 130px;
     text-align: center;
 }
 
@@ -58,7 +58,7 @@ i.right {
 }
 
 #navbar-searchbar {
-    width: 400px;
+    width: 330px;
 }
 
 #navbar-searchbar:hover {
@@ -287,4 +287,13 @@ input[type=email]:focus:not([readonly]), input[type=password]:focus:not([readonl
 
 .row.login-fields {
     margin-bottom: 0px;
+}
+
+nav .button-collapse {
+    color: black;
+    float: right;
+}
+
+nav .side-nav-less {
+    font-weight: 300;
 }

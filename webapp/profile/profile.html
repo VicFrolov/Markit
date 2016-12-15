@@ -5,7 +5,7 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../navbar/navbar.css"  media="screen,projection"/>
-    <link rel="shortcut icon" type="image/png" href="https://d1pvztg5l1c6ig.cloudfront.net/20160204181709/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="../media/favicon.png"/>
     <link type="text/css" rel="stylesheet" href="./profile.css"  media="screen,projection"/>
   </head>
 
@@ -209,12 +209,16 @@
 
             <div class="single-setting">
               <div class="input-field col s8 offset-s2">
-                <input disabled value="Loyola Marymount University" id="profile-hub-name" type="text" class="validate">
-                <label for="profile-hub-name">Hub</label>
-              </div>
+              <select disabled id="profile-hub-name">
+                <option value="" disabled selected>Choose Hub(s)</option>
+                <option value="Loyola Marymount University">Loyola Marymount University</option>
+                <option value="UCLA">UCLA</option>
+              </select>
+              <label>Select College Campuses</label>
+            </div>   
             </div>
 
-            <div class="single-setting">
+            <div class="final-setting single-setting">
               <div class="input-field col s8 offset-s2">
                 <select disabled id="profile-payment-preference" multiple>
                   <option value="" disabled selected>Choose Preferences</option>
@@ -229,7 +233,7 @@
               </div>
             </div>
 
-            <div class="single-setting">
+        <!--     <div class="single-setting">
               <div class="col s8 offset-s2">
                 <input disabled type="checkbox" class="filled-in" id="email-notifications" />
                 <label for="email-notifications">Send Email Notifications</label>
@@ -241,7 +245,7 @@
                 <input disabled value="DankMemes" id="profile-password" type="password" class="validate">
                 <label for="profile-password">Password</label>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
