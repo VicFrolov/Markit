@@ -262,8 +262,20 @@ var addFavoriteToProfile = function(uid, itemID) {
 
 };
 
-var addTagToProfile = function(uid, tagObject) {
+var addTagToProfile = function (uid, tagObject) {
     usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
+};
+
+var getProfileTags = function () {
+    return usersRef.child(auth.currentUser.uid + '/tagsList/').once("value").then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
+        console.log(error);
+    });
+};
+
+var removeProfileTag = function (itemTitle) {
+    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 };
 
 var createAccount = function () {
@@ -671,6 +683,8 @@ module.exports = {
     updateUserInfo,
     populateSuggestionsInHub,
     addTagToProfile,
+    getProfileTags,
+    removeProfileTag,
     getItemsById,
     userImagesRef,
     addProfilePicture,

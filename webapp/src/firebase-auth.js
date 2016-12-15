@@ -3,6 +3,7 @@ $(function() {
     let uid;
     
     var getProfilePicture = require('./firebase.js')["getProfilePicture"];
+    var getUserInfo = require('./firebase.js')["getUserInfoProper"];
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -10,6 +11,7 @@ $(function() {
             
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
                 let profilePic = $('#navbar-user-photo');
+                let profileName = $('#profile-name');
 
                 $(".dropdown-button").dropdown();
 
@@ -32,6 +34,10 @@ $(function() {
 
                 Promise.resolve(getProfilePicture(uid)).then(url => {
                     profilePic.attr('src', url);
+                });
+
+                Promise.resolve(getUserInfo(uid)).then(userData => {
+                    profileName.text(userData.firstName);
                 });
 
             });
