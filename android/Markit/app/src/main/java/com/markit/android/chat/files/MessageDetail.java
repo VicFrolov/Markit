@@ -137,7 +137,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 String user = uid;
                 String type = "text";
                 Date date = new Date();
-                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);
 
                 //message item itself

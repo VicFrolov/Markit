@@ -69,7 +69,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
     DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
-    //DatabaseReference contextRef = convoRef.child(ItemDetail.conversationKey + "/context/" + "latestPost");
+    DatabaseReference contextRef = convoRef.child(ItemDetail.conversationKey + "/context/" + "latestPost");
     DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
 
 
@@ -116,7 +116,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                         }
                     }
                 });
-//                contextRef.setValue(newDate);
+                contextRef.setValue(newDate);
 //                System.out.println(newDate);
 
                 sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
