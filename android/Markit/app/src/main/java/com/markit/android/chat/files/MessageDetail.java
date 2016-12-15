@@ -56,9 +56,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     private String otherUser;
     private String otherUsername;
 
-
-
-
     private RecyclerView messageList;
     private LinearLayoutManager llm;
 
@@ -70,11 +67,12 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
    // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
 
     //this pushes it to the other person correctly
-    DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
-    DatabaseReference otherContextRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/context/" + "latestPost");
+    //DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + NewConversationActivity.conversationKey + "/messages");
+    DatabaseReference otherContextRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + NewConversationActivity.conversationKey + "/context/" + "latestPost");
 
     DatabaseReference contextRef;
     //DatabaseReference otherContextRef;
+    DatabaseReference sellerRef;
     DatabaseReference chatRefPush;
     //DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
 
@@ -93,6 +91,9 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
         chatRefPush = convoRefPush.child(conversationID + "/messages");
         contextRef = convoRefPush.child(conversationID + "/context/" + "latestPost");
+
+        sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + conversationID + "/messages");
+
         ///final DatabaseReference sellerRefPush =  database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -145,7 +146,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
                 //This pushes it to the correct conversation in firebase
                 //contextRef.push(setValue)
-                chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
+                chatRefPush.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                         if (databaseError != null) {
@@ -153,6 +154,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                         }
                     }
                 });
+
                 contextRef.setValue(newDate);
                 System.out.println(newDate);
 
