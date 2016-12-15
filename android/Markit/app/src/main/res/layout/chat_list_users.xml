@@ -43,6 +43,15 @@
         android:background="@android:color/darker_gray"
         android:layout_alignBottom="@id/list_item_message"/>
 
+    <com.markit.android.resources.RoundedImageView
+        app:srcCompat="@drawable/cast_abc_scrubber_control_to_pressed_mtrl_000"
+        android:id="@+id/itemPhoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:id="@+id/list_item_username"
         android:textSize="18sp"
@@ -50,16 +59,6 @@
         android:layout_height="50dp"
         android:layout_width="250dp"
         android:layout_below="@+id/conversationID"
-        android:layout_toRightOf="@+id/itemPhoto"
         android:layout_toEndOf="@+id/itemPhoto" />
-
-    <com.markit.android.resources.RoundedImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/cast_abc_scrubber_control_to_pressed_mtrl_000"
-        android:id="@+id/itemPhoto"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

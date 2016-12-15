@@ -146,6 +146,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         };
 
         rootDatabase.addListenerForSingleValueEvent(itemDetails);
+
+
         FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,10 +167,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 
                 String itemId = itemID;
                 String itemImageURL = pathReference.toString();
-                //String currentUsername = database.getReference().child("users/" + getUID() + "/username").getValue();
-
-                //
-                // String username = username.toString();
 
                 Date date = new Date();
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");

@@ -31,10 +31,12 @@ public class ConversationItem {
         this.itemID = itemID;
     }
 
-    public ConversationItem(String otherUser, String itemID) {
-        this.otherUser = otherUser;
-        this.itemID = itemID;
-    }
+//    public ConversationItem(String conversationID, String otherUser, String itemID, String itemImageURL) {
+//        this.otherUser = otherUser;
+//        this.itemID = itemID;
+//        this.conversationID = conversationID;
+//        this.itemImageURL = itemImageURL;
+//    }
 
     public ConversationItem(String conversationID, String itemID, String itemImageURL, String otherUser, String otherUsername, String latestPost, Boolean readMessages) {
         this.otherUsername = otherUsername;
