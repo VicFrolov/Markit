@@ -120,7 +120,6 @@ $(function() {
     });
 
     $('#sign-up-hub').on('change', function () {
-        console.log("test");
         hubValid = true;
     });
 

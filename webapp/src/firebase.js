@@ -45,7 +45,6 @@ var addProfilePicture = function (uid, image, callback) {
             console.log("error uploading image");
         }, function() {
             var downloadURL = uploadTask.snapshot.downloadURL;
-            console.log(downloadURL);
             resolve(downloadURL);
             $('#profile-picture').attr('src', downloadURL);
 
@@ -71,7 +70,6 @@ var sendVerificationEmail = function () {
             });   
         }
     });
-    console.log(firebase.auth.currentUser.emailVerified)
 };
 
 var addListing = function (title, description, tags, price, hubs, uid, images) {
@@ -124,7 +122,6 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
                 console.log("error uploading image");
             }, function() {
                 var downloadURL = uploadTask.snapshot.downloadURL;
-                console.log(downloadURL);
             });
         })(i);
     }
@@ -153,7 +150,6 @@ var getRecentItemsInHub = function (hub, callback) {
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
         if (user) {
-            // console.log(currentUser.emailVerified)
             usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
                 callback(snapshot.val());
             }, function (error) {

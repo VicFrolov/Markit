@@ -115,7 +115,6 @@ $(function () {
 
                     $('#profile-selling-holder').empty();
                     $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
-                    console.log(filteredItemList);
 
                     for (var i = 0; i < imagePaths.length; i += 1) {
                         (function (x) {
@@ -127,7 +126,6 @@ $(function () {
                 });
 
             } else {
-                console.log('haha');
                 // show a div saying user has no items for sale
             }
         });

@@ -57,11 +57,8 @@ $(function() {
 
             });
         } else {
-            console.log('user is NOT signed in');
             $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
                 $(".dropdown-button").dropdown();
-
-                console.log('rip');
                 $(".button-collapse").sideNav({
                     menuWidth: 300, // Default is 240
                     edge: 'right', // Choose the horizontal origin

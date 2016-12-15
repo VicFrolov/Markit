@@ -118,11 +118,8 @@
 
 	            });
 	        } else {
-	            console.log('user is NOT signed in');
 	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
 	                $(".dropdown-button").dropdown();
-
-	                console.log('rip');
 	                $(".button-collapse").sideNav({
 	                    menuWidth: 300, // Default is 240
 	                    edge: 'right', // Choose the horizontal origin
@@ -191,7 +188,6 @@
 	            console.log("error uploading image");
 	        }, function() {
 	            var downloadURL = uploadTask.snapshot.downloadURL;
-	            console.log(downloadURL);
 	            resolve(downloadURL);
 	            $('#profile-picture').attr('src', downloadURL);
 
@@ -217,7 +213,6 @@
 	            });   
 	        }
 	    });
-	    console.log(firebase.auth.currentUser.emailVerified)
 	};
 
 	var addListing = function (title, description, tags, price, hubs, uid, images) {
@@ -270,7 +265,6 @@
 	                console.log("error uploading image");
 	            }, function() {
 	                var downloadURL = uploadTask.snapshot.downloadURL;
-	                console.log(downloadURL);
 	            });
 	        })(i);
 	    }
@@ -299,7 +293,6 @@
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
-	            // console.log(currentUser.emailVerified)
 	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
 	                callback(snapshot.val());
 	            }, function (error) {
@@ -1612,7 +1605,7 @@
 	                        'Computer',
 	                        'Electronics',
 	                        'iPhone',
-	                        'Cell Phone',
+	                        'Cell-Phone',
 	                        'Apple',
 	                        'Macbook',
 	                        'Chair',
@@ -1622,8 +1615,8 @@
 	                        'Bathroom',
 	                        'Couch',
 	                        'Kitchen',
-	                        'Living Room',
-	                        'Dinner Table'
+	                        'Living-Room',
+	                        'Dinner-Table'
 	                    ],
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
@@ -1640,10 +1633,7 @@
 	            .bind('getSuggestions', function(e, data){
 	                var list = [
 	                        'Loyola Marymount University',
-	                        'UCLA',
-	                        'l',
-	                        'la',
-	                        'lalala'
+	                        'UCLA'
 	                    ],
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
@@ -1846,7 +1836,7 @@
 	                        'Computer',
 	                        'Electronics',
 	                        'iPhone',
-	                        'Cell Phone',
+	                        'Cell-Phone',
 	                        'Apple',
 	                        'Macbook',
 	                        'Chair',
@@ -1856,8 +1846,8 @@
 	                        'Bathroom',
 	                        'Couch',
 	                        'Kitchen',
-	                        'Living Room',
-	                        'Dinner Table'
+	                        'Living-Room',
+	                        'Dinner-Table'
 	                    ],
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
@@ -2501,7 +2491,6 @@
 	    });
 
 	    $('#sign-up-hub').on('change', function () {
-	        console.log("test");
 	        hubValid = true;
 	    });
 
@@ -2676,7 +2665,6 @@
 
 	                    $('#profile-selling-holder').empty();
 	                    $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
-	                    console.log(filteredItemList);
 
 	                    for (var i = 0; i < imagePaths.length; i += 1) {
 	                        (function (x) {
@@ -2688,7 +2676,6 @@
 	                });
 
 	            } else {
-	                console.log('haha');
 	                // show a div saying user has no items for sale
 	            }
 	        });

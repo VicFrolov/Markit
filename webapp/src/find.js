@@ -104,7 +104,7 @@ $(function() {
                         'Computer',
                         'Electronics',
                         'iPhone',
-                        'Cell Phone',
+                        'Cell-Phone',
                         'Apple',
                         'Macbook',
                         'Chair',
@@ -114,8 +114,8 @@ $(function() {
                         'Bathroom',
                         'Couch',
                         'Kitchen',
-                        'Living Room',
-                        'Dinner Table'
+                        'Living-Room',
+                        'Dinner-Table'
                     ],
                     textext = $(e.target).textext()[0],
                     query = (data ? data.query : '') || '';
