@@ -2498,6 +2498,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
+	    $('#message-offer-popup').fadeOut(1);
 	    var auth = __webpack_require__(2)['auth'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
 	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
@@ -2539,6 +2540,8 @@
 
 	            $('#profile-liked-holder').empty();
 	            $('#profile-liked-holder').append(compiled({items: items}));
+
+
 
 
 	            for (var item in items) {
@@ -2696,16 +2699,12 @@
 	                getFavoriteObjects(showFavoritedItems);
 	                displayConversations(uid);
 	                rerouteProfileHash();
-
-
 	            }
 
 	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }
 	    });
-
-	    $('#')
 
 	    $('#selling-tab').click(function () {
 	        loadSellingCardList();
@@ -2715,6 +2714,15 @@
 	    $('#notifications-tab').click(function () {
 	        loadTagsList();
 	    });
+
+	    $('#messages-offer-button').click(function() {
+	        if ($('#message-offer-popup').hasClass('invisible-div')) {
+	            $('#message-offer-popup').removeClass('invisible-div').fadeIn(1000);
+	        }
+	        else {
+	            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
+	        }        
+	    })
 
 	    addButton.click(function () {
 	        addToTagsList();

@@ -127,8 +127,9 @@
       <!-- messages -->
       <div class="container container-margin" id="profile-messages">
         <div class="profile-message-tab z-depth-1">
-          <div class="col s12">
+          <div id="messages-header">
             <h4>Messages</h4>
+            <a class="btn-floating btn-large waves-effect waves-light green lighten-2" id="messages-offer-button"><i class="material-icons">attach_money</i></a>
           </div>
           <div class="row">
             <div class="col s4" id="profile-messages-left">
@@ -156,13 +157,16 @@
               </script>
             </div>
             <div class="col s8" id="profile-messages-right">
-              <div id="message-detail-content"></div>
+              <div id="message-offer-popup" class="invisible-div">
+              </div>
+              <div id="message-detail-content">
+              </div>
               <div id="message-send-outer" class="row valign-wrapper">
                 <div class="col l10 m9 s8">
                   <input class="valign" placeholder="Type a message" id="message-send-text">
                 </div>
                 <div class="col l2 m3 s4">
-                  <a class="waves-effect waves-light btn" id="message-send-button">Send</a>
+                  <a class="waves-effect waves-light btn" id="message-send-button"><i class="material-icons">send</i></a>
                 </div>                
               </div>
             </div>

@@ -1,4 +1,5 @@
 $(function () {
+    $('#message-offer-popup').fadeOut(1);
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
@@ -40,6 +41,8 @@ $(function () {
 
             $('#profile-liked-holder').empty();
             $('#profile-liked-holder').append(compiled({items: items}));
+
+
 
 
             for (var item in items) {
@@ -197,16 +200,12 @@ $(function () {
                 getFavoriteObjects(showFavoritedItems);
                 displayConversations(uid);
                 rerouteProfileHash();
-
-
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
             window.location.href = "../index.html";
         }
     });
-
-    $('#')
 
     $('#selling-tab').click(function () {
         loadSellingCardList();
@@ -216,6 +215,15 @@ $(function () {
     $('#notifications-tab').click(function () {
         loadTagsList();
     });
+
+    $('#messages-offer-button').click(function() {
+        if ($('#message-offer-popup').hasClass('invisible-div')) {
+            $('#message-offer-popup').removeClass('invisible-div').fadeIn(1000);
+        }
+        else {
+            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
+        }        
+    })
 
     addButton.click(function () {
         addToTagsList();
