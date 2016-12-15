@@ -9,6 +9,7 @@
 
 import UIKit
 import FontAwesome_swift
+import FirebaseAuth
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
@@ -43,6 +44,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                     let glyph = tabIcons[tab] {
                     item.image = UIImage.fontAwesomeIcon(name: glyph, textColor: UIColor.blue, size: CGSize(width: 35, height: 35))
                 }
+            }
+        }
+        if FIRAuth.auth()?.currentUser != nil {
+        } else {
+            FIRAuth.auth()?.signInAnonymously() { (user, error) in
             }
         }
     }

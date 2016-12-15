@@ -32,7 +32,7 @@ class TagListViewController: UIViewController, UITableViewDataSource, UITableVie
         items.append("Couch")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     

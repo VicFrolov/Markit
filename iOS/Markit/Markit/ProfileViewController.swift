@@ -88,7 +88,7 @@ class ProfileViewController: UIViewController {
         let user = FIRAuth.auth()?.currentUser
         let storage = FIRStorage.storage()
         let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
-        let profilePicRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne.png")
+        let profilePicRef = storageRef.child("images/profileImages/\(user!.uid)/imageOne")
         
         profilePicRef.data(withMaxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             if (error != nil) {
@@ -158,7 +158,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func paymentContains(array: NSArray, paymentOptions: [String]) {
+    private func paymentContains(array: NSArray, paymentOptions: [String]) {
         cashPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
         venmoPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
         otherPaymentLabel.textColor = UIColorFromRGB(rgbValue: 0xCACACA)
@@ -177,7 +177,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    private func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -186,19 +186,5 @@ class ProfileViewController: UIViewController {
         )
     }
     
-    
-}
-
-extension ProfileViewController: ProfilePageViewControllerDelegate {
-    
-    internal func profilePageViewController(profilePageViewController: ProfilePageViewController,
-                                    didUpdatePageCount count: Int) {
-        pageControl.numberOfPages = count
-    }
-    
-    internal func profilePageViewController(profilePageViewController: ProfilePageViewController,
-                                    didUpdatePageIndex index: Int) {
-        pageControl.currentPage = index
-    }
     
 }

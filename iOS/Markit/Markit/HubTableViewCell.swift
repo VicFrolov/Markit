@@ -9,6 +9,7 @@
 import UIKit
 
 class HubTableViewCell: UITableViewCell {
+    @IBOutlet weak var hubNameLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
