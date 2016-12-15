@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.markit.android.R;
-import com.markit.android.profile.files.TagsFragment.OnListFragmentInteractionListener;
 import com.markit.android.dummy.DummyContent.DummyItem;
+import com.markit.android.profile.files.TagsFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
-import java.util.Arrays;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -20,10 +19,10 @@ import java.util.Arrays;
  */
 public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String[]> mValues;
+    private final List<TagListItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTagsRecyclerViewAdapter(List<String[]> items, OnListFragmentInteractionListener listener) {
+    public MyTagsRecyclerViewAdapter(List<TagListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -38,8 +37,8 @@ public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position)[(mValues.get(position).length - 1)]);
-        holder.mContentView.setText(Arrays.toString(mValues.get(position)).replace("[", "").replace("]", ""));
+        holder.mIdView.setText(mValues.get(position).getItemName());
+        holder.mContentView.setText((mValues.get(position).getTags()).replace("[", "").replace("]", ""));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +61,7 @@ public class MyTagsRecyclerViewAdapter extends RecyclerView.Adapter<MyTagsRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public String[] mItem;
+        public TagListItem mItem;
 
         public ViewHolder(View view) {
             super(view);
