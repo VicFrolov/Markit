@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.markit.android.base.files.BaseActivity;
+import com.markit.android.login.files.LoginActivity;
 import com.markit.android.newlisting.files.NewListing;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -155,7 +156,11 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CardViewActivity.this, Profile.class));
+                if (isLoggedIn()) {
+                    startActivity(new Intent(CardViewActivity.this, Profile.class));
+                } else {
+                    startActivity(new Intent(CardViewActivity.this, LoginActivity.class));
+                }
             }
         });
 

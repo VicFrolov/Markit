@@ -9,14 +9,14 @@
     android:weightSum="1">
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/messageDetails"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_toRightOf="@+id/list_item_username"-->
-        <!--android:layout_alignTop="@+id/list_item_username"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:srcCompat="@drawable/ic_play_light" />-->
+    <!--android:id="@+id/messageDetails"-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_toRightOf="@+id/list_item_username"-->
+    <!--android:layout_alignTop="@+id/list_item_username"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--app:srcCompat="@drawable/ic_play_light" />-->
 
     <TextView
         android:id="@+id/list_item_message"
@@ -50,7 +50,8 @@
         android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/list_item_username"

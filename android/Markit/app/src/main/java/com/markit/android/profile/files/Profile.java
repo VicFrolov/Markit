@@ -91,6 +91,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnListFra
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
         tags = mdatabase.child("users").child(user.getUid()).child("tagslist");
         userItems = mdatabase.child("itemsByUser").child(user.getUid());
 
