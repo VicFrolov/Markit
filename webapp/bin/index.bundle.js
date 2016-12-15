@@ -2436,8 +2436,9 @@
 	    };
 
 	    var checkInput = function () {
-	        checkHub();
-	        return firstNameValid && lastNameValid && usernameValid && checkHub && emailValid && usernameValid;
+	        console.log(checkHub());
+	        console.log(firstNameValid && lastNameValid && usernameValid && checkHub() && emailValid && usernameValid);
+	        return firstNameValid && lastNameValid && usernameValid && checkHub() && emailValid && passwordValid;
 	    };
 
 	    var nameSizeMin = 3;
