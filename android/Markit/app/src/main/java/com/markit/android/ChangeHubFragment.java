@@ -54,15 +54,9 @@ public class ChangeHubFragment extends DialogFragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstance) {
         super.onViewCreated(view, savedInstance);
-        // Get field from view
-        //mEditText = (EditText) view.findViewById(R.id.txt_your_name);
-        // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-        //mEditText.requestFocus();
-//        getDialog().getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
 
 
         DatabaseReference hubList = FirebaseDatabase.getInstance().getReference().child("hubs");

@@ -295,7 +295,13 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
                     DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
-                    String username = (String) usernameRef.getValue();
+                    String username;
+                    try {
+                        username = (String) usernameRef.getValue();
+                    } catch(Exception E){
+                        username = "Invalid username";
+                    }
+
                     MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
 
                     itemObjectArray.add(newItem);
@@ -358,21 +364,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
             id = (TextView) itemView.findViewById(R.id.id);
-//            likeImageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View itemView) {
-//                    int id = (int)likeImageView.getTag();
-//                    if (id == R.drawable.ic_favorite_border_black_48px){
-//                        likeImageView.setTag(R.drawable.ic_favorite_black_48px);
-//                        likeImageView.setImageResource(R.drawable.ic_favorite_black_48px);
-//                        Toast.makeText(context, title.getText()+" added to favorites", Toast.LENGTH_SHORT).show();
-//                    }else{
-//                        likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
-//                        likeImageView.setImageResource(R.drawable.ic_favorite_border_black_48px);
-//                        Toast.makeText(context,title.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
+
         }
 
     }
