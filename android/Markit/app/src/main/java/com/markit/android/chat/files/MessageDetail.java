@@ -177,11 +177,16 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
                 Chat.class, R.layout.chat_message, MessageViewHolder.class, lastFifty) {
 
+
+    public void populateAdapter() {
+        Log.i(TAG, "I got to the populate adapter");
+        recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
+                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRefPush) {
             @Override
-            public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
-                //This displays the username as well but we don't really need it
-                //chatView.setUser(chat.getUser());
-                chatView.setMessage(chat.getMessage());
+            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
+                //messageViewHolder.sender.setText(model.getUser());
+                messageViewHolder.messageText.setText(model.getMessage());
+                Log.i(TAG, "I am attempting to populateViewHolder");
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null && chat.getUser().equals(currentUser.getUid())) {
@@ -189,6 +194,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 } else {
                     chatView.setIsSender(false);
                 }
+
+                Log.i(TAG, messageViewHolder.messageText.toString());
             }
         };
 
