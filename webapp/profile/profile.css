@@ -194,7 +194,7 @@ main, body {
 
 #tab-header {
     position: relative;
-    background-color: #eeeeee;
+    background-color: white;
     border-bottom-style: solid;
     border-bottom-width: 2px;
     border-bottom-color: #ccc;

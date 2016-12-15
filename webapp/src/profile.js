@@ -4,6 +4,8 @@ $(function () {
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
+    var getProfileTags = require('./firebase.js')['getProfileTags'];
+    var removeProfileTag = require('./firebase.js')['removeProfileTag'];
     var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
@@ -19,7 +21,8 @@ $(function () {
     var sellingCardList = $('#profile-selling-card-list');
     var profilePicture = $('#profile-picture');
     var addPhotoButton = $('#add-photo-button');
-    var addButton = $('#add-button');
+    var addPhotoInput = $('#add-photo-input');
+    var addButton = $('.add-button');
     var editButton = $('#edit-button');
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
@@ -126,7 +129,7 @@ $(function () {
         var addition = {
             test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
         };
-       addTagToProfile(uid, addition);
+        addTagToProfile(uid, addition);
     };
 
     var loadSettings = function () {
@@ -229,7 +232,11 @@ $(function () {
         addToTagsList();
     });
 
-    addPhotoButton.change(function () {
+    addPhotoButton.click(function () {
+        addPhotoInput.click();
+    });
+
+    addPhotoInput.change(function () {
         reader = new FileReader();
         var fileExtension = ['jpeg', 'jpg', 'png'];
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
