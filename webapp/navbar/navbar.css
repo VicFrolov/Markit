@@ -299,3 +299,8 @@ nav .button-collapse {
 nav .side-nav-less {
     font-weight: 300;
 }
+
+.brand-logo-nav-pic {
+    height: 45px;
+    margin-top: 8px;
+}
