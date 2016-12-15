@@ -43,7 +43,7 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
                 print(error.localizedDescription)
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
                 self.greetingNameLabel.text    = "Hi, \(self.firstName!)"
                 self.greetingMessageLabel.text = "Here's whats going on at \(self.hub!)"
                 self.collectionView.reloadData()

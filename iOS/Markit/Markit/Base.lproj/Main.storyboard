@@ -335,7 +335,7 @@
         <scene sceneID="4EP-87-qZE">
             <objects>
                 <navigationController id="whJ-Lj-Sto" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mlJ-It-TMZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mlJ-It-TMZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -501,7 +501,7 @@
                 <navigationController title=" " automaticallyAdjustsScrollViewInsets="NO" id="aW4-ox-6SW" customClass="NavigationController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Sell" id="mo3-0Q-GRo"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uxp-yY-EZD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uxp-yY-EZD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -983,7 +983,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ah1-QM-mZI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Hub" id="kgC-66-j5R"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="X9o-ca-Npz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="X9o-ca-Npz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1325,7 +1325,7 @@
                     <tabBarItem key="tabBarItem" title="Profile" id="FPZ-cq-6YJ"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qKx-OA-CJj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="qKx-OA-CJj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2792,7 +2792,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qUj-It-8rg" customClass="NavigationController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" selectedImage="Search@2x" systemItem="search" id="W87-rn-6BV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AeM-aa-07L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AeM-aa-07L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
