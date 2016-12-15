@@ -20,11 +20,11 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if items.count > 0 {
-            return
-        }
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("fASFSS \(items) ")
+        self.tableView.reloadData()
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         
@@ -33,6 +33,7 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
             
             self.ref.child("items/").observeSingleEvent(of: .value, with: { (snapshot) in
                 self.itemsFromDatabase = snapshot.value as? NSDictionary
+                
                 for (keyFavItems, _) in self.itemsForSale! {
                     for (keyItemsFD, _) in self.itemsFromDatabase! {
                         if keyFavItems as! String == keyItemsFD as! String{
@@ -58,7 +59,7 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     

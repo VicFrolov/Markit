@@ -34,8 +34,8 @@ class ProfilePageViewController: UIPageViewController {
             let beforeVC = pageViewController(self, viewControllerBefore: firstViewController) as UIViewController!
             let afterVC = pageViewController(self, viewControllerAfter: firstViewController) as UIViewController!
             setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
-            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
-            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+            setViewControllers([beforeVC!], direction: .forward, animated: false, completion: nil)
+            //setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
             
         }
         
@@ -47,14 +47,13 @@ class ProfilePageViewController: UIPageViewController {
         if !layoutsubs {
             let startingVC = self.orderedViewControllers.first as UIViewController!
             let beforeVC = pageViewController(self, viewControllerBefore: startingVC!) as UIViewController!
+            let afterVC = pageViewController(self, viewControllerAfter: startingVC!) as UIViewController!
             
-            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
             setViewControllers([startingVC!], direction: .forward, animated: false, completion: nil)
-            layoutsubs = true
-        }
+            setViewControllers([beforeVC!], direction: .forward, animated: false, completion: nil)
+            setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
+            layoutsubs = true        }
     }
-    
-    
 }
 
 extension ProfilePageViewController: UIPageViewControllerDataSource {
