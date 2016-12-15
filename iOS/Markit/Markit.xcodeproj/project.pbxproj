@@ -19,6 +19,8 @@
 		129C214F1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C214E1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift */; };
 		129C21511DFABCE800056F82 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C21501DFABCE700056F82 /* NavigationController.swift */; };
 		129C2E991DAB1BFF00129143 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C2E981DAB1BFF00129143 /* Item.swift */; };
+		12A4E28E1E0222F200BE6BD0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A4E28D1E0222F200BE6BD0 /* Helpers.swift */; };
+		12A4E2901E02353100BE6BD0 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A4E28F1E02353100BE6BD0 /* Conversation.swift */; };
 		12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B34E081DF650D400C13B9F /* AddHubViewController.swift */; };
 		12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */; };
 		12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */; };
@@ -69,6 +71,8 @@
 		129C214E1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialNotLoggedInViewController.swift; sourceTree = "<group>"; };
 		129C21501DFABCE700056F82 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		129C2E981DAB1BFF00129143 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		12A4E28D1E0222F200BE6BD0 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		12A4E28F1E02353100BE6BD0 /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		12B34E081DF650D400C13B9F /* AddHubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddHubViewController.swift; sourceTree = "<group>"; };
 		12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageViewController.swift; sourceTree = "<group>"; };
@@ -129,8 +133,10 @@
 			isa = PBXGroup;
 			children = (
 				129C2E981DAB1BFF00129143 /* Item.swift */,
+				12A4E28F1E02353100BE6BD0 /* Conversation.swift */,
 				129870231DFA9B2100788F46 /* CustomFirebaseAuth.swift */,
 				1236F07D1E00E934007F94A6 /* Extensions.swift */,
+				12A4E28D1E0222F200BE6BD0 /* Helpers.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -379,8 +385,10 @@
 				343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */,
 				12B5CD801DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift in Sources */,
 				129C2E991DAB1BFF00129143 /* Item.swift in Sources */,
+				12A4E2901E02353100BE6BD0 /* Conversation.swift in Sources */,
 				38FB5CFC1D9B93DA00361CB6 /* AccountCreateEmailAndPWViewController.swift in Sources */,
 				343096281DEEDE98008FB4E4 /* SellingListViewController.swift in Sources */,
+				12A4E28E1E0222F200BE6BD0 /* Helpers.swift in Sources */,
 				125E32811DF8B211005DBE31 /* SellingTabTableViewCell.swift in Sources */,
 				34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */,
 				3832CC521D98677300536451 /* AddPriceViewController.swift in Sources */,

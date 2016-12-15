@@ -20,7 +20,7 @@ class AddTagsViewController: UIViewController {
         super.viewDidLoad()
         tagsField.addTarget(self, action: #selector(self.textViewDidChange), for: .editingChanged)
         
-        configureAutoTextField()
+        Helpers.defaultTextField(autoCompleteTextField: tagsField)
         handleTextFieldInterface()
     }
 
@@ -49,18 +49,9 @@ class AddTagsViewController: UIViewController {
         tagLabel.text = tagsField.text
     }
     
-    func configureAutoTextField() {
-        tagsField.autoCompleteTextFont = UIFont(name: "HelveticaNeue-Light", size: 12)!
-        tagsField.autoCompleteCellHeight = 35.0
-        tagsField.maximumAutoCompleteCount = 20
-        tagsField.hidesWhenSelected = true
-        tagsField.hidesWhenEmpty = true
-        tagsField.enableAttributedText = true
-    }
-    
     func handleTextFieldInterface() {
         tagsField.onTextChange = {[weak self] text in
-            self?.tempTags = self?.fetchTagsThatMatch(with: text)
+            self?.tempTags = Helpers.fetchItemsThatMatch(with: text, list: (self?.tagList!)!)
             self?.tagsField.autoCompleteStrings = self?.tempTags
         }
         
@@ -69,15 +60,4 @@ class AddTagsViewController: UIViewController {
             self?.tagsField.autoCompleteStrings = self?.tagList
         }
     }
-    
-    func fetchTagsThatMatch(with keyword: String) -> [String] {
-        var currentMatchingTags = [String]()
-        for tag in tagList! {
-            if tag.lowercased().contains(keyword.lowercased()) {
-                currentMatchingTags.append(tag)
-            }
-        }
-        return currentMatchingTags
-    }
-    
 }

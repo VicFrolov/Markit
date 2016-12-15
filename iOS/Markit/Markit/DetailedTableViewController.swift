@@ -34,8 +34,8 @@ class DetailedTableViewController: UITableViewController {
         itemTitle?.text       = self.currentItem.title
         itemPrice?.text       = "$\(self.currentItem.price!)"
         itemDescription?.text = self.currentItem.desc!
-        //        detailedView.itemTags.             = self.currentItem.tags
-        //        detailedView.itemHubs             = self.currentItem.hubs
+        itemTags?.text        = self.currentItem.tags?.joined(separator: ", ")
+        itemHubs?.text        = self.currentItem.hubs?.joined(separator: ", ")
         
         messageSellerButton.layer.cornerRadius = 20
     }

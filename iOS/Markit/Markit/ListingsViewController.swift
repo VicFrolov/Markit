@@ -106,7 +106,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 item.desc    = dictionary["description"] as! String?
                 item.title   = dictionary["title"] as! String?
                 item.date    = dictionary["date"] as! String?
-                item.imageID = dictionary["id"] as! String?
+                item.imageID = dictionary["id"] as! String? ?? "https://www.seeklogo.net/wp-content/themes/seek2015/img/not-available.jpg"
                 item.price   = dictionary["price"] as! String?
                 item.tags    = dictionary["tags"] as? Array as [String]?
                 item.hubs     = dictionary["hubs"] as? Array as [String]?

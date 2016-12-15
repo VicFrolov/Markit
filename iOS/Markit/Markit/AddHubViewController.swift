@@ -14,12 +14,14 @@ class AddHubViewController: UIViewController {
     @IBOutlet weak var hubsField: AutoCompleteTextField!
     
     var hubList: [String]?
+    var tempHubs: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         hubsField.addTarget(self, action: #selector(textViewDidChange), for: .editingChanged)
 
-        // Do any additional setup after loading the view.
+        Helpers.defaultTextField(autoCompleteTextField: hubsField)
+        handleTextFieldInterface()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,17 +50,15 @@ class AddHubViewController: UIViewController {
         }
     }
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func handleTextFieldInterface() {
+        hubsField.onTextChange = {[weak self] text in
+            self?.tempHubs = Helpers.fetchItemsThatMatch(with: text, list: (self?.hubList!)!)
+            self?.hubsField.autoCompleteStrings = self?.tempHubs
+        }
+        
+        hubsField.onSelect = {[weak self] text, indexPath in
+            self?.hubsLabel.text = text
+            self?.hubsField.autoCompleteStrings = self?.hubList
+        }
     }
-    */
-
 }
