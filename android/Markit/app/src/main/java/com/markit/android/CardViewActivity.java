@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,14 +40,17 @@ import com.markit.android.newlisting.files.NewListing;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class CardViewActivity extends BaseActivity implements ChangeHubFragment.ChangeHubListener {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static final String TAG = "CardView";
+    //private static final String TAG = "CardView";
     private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
+    private ArrayList<MarketItem> masterObjectArray = new ArrayList<>();
     DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
@@ -60,6 +64,8 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
     private Menu optionsMenu;
     private Bundle hubInfo;
     private String hub;
+    CardViewAdapter iAdapter;
+    public static String TAG = "QSEARCH";
 
 
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
@@ -80,32 +86,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         super.setContentView(R.layout.activity_card_view);
         hub = "Loyola Marymount University";
         hubInfo = getIntent().getExtras();
-//<<<<<<< HEAD
 
-//        if (hubInfo == null && isLoggedIn()) {
-//            ValueEventListener getHub = new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    hub = (String) dataSnapshot.getValue();
-//                    //populateCardView(hub);
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            };
-//            userDatabase.addListenerForSingleValueEvent(getHub);
-//
-//        } else if (hubInfo != null) {
-//            hub = hubInfo.getString("hub");
-//            userDatabase.setValue(hub);
-//            //populateCardView(hub);
-//        } else {
-//            hub = "Loyola Marymount University";
-//            //populateCardView(hub);
-//        }
-//=======
         if (hubInfo == null && isLoggedIn()) {
             ValueEventListener getHub = new ValueEventListener() {
                 @Override
@@ -223,7 +204,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
             }
         });
 
-        //populateCardView();
+
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -260,8 +241,42 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.i(TAG, "I am creating the menu");
+
         CardViewActivity.this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_listings);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange (String newText) {
+                Toast.makeText(CardViewActivity.this, "Got to the onQueryTextChange", Toast.LENGTH_SHORT ).show();
+                Log.i(TAG, "Got to the on query text listener");
+                itemObjectArray = new ArrayList<MarketItem>();
+                for(MarketItem item : masterObjectArray) {
+                    if(item.getTitle().contains(newText)) {
+                        itemObjectArray.add(item);
+                    }
+                }
+                iAdapter.notifyDataSetChanged();
+                recList.setAdapter(iAdapter);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i(TAG, "Got to the on text submit");
+                itemObjectArray = new ArrayList<MarketItem>();
+                for(MarketItem item : masterObjectArray) {
+                    if(item.getTitle().contains(query)) {
+                        itemObjectArray.add(item);
+                    }
+                }
+                iAdapter.notifyDataSetChanged();
+                recList.setAdapter(iAdapter);
+                return true;
+            }
+        });
 
 
         return true;
@@ -352,8 +367,8 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
 
                 }
 
-
-                CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
+                masterObjectArray = new ArrayList<MarketItem>(itemObjectArray);
+                iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
 
                 recList.setAdapter(iAdapter);
             }
