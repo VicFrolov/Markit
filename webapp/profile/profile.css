@@ -201,6 +201,7 @@ main, body {
     border-style: solid;
     border-width: 2px;
     border-color: #ccc;
+    background-color: white;
 }
 
 .tagslist {
@@ -245,7 +246,7 @@ main, body {
 }
 
 .final-setting {
-    margin-bottom: 500px;
+    margin-bottom: 350px;
 }
 
 .card .card-title {

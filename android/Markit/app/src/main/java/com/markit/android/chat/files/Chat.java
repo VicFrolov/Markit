@@ -9,7 +9,7 @@ import java.util.Date;
 public class Chat {
 
     String user;
-    String message;
+    String text;
     String uid;
     String date;
     String type;
@@ -17,12 +17,12 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(String message) {
-        this.message = message;
+    public Chat(String text) {
+        this.text = text;
     }
 
-    Chat(String message, String user, String date, String type) {
-        this.message = message;
+    Chat(String text, String user, String date, String type) {
+        this.text = text;
         this.date = date;
         this.user = user;
         this.type = type;
@@ -37,7 +37,7 @@ public class Chat {
         return uid;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 }

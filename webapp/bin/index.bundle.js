@@ -370,7 +370,6 @@
 	    });
 	};
 
-
 	var removeFavorite = function (item) {
 	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
 	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
@@ -2459,10 +2458,12 @@
 	        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
 	    };
 
-	    var nameSizeLimit = 1;
-	    
+	    var nameSizeMin = 3;
+	    var nameSizeMax = 15;
+	    var usernameLength;
+
 	    $('body').on('keyup', '#sign-up-first-name', function() {
-	        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-first-name').val().length >= nameSizeMin) {
 	            firstNameValid = true;
 	            $('#first-name-unavailable').hide();
 	            $('#first-name-available').show();
@@ -2473,7 +2474,7 @@
 	    });
 
 	     $('body').on('keyup', '#sign-up-last-name', function() {
-	        if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-last-name').val().length >= nameSizeMin) {
 	            lastNameValid = true;
 	            $('#last-name-unavailable').hide();
 	            $('#last-name-available').show();
@@ -2484,7 +2485,8 @@
 	    });
 
 	    $('body').on('keyup', '#sign-up-username', function() {
-	        if ($('#sign-up-username').val().length >= nameSizeLimit) {
+	        var usernameLength = $('#sign-up-username').val().length;
+	        if (usernameLength >= nameSizeMin && usernameLength <= nameSizeMax) {
 	            usernameValid = true;
 	            $('#username-unavailable').hide();
 	            $('#username-available').show();
@@ -2495,7 +2497,7 @@
 	    });
 
 	    $('body').on('keyup', '#sign-up-hub', function() {
-	        if ($('#sign-up-hub').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-hub').val().length >= nameSizeMin) {
 	            hubValid = true;
 	            $('#hub-unavailable').hide();
 	            $('#hub-available').show();
@@ -2541,7 +2543,8 @@
 	    });
 
 	    module.exports = {
-	        nameSizeLimit
+	        nameSizeMin,
+	        nameSizeMax
 	    }    
 
 	});
@@ -2566,7 +2569,8 @@
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
 	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
-	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
+	    var nameSizeMin = __webpack_require__(11)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(11)['nameSizeMax'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
@@ -2732,7 +2736,11 @@
 	    };
 
 	    var checkInput = function (input) {
-	        return input.val().length > nameSizeLimit;
+	        return input.val().length > nameSizeMin;
+	    }
+
+	    var checkUsername = function (input) {
+	        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
 	    }
 
 	    var updateSettings = function () {
@@ -2847,7 +2855,7 @@
 	    });
 
 	    saveButton.click(function () {
-	        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
 	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
 	            return;
 	        }

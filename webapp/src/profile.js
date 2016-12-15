@@ -6,7 +6,8 @@ $(function () {
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var getProfileTags = require('./firebase.js')['getProfileTags'];
     var removeProfileTag = require('./firebase.js')['removeProfileTag'];
-    var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
+    var nameSizeMin = require('./navbar-signup.js')['nameSizeMin'];
+    var nameSizeMax = require('./navbar-signup.js')['nameSizeMax'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
@@ -172,7 +173,11 @@ $(function () {
     };
 
     var checkInput = function (input) {
-        return input.val().length > nameSizeLimit;
+        return input.val().length > nameSizeMin;
+    }
+
+    var checkUsername = function (input) {
+        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
     }
 
     var updateSettings = function () {
@@ -287,7 +292,7 @@ $(function () {
     });
 
     saveButton.click(function () {
-        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
             Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
             return;
         }
