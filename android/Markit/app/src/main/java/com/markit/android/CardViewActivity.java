@@ -185,12 +185,12 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-            public boolean onQueryTextChange (String newText) {
+            public boolean onQueryTextChange (String query) {
                 //Toast.makeText(CardViewActivity.this, "Got to the onQueryTextChange", Toast.LENGTH_SHORT ).show();
                 Log.i(TAG, "Got to the on query text listener");
                 itemObjectArray = new ArrayList<MarketItem>();
                 for(MarketItem item : masterObjectArray) {
-                    if(newText != null && item.getTitle().contains(newText)) {
+                    if(query != null && item.getTitle().toLowerCase().contains(query.toLowerCase())) {
                         itemObjectArray.add(item);
                     }
                 }
@@ -204,7 +204,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                 Log.i(TAG, "Got to the on text submit");
                 itemObjectArray = new ArrayList<MarketItem>();
                 for(MarketItem item : masterObjectArray) {
-                    if(item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    if(query != null && item.getTitle().toLowerCase().contains(query.toLowerCase())) {
                         itemObjectArray.add(item);
                     }
                 }
