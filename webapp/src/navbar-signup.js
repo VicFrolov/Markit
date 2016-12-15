@@ -22,6 +22,7 @@ $(function() {
     var next = function () {
         $('#sign-up-popup1').fadeOut();
         $('#sign-up-popup2').fadeIn();
+        $('select').material_select();
     };
 
     var firstNameValid = false;
@@ -64,12 +65,17 @@ $(function() {
         }
     });    
 
+    var checkHub = function () {
+        return $('#sign-up-hub').val();
+    };
+
     var checkNames = function () {
         return firstNameValid && lastNameValid && usernameValid;
     };
 
     var checkInput = function () {
-        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
+        checkHub();
+        return firstNameValid && lastNameValid && usernameValid && checkHub && emailValid && usernameValid;
     };
 
     var nameSizeMin = 3;
@@ -107,17 +113,6 @@ $(function() {
         } else {
             usernameValid = false;
             $('#username-available').hide();
-        }
-    });
-
-    $('body').on('keyup', '#sign-up-hub', function() {
-        if ($('#sign-up-hub').val().length >= nameSizeMin) {
-            hubValid = true;
-            $('#hub-unavailable').hide();
-            $('#hub-available').show();
-        } else {
-            hubValid = false;
-            $('#hub-available').hide();
         }
     });
 

@@ -100,27 +100,29 @@
 <div id="sign-up-popup2">
   <div id="sign-up-popup-inner">
     <div class="row login-fields">
-         <div class="row">
-          <div class="input-field col s12">
-            <i hidden class="material-icons prefix" id="hub-available">check_circle</i>
-            <input id="sign-up-hub" type="email" placeholder="Hub">
-          </div>
-          <div hidden class="input-message" id="hub-unavailable">Must be a valid Hub.</div>
-        </div> 
-        <div class="row">
-          <div class="input-field col s12">
-            <i hidden class="material-icons prefix" id="email-available">check_circle</i>
-            <input id="sign-up-email" type="email" placeholder="Email">
-          </div>
-          <div hidden class="input-message" id="email-unavailable">Must be a valid .edu email.</div>
-        </div>    
-        <div class="row">
-          <div class="input-field col s12">
-            <i hidden class="material-icons prefix" id="password-available">check_circle</i>
-            <input id="sign-up-password" type="password" placeholder="Password">
-          </div>
-          <div hidden class="input-message" id="password-unavailable">Password must be at least 8 characters long.</div>
+      <div class="row">
+        <div class="input-field col s12">
+          <select id="sign-up-hub">
+            <option value="" disabled selected>Choose Hub(s)</option>
+            <option value="Loyola Marymount University">Loyola Marymount University</option>
+            <option value="UCLA">UCLA</option>
+          </select>
         </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i hidden class="material-icons prefix" id="email-available">check_circle</i>
+          <input id="sign-up-email" type="email" placeholder="Email">
+        </div>
+        <div hidden class="input-message" id="email-unavailable">Must be a valid .edu email.</div>
+      </div>    
+      <div class="row">
+        <div class="input-field col s12">
+          <i hidden class="material-icons prefix" id="password-available">check_circle</i>
+          <input id="sign-up-password" type="password" placeholder="Password">
+        </div>
+        <div hidden class="input-message" id="password-unavailable">Password must be at least 8 characters long.</div>
+      </div>
     </div>
     <a class="waves-effect waves-light btn sign-up-popup-inner-items" id="create-account-button">Create Account</a>
   </div>

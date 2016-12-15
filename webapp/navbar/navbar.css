@@ -1,4 +1,7 @@
 /*NAVBAR*/
+.select-wrapper input.select-dropdown {
+    border-bottom: 0px !important;
+}
 
 #dropdown-help {
     margin-top: 64px;
