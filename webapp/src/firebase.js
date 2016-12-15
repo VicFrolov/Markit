@@ -137,8 +137,6 @@ var getRecentItemsInHub = function (hub, callback) {
     });
 };
 
-
-
 // Remove this function below and replace with the one after it
 // so that it returns a promise, rather than this anti-patern
 // of callback + promise
@@ -161,6 +159,14 @@ var getUserFavorites = function() {
         console.log(error);
     });
 };
+
+var getUserSelling = function (uid) {
+    return usersRef.child(`${uid}/itemsForSale/`).once('value').then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
 
 // Adding proper promise, but not replacing the callback antipatern
 // as not to break profile code
@@ -694,5 +700,6 @@ module.exports = {
     displayConversations,
     getUserInfoProper,
     displayMessagesDetail,
-    postNewMessage
+    postNewMessage,
+    getUserSelling
 };

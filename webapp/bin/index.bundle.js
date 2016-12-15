@@ -69,8 +69,6 @@
 	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
 	 
 	    var updateNavbarName = function () {
-	        console.log('blabla');
-
 	        Promise.resolve(getUserInfo(uid)).then(userData => {
 	            profileName.text(userData.username);
 	        });        
@@ -287,8 +285,6 @@
 	    });
 	};
 
-
-
 	// Remove this function below and replace with the one after it
 	// so that it returns a promise, rather than this anti-patern
 	// of callback + promise
@@ -311,6 +307,14 @@
 	        console.log(error);
 	    });
 	};
+
+	var getUserSelling = function (uid) {
+	    return usersRef.child(`${uid}/itemsForSale/`).once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	}
 
 	// Adding proper promise, but not replacing the callback antipatern
 	// as not to break profile code
@@ -844,7 +848,8 @@
 	    displayConversations,
 	    getUserInfoProper,
 	    displayMessagesDetail,
-	    postNewMessage
+	    postNewMessage,
+	    getUserSelling
 	};
 
 /***/ },
@@ -2564,6 +2569,8 @@
 	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
 	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
+	    var getUserSelling = __webpack_require__(2)['getUserSelling'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
 	    
 	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
 
@@ -2639,47 +2646,27 @@
 
 	    var loadSellingCardList = function () {
 	        sellingCardList.empty();
-	        for (var i = 0; i < 31; i++) {
-	            sellingCardList.append([
-	                $('<div></div>').addClass('col l4 m4 s12').append(
-	                    $('<div></div>').addClass('card hoverable profile-card').append([
-	                        $('<div></div>').addClass('profile-favorite').append(
-	                            $('<img>').addClass('profile-favorite-image').attr({
-	                                src: '../media/ic_heart.png'
-	                            })
-	                        ),
-	                        $('<div></div>').addClass('profile-price').text('$69'),
-	                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
-	                            $('<img>').addClass('activator').attr({
-	                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
-	                            }),
-	                        ]),
-	                        $('<div></div>').addClass('card-content').append([
-	                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone Selling').append(
-	                                $('<i></i>').addClass('material-icons right').text('more_vert')
-	                            ),
+	        Promise.resolve(getUserSelling(uid)).then(function(items) {
+	            if (Object.keys(items).length >= 1) {
+	                let listOfItems = [];
+	                for (itemId in items) {
+	                    listOfItems.push(itemId)
+	                }
 
-	                            $('<p></p>').append(
-	                                $('<a></a>').text('view item').attr({
-	                                    href: '#'
-	                                })
-	                            )
-	                        ]),
-	                        $('<div></div>').addClass('card-reveal').append([
-	                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
-	                                $('<i></i>').addClass('material-icons right').text('close')
-	                            ),
-	                            $('<p></p>').text('This is a test selling description')
-	                        ])
-	                    ])
-	                )
-	            ]);
-	        }
+	                console.log(listOfItems);
+	                Promise.resolve(getItemsById(listOfItems)).then(function(itemObjects) {
+	                    console.log(itemObjects);
+	                });
+	            } else {
+	                console.log('haha');
+	            }
+	        });
 	    };
 
 	    var loadTagsList = function () {
 
 	    };
+
 
 	    var addToTagsList = function () {
 	        var addition = {
