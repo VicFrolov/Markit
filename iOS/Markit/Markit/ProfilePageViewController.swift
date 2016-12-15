@@ -11,6 +11,7 @@ import UIKit
 class ProfilePageViewController: UIPageViewController {
     
     weak var profileDelegate: ProfilePageViewControllerDelegate?
+    var layoutsubs = false
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [self.newViewController(title: "ProfilePage"),
@@ -30,13 +31,28 @@ class ProfilePageViewController: UIPageViewController {
         delegate = self
         
         if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController],
-                               direction: .forward,
-                               animated: true,
-                               completion: nil)
+            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+            let beforeVC = pageViewController(self, viewControllerBefore: firstViewController) as UIViewController!
+            let afterVC = pageViewController(self, viewControllerAfter: firstViewController) as UIViewController!
+            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
+            setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
+            
         }
         
         profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageCount: orderedViewControllers.count)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        //Load the viewController before the starting VC then go back to the starting VC
+        //viewWillLayoutSubviews() is called multiple times, so do this only once
+        if !layoutsubs {
+            let startingVC = self.orderedViewControllers.first as UIViewController!
+            let beforeVC = pageViewController(self, viewControllerBefore: startingVC!) as UIViewController!
+            
+            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
+            setViewControllers([startingVC!], direction: .forward, animated: false, completion: nil)
+            layoutsubs = true
+        }
     }
     
     

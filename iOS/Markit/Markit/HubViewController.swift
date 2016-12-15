@@ -14,9 +14,9 @@ import FirebaseStorage
 class HubViewController: UIViewController {
     @IBOutlet weak var greetingMessageLabel: UILabel!
     @IBOutlet weak var greetingNameLabel: UILabel!
+    @IBOutlet weak var listingsContainerView: UIView!
     var ref: FIRDatabaseReference!
 
-    @IBOutlet weak var listingsContainerView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavBarInvis()
