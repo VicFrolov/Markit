@@ -90,7 +90,7 @@ public class CardViewAdapter extends
         likeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View itemView) {
-                    int id = (int)likeImage.getTag();
+                    int id = (int) likeImage.getTag();
                     if (id == R.drawable.ic_favorite_border_black_48px){
                         likeImage.setTag(R.drawable.ic_favorite_black_48px);
                         likeImage.setImageResource(R.drawable.ic_favorite_black_48px);
@@ -130,7 +130,7 @@ public class CardViewAdapter extends
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
             id = (TextView) itemView.findViewById(R.id.id);
-            likeImage = (ImageView) itemView.findViewById(R.id.likeImageView);
+            likeImage = (ImageView) itemView.findViewById(R.id.like_image_view);
         }
     }
 

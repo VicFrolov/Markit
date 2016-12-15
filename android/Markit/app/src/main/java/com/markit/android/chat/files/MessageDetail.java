@@ -62,7 +62,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
-   // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
+    //DatabaseReference chatRef = contextRef.child(ItemDetail.conversationKey + "/context");
+    // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
     DatabaseReference chatRefPush;
     //DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
 
@@ -121,6 +122,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
                 //This pushes it to the correct conversation in firebase
+                //contextRef.push(setValue)
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -154,9 +156,9 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     @Override
     public void onStop() {
         super.onStop();
-         if (recViewAdapter != null) {
-             recViewAdapter.cleanup();
-         }
+        if (recViewAdapter != null) {
+            recViewAdapter.cleanup();
+        }
     }
 
     @Override
@@ -177,16 +179,11 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
         recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageViewHolder>(
                 Chat.class, R.layout.chat_message, MessageViewHolder.class, lastFifty) {
 
-
-    public void populateAdapter() {
-        Log.i(TAG, "I got to the populate adapter");
-        recViewAdapter = new FirebaseRecyclerAdapter<Chat, MessageDetail.MessageViewHolder>(
-                Chat.class, R.layout.chat_message, MessageDetail.MessageViewHolder.class, chatRefPush) {
             @Override
-            public void populateViewHolder(MessageDetail.MessageViewHolder messageViewHolder, Chat model, int position) {
-                //messageViewHolder.sender.setText(model.getUser());
-                messageViewHolder.messageText.setText(model.getMessage());
-                Log.i(TAG, "I am attempting to populateViewHolder");
+            public void populateViewHolder(MessageViewHolder chatView, Chat chat, int position) {
+                //This displays the username as well but we don't really need it
+                //chatView.setUser(chat.getUser());
+                chatView.setMessage(chat.getMessage());
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null && chat.getUser().equals(currentUser.getUid())) {
@@ -194,8 +191,6 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 } else {
                     chatView.setIsSender(false);
                 }
-
-                Log.i(TAG, messageViewHolder.messageText.toString());
             }
         };
 
@@ -308,4 +303,3 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
     }
 }
-
