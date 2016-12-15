@@ -124,7 +124,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnListFra
                     newTagList.add(newItem);
                 }
                 inputTags = newTagList;
-                Log.i(TAG, inputTags.toString());
+//                Log.i(TAG, inputTags.toString());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -134,7 +134,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnListFra
         });
 
         ValueEventListener itemListener =
-       // items.addListenerForSingleValueEvent(
+//        items.addListenerForSingleValueEvent(
                 new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
