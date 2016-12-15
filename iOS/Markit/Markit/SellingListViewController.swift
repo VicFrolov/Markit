@@ -10,45 +10,43 @@ import UIKit
 
 class SellingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var toDoItems = [WatchListItem]()
+    var items = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        if toDoItems.count > 0 {
+        if items.count > 0 {
             return
         }
-        toDoItems.append(WatchListItem(text: "Macbook Pro"))
-        toDoItems.append(WatchListItem(text: "Iphone 7"))
-        toDoItems.append(WatchListItem(text: "Chair"))
-        toDoItems.append(WatchListItem(text: "Panda Cup"))
-        toDoItems.append(WatchListItem(text: "Fossil Watch"))
-        toDoItems.append(WatchListItem(text: "Full Sized Mattress"))
-        toDoItems.append(WatchListItem(text: "Microwave"))
-        toDoItems.append(WatchListItem(text: "Samsung 30' TV"))
-        toDoItems.append(WatchListItem(text: "History Book"))
-        toDoItems.append(WatchListItem(text: "Speakers"))
-        toDoItems.append(WatchListItem(text: "Concert Tickets"))
-        toDoItems.append(WatchListItem(text: "Couch"))
+        items.append("SellingListView")
+        items.append("Iphone 7")
+        items.append("Chair")
+        items.append("Panda Cup")
+        items.append("Fossil Watch")
+        items.append("Full Sized Mattress")
+        items.append("Microwave")
+        items.append("Samsung 30' TV")
+        items.append("History Book")
+        items.append("Speakers")
+        items.append("Concert Tickets")
+        items.append("Couch")
     }
     
-    
-    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoItems.count
+        return items.count
     }
     
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) 
-        let item = toDoItems[indexPath.row]
-        cell.textLabel?.text = item.text
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! SellingListTableViewCell
+        
+        let itemName = items[indexPath.row]
+        cell.itemNameLabel?.text = itemName
+        cell.itemImageView?.image = UIImage(named: itemName)
+        
         return cell
     }
     
