@@ -86,10 +86,11 @@ public class ConversationAdapter extends
         final String conversationID = convo.getConversationID();
         final String otherUsername = convo.getOtherUsername();
         final String imageUrl = convo.getItemImageURL();
+        final String otherUser = convo.getOtherUser();
 
         final String itemID = convo.getItemID();
 
-        conversationName.setText(convo.getOtherUsername());
+        conversationName.setText(otherUsername);
 
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +98,7 @@ public class ConversationAdapter extends
                 Intent chat = new Intent(context, MessageDetail.class);
                 //final String itemID = model.getItemID();
                 chat.putExtra("conversationID", conversationID);
-                chat.putExtra("otherUser", otherUsername);
+                chat.putExtra("otherUser", otherUser);
                 chat.putExtra("itemID", itemID);
 
                 context.startActivity(chat);
@@ -106,7 +107,7 @@ public class ConversationAdapter extends
 
         String itemPathRef = itemID + "/imageOne";
         StorageReference pathReference = pathRef.child(itemPathRef);
-        //Glide.with(context).asBitmap().using(new FirebaseImageLoader()).load(pathReference).into(itemPhoto);
+
         Glide.with(context).using(new FirebaseImageLoader()).load(pathReference).asBitmap().into(itemPhoto);
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -118,6 +119,9 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
             }
         };
         conversationRef.addListenerForSingleValueEvent(itemListener);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -125,7 +129,6 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
     }
 }
-
 
 
 

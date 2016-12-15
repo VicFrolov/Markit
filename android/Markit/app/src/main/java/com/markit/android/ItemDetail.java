@@ -1,5 +1,6 @@
 package com.markit.android;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.ads.formats.NativeAd;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.markit.android.chat.files.NewConversationActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,7 +95,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot itemRef = dataSnapshot.child("items").child(itemID);
 
-                //final String username;
+                String username;
 
                 TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
                 TextView userId = (TextView) findViewById(R.id.userId);
@@ -101,11 +104,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
 
                 otherUser = (String) itemRef.child("uid").getValue();
-                otherUsername = (String) dataSnapshot.child("users").child(otherUser).child("username").getValue();
-                userId.setText("Seller: " + otherUsername);
-
-                username = (String) dataSnapshot.child("users/" + getUID() + "/username").getValue();
-
+                username = (String) dataSnapshot.child("users").child(otherUser).child("username").getValue();
+                userId.setText("Seller: "+username);
+//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
                 uidTitle.setText((String) itemRef.child("title").getValue());
                 description.setText("Description: " + (String) itemRef.child("description").getValue());
                 price.setText("Price: $"+(String) itemRef.child("price").getValue());
@@ -124,7 +125,6 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 ImageView photo = (ImageView) findViewById(R.id.imageItemDetail);
                 String itemPathRef = itemID + "/imageOne";
                 StorageReference pathReference = pathRef.child(itemPathRef);
-
                 Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(photo);
 
                 tags.setText(tagString);
@@ -155,62 +155,65 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemDetail.conversationKey = convoRef.push().getKey();
 
-                String itemPathRef = itemID + "/imageOne";
-                StorageReference pathReference = pathRef.child(itemPathRef);
-
-
-                System.out.println(pathRef);
-                System.out.println(itemPathRef);
-
-                StorageReference storageRef =FirebaseStorage.getInstance().getReference();
-                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
-
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String itemImageURL = uri.toString();
-
-                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                        DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
-
-                        String itemId = itemID;
-
-                        Date date = new Date();
-                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
-                        String newDate = fmt.format(date);
-
-                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
-                        contextRef.setValue(myConversation);
-                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
-                        sellerRef.setValue(theirConversation);
-
-                        startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
-
+                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
             }
+
+//                ItemDetail.conversationKey = convoRef.push().getKey();
+//
+//                String itemPathRef = itemID + "/imageOne";
+//                StorageReference pathReference = pathRef.child(itemPathRef);
+//
+//                System.out.println(pathRef);
+//                System.out.println(itemPathRef);
+//
+//                StorageReference storageRef =FirebaseStorage.getInstance().getReference();
+//                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
+//
+//                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        String itemImageURL = uri.toString();
+//
+//                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+//                        DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+//
+//                        String itemId = itemID;
+//
+//                        Date date = new Date();
+//                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//                        String newDate = fmt.format(date);
+//
+//                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
+//                        contextRef.setValue(myConversation);
+//                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
+//                        sellerRef.setValue(theirConversation);
+//
+//                        startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        // Handle any errors
+//                    }
+//                });
+
+
+//            }
         });
 
         favorites.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (inFavorites){
-                    rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(false);
-                    favorites.setText("Add to favorites");
-                    inFavorites = false;
-                } else {
-                    rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(true);
-                    favorites.setText("Remove from Favorites");
-                    inFavorites = true;
-                }
+            if (inFavorites){
+                rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(false);
+                favorites.setText("Add to favorites");
+                inFavorites = false;
+            } else {
+                rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(true);
+                favorites.setText("Remove from Favorites");
+                inFavorites = true;
+            }
             }
         });
 

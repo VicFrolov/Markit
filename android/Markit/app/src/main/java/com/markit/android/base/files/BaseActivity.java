@@ -25,6 +25,7 @@ import com.markit.android.FavoritesListView;
 import com.markit.android.chat.files.MainChatActivity;
 import com.markit.android.MarketItem;
 import com.markit.android.NavigationActivity;
+import com.markit.android.login.files.LoginActivity;
 import com.markit.android.newlisting.files.NewListing;
 import com.markit.android.profile.files.Profile;
 import com.markit.android.R;
@@ -192,7 +193,12 @@ public class BaseActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.profile) {
-            startActivity(new Intent(BaseActivity.this, Profile.class));
+            if (isLoggedIn()) {
+                startActivity(new Intent(BaseActivity.this, Profile.class));
+            } else {
+                startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+            }
+
             return true;
         }
         if (id == R.id.watching) {

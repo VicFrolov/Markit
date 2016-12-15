@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.markit.android.base.files.BaseActivity;
+import com.markit.android.login.files.LoginActivity;
 import com.markit.android.newlisting.files.NewListing;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,8 +54,8 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
     DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
-    DatabaseReference userDatabase = rootDatabase.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
-//    DatabaseReference userDatabase = rootDatabase.child("users").child(super.getUID()).child("userHub");
+    DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
+    //DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
     private RecyclerView recList;
@@ -154,7 +156,11 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CardViewActivity.this, Profile.class));
+                if (isLoggedIn()) {
+                    startActivity(new Intent(CardViewActivity.this, Profile.class));
+                } else {
+                    startActivity(new Intent(CardViewActivity.this, LoginActivity.class));
+                }
             }
         });
 
@@ -275,15 +281,23 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
                     DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
-
-                    String username = (String) usernameRef.getValue();
+                    String username;
+                    try {
+                        username = (String) usernameRef.getValue();
+                    } catch(Exception E){
+                        username = "Invalid username";
+                    }
 
                     MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
+
+
                     itemObjectArray.add(newItem);
                 }
 
+
                 masterObjectArray = new ArrayList<MarketItem>(itemObjectArray);
                 iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
+
 
                 recList.setAdapter(iAdapter);
             }
