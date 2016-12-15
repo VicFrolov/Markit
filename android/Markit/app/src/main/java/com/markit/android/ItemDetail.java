@@ -1,6 +1,7 @@
 package com.markit.android;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.ads.formats.NativeAd;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.markit.android.base.files.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -82,7 +85,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 //        itemDatabase = FirebaseDatabase.getInstance().getReference().child("items").child(itemID);
         ItemDetail.this.itemDatabase = rootDatabase.child("items").child(itemID);
         storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
+        StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/");
         final StorageReference pathRef = storageRef.child("images/itemImages/");
         final Button favorites = (Button) findViewById(R.id.addToWatch);
 
@@ -103,7 +106,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
 
                 username = (String) dataSnapshot.child("users/" + getUID() + "/username").getValue();
 
-//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
+
                 uidTitle.setText((String) itemRef.child("title").getValue());
                 description.setText("Description: " + (String) itemRef.child("description").getValue());
                 price.setText("Price: $"+(String) itemRef.child("price").getValue());
@@ -122,6 +125,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 ImageView photo = (ImageView) findViewById(R.id.imageItemDetail);
                 String itemPathRef = itemID + "/imageOne";
                 StorageReference pathReference = pathRef.child(itemPathRef);
+
                 Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(photo);
 
                 tags.setText(tagString);
@@ -153,31 +157,46 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             @Override
             public void onClick(View view) {
                 ItemDetail.conversationKey = convoRef.push().getKey();
-                //String conversationID = convoRef.push().getKey();
 
-                storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
-                final StorageReference pathRef = storageRef.child("images/itemImages/");
                 String itemPathRef = itemID + "/imageOne";
                 StorageReference pathReference = pathRef.child(itemPathRef);
 
-                DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                //DatabaseReference currentUserName = database.getReference().child("users/" + getUID() + "username");
-                DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
 
-                String itemId = itemID;
-                String itemImageURL = pathReference.toString();
+                System.out.println(pathRef);
+                System.out.println(itemPathRef);
 
-                Date date = new Date();
-                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
-                String newDate = fmt.format(date);
+                StorageReference storageRef =FirebaseStorage.getInstance().getReference();
+                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
 
-                ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
-                contextRef.setValue(myConversation);
-                ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
-                sellerRef.setValue(theirConversation);
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String itemImageURL = uri.toString();
 
-                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                        DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+
+                        String itemId = itemID;
+
+                        Date date = new Date();
+                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                        String newDate = fmt.format(date);
+
+                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
+                        contextRef.setValue(myConversation);
+                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
+                        sellerRef.setValue(theirConversation);
+
+                        startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+
             }
         });
 

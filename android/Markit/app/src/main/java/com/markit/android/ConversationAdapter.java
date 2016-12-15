@@ -76,7 +76,8 @@ public class ConversationAdapter extends
         ConversationItem convo = conversations.get(position);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
+        String storageS = "https://firebasestorage.googleapis.com//v0/b/markit-80192.appspot.com/o/";
+        StorageReference storageRef = storage.getReferenceFromUrl(storageS);
         final StorageReference pathRef = storageRef.child("images/itemImages/");
 
         TextView conversationName = viewHolder.conversationName;

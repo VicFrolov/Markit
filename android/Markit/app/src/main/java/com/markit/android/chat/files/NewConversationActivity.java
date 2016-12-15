@@ -100,7 +100,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                 String user = uid;
                 String type = "text";
                 Date date = new Date();
-                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
 
                 //message item itself
@@ -174,7 +174,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
             @Override
             public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
                 //chatView.setUser(chat.getUser());
-                chatView.setMessage(chat.getMessage());
+                chatView.setText(chat.getText());
 
 //                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 //                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
@@ -250,7 +250,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 //            field.setText(user);
 //        }
 
-        public void setMessage(String text) {
+        public void setText(String text) {
             TextView field = (TextView) view.findViewById(message_text);
             field.setText(text);
         }

@@ -74,7 +74,7 @@ public class MessageAdapter extends
 
         TextView sender = viewHolder.sender;
         TextView messageText = viewHolder.messageText;
-        messageText.setText(message.getMessage());
+        messageText.setText(message.getText());
         //Log.i(TAG, sender.toString());
         //sender.setText(message.getUser());
     }

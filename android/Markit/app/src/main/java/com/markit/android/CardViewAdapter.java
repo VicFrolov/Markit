@@ -52,8 +52,8 @@ public class CardViewAdapter extends
         MarketItem item = items.get(position);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
-        final StorageReference pathRef = storageRef.child("images/itemImages/");
+        StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com//v0/b/markit-80192.appspot.com/o/");
+        final StorageReference pathRef = httpsReference.child("images/itemImages/");
 
         // TODO Set item views based on your views and data model -Peyton Cross
 
