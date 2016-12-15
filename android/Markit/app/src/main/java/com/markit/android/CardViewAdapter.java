@@ -27,6 +27,7 @@ public class CardViewAdapter extends
 
     private ArrayList<MarketItem> items;
     private Context context;
+    private boolean lock = false;
 
     public CardViewAdapter(Context context, ArrayList<MarketItem> items) {
         this.context = context;
@@ -38,11 +39,14 @@ public class CardViewAdapter extends
     }
 
     public void swap(ArrayList<MarketItem> newItems) {
-        items.clear();
-        for(MarketItem singleItem : newItems) {
-            newItems.add(singleItem);
-        }
-        notifyDataSetChanged();
+
+            lock = true;
+            items.clear();
+            for (MarketItem singleItem : newItems) {
+                items.add(singleItem);
+            }
+            notifyDataSetChanged();
+
     }
 
     @Override

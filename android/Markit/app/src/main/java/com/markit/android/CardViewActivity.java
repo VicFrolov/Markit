@@ -115,72 +115,6 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
 
         setContentView(R.layout.activity_card_view);
 
-//<<<<<<< HEAD TODO, the top one wasn't commented out, possibly delete later
-//        recList = (RecyclerView) findViewById(R.id.recList);
-//        if (recList != null) {
-//            recList.setHasFixedSize(true);
-//        }
-//
-//        llm = new LinearLayoutManager(this);
-//        recList.setLayoutManager(llm);
-//
-//        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
-//                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference) {
-//            @Override
-//            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
-//                cardViewHolder.title.setText(model.getTitle());
-//                final String itemID = model.getId();
-//                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
-//                        //final String itemID = model.getItemID();
-//                        itemDetail.putExtra("uid", itemID);
-//                        CardViewActivity.this.startActivity(itemDetail);
-//                    }
-//                });
-//                cardViewHolder.price.setText("$ " + model.getPrice());
-//                cardViewHolder.uid.setText(model.getUid());
-//                //cardViewHolder.likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
-//                //cardViewHolder.id.setText(model.getId());
-//                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-//            }
-//        };
-//        recList.setAdapter(adapter);
-//=======
-//        recList = (RecyclerView) findViewById(R.id.recList);
-//        if (recList != null) {
-//            recList.setHasFixedSize(true);
-//        }
-//
-//        llm = new LinearLayoutManager(this);
-//        recList.setLayoutManager(llm);
-//
-//        FirebaseRecyclerAdapter<MarketItem, CardViewHolder> adapter = new FirebaseRecyclerAdapter<MarketItem, CardViewActivity.CardViewHolder>(
-//                MarketItem.class, R.layout.card_item, CardViewActivity.CardViewHolder.class, mDatabaseReference.child(hub)) {
-//            @Override
-//            public void populateViewHolder(CardViewActivity.CardViewHolder cardViewHolder, MarketItem model, int position) {
-//
-//                cardViewHolder.title.setText(model.getTitle());
-//
-//                final String itemID = model.getId();
-//                cardViewHolder.title.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent itemDetail = new Intent(CardViewActivity.this, ItemDetail.class);
-//                        //final String itemID = model.getItemID();
-//                        itemDetail.putExtra("id", itemID);
-//                        CardViewActivity.this.startActivity(itemDetail);
-//                    }
-//                });
-//                cardViewHolder.price.setText("$ " + model.getPrice());
-//                cardViewHolder.uid.setText(model.getDescription());
-//                //cardViewHolder.id.setText(model.getId());
-//                Picasso.with(context).load(model.getImageUrl()).into(cardViewHolder.photo);
-//            }
-//        };
-//        recList.setAdapter(adapter);
-//>>>>>>> fc7609f4495dd499fe4dac689f2bb8f4a6378ed1
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -256,7 +190,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                 Log.i(TAG, "Got to the on query text listener");
                 itemObjectArray = new ArrayList<MarketItem>();
                 for(MarketItem item : masterObjectArray) {
-                    if(item.getTitle().contains(newText)) {
+                    if(newText != null && item.getTitle().contains(newText)) {
                         itemObjectArray.add(item);
                     }
                 }
@@ -270,7 +204,7 @@ public class CardViewActivity extends BaseActivity implements ChangeHubFragment.
                 Log.i(TAG, "Got to the on text submit");
                 itemObjectArray = new ArrayList<MarketItem>();
                 for(MarketItem item : masterObjectArray) {
-                    if(item.getTitle().contains(query)) {
+                    if(item.getTitle().toLowerCase().contains(query.toLowerCase())) {
                         itemObjectArray.add(item);
                     }
                 }
