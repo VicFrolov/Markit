@@ -7,12 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.markit.android.chat.files.MessageDetail;
 import com.markit.android.chat.files.Chat;
 import com.markit.android.ItemDetail;
+import com.markit.android.resources.RoundedImageView;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 public class ConversationAdapter extends
@@ -21,8 +30,10 @@ public class ConversationAdapter extends
     private ArrayList<ConversationItem> conversations;
     public static String conversationId;
     public static String otherUser;
+    public static String otherUsername;
     public String TAG = "conversationID";
     private Context context;
+
 
     public ConversationAdapter(Context context, ArrayList<ConversationItem> conversations) {
         this.context = context;
@@ -63,14 +74,24 @@ public class ConversationAdapter extends
     @Override
     public void onBindViewHolder(ConversationAdapter.ConversationViewHolder viewHolder, int position) {
         ConversationItem convo = conversations.get(position);
-        //conversationName = the person you're chatting (the seller right now, that needs to be fixed)
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String storageS = "https://firebasestorage.googleapis.com//v0/b/markit-80192.appspot.com/o/";
+        StorageReference storageRef = storage.getReferenceFromUrl(storageS);
+        final StorageReference pathRef = storageRef.child("images/itemImages/");
+
         TextView conversationName = viewHolder.conversationName;
-        //TextView conversationId = viewHolder.conversationId;
-        //final String conversationId = viewHolder.conversationID.toString();
+        final ImageView itemPhoto = viewHolder.itemPhoto;
+
         final String conversationID = convo.getConversationID();
+        final String otherUsername = convo.getOtherUsername();
+        final String imageUrl = convo.getItemImageURL();
         final String otherUser = convo.getOtherUser();
-        //conversationId.setText(convo.getConversationID());
-        conversationName.setText(convo.getOtherUser());
+
+        final String itemID = convo.getItemID();
+
+        conversationName.setText(otherUsername);
+
         conversationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +99,16 @@ public class ConversationAdapter extends
                 //final String itemID = model.getItemID();
                 chat.putExtra("conversationID", conversationID);
                 chat.putExtra("otherUser", otherUser);
-                Log.i(TAG, conversationID);
+                chat.putExtra("itemID", itemID);
+
                 context.startActivity(chat);
             }
         });
+
+        String itemPathRef = itemID + "/imageOne";
+        StorageReference pathReference = pathRef.child(itemPathRef);
+
+        Glide.with(context).using(new FirebaseImageLoader()).load(pathReference).asBitmap().into(itemPhoto);
     }
 
     //Returns the total count of items in the list
@@ -97,11 +124,14 @@ public class ConversationAdapter extends
         //final TextView conversationMessage;
         TextView conversationId;
         Context context;
+        RoundedImageView itemPhoto;
 
         public ConversationViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             //itemView.setOnClickListener(this);
+            itemPhoto = (RoundedImageView) itemView.findViewById(R.id.itemPhoto);
+            //itemID = (TextView) itemView.findViewById();
             conversationName = (TextView) itemView.findViewById(R.id.list_item_username);
             //conversationMessage = (TextView) itemView.findViewById(R.id.list_item_message);
             conversationId = (TextView) itemView.findViewById(R.id.conversationID);

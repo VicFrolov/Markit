@@ -34,22 +34,21 @@ import com.markit.android.ConversationView;
 import com.markit.android.FavoritesListView;
 import com.markit.android.MarketItem;
 import com.markit.android.R;
-import com.markit.android.WatchListFragment;
 import com.markit.android.base.files.BaseActivity;
-import com.markit.android.dummy.DummyContent.DummyItem;
 import com.markit.android.login.files.LoginActivity;
 import com.markit.android.newlisting.files.NewListing;
 
 import java.util.ArrayList;
 
-public class Profile extends BaseActivity implements WatchListFragment.OnFragmentInteractionListener,ProfilePageFragment.OnListFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+public class Profile extends BaseActivity implements WatchListFragment.OnListFragmentInteractionListener,ProfilePageFragment.OnListFragmentInteractionListener, TagsFragment.OnListFragmentInteractionListener {
+
 
     public void onListFragmentInteraction(Object d) {
 //        TODO figure out what the fuck this thing is supposed to do
     }
 
-    public void onListFragmentInteraction(DummyItem d) {
-        // TODO make sure each of the datatypes being passed into each of these fragment interaciton methods is different or they will get confused with one antoher
+    public void onListFragmentInteraction(MarketItem item) {
+//        TODO figure out what the fuck this thing is supposed to do
     }
 
     public void onFragmentInteraction(Uri uri) {
@@ -88,6 +87,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
 
         mdatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -344,7 +344,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
                 case 0:
                     return ProfilePageFragment.newInstance();
                 case 1:
-                    return WatchListFragment.newInstance(1);
+                    return WatchListFragment.newInstance();
                 case 2:
                     int COLUMN_COUNT = 1;
                     return TagsFragment.newInstance(COLUMN_COUNT);
@@ -365,7 +365,7 @@ public class Profile extends BaseActivity implements WatchListFragment.OnFragmen
                 case 0:
                     return "My Profile";
                 case 1:
-                    return "Watch List";
+                    return "WatchList";
                 case 2:
                     return "Tags";
             }

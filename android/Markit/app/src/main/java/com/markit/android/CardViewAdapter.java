@@ -63,9 +63,10 @@ public class CardViewAdapter extends
     @Override
     public void onBindViewHolder(CardViewAdapter.ViewHolder viewHolder, int position) {
         MarketItem item = items.get(position);
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://markit-80192.appspot.com");
-        final StorageReference pathRef = storageRef.child("images/itemImages/");
+        StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com//v0/b/markit-80192.appspot.com/o/");
+        final StorageReference pathRef = httpsReference.child("images/itemImages/");
 
 
         TextView title = viewHolder.title;
@@ -74,11 +75,13 @@ public class CardViewAdapter extends
         TextView id  = viewHolder.id;
         ImageView photo = viewHolder.photo;
         final ImageView likeImage = viewHolder.likeImage;
+
         final String itemID = item.getId();
         final String titleText = item.getTitle();
         title.setText(item.getTitle());
         price.setText("$ " + item.getPrice());
         uid.setText(item.getUsername());
+
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +105,7 @@ public class CardViewAdapter extends
                     }
                 }
             });
+
         String itemPathRef = itemID + "/imageOne";
         StorageReference pathReference = pathRef.child(itemPathRef);
         Glide.with(context).using(new FirebaseImageLoader()).load(pathReference).into(photo);

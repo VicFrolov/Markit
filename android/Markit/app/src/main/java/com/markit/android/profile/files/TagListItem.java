@@ -27,4 +27,5 @@ public class TagListItem {
     public void setTags(Object tags) {
         this.tags = tags;
     }
+
 }

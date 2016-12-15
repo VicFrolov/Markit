@@ -154,7 +154,7 @@
 //
 //    }
 
-package com.markit.android;
+package com.markit.android.profile.files;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -166,14 +166,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.markit.android.dummy.DummyContent;
-import com.markit.android.dummy.DummyContent.DummyItem;
-import com.markit.android.profile.files.MyWatchListRecyclerViewAdapter;
+import com.markit.android.MarketItem;
+import com.markit.android.R;
+
+import java.util.ArrayList;
+
+import static android.support.v7.gridlayout.R.attr.columnCount;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class WatchListFragment extends Fragment {
@@ -182,7 +185,10 @@ public class WatchListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListener;
+
+    public ArrayList<MarketItem> items = new ArrayList<>();
+    public static MyWatchListRecyclerViewAdapter iAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -193,7 +199,7 @@ public class WatchListFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static WatchListFragment newInstance(int columnCount) {
+    public static WatchListFragment newInstance() {
         WatchListFragment fragment = new WatchListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
@@ -218,13 +224,13 @@ public class WatchListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            RecyclerView watchlistRecyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                watchlistRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                watchlistRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyWatchListRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
         }
         return view;
     }
@@ -233,8 +239,8 @@ public class WatchListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -257,8 +263,8 @@ public class WatchListFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(MarketItem item);
     }
 }
