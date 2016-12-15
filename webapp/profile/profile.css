@@ -89,7 +89,7 @@ main, body {
 
 .my-profile-picture {
     background-color: #eee;
-    min-height: 100px;
+    height: 100px;
     width: 100px;
     margin: 12px;
     position: absolute;

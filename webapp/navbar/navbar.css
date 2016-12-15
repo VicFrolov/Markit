@@ -1,4 +1,7 @@
 /*NAVBAR*/
+.select-wrapper input.select-dropdown {
+    border-bottom: 0px !important;
+}
 
 #dropdown-help {
     margin-top: 64px;
@@ -136,7 +139,7 @@ nav .input-field label i {
 }
 
 #sign-up-popup1 {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
@@ -147,7 +150,7 @@ nav .input-field label i {
 }
 
 #sign-up-popup2 {
-    z-index: 2;
+    z-index: 10;
     display: none;
     position: absolute;
     top: 0;
@@ -254,7 +257,6 @@ nav .input-field label i {
 
 .login-fields .row .col {
     text-align: left;
-    padding: 0;
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 

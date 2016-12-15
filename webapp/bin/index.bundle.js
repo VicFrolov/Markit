@@ -59,6 +59,7 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	$(function() {
 	    var auth = __webpack_require__(2)["auth"];
 	    let uid;
@@ -138,12 +139,98 @@
 	        updateNavbarPic
 	    }
 
+=======
+	$(function() {
+	    var auth = __webpack_require__(2)["auth"];
+	    let uid;
+	    let navbarProfilePic;
+	    let profilePic;
+	    
+	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
+	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
+	 
+	    var updateNavbarName = function () {
+	        console.log('blabla');
+
+	        Promise.resolve(getUserInfo(uid)).then(userData => {
+	            profileName.text(userData.username);
+	        });        
+	    };
+
+	    var updateNavbarPic = function () {
+	        Promise.resolve(getProfilePicture(uid)).then(url => {
+	            navbarProfilePic.attr('src', url);
+	        });
+	    }
+
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            uid = auth.currentUser.uid;
+	            
+	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+	                navbarProfilePic = $('#navbar-user-photo');
+	                profileName = $('#profile-name');
+
+	                $(".dropdown-button").dropdown();
+
+	                $(".button-collapse").sideNav({
+	                    menuWidth: 300, // Default is 240
+	                    edge: 'right', // Choose the horizontal origin
+	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	                    draggable: true // Choose whether you can drag to open on touch screens
+	                });
+
+	                $("#navbar-logout-button").click(function () {
+	                    auth.signOut();
+	                });
+
+	                $('#navbar-message').click(function()  {
+	                    $('ul.tabs').tabs('select_tab', 'profile-messages');
+	                });
+
+	                $('#navbar-notifications').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	                });
+
+	                $('#navbar-settings').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
+	                });
+
+	                updateNavbarName();
+	                updateNavbarPic();
+
+
+
+	            });
+	        } else {
+	            console.log('user is NOT signed in');
+	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
+	                $(".dropdown-button").dropdown();
+
+	                console.log('rip');
+	                $(".button-collapse").sideNav({
+	                    menuWidth: 300, // Default is 240
+	                    edge: 'right', // Choose the horizontal origin
+	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	                    draggable: true // Choose whether you can drag to open on touch screens
+	                });                
+	            });
+	        }
+	    });
+
+	    module.exports = {
+	        updateNavbarName,
+	        updateNavbarPic
+	    }
+
+>>>>>>> webapp-hubs
 	});
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	'use strict'
 
 	var firebase = __webpack_require__(3);
@@ -866,6 +953,704 @@
 	    getUserSelling,
 	    setItemAsSold
 >>>>>>> 3ccf221e629d3ce5a8783b441b693486bb86d4f7
+=======
+	'use strict'
+
+	var firebase = __webpack_require__(3);
+	__webpack_require__(4);
+	__webpack_require__(5);
+	__webpack_require__(6);
+
+	firebase.initializeApp({
+	    // serviceAccount: "./MarkIt-3489756f4a28.json",
+	    apiKey: "AIzaSyCaA6GSHA0fw1mjjncBES6MVd7OIVc8JV8",
+	    authDomain: "markit-80192.firebaseapp.com",
+	    databaseURL: "https://markit-80192.firebaseio.com",
+	    storageBucket: "markit-80192.appspot.com",
+	    messagingSenderId: "4085636156"
+	});
+
+	var database = firebase.database();
+	var auth = firebase.auth();
+	var itemsRef = database.ref('items/');
+	var itemImagesRef = firebase.storage().ref('images/itemImages/');
+	var userImagesRef = firebase.storage().ref('images/profileImages/');
+	var usersRef = database.ref('users/');
+
+
+	var addProfilePicture = function (uid, image, callback) {
+	    return new Promise(function(resolve, reject) {
+	        image = image.replace(/^.*base64,/g, '');
+	        var profilePicName = "imageOne";
+	        var uploadTask = userImagesRef.child(uid + '/' + profilePicName).putString(image, 'base64');
+
+	        uploadTask.on('state_changed', function(snapshot) {
+	            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	            console.log('Upload is ' + progress + '% done');
+
+	            switch (snapshot.state) {
+	                case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                    console.log('Upload is paused');
+	                    break;
+	                case firebase.storage.TaskState.RUNNING: // or 'running'
+	                    console.log('Upload is running');
+	                    break;
+	            }
+	        }, function(error) {
+	            reject(error);
+	            console.log("error uploading image");
+	        }, function() {
+	            var downloadURL = uploadTask.snapshot.downloadURL;
+	            console.log(downloadURL);
+	            resolve(downloadURL);
+	            $('#profile-picture').attr('src', downloadURL);
+
+	            $('#navbar-user-photo').attr('src', downloadURL);
+	        });
+	        
+	    });
+	};
+
+	var getProfilePicture = function (uid) {
+	    return userImagesRef.child(uid).child('imageOne').getDownloadURL().then(function(url) {
+	        return url;
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	}
+
+	var addListing = function (title, description, tags, price, hubs, uid, images) {
+	    var imageNames = ["imageOne", "imageTwo", "imageThree", "imageFour"];
+	    var myDate = Date();
+	    var itemRef = itemsRef.push();
+	    var itemKey = itemRef.key;
+	    var lowerCasedTags = $.map(tags, function(n,i) {return n.toLowerCase();});
+
+	    var itemData = {
+	        title: title,
+	        description: description,
+	        tags: lowerCasedTags,
+	        price: price,
+	        uid: uid,
+	        id: itemKey,
+	        hubs: hubs,
+	        date: myDate
+	    };
+
+	    addTags(lowerCasedTags);
+	    addHubs(hubs);
+	    addNewListingToProfile(uid, itemKey);
+	    itemsRef.child(itemKey).set(itemData);
+	    database.ref('itemsByUser/' + uid + '/').child(itemKey).set(itemData);
+
+	    hubs.forEach(function(currentHub) {
+	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
+	    });
+	    
+	    // adding images to storage
+	    for (var i = 0; i < images.length; i += 1) {
+	        (function(x) {
+	            images[x] = images[x].replace(/^.*base64,/g, '');
+	            var uploadTask = itemImagesRef.child(itemKey + '/' +  imageNames[x]).putString(images[x], 'base64');
+
+	            uploadTask.on('state_changed', function(snapshot) {
+	                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	                console.log('Upload is ' + progress + '% done');
+
+	                switch (snapshot.state) {
+	                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+	                        console.log('Upload is paused');
+	                        break;
+	                    case firebase.storage.TaskState.RUNNING: // or 'running'
+	                        console.log('Upload is running');
+	                        break;
+	                }
+	            }, function(error) {
+	                console.log("error uploading image");
+	            }, function() {
+	                var downloadURL = uploadTask.snapshot.downloadURL;
+	                console.log(downloadURL);
+	            });
+	        })(i);
+	    }
+	};
+
+
+	var getListings = function () {
+	    return itemsRef.once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var getRecentItemsInHub = function (hub, callback) {
+	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
+	        callback(snapshot.val());
+	    }, function (error) {
+	        console.log(error);
+	    });
+	};
+
+
+
+	// Remove this function below and replace with the one after it
+	// so that it returns a promise, rather than this anti-patern
+	// of callback + promise
+	var getFavorites = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	                callback(snapshot.val());
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }
+	    });
+	};
+
+	var getUserFavorites = function() {
+	    return usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	};
+
+	// Adding proper promise, but not replacing the callback antipatern
+	// as not to break profile code
+	var getUserInfoProper = function(uid) {
+	    return usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var getUserInfo = function(uid, callback) {
+	    usersRef.child(uid + '/').once('value').then(function(snapshot) {
+	        var userInfo = snapshot.val();
+	        callback(userInfo);
+	    });
+	};
+
+	var updateUserInfo = function(uid, updatedInfo) {
+	    for (var update in updatedInfo) {
+	        usersRef.child(uid + '/' + update).set(updatedInfo[update]);
+	    }
+	};
+
+	var getImage = function(address, callback) {
+	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	        callback(url);
+	    }).catch(function(error) {
+	        console.log("error image not found");
+	        console.log("error either in item id, filename, or file doesn't exist");
+	    });
+	};
+
+	var getFavoriteObjects = function (callback) {
+	    auth.onAuthStateChanged(function(user) {
+	        // get user favorites
+	        usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
+	            var favorites = snapshot.val();
+	            // pull object of items that user has favorited
+	            itemsRef.once('value').then(function (snapshotItems) {
+	                var allItems = snapshotItems.val();
+	                var userFavoritesMatch = [];
+	                for (var item in allItems) {
+	                    if (favorites && favorites.hasOwnProperty(item)) {
+	                        userFavoritesMatch.push(allItems[item]);
+	                    }
+	                }
+	                callback(userFavoritesMatch);
+	            }, function (error) {
+	                console.log(error);
+	            });
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    });
+	};
+
+	var removeFavorite = function (item) {
+	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
+	    itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
+
+	    itemsRef.child(item).once('value').then(function(snapshot) {
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(auth.currentUser.uid + 
+	                '/tagSuggestions/' + itemTags[i]).set(0.5);
+	        }
+
+	    });    
+	};
+
+	var filterListings = function (keywords, hubs, tags, price_range) {
+	    listingsRef.orderByChild();
+	};
+
+	var signIn = function (email, password) {
+	    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+	        var errorCode = error.code;
+	        var errorMessage = error.message;
+	    });
+	};
+
+	var addNewListingToProfile = function(uid, itemID) {
+	    usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
+	};
+
+	var addFavoriteToProfile = function(uid, itemID) {
+	    usersRef.child(uid + '/favorites/' + itemID).set(true);
+	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
+	    
+	    //update suggested tags
+	    itemsRef.child(itemID).once('value').then(function(snapshot) {
+	        let item = snapshot.val()
+	        let itemTags = item['tags']
+	        for (let i = 0; i < itemTags.length; i += 1) {
+	            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
+	        }
+
+	    });    
+
+	};
+
+	var addTagToProfile = function (uid, tagObject) {
+	    usersRef.child(uid + '/tagsList/' + Object.keys(tagObject)[0]).set(Object.values(tagObject)[0].slice(0,5));
+	};
+
+	var getProfileTags = function () {
+	    return usersRef.child(auth.currentUser.uid + '/tagsList/').once("value").then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	};
+
+	var removeProfileTag = function (itemTitle) {
+	    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
+	};
+
+	var createAccount = function () {
+	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+	        $("#sign-up-password").val()).then(function(user) {
+	            var newUser = firebase.auth().currentUser;
+	            newUserDBEntry(newUser);
+	        }, function(error) {
+	            var errorCode = error.code;
+	            var errorMessage = error.message;
+	            console.log(errorMessage);
+	    });    
+	};
+
+	var newUserDBEntry = function (user) {
+	    var firstName = $("#sign-up-first-name").val();
+	    var lastName = $("#sign-up-last-name").val();
+	    var username = $("#sign-up-username").val();
+	    var userHub = $("#sign-up-hub").val();
+	    var defaultPreference = ["cash"];
+	    var date =  Date();
+
+	    var userInfo = {
+	        uid: user.uid,
+	        email: user.email,
+	        username: username,
+	        userHub: userHub,
+	        firstName: firstName,
+	        lastName: lastName,
+	        paymentPreferences: defaultPreference,
+	        dateCreated: date
+	    };
+	    usersRef.child(user.uid).set(userInfo);
+	};
+
+	var addTags = function(itemTags) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        var tagsInDB = snapshot.val();
+	        itemTags.forEach(function (tag) {
+	            if (tagsInDB.hasOwnProperty(tag)) {
+	                database.ref('tags/').child(tag).set(tagsInDB[tag] + 1);
+	            } else {
+	                database.ref('tags/').child(tag).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
+	    });
+	};
+
+	var addHubs = function(itemHubs) {
+	    database.ref('tags/').once('value', function(snapshot) {
+	        var hubsInDB = snapshot.val();
+	        itemHubs.forEach(function (hub) {
+	            if (hubsInDB.hasOwnProperty(hub)) {
+	                database.ref('hubs/').child(hub).set(hubsInDB[hub] + 1);
+	            } else {
+	                database.ref('hubs/').child(hub).set(1);
+	            }
+	        });
+	    }, function (errorObject) {
+	        console.log(errorObject.code);
+	    });
+	};
+
+	var initializeMessage = function (id, sellerId, uid, imageLink, message, otherUsername, myUsername) {
+	    let chatKey = usersRef.push().key;
+	    let date = (new Date()).toString();
+
+	    let context = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: sellerId,
+	        latestPost: date,
+	        conversationID: chatKey,
+	        otherUsername: otherUsername,
+	        readMessages: true
+	    };
+
+	    let contextOther = {
+	        itemID: uid,
+	        itemImageURL: imageLink,
+	        otherUser: id,
+	        latestPost: date,
+	        conversationID: chatKey,
+	        otherUsername: myUsername,
+	        readMessages: false
+
+	    };
+
+	    let messageObject = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    };
+
+	    let messageObjectOther = {
+	        date: date,
+	        text: message,
+	        type: 'text',
+	        user: id
+	    };
+
+	    usersRef.child(`/${id}/chats/${chatKey}/context`).set(context);
+	    usersRef.child(`/${id}/chats/${chatKey}/messages`).push(messageObject);
+
+	    usersRef.child(`/${sellerId}/chats/${chatKey}/context`).set(contextOther);
+	    usersRef.child(`/${sellerId}/chats/${chatKey}/messages`).push(messageObjectOther);
+	}
+
+	var getLastMessage = function(messageObject) {
+	    let listOfKeys = Object.keys(messageObject);
+	    let lastMessage = messageObject[listOfKeys[listOfKeys.length - 1]].text;;
+
+	    return lastMessage;
+	}
+
+	var sortConversations = function(uid, chatID) {
+	    usersRef.child(`${uid}/chats/`).once('value').then(function(snapshot) {
+	        let messages = snapshot.val()
+	        var str = $('#messages-preview-template').text();
+	        var compiled = _.template(str);
+
+	        let previewMessages = [];
+	        let promises = [];
+
+
+	        for (let messageID in messages) {
+	            let message = messages[messageID];
+	            let messageObj = {};
+
+	            var date = new Date(message.context.latestPost);
+	            let hours = date.getHours();
+	            var time = `${date.getUTCHours()}:${date.getMinutes()}`;
+	            time += (hours >= 12) ? " PM" : " AM";
+
+	            messageObj.timeStamp = message.context.latestPost;
+	            messageObj.time = time
+	            messageObj.lastMessage = getLastMessage(message['messages']);
+	            messageObj.user = message.context.otherUsername;
+	            messageObj.picture = message.context.itemImageURL;
+	            messageObj.messageID = messageID
+	            messageObj.readStatus = message.context.readMessages;
+
+	            promises.push(getItemsById([message.context.itemID]).then(itemInfo => {
+	                messageObj.title = itemInfo[Object.keys(itemInfo)[0]].title;
+	            }));
+
+
+	            previewMessages.push(messageObj);
+	        }
+	        // Wait for them all to complete
+	        Promise.all(promises).then(() => {
+	            previewMessages.sort(function(a, b){
+	                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+	            });
+
+	            for (var i = 0; i < previewMessages.length; i += 1) {
+	                previewMessages[i].timeStamp = previewMessages[i].timeStamp.split(' ').slice(0,3).join(' ');
+	            }
+
+	            $('#messages-preview-holder').empty();
+	            $('#messages-preview-holder').append(compiled({previewMessages: previewMessages}));
+	        });
+
+	    });
+	}
+
+	var displayConversations = function (uid) {
+	    usersRef.child(`${uid}/chats/`).limitToLast(1).on('child_added', function(snapshot) {
+	        updateExistingConversations(uid);
+	    });
+	}
+
+	var updateExistingConversations = function(uid) {
+	    usersRef.child(`${uid}/chats/`).once('value', function(snapshot) {
+	        let chats = snapshot.val();
+	        for (let chatID in chats) {
+	            //turn off potential previous listeners
+	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).off();
+
+	            usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).on('value', function(timeStamp) {
+	                sortConversations(uid)
+	            });
+	        }
+	    });
+	}
+
+	// takes array of items
+	var getItemsById = function (itemsToMatch) {
+	    return database.ref('items/').once('value').then(function (snapshot) {
+	        let allItems = snapshot.val();
+	        let matchedItems = {};
+
+	        for (let i = 0; i < itemsToMatch.length; i += 1) {
+	            if (itemsToMatch[i] in allItems) {
+	                matchedItems[itemsToMatch[i]] = allItems[itemsToMatch[i]];
+	            }
+	        }
+	        return matchedItems;
+
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	}
+
+
+	var previousListener = [null, null];
+
+	var shutOffMessageDetailListener = function(uid, chatID) {
+	    usersRef.child(`${uid}/chats/${chatID}/messages`).off();
+	}
+
+	var displayMessagesDetail = function (uid, chatID) {
+	    if (previousListener[0] !== null) {
+	        shutOffMessageDetailListener(previousListener[0], previousListener[1]);
+	    }
+
+	    previousListener = [uid, chatID];
+
+	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
+	        let message = snapshot.val();
+	        let userClass = (message.user === auth.currentUser.uid ? 
+	            'message-bubble-self' : 
+	            'message-bubble-other'
+	        );
+
+	        setTimeout(function() {
+	            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
+	            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
+	            $('#message-detail-content').fadeIn();
+	            
+	            // sroll to bottom of chat
+	            var wtf = $('#message-detail-content');
+	            var height = wtf[0].scrollHeight;
+	            wtf.scrollTop(height);
+	        }, 100);
+	    }, function() {
+	        sortConversations(uid)
+	    });
+
+
+	};
+
+	var getSpecificChat = function (uid, chatID) {
+	    return usersRef.child(`${uid}/chats/${chatID}/`).once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var postNewMessage = function(uid, chatID, message) {
+	    Promise.resolve(getSpecificChat(uid, chatID)).then(function(result) {
+	        let otherUserID = result.context.otherUser;
+	        let date = (new Date()).toString()
+
+	        let messageObject = {
+	            date: date,
+	            text: message,
+	            type: 'text',
+	            user: uid
+	        };
+
+	        usersRef.child(`${uid}/chats/${chatID}/messages`).push(messageObject);
+	        usersRef.child(`${otherUserID}/chats/${chatID}/messages`).push(messageObject);
+
+	        usersRef.child(`${uid}/chats/${chatID}/context/latestPost`).set(date);
+	        usersRef.child(`${otherUserID}/chats/${chatID}/context/latestPost`).set(date);
+
+	        usersRef.child(`${otherUserID}/chats/${chatID}/context/readMessages`).set(false);
+
+	    });
+	};
+
+	$('#message-send-button').on('click', function() {
+	    postNewMessage(auth.currentUser.uid, $(this).attr('chatid'), $('#message-send-text').val());
+	    $('#message-send-text').val('');
+	});
+
+
+	$("#message-send-text").keyup(function(event){
+	    if (event.keyCode == 13) {
+	        $("#message-send-button").click();
+	    }
+	});
+
+	// AI algorithm functions for suggestions in hub
+	// next 3 functions
+	var getItemsInHub = function (hub) {
+	    return database.ref('itemsByHub/' + hub + '/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var getUserSuggestions = function (uid) {
+
+	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    });
+	};
+
+	var populateSuggestionsInHub = function(hub, uid) {
+	    return Promise.all([
+	        getItemsInHub(hub), 
+	        getUserSuggestions(uid), getUserFavorites()]).then(function (results) {
+	            let itemsInHub = results[0];
+	            let userSuggestions = results[1];
+	            let userFavorites = results[2];
+
+	            // if user has favorites
+	            if (userSuggestions) {
+	                // for each item in the hub
+	                for (let item in itemsInHub) {
+	                    let itemTagCount = itemsInHub[item]['tags'].length;
+	                    let tagMatches = {};
+	                    let tagMatchCount = 0;
+	                    let tagWeight = 0;
+	                    let itemTags = itemsInHub[item]['tags'];
+
+	                    // for each tag in each item
+	                    itemTags.forEach(function (tag) {
+	                        // calculate weights
+	                        if (tag in userSuggestions) {
+	                            tagMatches[tag] = userSuggestions[tag];
+	                            tagMatchCount += 1;
+	                            tagWeight += userSuggestions[tag];
+	                            
+	                        }
+	                    });
+
+	                    tagWeight /= itemTagCount;
+
+	                    if (tagMatchCount === 0) {
+	                        continue;
+	                    }
+
+	                    // for each tags in item
+	                    itemTags.forEach(function(tag) {
+	                        // set weights
+	                        if (tag in userSuggestions && userSuggestions[tag] < 1) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set((userSuggestions[tag]));
+	                        } else if (!(tag in userSuggestions)) {
+	                            usersRef.child(uid + '/tagSuggestions/' + tag).set(tagWeight);
+	                        }
+	                    });
+	                }
+
+	                // iterate through items and display items with highest values
+	                let userItemSuggestions = {}
+	                for (let item in itemsInHub) {
+	                    // immediately check if the item is part of user favorites
+	                    // if it is, skip since no need to suggest a favorited
+	                    // item
+	                    if (itemsInHub[item]['id'] in userFavorites) {
+	                        continue;
+	                    }
+	                    let itemTags = itemsInHub[item]['tags'];
+	                    let tagCount = itemsInHub[item]['tags'].length;
+	                    let itemWeight = 0;
+	                    itemTags.forEach(function (tag) {
+	                        if (tag in userSuggestions) {
+	                            itemWeight += userSuggestions[tag];
+	                        }
+	                    });
+	                    itemWeight /= tagCount;
+	                    userItemSuggestions[itemsInHub[item]['id']] = itemWeight;
+	                }
+
+	                // sorting results in an array, where each
+	                // input is an array [key, value]
+	                var sortedSuggestions = []
+
+	                for (let item in userItemSuggestions) {
+	                    sortedSuggestions.push(item)
+	                }
+
+	                sortedSuggestions.sort(function(a, b) {
+	                    return b - a
+	                });
+
+	                return sortedSuggestions;
+	            }
+
+	        });
+	}
+
+
+	module.exports = {
+	    auth,
+	    signIn,
+	    getListings,
+	    addListing,
+	    addHubs,
+	    addTags,
+	    filterListings,
+	    createAccount,
+	    itemImagesRef,
+	    addFavoriteToProfile,
+	    getFavorites,
+	    getFavoriteObjects,
+	    removeFavorite,
+	    getImage,
+	    getRecentItemsInHub,
+	    getUserInfo,
+	    updateUserInfo,
+	    populateSuggestionsInHub,
+	    addTagToProfile,
+	    getProfileTags,
+	    removeProfileTag,
+	    getItemsById,
+	    userImagesRef,
+	    addProfilePicture,
+	    getProfilePicture,
+	    initializeMessage,
+	    displayConversations,
+	    getUserInfoProper,
+	    displayMessagesDetail,
+	    postNewMessage
+>>>>>>> webapp-hubs
 	};
 
 /***/ },
@@ -2386,6 +3171,7 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	$(function() {
 	    var createAccount = __webpack_require__(2)["createAccount"];
 	    var sendVerificationEmail = __webpack_require__(2)['sendVerificationEmail'];
@@ -2551,6 +3337,172 @@
 	        nameSizeMax
 	    }    
 
+=======
+	$(function() {
+	    var createAccount = __webpack_require__(2)["createAccount"];
+
+	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
+	        $('#sign-up-popup1').fadeIn();
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#sign-up-popup1');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    $(document).mouseup(function (e) {
+	        var popup = $('#sign-up-popup2');
+	        if (popup.is(e.target)) {
+	            popup.fadeOut();
+	        }
+	    });
+
+	    var next = function () {
+	        $('#sign-up-popup1').fadeOut();
+	        $('#sign-up-popup2').fadeIn();
+	        $('select').material_select();
+	    };
+
+	    var firstNameValid = false;
+	    var lastNameValid = false;
+	    var usernameValid = false;
+	    var hubValid = false;
+	    var emailValid = false;
+	    var passwordValid = false;
+
+
+	    $('body').on('click', '#create-account-next-button', function() {
+	        if (checkNames()) {
+	            next();
+	        } else {
+	            Materialize.toast('Invalid input', 3000, 'rounded');
+	            // if (!firstNameValid) {
+	            //     $('#first-name-unavailable').show();
+	            // }
+	            // if (!lastNameValid) {
+	            //     $('#last-name-unavailable').show();
+	            // }
+	            // if (!usernameValid) {
+	            //     $('#username-unavailable').show();
+	            // }
+	        }
+	    });    
+
+	    $('body').on('click', '#create-account-button', function() {
+	        if (checkInput()) {
+	            createAccount();
+	        } else {
+	            Materialize.toast('Invalid input.', 3000, 'rounded');
+	            // if (!hubValid) {
+	            //     $('#hub-unavailable').show();
+	            // }
+	            // if (!emailValid) {
+	            //     $('#email-unavailable').show();
+	            // }
+	            // if (!passwordValid) {
+	            //     $('#password-unavailable').show();
+	            // }
+	        }
+	    });    
+
+	    var checkHub = function () {
+	        return $('#sign-up-hub').val();
+	    };
+
+	    var checkNames = function () {
+	        return firstNameValid && lastNameValid && usernameValid;
+	    };
+
+	    var checkInput = function () {
+	        return firstNameValid && lastNameValid && usernameValid && checkHub() && emailValid && passwordValid;
+	    };
+
+	    var nameSizeMin = 3;
+	    var nameSizeMax = 15;
+	    var usernameLength;
+
+	    $('body').on('keyup', '#sign-up-first-name', function() {
+	        if ($('#sign-up-first-name').val().length >= nameSizeMin) {
+	            firstNameValid = true;
+	            $('#first-name-unavailable').hide();
+	            $('#first-name-available').show();
+	        } else {
+	            firstNameValid = false;
+	            $('#first-name-available').hide();
+	        }
+	    });
+
+	     $('body').on('keyup', '#sign-up-last-name', function() {
+	        if ($('#sign-up-last-name').val().length >= nameSizeMin) {
+	            lastNameValid = true;
+	            $('#last-name-unavailable').hide();
+	            $('#last-name-available').show();
+	        } else {
+	            lastNameValid = false;
+	            $('#last-name-available').hide();
+	        }
+	    });
+
+	    $('body').on('keyup', '#sign-up-username', function() {
+	        var usernameLength = $('#sign-up-username').val().length;
+	        if (usernameLength >= nameSizeMin && usernameLength <= nameSizeMax) {
+	            usernameValid = true;
+	            $('#username-unavailable').hide();
+	            $('#username-available').show();
+	        } else {
+	            usernameValid = false;
+	            $('#username-available').hide();
+	        }
+	    });
+
+	    $('#sign-up-hub').on('change', function () {
+	        console.log("test");
+	        hubValid = true;
+	    });
+
+	    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
+	    var passwordSizeLimit = 8; 
+
+	    $('body').on('keyup', '#sign-up-email', function() {
+	        if (emailCheck.test($('#sign-up-email').val())) {
+	            // var testEmail = firebase.auth().fetchProvidersForEmail($('#sign-up-email').val()).catch(function(error) {
+	            //     var errorCode = error.code;
+	            //     var errorMessage = error.message;
+	            // });
+	            // console.log(testEmail);
+	            // if (testEmail != 0) {
+	                emailValid = true;
+	                $('#email-unavailable').hide();
+	                $('#email-available').show();
+	            //} else {
+	            //     emailValid = false;
+	            //     $('#email-available').hide();
+	            // }
+	        } else {
+	            emailValid = false;
+	            $('#email-available').hide();
+	        }
+	    });
+
+	    $('body').on('keyup', '#sign-up-password', function() {
+	        if ($('#sign-up-password').val().length >= passwordSizeLimit) {
+	            passwordValid = true;
+	            $('#password-unavailable').hide();
+	            $('#password-available').show();
+	        } else {
+	            passwordValid = false;
+	            $('#password-available').hide();
+	        }
+	    });
+
+	    module.exports = {
+	        nameSizeMin,
+	        nameSizeMax
+	    }    
+
+>>>>>>> webapp-hubs
 	});
 
 /***/ },
@@ -2565,6 +3517,7 @@
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 	$(function () {
 	    $('#message-offer-popup').fadeOut(1);
 	    var auth = __webpack_require__(2)['auth'];
@@ -2877,6 +3830,303 @@
 	        updateSettings();
 	    });
 
+=======
+	$(function () {
+	    $('#message-offer-popup').fadeOut(1);
+	    var auth = __webpack_require__(2)['auth'];
+	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
+	    var updateUserInfo = __webpack_require__(2)['updateUserInfo'];
+	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
+	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
+	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
+	    var nameSizeMin = __webpack_require__(11)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(11)['nameSizeMax'];
+	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
+	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
+	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
+	    var displayConversations = __webpack_require__(2)['displayConversations'];
+	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
+	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
+	    
+	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
+
+	    var reader;
+	    var user;
+	    var uid;
+	    var firebaseUsername;
+	    var likedCardList = $('#profile-liked-card-list');
+	    var sellingCardList = $('#profile-selling-card-list');
+	    var profilePicture = $('#profile-picture');
+	    var addPhotoButton = $('#add-photo-button');
+	    var addPhotoInput = $('#add-photo-input');
+	    var addButton = $('.add-button');
+	    var editButton = $('#edit-button');
+	    var saveButton = $('#save-button');
+	    var firstName = $('#profile-first-name');
+	    var lastName = $('#profile-last-name');
+	    var username = $('#profile-user-name');
+	    var hub = $('#profile-hub-name');
+	    var paymentPreference;
+	    var emailNotifications = $('#email-notifications');
+	    var password = $('#profile-password');
+	    var getImage = __webpack_require__(2)["getImage"];
+	    var getFavoriteObjects = __webpack_require__(2)['getFavoriteObjects'];
+	    var profileLikedItems = $('#profile-liked-items');
+	    var navbarProfilePic = $('#navbar-user-photo');
+	    var profileName = $('#profile-name');
+
+	    if ($(profileLikedItems).length > 0) {
+	        var showFavoritedItems = function(items) {
+	            var imagePaths = []
+	            var str = $('#profile-liked-items').text();
+	            var compiled = _.template(str);
+
+	            $('#profile-liked-holder').empty();
+	            $('#profile-liked-holder').append(compiled({items: items}));
+
+
+
+
+	            for (var item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
+
+	            for (var i = 0; i < imagePaths.length; i += 1) {
+	                (function (x) {
+	                    getImage(imagePaths[x] + '/imageOne', function(url) {
+	                        tagToAdd = "img.activator:eq(" + x  + " )";
+	                        $(tagToAdd).attr({src: url});
+	                    });
+	                })(i);
+	            }
+	        };
+	    }
+
+	    
+	    $('#messages-preview-holder').on('click', '.message-preview', function() {
+	        let chatid = $(this).attr('chatid');
+	        $('#message-send-button').attr('chatid', chatid)
+
+	        // toggling clicked/selected div colors
+	        if($(this).closest('div').hasClass('active')) {
+	            return false;   
+	        }
+
+	        $(this).find('.material-icons').remove();
+	        $('.active-message').toggleClass('active-message');
+	        $(this).closest('div').toggleClass('active-message');
+	        $('#message-detail-content').empty().fadeOut(100);
+	        
+	        displayMessagesDetail(uid, chatid);
+	    });
+
+	    var loadSellingCardList = function () {
+	        sellingCardList.empty();
+	        for (var i = 0; i < 31; i++) {
+	            sellingCardList.append([
+	                $('<div></div>').addClass('col l4 m4 s12').append(
+	                    $('<div></div>').addClass('card hoverable profile-card').append([
+	                        $('<div></div>').addClass('profile-favorite').append(
+	                            $('<img>').addClass('profile-favorite-image').attr({
+	                                src: '../media/ic_heart.png'
+	                            })
+	                        ),
+	                        $('<div></div>').addClass('profile-price').text('$69'),
+	                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
+	                            $('<img>').addClass('activator').attr({
+	                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
+	                            }),
+	                        ]),
+	                        $('<div></div>').addClass('card-content').append([
+	                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone Selling').append(
+	                                $('<i></i>').addClass('material-icons right').text('more_vert')
+	                            ),
+
+	                            $('<p></p>').append(
+	                                $('<a></a>').text('view item').attr({
+	                                    href: '#'
+	                                })
+	                            )
+	                        ]),
+	                        $('<div></div>').addClass('card-reveal').append([
+	                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
+	                                $('<i></i>').addClass('material-icons right').text('close')
+	                            ),
+	                            $('<p></p>').text('This is a test selling description')
+	                        ])
+	                    ])
+	                )
+	            ]);
+	        }
+	    };
+
+	    var loadTagsList = function () {
+
+	    };
+
+	    var addToTagsList = function () {
+	        var addition = {
+	            test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
+	        };
+	        addTagToProfile(uid, addition);
+	    };
+
+	    var loadSettings = function () {
+	        getUserInfo(uid, loadUserInfo);
+	        updateNavbarName();
+	    };
+
+	    var loadProfilePicture = function () {
+	        Promise.resolve(getProfilePicture(uid)).then(url => {
+	            profilePicture.attr('src', url);
+	        });
+	    }
+
+	    var loadUserInfo = function (userInfo) {
+	        firstName.val(userInfo.firstName);
+	        lastName.val(userInfo.lastName);
+	        username.val(userInfo.username);
+	        firebaseUsername = userInfo.username;
+	        hub.val(userInfo.userHub);
+	        loadProfilePicture();
+	        $('.my-profile-username').text(firebaseUsername);
+	        for (preference in userInfo.paymentPreferences) {
+	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
+	        }
+
+	        $('select').material_select();
+
+	    };
+
+	    var checkInput = function (input) {
+	        return input.val().length > nameSizeMin;
+	    }
+
+	    var checkUsername = function (input) {
+	        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
+	    }
+
+	    var updateSettings = function () {
+	        var paymentPreferences = [];
+	        for (preference in paymentPreference.val()) {
+	            paymentPreferences.push(paymentPreference.val()[preference]);
+	        }
+
+	        if (!paymentPreferences.length) {
+	            paymentPreferences.push("none");
+	        }
+
+	        var updatedInfo = {
+	            username: username.val(),
+	            firstName: firstName.val(),
+	            lastName: lastName.val(),
+	            userHub: hub.val(),
+	            paymentPreferences: paymentPreferences
+	        };
+	        updateUserInfo(uid, updatedInfo);
+	        loadSettings();
+	    };
+
+	    var rerouteProfileHash = function(hash) {
+	        if (window.location.hash.substr(1) === 'messages') {
+	            $('ul.tabs').tabs('select_tab', 'profile-messages');
+	        } else if (window.location.hash.substr(1) === 'notifications') {
+	            $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	        } else if (window.location.hash.substr(1) === 'settings') {
+	            $('ul.tabs').tabs('select_tab', 'profile-settings');
+	        }
+	    } 
+
+	    auth.onAuthStateChanged(function(user) {
+	        if (user) {
+	            user = auth.currentUser.email;
+	            uid = auth.currentUser.uid;
+	            if (window.location.pathname === '/profile/profile.html') {
+	                $('select').material_select();
+	                paymentPreference = $('#profile-payment-preference');
+	                loadSettings();
+	                getFavoriteObjects(showFavoritedItems);
+	                displayConversations(uid);
+	                rerouteProfileHash();
+	            }
+
+	        } else if (!user && window.location.pathname === '/profile/profile.html'){
+	            window.location.href = "../index.html";
+	        }
+	    });
+
+	    $('#selling-tab').click(function () {
+	        loadSellingCardList();
+	    });
+
+
+	    $('#notifications-tab').click(function () {
+	        loadTagsList();
+	    });
+
+	    $('#messages-offer-button').click(function() {
+	        if ($('#message-offer-popup').hasClass('invisible-div')) {
+	            $('#message-offer-popup').removeClass('invisible-div').fadeIn(1000);
+	        }
+	        else {
+	            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
+	        }        
+	    })
+
+	    addButton.click(function () {
+	        addToTagsList();
+	    });
+
+	    addPhotoButton.click(function () {
+	        addPhotoInput.click();
+	    });
+
+	    addPhotoInput.change(function () {
+	        reader = new FileReader();
+	        var fileExtension = ['jpeg', 'jpg', 'png'];
+	        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
+	        } else {
+	            reader.onload = function (e) {
+	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
+	    });
+
+	    editButton.click(function () {
+	        saveButton.attr("disabled", false);
+	        editButton.attr("disabled", true);
+	        firstName.attr("disabled", false);
+	        lastName.attr("disabled", false);
+	        username.attr("disabled", false);
+	        hub.attr("disabled", false);
+	        paymentPreference.attr("disabled", false);
+	        $('select').material_select();
+	        emailNotifications.attr("disabled", false);
+	        password.attr("disabled", false);
+	    });
+
+	    saveButton.click(function () {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
+	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
+	            return;
+	        }
+
+	        editButton.attr("disabled", false);
+	        saveButton.attr("disabled", true);
+	        firstName.attr("disabled", true);
+	        lastName.attr("disabled", true);
+	        username.attr("disabled", true);
+	        hub.attr("disabled", true);
+	        paymentPreference.attr("disabled", true);
+	        $('select').material_select();
+	        emailNotifications.attr("disabled", true);
+	        password.attr("disabled", true);
+	        updateSettings();
+	    });
+
+>>>>>>> webapp-hubs
 	});
 
 /***/ },
