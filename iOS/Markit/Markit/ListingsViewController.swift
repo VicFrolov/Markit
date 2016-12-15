@@ -136,16 +136,14 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func getImage (imageID: String, item: Item) {
         self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 2048 * 2048) { (data, error) in
-            DispatchQueue.main.async(execute: {
-                if (error != nil) {
-                    print("Image download failed: \(error?.localizedDescription)")
-                    return
-                }
-
-                item.image = UIImage(data: data!)
-                self.listingsTableView.reloadData()
+            if (error != nil) {
+                print("Image download failed: \(error?.localizedDescription)")
                 return
-            })
+            }
+
+            item.image = UIImage(data: data!)
+            self.listingsTableView.reloadData()
+            return
         }
     }
 

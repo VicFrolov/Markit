@@ -41,7 +41,6 @@ final class ChatMessageViewController: JSQMessagesViewController {
 
         self.setupReferences()
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5, execute: {
 
         if self.context == nil {
             self.isInitialMessage = true
@@ -50,13 +49,12 @@ final class ChatMessageViewController: JSQMessagesViewController {
             self.userChatRef.child("\(self.context!)/context/readMessages").setValue(true)
         }
         
-            self.messagesRef = self.userChatRef.child(self.context!)
-                .child("messages")
-            
-            self.getImageURL()
-            self.setupNavBar()
-            self.observeConversation()
-        })
+        self.messagesRef = self.userChatRef.child(self.context!)
+            .child("messages")
+        
+        self.getImageURL()
+        self.setupNavBar()
+        self.observeConversation()
         
         self.collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         self.collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
