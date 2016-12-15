@@ -75,11 +75,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5a-QP-oHG">
-                                <frame key="frameInset" minY="265" width="375" height="128"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0tu-Uz-JdR">
+                                <frame key="frameInset" minX="168" minY="232" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            </pageControl>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZF4-cs-wbs">
+                                <frame key="frameInset" height="128" maxY="274"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="Ywo-rK-G4K" kind="embed" id="hx8-CY-R3E"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -87,12 +93,38 @@
                     <connections>
                         <outlet property="greetingMessageLabel" destination="rDn-He-pAn" id="rau-UU-3Hy"/>
                         <outlet property="greetingNameLabel" destination="ODg-iE-QOS" id="xWU-PB-3uE"/>
-                        <outlet property="listingsContainerView" destination="P5a-QP-oHG" id="qCT-Cb-Fhz"/>
+                        <outlet property="pageControl" destination="0tu-Uz-JdR" id="hwC-ei-X7C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgq-Q0-SzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1056.8" y="-893.70314842578716"/>
+        </scene>
+        <!--Hub Listings Page View Controller-->
+        <scene sceneID="YqG-ko-vwh">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="Ywo-rK-G4K" customClass="HubListingsPageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zhB-Ft-NaU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1833" y="-1302"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="8rq-59-mBm">
+            <objects>
+                <viewController id="SRF-K3-LHK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="64w-v9-4J4"/>
+                        <viewControllerLayoutGuide type="bottom" id="hrw-2Q-sde"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="43M-1b-J8f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uK0-Rm-e5Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2603" y="-1264"/>
         </scene>
         <!--Select New Hub View Controller-->
         <scene sceneID="DRc-Ng-vcr">

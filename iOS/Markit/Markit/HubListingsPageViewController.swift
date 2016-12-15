@@ -10,7 +10,7 @@ import UIKit
 
 class HubListingsPageViewController: UIPageViewController {
     
-    weak var hubListingsDelegate: ProfilePageViewControllerDelegate?
+    weak var hubListingsDelegate: HubListingsPageViewControllerDelegate?
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [self.newViewController(title: "ProfilePage"),
@@ -36,14 +36,14 @@ class HubListingsPageViewController: UIPageViewController {
                                completion: nil)
         }
         
-        profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageCount: orderedViewControllers.count)
+        hubListingsDelegate?.hubListingsPageViewController(hubsListingsPageViewController: self, didUpdatePageCount: orderedViewControllers.count)
     }
     
     
     
 }
 
-extension ProfilePageViewController: UIPageViewControllerDataSource {
+extension HubListingsPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -86,7 +86,7 @@ extension ProfilePageViewController: UIPageViewControllerDataSource {
     
 }
 
-extension ProfilePageViewController: UIPageViewControllerDelegate {
+extension HubListingsPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             didFinishAnimating finished: Bool,
@@ -94,7 +94,7 @@ extension ProfilePageViewController: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         if let firstViewController = viewControllers?.first,
             let index = orderedViewControllers.index(of: firstViewController) {
-            profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageIndex: index)
+            hubListingsDelegate?.hubListingsPageViewController(hubListingsPageViewController: self, didUpdatePageIndex: index)
         }
     }
     
@@ -108,7 +108,7 @@ protocol HubListingsPageViewControllerDelegate: class {
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter count: the total number of pages.
      */
-    func profilePageViewController(profilePageViewController: ProfilePageViewController,
+    func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
                                    didUpdatePageCount count: Int)
     
     /**
@@ -117,7 +117,7 @@ protocol HubListingsPageViewControllerDelegate: class {
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func profilePageViewController(profilePageViewController: ProfilePageViewController,
+    func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
                                    didUpdatePageIndex index: Int)
     
 }
