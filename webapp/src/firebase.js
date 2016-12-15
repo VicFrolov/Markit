@@ -216,7 +216,6 @@ var getFavoriteObjects = function (callback) {
     });
 };
 
-
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
     itemsRef.child(item + '/favorites/' + auth.currentUser.uid).remove();
