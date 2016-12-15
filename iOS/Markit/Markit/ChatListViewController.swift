@@ -57,7 +57,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                 let conversation      = Conversation()
                 conversation.context  = convoDict["context"] as? NSDictionary
-                self.getItemTitle(itemID: (conversation.context?["itemID"] as! String?)!, conversation: conversation)
                 conversation.messages = convoDict["messages"] as? NSDictionary
                 conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as! String?)!)
                 
@@ -74,12 +73,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversationsList.count
-    }
-    
-    func getItemTitle(itemID: String, conversation: Conversation) {
-        itemRef.child(itemID).child("title").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
-            conversation.itemTitle = snapshot.value as! String?
-        })
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,7 +92,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.chatUsername?.text       = context["otherUsername"] as! String?
         cell.lastSent?.text           = context["latestPost"] as! String?
         cell.chatMessagePreview?.text = latestMessageText as! String?
-        cell.itemTitle?.text          = conversation.itemTitle!
         
         let itemImageURL              = context["itemImageURL"] as? String ?? defaultImage
         

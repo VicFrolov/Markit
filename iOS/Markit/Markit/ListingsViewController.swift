@@ -104,7 +104,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 item.desc    = dictionary["description"] as! String?
                 item.title   = dictionary["title"] as! String?
                 item.date    = dictionary["date"] as! String?
-                item.imageID = dictionary["id"] as! String? ?? "https://www.seeklogo.net/wp-content/themes/seek2015/img/not-available.jpg"
+                item.imageID = dictionary["id"] as! String?
                 item.price   = dictionary["price"] as! String?
                 item.tags    = dictionary["tags"] as? Array as [String]?
                 item.hubs     = dictionary["hubs"] as? Array as [String]?
@@ -157,64 +157,46 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
         self.didReceiveAdvancedSearchQuery = true
+        self.filteredItems = [Item]()
 
-        var hasTag: Bool  = false
-        var useTags: Bool = false
-        var tagList: [String] = []
-
-        var hasKeyWord: Bool = false
-//        var hasHub: Bool = false
         let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
         let minPrice         = advancedSearchVC.advancedSearchContainerView.minPrice.text
         let maxPrice         = advancedSearchVC.advancedSearchContainerView.maxPrice.text
-//        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+        let hubsQuery        = advancedSearchVC.advancedSearchContainerView.hubs.text
         let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
-        let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
-        
-        print(keywords!)
-        
-        if keywords! != "" {
-            hasKeyWord = true
-        }
-        
-        if tags! != "" {
-            tagList = (tags!.characters.split { $0 == " " }).map(String.init)
-            useTags = true
-        }
-        
-//        if hubs! != "" {
-//            hasHub = true
-//        }
-        
+        let tagsQuery        = advancedSearchVC.advancedSearchContainerView.tags.text
         
         self.filteredItems = itemList.filter { item in
-            if hasKeyWord {
-                let keywordQuery     = item.title!.lowercased().contains((keywords?.lowercased())!)
-    //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-                let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
-                let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
-                let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
-                let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
-                
-                if useTags {
-                    for tag in tagList {
-                        if item.tags!.contains(tag.lowercased()) {
-                            hasTag = true
-                        }
-                    }
-                    return (keywordQuery && withinPriceRange && hasTag)
-                }
-                return (keywordQuery && withinPriceRange)
-            }
+            
+            let tagList          = tagsQuery?.components(separatedBy: ", ")
+            let hubList          = hubsQuery?.components(separatedBy: ", ")
+            let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
+            let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
+            let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
+            let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
+
+            if (hubsQuery?.characters.count)! > 0
+                    && !hasTag(tagsIn: item, query: hubList!) { return false }
+            
+            if (tagsQuery?.characters.count)! > 0
+                    && !hasTag(tagsIn: item, query: tagList!) { return false }
+            
+            if (keywords?.characters.count)! > 0 && !(item.title?.lowercased().contains(keywords!.lowercased()))! && !(item.desc?.lowercased().contains(keywords!.lowercased()))! { return false }
+            
+            if !withinPriceRange { return false }
+            
             return true
         }
     }
     
-//    func hasTag(keyword: String, itemTags: [String]) -> Bool {
-//        for tag in itemTags {
-//            if itemTags.contains(keyword.lowercased())
-//        }
-//    }
+    func hasTag(tagsIn item: Item, query: [String]) -> Bool {
+        for q in query {
+            if (item.tags?.contains(q.lowercased()))! {
+                return true
+            }
+        }
+        return false
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
