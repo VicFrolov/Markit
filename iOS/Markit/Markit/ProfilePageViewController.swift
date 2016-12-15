@@ -31,17 +31,16 @@ class ProfilePageViewController: UIPageViewController {
         delegate = self
         
         if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
             let beforeVC = pageViewController(self, viewControllerBefore: firstViewController) as UIViewController!
             let afterVC = pageViewController(self, viewControllerAfter: firstViewController) as UIViewController!
-            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
             setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
+            setViewControllers([beforeVC!], direction: .reverse, animated: false, completion: nil)
+            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
             
         }
         
         profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageCount: orderedViewControllers.count)
     }
-    
     override func viewWillLayoutSubviews() {
         //Load the viewController before the starting VC then go back to the starting VC
         //viewWillLayoutSubviews() is called multiple times, so do this only once
@@ -54,7 +53,6 @@ class ProfilePageViewController: UIPageViewController {
             layoutsubs = true
         }
     }
-    
     
     
 }

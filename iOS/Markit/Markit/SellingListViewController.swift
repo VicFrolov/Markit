@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
+import FirebaseStorage
 
 class SellingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     var items = [String]()
+    var itemsForSale : NSDictionary!
+    var itemsFromDatabase : NSDictionary!
+    var ref: FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,18 +24,38 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         if items.count > 0 {
             return
         }
-        items.append("SellingListView")
-        items.append("Iphone 7")
-        items.append("Chair")
-        items.append("Panda Cup")
-        items.append("Fossil Watch")
-        items.append("Full Sized Mattress")
-        items.append("Microwave")
-        items.append("Samsung 30' TV")
-        items.append("History Book")
-        items.append("Speakers")
-        items.append("Concert Tickets")
-        items.append("Couch")
+        
+        ref = FIRDatabase.database().reference()
+        let userID = FIRAuth.auth()?.currentUser?.uid
+        
+        ref.child("users/\(userID!)/itemsForSale").observeSingleEvent(of: .value, with: { (snapshot) in
+            self.itemsForSale = snapshot.value as? NSDictionary
+            
+            self.ref.child("items/").observeSingleEvent(of: .value, with: { (snapshot) in
+                self.itemsFromDatabase = snapshot.value as? NSDictionary
+                for (keyFavItems, _) in self.itemsForSale! {
+                    for (keyItemsFD, _) in self.itemsFromDatabase! {
+                        if keyFavItems as! String == keyItemsFD as! String{
+                            let dictItem = self.itemsFromDatabase![keyItemsFD] as! NSDictionary
+                            print(dictItem["title"]! as! String)
+                            self.items.append(dictItem["title"] as! String)
+                        }
+                    }
+                }
+                
+            }) { (error) in
+                print(error.localizedDescription)
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async{
+            self.tableView.reloadData()
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
