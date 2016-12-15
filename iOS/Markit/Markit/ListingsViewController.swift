@@ -261,37 +261,50 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let selectedRow = indexPath.row
                 let detailedVC = segue.destination as! DetailedTableViewController
                 
-                detailedVC.currentItem = itemList[selectedRow]
+//                if self.didReceiveAdvancedSearchQuery {
+//                    detailedVC.currentItem = filteredItems[selectedRow]
+//                } else {
+                    detailedVC.currentItem = itemList[selectedRow]
+//                }
             }
         }
     }
     
     @IBAction func faveButtonTouched(_ sender: UIButton) {
         let currentUser = CustomFirebaseAuth().getCurrentUser()
-        var itemID = itemList[sender.tag].imageID
+        var itemID      = itemList[sender.tag].imageID
+        var hubs        = itemList[sender.tag].hubs
+        var sellerID    = itemList[sender.tag].uid
         if self.didReceiveAdvancedSearchQuery ||
             self.searchController.isActive &&
             self.searchController.searchBar.text != "" {
             
-            itemID = filteredItems[sender.tag].imageID
+            itemID   = filteredItems[sender.tag].imageID
+            hubs     = filteredItems[sender.tag].hubs
+            sellerID = filteredItems[sender.tag].uid
         }
 
         let itemFavoriteRef        = self.itemsRef.child("\(itemID!)/favorites/\(currentUser)")
-        let itemsByHubFavoriteRef  = self.itemsByHubRef.child("\(itemID!)/favorites/\(currentUser)")
-        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(sellerID!)/\(itemID!)/favorites/\(currentUser)")
         let userFavoriteRef        = self.userRef.child("\(currentUser)/favorites/\(itemID!)")
         
         itemFavoriteRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             if snapshot.exists() {
                 itemFavoriteRef.removeValue()
-                itemsByHubFavoriteRef.removeValue()
                 itemsByUserFavoriteRef.removeValue()
                 userFavoriteRef.removeValue()
+                
+                for hub in hubs! {
+                    self.itemsByHubRef.child("\(hub)/\(itemID!)/favorites/\(currentUser)").removeValue()
+                }
             } else {
                 itemFavoriteRef.setValue(true)
-                itemsByHubFavoriteRef.setValue(true)
                 itemsByUserFavoriteRef.setValue(true)
                 userFavoriteRef.setValue(true)
+                
+                for hub in hubs! {
+                    self.itemsByHubRef.child("\(hub)/\(itemID!)/favorites/\(currentUser)").setValue(true)
+                }
             }
         })
     }

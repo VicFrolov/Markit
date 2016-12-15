@@ -50,19 +50,20 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     func getMessages() {
         chatRef.observe(.value, with: { (snapshot) -> Void in
             self.conversationsList = [Conversation]()
-            let convoDictWithKeys = snapshot.value as! NSDictionary
+            if let convoDictWithKeys = snapshot.value as! NSDictionary? {
             
-            for key in convoDictWithKeys.allKeys {
-                let convoDict         = convoDictWithKeys[key] as! NSDictionary
-                
-                let conversation      = Conversation()
-                conversation.context  = convoDict["context"] as? NSDictionary
-                conversation.messages = convoDict["messages"] as? NSDictionary
-                conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as! String?)!)
-                
-                self.conversationsList.append(conversation)
+                for key in (convoDictWithKeys.allKeys) {
+                    let convoDict         = convoDictWithKeys[key] as! NSDictionary
+                    
+                    let conversation      = Conversation()
+                    conversation.context  = convoDict["context"] as? NSDictionary
+                    conversation.messages = convoDict["messages"] as? NSDictionary
+                    conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as! String?)!)
+                    
+                    self.conversationsList.append(conversation)
+                }
+                self.chatTableView.reloadData()
             }
-            self.chatTableView.reloadData()
         })
     }
     
