@@ -82,10 +82,18 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
     
     func getTags () {
         tagRef.observe(.childAdded, with: { (snapshot) -> Void in
-            if let tagValue = snapshot.value as! Int? {
-                if tagValue > 7 {
+            if snapshot.value is Int {
+                if (snapshot.value as! Int?)! > 7 {
                     self.tagList.append(snapshot.key.trim())
                 }
+            }
+        })
+    }
+    
+    func getHubs () {
+        hubRef.observe(.childAdded, with: { (snapshot) -> Void in
+            if snapshot.value! is Int {
+                self.hubList.append(snapshot.key.trim())
             }
         })
     }
@@ -163,6 +171,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         hubRef      = databaseRef.child("hubs")
         
         getTags()
+        getHubs()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -4,12 +4,21 @@ $(function () {
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
-    var nameSizeLimit = require('./navbar-signup.js')['nameSizeLimit'];
+    var getProfileTags = require('./firebase.js')['getProfileTags'];
+    var removeProfileTag = require('./firebase.js')['removeProfileTag'];
+    var nameSizeMin = require('./navbar-signup.js')['nameSizeMin'];
+    var nameSizeMax = require('./navbar-signup.js')['nameSizeMax'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
     var displayConversations = require('./firebase.js')['displayConversations'];
     var displayMessagesDetail = require('./firebase.js')['displayMessagesDetail'];
+    var updateNavbarName = require('./firebase-auth.js')['updateNavbarName'];
+    var getUserSelling = require('./firebase.js')['getUserSelling'];
+    var getItemsById = require('./firebase.js')['getItemsById'];
+    var setItemAsSold = require('./firebase.js')['setItemAsSold'];
+    
+    var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
     var reader;
     var user;
@@ -19,7 +28,8 @@ $(function () {
     var sellingCardList = $('#profile-selling-card-list');
     var profilePicture = $('#profile-picture');
     var addPhotoButton = $('#add-photo-button');
-    var addButton = $('#add-button');
+    var addPhotoInput = $('#add-photo-input');
+    var addButton = $('.add-button');
     var editButton = $('#edit-button');
     var saveButton = $('#save-button');
     var firstName = $('#profile-first-name');
@@ -32,6 +42,8 @@ $(function () {
     var getImage = require('./firebase.js')["getImage"];
     var getFavoriteObjects = require('./firebase.js')['getFavoriteObjects'];
     var profileLikedItems = $('#profile-liked-items');
+    var navbarProfilePic = $('#navbar-user-photo');
+    var profileName = $('#profile-name');
 
     if ($(profileLikedItems).length > 0) {
         var showFavoritedItems = function(items) {
@@ -79,58 +91,61 @@ $(function () {
     });
 
     var loadSellingCardList = function () {
-        sellingCardList.empty();
-        for (var i = 0; i < 31; i++) {
-            sellingCardList.append([
-                $('<div></div>').addClass('col l4 m4 s12').append(
-                    $('<div></div>').addClass('card hoverable profile-card').append([
-                        $('<div></div>').addClass('profile-favorite').append(
-                            $('<img>').addClass('profile-favorite-image').attr({
-                                src: '../media/ic_heart.png'
-                            })
-                        ),
-                        $('<div></div>').addClass('profile-price').text('$69'),
-                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
-                            $('<img>').addClass('activator').attr({
-                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
-                            }),
-                        ]),
-                        $('<div></div>').addClass('card-content').append([
-                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone Selling').append(
-                                $('<i></i>').addClass('material-icons right').text('more_vert')
-                            ),
+        Promise.resolve(getUserSelling(uid)).then(function(items) {
+            if (Object.keys(items).length >= 1) {
+                let itemList = [];
+                for (itemId in items) {
+                    itemList.push(itemId)
+                }
 
-                            $('<p></p>').append(
-                                $('<a></a>').text('view item').attr({
-                                    href: '#'
-                                })
-                            )
-                        ]),
-                        $('<div></div>').addClass('card-reveal').append([
-                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
-                                $('<i></i>').addClass('material-icons right').text('close')
-                            ),
-                            $('<p></p>').text('This is a test selling description')
-                        ])
-                    ])
-                )
-            ]);
-        }
+                Promise.resolve(getItemsById(itemList)).then(function(itemObjects) {
+                    let filteredItemList = {};
+                    var str = $('#profile-selling-template').text();
+                    var compiled = _.template(str);
+                    var imagePaths = [];
+
+                    for (var item in itemObjects) {
+                        var currentItem = itemObjects[item];
+                        var itemID = currentItem['id'];
+
+                        imagePaths.push(itemID);
+
+                        filteredItemList[itemID] = currentItem;
+                    }
+
+                    $('#profile-selling-holder').empty();
+                    $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
+
+                    for (var i = 0; i < imagePaths.length; i += 1) {
+                        (function (x) {
+                            getImage(imagePaths[x] + '/imageOne', function(url) {
+                                $("#" + imagePaths[x]).attr({src: url});
+                            });
+                        })(i);
+                    } 
+                });
+
+            } else {
+                // show a div saying user has no items for sale
+            }
+        });
     };
 
     var loadTagsList = function () {
 
     };
 
+
     var addToTagsList = function () {
         var addition = {
             test: ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"]
         };
-       addTagToProfile(uid, addition);
+        addTagToProfile(uid, addition);
     };
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
+        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
@@ -152,10 +167,15 @@ $(function () {
         }
 
         $('select').material_select();
+
     };
 
     var checkInput = function (input) {
-        return input.val().length > nameSizeLimit;
+        return input.val().length > nameSizeMin;
+    }
+
+    var checkUsername = function (input) {
+        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
     }
 
     var updateSettings = function () {
@@ -229,7 +249,21 @@ $(function () {
         addToTagsList();
     });
 
-    addPhotoButton.change(function () {
+    addPhotoButton.click(function () {
+        addPhotoInput.click();
+    });
+
+    $('#profile-selling-holder').on('click', '.selling-sold-button', function () {
+        let chatID = $($(this).parent()[0].children[2])[0].children[0].id;
+        setItemAsSold(chatID);
+        loadSellingCardList();
+
+        //get itemID
+        // mark this item as sold in items, itemsByHub, itemsByUser
+        // refresh items
+    });
+
+    addPhotoInput.change(function () {
         reader = new FileReader();
         var fileExtension = ['jpeg', 'jpg', 'png'];
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
@@ -256,7 +290,7 @@ $(function () {
     });
 
     saveButton.click(function () {
-        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
             Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
             return;
         }

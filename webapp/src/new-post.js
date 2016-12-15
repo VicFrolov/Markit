@@ -130,7 +130,7 @@ $(function() {
                         'Computer',
                         'Electronics',
                         'iPhone',
-                        'Cell Phone',
+                        'Cell-Phone',
                         'Apple',
                         'Macbook',
                         'Chair',
@@ -140,8 +140,8 @@ $(function() {
                         'Bathroom',
                         'Couch',
                         'Kitchen',
-                        'Living Room',
-                        'Dinner Table'
+                        'Living-Room',
+                        'Dinner-Table'
                     ],
                     textext = $(e.target).textext()[0],
                     query = (data ? data.query : '') || '';
@@ -158,10 +158,7 @@ $(function() {
             .bind('getSuggestions', function(e, data){
                 var list = [
                         'Loyola Marymount University',
-                        'UCLA',
-                        'l',
-                        'la',
-                        'lalala'
+                        'UCLA'
                     ],
                     textext = $(e.target).textext()[0],
                     query = (data ? data.query : '') || '';

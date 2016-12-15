@@ -32,7 +32,7 @@ class SellingListViewController: UIViewController, UITableViewDataSource, UITabl
         items.append("Couch")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import FontAwesome_swift
 
 class DetailedTableViewController: UITableViewController {
@@ -21,23 +22,32 @@ class DetailedTableViewController: UITableViewController {
     @IBOutlet weak var itemHubs: UILabel!
     @IBOutlet weak var messageSellerButton: UIButton!
     @IBOutlet weak var faved: UIButton!
+    
+    var databaseRef: FIRDatabaseReference!
+    var userRef: FIRDatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setHeartImage()
+        self.setHeartImage()
+        self.setupReferences()
         
-        print("HERE in DetailedView")
         self.title = self.currentItem.title
-                
-        itemImageView?.image  = self.currentItem.image!
-        itemTitle?.text       = self.currentItem.title
-        itemPrice?.text       = "$\(self.currentItem.price!)"
-        itemDescription?.text = self.currentItem.desc!
-        //        detailedView.itemTags.             = self.currentItem.tags
-        //        detailedView.itemHubs             = self.currentItem.hubs
+        
+        self.itemImageView?.image  = self.currentItem.image!
+        self.itemTitle?.text       = self.currentItem.title
+        self.itemPrice?.text       = "$\(self.currentItem.price!)"
+        self.itemDescription?.text = self.currentItem.desc!
+        self.itemTags?.text        = self.currentItem.tags?.joined(separator: ", ")
+        self.itemHubs?.text        = self.currentItem.hubs?.joined(separator: ", ")
         
         messageSellerButton.layer.cornerRadius = 20
+    }
+    
+    func setupReferences () {
+        self.databaseRef      = FIRDatabase.database().reference()
+        self.userRef          = self.databaseRef.child("users")
+
     }
     
     func setHeartImage() {
@@ -48,11 +58,19 @@ class DetailedTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let messageVC = segue.destination as! ChatMessageViewController
-            messageVC.senderId          = CustomFirebaseAuth().getCurrentUser()
+            let userID                  = CustomFirebaseAuth().getCurrentUser()
+            messageVC.senderId          = userID
             messageVC.itemID            = self.currentItem.imageID
             messageVC.otherUserID       = self.currentItem.uid
             messageVC.otherUserName     = self.currentItem.username
             messageVC.itemTitle         = self.currentItem.title
+            
+            self.userRef.child(userID)
+                .child("username")
+                .observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+                    messageVC.senderDisplayName = snapshot.value as! String?
+                    
+                })
         }
     }
 

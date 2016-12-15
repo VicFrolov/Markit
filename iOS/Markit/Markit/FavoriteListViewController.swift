@@ -58,7 +58,7 @@ class FavoriteListViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     

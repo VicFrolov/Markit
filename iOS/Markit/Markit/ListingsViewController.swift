@@ -19,14 +19,13 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var itemsByHubRef:  FIRDatabaseReference!
     var itemsByUserRef: FIRDatabaseReference!
     var userRef:        FIRDatabaseReference!
-    var usernameRef:    FIRDatabaseReference!
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
     // These are for searching the list of items
     let searchController = UISearchController(searchResultsController: nil)
     var filteredItems = [Item]()
-    var didReceiveAdvancedSearchQuery: Bool!
+    var didReceiveAdvancedSearchQuery: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +66,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.itemsByHubRef  = ref.child("itemsByHub")
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef        = ref.child("users")
-        self.usernameRef    = ref.child("usernames")
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -122,6 +120,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.userRef.child(uid)
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
+                        item.username = snapshot.value as? String ?? ""
                     })
                 }
                 
@@ -137,16 +136,14 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func getImage (imageID: String, item: Item) {
         self.itemImageRef!.child("images/itemImages/\(imageID)/imageOne").data(withMaxSize: 1 * 2048 * 2048) { (data, error) in
-            DispatchQueue.main.async(execute: {
-                if (error != nil) {
-                    print("Image download failed: \(error?.localizedDescription)")
-                    return
-                }
-
-                item.image = UIImage(data: data!)
-                self.listingsTableView.reloadData()
+            if (error != nil) {
+                print("Image download failed: \(error?.localizedDescription)")
                 return
-            })
+            }
+
+            item.image = UIImage(data: data!)
+            self.listingsTableView.reloadData()
+            return
         }
     }
 
@@ -158,63 +155,45 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
         self.didReceiveAdvancedSearchQuery = true
-        
-//        let searchQuery = self.itemsRef.queryOrdered(byChild: "title").observe(.value, with: { (snapshot) in
-//            for childSnapshot in snapshot.children {
-//                print("Search \(snapshot)")
-//            }
-//        })
+        self.filteredItems = [Item]()
 
-        var hasTag: Bool  = false
-        var useTags: Bool = false
-        var tagList: [String] = []
-
-        var hasKeyWord: Bool = false
-//        var hasHub: Bool = false
         let advancedSearchVC = segue.source as! ListingsAdvancedSearchViewController
         let minPrice         = advancedSearchVC.advancedSearchContainerView.minPrice.text
         let maxPrice         = advancedSearchVC.advancedSearchContainerView.maxPrice.text
-//        var hubs = advancedSearchVC.advancedSearchContainerView.hubs.text
+        let hubsQuery        = advancedSearchVC.advancedSearchContainerView.hubs.text
         let keywords         = advancedSearchVC.advancedSearchContainerView.keywords.text
-        let tags             = advancedSearchVC.advancedSearchContainerView.tags.text
-        
-        print(keywords!)
-        
-        if keywords! != "" {
-            hasKeyWord = true
-        }
-        
-        if tags! != "" {
-            tagList = (tags!.characters.split { $0 == " " }).map(String.init)
-            useTags = true
-        }
-        
-//        if hubs! != "" {
-//            hasHub = true
-//        }
-        
+        let tagsQuery        = advancedSearchVC.advancedSearchContainerView.tags.text
         
         self.filteredItems = itemList.filter { item in
-            if hasKeyWord {
-                let keywordQuery     = item.title!.lowercased().contains((keywords?.lowercased())!)
-    //            let hubsQuery = item.hubs!.lowercased().contains((keywords?.lowercased())!)
-                let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
-                let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
-                let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
-                let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
-                
-                if useTags {
-                    for tag in tagList {
-                        if item.tags!.contains(tag.lowercased()) {
-                            hasTag = true
-                        }
-                    }
-                    return (keywordQuery && withinPriceRange && hasTag)
-                }
-                return (keywordQuery && withinPriceRange)
-            }
+            
+            let tagList          = tagsQuery?.components(separatedBy: ", ")
+            let hubList          = hubsQuery?.components(separatedBy: ", ")
+            let minPriceQuery    = NumberFormatter().number(from: minPrice!)?.floatValue
+            let maxPriceQuery    = NumberFormatter().number(from: maxPrice!)?.floatValue
+            let itemPriceFloat   = NumberFormatter().number(from: item.price!)?.floatValue
+            let withinPriceRange = itemPriceFloat! <= maxPriceQuery! && itemPriceFloat! >= minPriceQuery!
+
+            if (hubsQuery?.characters.count)! > 0
+                    && !hasTag(tagsIn: item, query: hubList!) { return false }
+            
+            if (tagsQuery?.characters.count)! > 0
+                    && !hasTag(tagsIn: item, query: tagList!) { return false }
+            
+            if (keywords?.characters.count)! > 0 && !(item.title?.lowercased().contains(keywords!.lowercased()))! && !(item.desc?.lowercased().contains(keywords!.lowercased()))! { return false }
+            
+            if !withinPriceRange { return false }
+            
             return true
         }
+    }
+    
+    func hasTag(tagsIn item: Item, query: [String]) -> Bool {
+        for q in query {
+            if (item.tags?.contains(q.lowercased()))! {
+                return true
+            }
+        }
+        return false
     }
 
     override func didReceiveMemoryWarning() {
@@ -231,7 +210,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
             return self.filteredItems.count
         }
         return self.itemList.count
@@ -244,7 +223,7 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                                                  for: indexPath) as! ListingsTableViewCell
         let item: Item
         
-        if self.didReceiveAdvancedSearchQuery || self.searchController.isActive && self.searchController.searchBar.text != "" {
+        if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
             item = self.filteredItems[row]
         } else {
             item = itemList[row]
@@ -280,37 +259,50 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let selectedRow = indexPath.row
                 let detailedVC = segue.destination as! DetailedTableViewController
                 
-                detailedVC.currentItem = itemList[selectedRow]
+                if self.didReceiveAdvancedSearchQuery! || self.searchController.isActive && self.searchController.searchBar.text != "" {
+                    detailedVC.currentItem = filteredItems[selectedRow]
+                } else {
+                    detailedVC.currentItem = itemList[selectedRow]
+                }
             }
         }
     }
     
     @IBAction func faveButtonTouched(_ sender: UIButton) {
         let currentUser = CustomFirebaseAuth().getCurrentUser()
-        var itemID = itemList[sender.tag].imageID
-        if self.didReceiveAdvancedSearchQuery ||
+        var itemID      = itemList[sender.tag].imageID
+        var hubs        = itemList[sender.tag].hubs
+        var sellerID    = itemList[sender.tag].uid
+        if self.didReceiveAdvancedSearchQuery! ||
             self.searchController.isActive &&
             self.searchController.searchBar.text != "" {
             
-            itemID = filteredItems[sender.tag].imageID
+            itemID   = filteredItems[sender.tag].imageID
+            hubs     = filteredItems[sender.tag].hubs
+            sellerID = filteredItems[sender.tag].uid
         }
 
         let itemFavoriteRef        = self.itemsRef.child("\(itemID!)/favorites/\(currentUser)")
-        let itemsByHubFavoriteRef  = self.itemsByHubRef.child("\(itemID!)/favorites/\(currentUser)")
-        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(itemID!)/favorites/\(currentUser)")
+        let itemsByUserFavoriteRef = self.itemsByUserRef.child("\(sellerID!)/\(itemID!)/favorites/\(currentUser)")
         let userFavoriteRef        = self.userRef.child("\(currentUser)/favorites/\(itemID!)")
         
         itemFavoriteRef.observeSingleEvent(of: .value, with: { (snapshot) -> Void in
             if snapshot.exists() {
                 itemFavoriteRef.removeValue()
-                itemsByHubFavoriteRef.removeValue()
                 itemsByUserFavoriteRef.removeValue()
                 userFavoriteRef.removeValue()
+                
+                for hub in hubs! {
+                    self.itemsByHubRef.child("\(hub)/\(itemID!)/favorites/\(currentUser)").removeValue()
+                }
             } else {
                 itemFavoriteRef.setValue(true)
-                itemsByHubFavoriteRef.setValue(true)
                 itemsByUserFavoriteRef.setValue(true)
                 userFavoriteRef.setValue(true)
+                
+                for hub in hubs! {
+                    self.itemsByHubRef.child("\(hub)/\(itemID!)/favorites/\(currentUser)").setValue(true)
+                }
             }
         })
     }
