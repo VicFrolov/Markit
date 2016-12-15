@@ -2525,6 +2525,7 @@
 	    var sellingCardList = $('#profile-selling-card-list');
 	    var profilePicture = $('#profile-picture');
 	    var addPhotoButton = $('#add-photo-button');
+	    var addPhotoInput = $('#add-photo-input');
 	    var addButton = $('.add-button');
 	    var editButton = $('#edit-button');
 	    var saveButton = $('#save-button');
@@ -2735,7 +2736,11 @@
 	        addToTagsList();
 	    });
 
-	    addPhotoButton.change(function () {
+	    addPhotoButton.click(function () {
+	        addPhotoInput.click();
+	    });
+
+	    addPhotoInput.change(function () {
 	        reader = new FileReader();
 	        var fileExtension = ['jpeg', 'jpg', 'png'];
 	        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
