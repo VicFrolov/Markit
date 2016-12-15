@@ -42,8 +42,12 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
             }) { (error) in
                 print(error.localizedDescription)
             }
-            greetingNameLabel.text    = "Hi, \(firstName)"
-            greetingMessageLabel.text = "Here's whats going on at \(hub)"
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                self.greetingNameLabel.text    = "Hi, \(self.firstName!)"
+                self.greetingMessageLabel.text = "Here's whats going on at \(self.hub!)"
+                self.collectionView.reloadData()
+            }
         } else {
             greetingNameLabel.text    = "Welcome!"
             greetingMessageLabel.text = "Here's whats going on around you."
