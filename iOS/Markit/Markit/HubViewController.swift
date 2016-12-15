@@ -14,16 +14,12 @@ import FirebaseStorage
 class HubViewController: UIViewController {
     @IBOutlet weak var greetingMessageLabel: UILabel!
     @IBOutlet weak var greetingNameLabel: UILabel!
-    @IBOutlet weak var listingsContainerView: UIView!
-    @IBOutlet weak var pageControl: UIPageControl!
     var ref: FIRDatabaseReference!
 
+    @IBOutlet weak var listingsContainerView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavBarInvis()
-        self.pageControl.currentPageIndicatorTintColor = UIColor.red
-        self.pageControl.pageIndicatorTintColor = UIColor.black
-        definesPresentationContext = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,16 +42,17 @@ class HubViewController: UIViewController {
     }
 
 }
+/*
 extension HubViewController: HubListingsPageViewControllerDelegate {
     
-    internal func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
-                                                didUpdatePageCount count: Int) {
+    internal func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController, didUpdatePageCount count: Int) {
         pageControl.numberOfPages = count
     }
     
-    internal func hubsListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
-                                                 didUpdatePageIndex index: Int) {
+    internal func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController, didUpdatePageIndex index: Int) {
         pageControl.currentPage = index
     }
+
     
 }
+ */

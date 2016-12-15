@@ -13,9 +13,10 @@ class HubListingsPageViewController: UIPageViewController {
     weak var hubListingsDelegate: HubListingsPageViewControllerDelegate?
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newViewController(title: "ProfilePage"),
-                self.newViewController(title: "FavoriteListPage"),
-                self.newViewController(title: "TagPage")]
+        return [self.newViewController(title: "itemOne"),
+                self.newViewController(title: "itemTwo"),
+                self.newViewController(title: "itemThree"),
+                self.newViewController(title: "itemFour")]
     }()
     
     private func newViewController(title: String) -> UIViewController {
@@ -36,7 +37,7 @@ class HubListingsPageViewController: UIPageViewController {
                                completion: nil)
         }
         
-        hubListingsDelegate?.hubListingsPageViewController(hubsListingsPageViewController: self, didUpdatePageCount: orderedViewControllers.count)
+        hubListingsDelegate?.hubListingsPageViewController(hubListingsPageViewController: self, didUpdatePageCount: orderedViewControllers.count)
     }
     
     

@@ -75,10 +75,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0tu-Uz-JdR">
-                                <frame key="frameInset" minX="168" minY="232" width="39" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pageControl>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZF4-cs-wbs">
                                 <frame key="frameInset" height="128" maxY="274"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -93,7 +89,7 @@
                     <connections>
                         <outlet property="greetingMessageLabel" destination="rDn-He-pAn" id="rau-UU-3Hy"/>
                         <outlet property="greetingNameLabel" destination="ODg-iE-QOS" id="xWU-PB-3uE"/>
-                        <outlet property="pageControl" destination="0tu-Uz-JdR" id="hwC-ei-X7C"/>
+                        <outlet property="listingsContainerView" destination="ZF4-cs-wbs" id="4D0-Ul-nVl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgq-Q0-SzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -103,7 +99,7 @@
         <!--Hub Listings Page View Controller-->
         <scene sceneID="YqG-ko-vwh">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="Ywo-rK-G4K" customClass="HubListingsPageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Ywo-rK-G4K" customClass="HubListingsPageViewController" customModule="Markit" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zhB-Ft-NaU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1833" y="-1302"/>
@@ -111,7 +107,7 @@
         <!--View Controller-->
         <scene sceneID="8rq-59-mBm">
             <objects>
-                <viewController id="SRF-K3-LHK" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="itemOneViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SRF-K3-LHK" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="64w-v9-4J4"/>
                         <viewControllerLayoutGuide type="bottom" id="hrw-2Q-sde"/>
@@ -119,12 +115,66 @@
                     <view key="view" contentMode="scaleToFill" id="43M-1b-J8f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uK0-Rm-e5Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2603" y="-1264"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="0rh-r2-l6P">
+            <objects>
+                <viewController storyboardIdentifier="itemThreeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mxO-sW-MyE" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YlS-uy-mmf"/>
+                        <viewControllerLayoutGuide type="bottom" id="Be8-oL-UL6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="895-VB-AEk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Al6-Ir-yC2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3148" y="-1308"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="poL-Ju-vt9">
+            <objects>
+                <viewController storyboardIdentifier="itemTwoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9In-tq-TDS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CcF-i4-4Vb"/>
+                        <viewControllerLayoutGuide type="bottom" id="HKS-HD-pPW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ghk-yJ-u9X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.43208257300000003" green="0.75" blue="0.61527714420000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YWl-oN-dXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2630" y="-895"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="3EM-HQ-Rco">
+            <objects>
+                <viewController storyboardIdentifier="itemFourViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tBf-Zg-T2m" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6H7-TU-2dp"/>
+                        <viewControllerLayoutGuide type="bottom" id="RL2-Bs-F6T"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UTi-R1-IQf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SOA-R8-tE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3264" y="-895"/>
         </scene>
         <!--Select New Hub View Controller-->
         <scene sceneID="DRc-Ng-vcr">
