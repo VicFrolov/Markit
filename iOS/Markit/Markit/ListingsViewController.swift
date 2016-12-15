@@ -19,7 +19,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var itemsByHubRef:  FIRDatabaseReference!
     var itemsByUserRef: FIRDatabaseReference!
     var userRef:        FIRDatabaseReference!
-    var usernameRef:    FIRDatabaseReference!
     var itemImageRef:   FIRStorageReference!
     var itemList      = [Item]()
     
@@ -67,7 +66,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.itemsByHubRef  = ref.child("itemsByHub")
         self.itemsByUserRef = ref.child("itemsByUser")
         self.userRef        = ref.child("users")
-        self.usernameRef    = ref.child("usernames")
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -123,7 +121,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
                                 .child("username")
                                 .observe(.value, with: { (snapshot) in
                         item.username = snapshot.value as? String ?? ""
-                                    
                     })
                 }
                 
@@ -160,12 +157,6 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @IBAction func unwindSearchButton (segue: UIStoryboardSegue) {
         self.didReceiveAdvancedSearchQuery = true
-        
-//        let searchQuery = self.itemsRef.queryOrdered(byChild: "title").observe(.value, with: { (snapshot) in
-//            for childSnapshot in snapshot.children {
-//                print("Search \(snapshot)")
-//            }
-//        })
 
         var hasTag: Bool  = false
         var useTags: Bool = false
@@ -218,6 +209,12 @@ class ListingsViewController: UIViewController, UITableViewDataSource, UITableVi
             return true
         }
     }
+    
+//    func hasTag(keyword: String, itemTags: [String]) -> Bool {
+//        for tag in itemTags {
+//            if itemTags.contains(keyword.lowercased())
+//        }
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

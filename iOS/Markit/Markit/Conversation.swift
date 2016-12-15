@@ -10,7 +10,9 @@ import UIKit
 
 class Conversation {
     
+    var key: String?
     var context: NSDictionary?
     var messages: NSDictionary?
     var lastSent: Date?
+    var itemTitle: String?
 }

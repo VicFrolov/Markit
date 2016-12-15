@@ -1,4 +1,5 @@
 $(function () {
+    $('#message-offer-popup').fadeOut(1);
     var auth = require('./firebase.js')['auth'];
     var getUserInfo = require('./firebase.js')['getUserInfo'];
     var updateUserInfo = require('./firebase.js')['updateUserInfo'];
@@ -42,6 +43,8 @@ $(function () {
             $('#profile-liked-holder').append(compiled({items: items}));
 
 
+
+
             for (var item in items) {
                 imagePaths.push(items[item]['id']);
             }
@@ -68,8 +71,8 @@ $(function () {
         }
 
         $(this).find('.material-icons').remove();
-        $('.active').toggleClass('active');
-        $(this).closest('div').toggleClass('active');
+        $('.active-message').toggleClass('active-message');
+        $(this).closest('div').toggleClass('active-message');
         $('#message-detail-content').empty().fadeOut(100);
         
         displayMessagesDetail(uid, chatid);
@@ -176,6 +179,16 @@ $(function () {
         loadSettings();
     };
 
+    var rerouteProfileHash = function(hash) {
+        if (window.location.hash.substr(1) === 'messages') {
+            $('ul.tabs').tabs('select_tab', 'profile-messages');
+        } else if (window.location.hash.substr(1) === 'notifications') {
+            $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+        } else if (window.location.hash.substr(1) === 'settings') {
+            $('ul.tabs').tabs('select_tab', 'profile-settings');
+        }
+    } 
+
     auth.onAuthStateChanged(function(user) {
         if (user) {
             user = auth.currentUser.email;
@@ -186,6 +199,7 @@ $(function () {
                 loadSettings();
                 getFavoriteObjects(showFavoritedItems);
                 displayConversations(uid);
+                rerouteProfileHash();
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
@@ -201,6 +215,15 @@ $(function () {
     $('#notifications-tab').click(function () {
         loadTagsList();
     });
+
+    $('#messages-offer-button').click(function() {
+        if ($('#message-offer-popup').hasClass('invisible-div')) {
+            $('#message-offer-popup').removeClass('invisible-div').fadeIn(1000);
+        }
+        else {
+            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
+        }        
+    })
 
     addButton.click(function () {
         addToTagsList();

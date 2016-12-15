@@ -1,8 +1,7 @@
 package com.markit.android;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,38 +20,41 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.ValueEventListener;
 import com.markit.android.base.files.BaseActivity;
-import com.markit.android.profile.files.Profile;
 import com.markit.android.newlisting.files.NewListing;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+
+import java.lang.reflect.Array;
+import com.markit.android.profile.files.Profile;
 import java.util.ArrayList;
 
 
-public class CardViewActivity extends BaseActivity {
+public class CardViewActivity extends BaseActivity implements ChangeHubFragment.ChangeHubListener {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static final String TAG = "CardView";
+    //private static final String TAG = "CardView";
     private ArrayList<MarketItem> itemObjectArray = new ArrayList<>();
+    private ArrayList<MarketItem> masterObjectArray = new ArrayList<>();
     DatabaseReference rootDatabase = database.getReference();
     DatabaseReference mDatabaseReference = database.getReference().child("items");
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
     DatabaseReference userDatabase = mDatabaseReference.child("users").child("1yVB2s3vMjdRnDCA60SlfGIarOA3").child("userHub");
-//DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
+    //DatabaseReference userDatabase = rootDatabase.child("users").child(getUID()).child("userHub");
     private boolean loggedIn;
     //private ListView cardListView;
     private RecyclerView recList;
@@ -60,15 +63,19 @@ public class CardViewActivity extends BaseActivity {
     private Menu optionsMenu;
     private Bundle hubInfo;
     private String hub;
+    CardViewAdapter iAdapter;
+    public static String TAG = "QSEARCH";
 
 
 //    DatabaseReference mDatabaseReference = database.getReference().child("itemsByHub");
 //    DatabaseReference userDatabase= mDatabaseReference.child("users").child(getUID()).child("userHub");
 
-    public interface OnGetDataListener {
-        public void onStart();
-        public void onSuccess(DataSnapshot data);
-        public void onFailed(DatabaseError error);
+    public void onFinishHub(String hub) {
+
+
+        Intent reload = new Intent(CardViewActivity.this,CardViewActivity.class);
+        reload.putExtra("hub", hub);
+        CardViewActivity.this.startActivity(reload);
     }
 
 
@@ -78,32 +85,7 @@ public class CardViewActivity extends BaseActivity {
         super.setContentView(R.layout.activity_card_view);
         hub = "Loyola Marymount University";
         hubInfo = getIntent().getExtras();
-//<<<<<<< HEAD
 
-//        if (hubInfo == null && isLoggedIn()) {
-//            ValueEventListener getHub = new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    hub = (String) dataSnapshot.getValue();
-//                    //populateCardView(hub);
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            };
-//            userDatabase.addListenerForSingleValueEvent(getHub);
-//
-//        } else if (hubInfo != null) {
-//            hub = hubInfo.getString("hub");
-//            userDatabase.setValue(hub);
-//            //populateCardView(hub);
-//        } else {
-//            hub = "Loyola Marymount University";
-//            //populateCardView(hub);
-//        }
-//=======
         if (hubInfo == null && isLoggedIn()) {
             ValueEventListener getHub = new ValueEventListener() {
                 @Override
@@ -157,7 +139,7 @@ public class CardViewActivity extends BaseActivity {
             }
         });
 
-        //populateCardView();
+
         ImageView hubPicture = (ImageView) findViewById(R.id.hub_image);
         hubPicture.setImageResource(R.drawable.sample_lmu_photo);
         hubPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -194,8 +176,44 @@ public class CardViewActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.i(TAG, "I am creating the menu");
+
         CardViewActivity.this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_card_view, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_listings);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange (String query) {
+                //Toast.makeText(CardViewActivity.this, "Got to the onQueryTextChange", Toast.LENGTH_SHORT ).show();
+                Log.i(TAG, "Got to the on query text listener");
+                itemObjectArray = new ArrayList<MarketItem>();
+                for(MarketItem item : masterObjectArray) {
+                    if(query != null && item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                        itemObjectArray.add(item);
+                    }
+                }
+                iAdapter.swap(itemObjectArray);
+
+                //recList.setAdapter(iAdapter);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i(TAG, "Got to the on text submit");
+                itemObjectArray = new ArrayList<MarketItem>();
+                for(MarketItem item : masterObjectArray) {
+                    if(query != null && item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                        itemObjectArray.add(item);
+                    }
+                }
+                iAdapter.swap(itemObjectArray);
+                //recList.setAdapter(iAdapter);
+                return true;
+            }
+        });
 
 
 //        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -240,13 +258,6 @@ public class CardViewActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.profile) {
-            startActivity(new Intent(CardViewActivity.this, Profile.class));
-            return true;
-        }
         if (id == R.id.watching) {
             startActivity(new Intent(CardViewActivity.this, FavoritesListView.class));
             return true;
@@ -257,31 +268,16 @@ public class CardViewActivity extends BaseActivity {
             changeHubFragment.show(fm,"fragment_change_hub");
             return true;
         }
-        if (id == R.id.edit_tags) {
-            Intent tagPage = new Intent(CardViewActivity.this, Profile.class);
-            tagPage.putExtra("ARG_SECTION_NUMBER", 2);
-            startActivity(tagPage);
-            return true;
-        }
-        if (id == R.id.new_listing) {
-            startActivity(new Intent(CardViewActivity.this, NewListing.class));
-            return true;
-        }
-        if (id == R.id.chat) {
-            startActivity(new Intent(CardViewActivity.this, ConversationView.class));
-            return true;
-        }
         if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
         }
-
         return super.onOptionsItemSelected(item);
     }
 //
 //<<<<<<< HEAD  TODO related to pervious left in git merge, alternative impleentation
 //=======
     public void populateCardView (final String hub) {
-        final RecyclerView recList = (RecyclerView) findViewById(R.id.recList);
+        recList = (RecyclerView) findViewById(R.id.recList);
         if (recList != null) {
             recList.setHasFixedSize(true);
         }
@@ -304,7 +300,13 @@ public class CardViewActivity extends BaseActivity {
                     String itemUID = (String) items.child("uid").getValue();
                     String itemID = (String) items.child("id").getValue();
                     DataSnapshot usernameRef = dataSnapshot.child("users").child(itemUID).child("username");
-                    String username = (String) usernameRef.getValue();
+                    String username;
+                    try {
+                        username = (String) usernameRef.getValue();
+                    } catch(Exception E){
+                        username = "Invalid username";
+                    }
+
                     MarketItem newItem = new MarketItem(itemName, itemDescription, itemPrice, itemUID, itemID, username);
 
                     itemObjectArray.add(newItem);
@@ -312,8 +314,8 @@ public class CardViewActivity extends BaseActivity {
 
                 }
 
-
-                CardViewAdapter iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
+                masterObjectArray = new ArrayList<MarketItem>(itemObjectArray);
+                iAdapter = new CardViewAdapter(CardViewActivity.this,itemObjectArray);
 
                 recList.setAdapter(iAdapter);
             }
@@ -367,21 +369,7 @@ public class CardViewActivity extends BaseActivity {
             price = (TextView) itemView.findViewById(R.id.price);
             uid = (TextView) itemView.findViewById(R.id.username);
             id = (TextView) itemView.findViewById(R.id.id);
-//            likeImageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View itemView) {
-//                    int id = (int)likeImageView.getTag();
-//                    if (id == R.drawable.ic_favorite_border_black_48px){
-//                        likeImageView.setTag(R.drawable.ic_favorite_black_48px);
-//                        likeImageView.setImageResource(R.drawable.ic_favorite_black_48px);
-//                        Toast.makeText(context, title.getText()+" added to favorites", Toast.LENGTH_SHORT).show();
-//                    }else{
-//                        likeImageView.setTag(R.drawable.ic_favorite_border_black_48px);
-//                        likeImageView.setImageResource(R.drawable.ic_favorite_border_black_48px);
-//                        Toast.makeText(context,title.getText()+" removed from favorites",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
+
         }
 
     }

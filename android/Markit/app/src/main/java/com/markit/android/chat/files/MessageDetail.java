@@ -62,7 +62,8 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference convoRefPush = database.getReference().child("users/" + getUID() + "/chats/");
-   // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
+    //DatabaseReference chatRef = contextRef.child(ItemDetail.conversationKey + "/context");
+    // DatabaseReference usernameRef = database.getReference().child("users/" + getUID() + "/username");
     DatabaseReference chatRefPush;
     //DatabaseReference chatRef = convoRefPush.child(conversationID + "/messages");
 
@@ -121,6 +122,7 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
                 //This pushes it to the correct conversation in firebase
+                //contextRef.push(setValue)
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -154,9 +156,9 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
     @Override
     public void onStop() {
         super.onStop();
-         if (recViewAdapter != null) {
-             recViewAdapter.cleanup();
-         }
+        if (recViewAdapter != null) {
+            recViewAdapter.cleanup();
+        }
     }
 
     @Override
@@ -301,4 +303,3 @@ public class MessageDetail extends BaseActivity implements FirebaseAuth.AuthStat
 
     }
 }
-

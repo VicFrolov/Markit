@@ -51,8 +51,10 @@ class AddTagsViewController: UIViewController {
     
     func handleTextFieldInterface() {
         tagsField.onTextChange = {[weak self] text in
-            self?.tempTags = Helpers.fetchItemsThatMatch(with: text, list: (self?.tagList!)!)
-            self?.tagsField.autoCompleteStrings = self?.tempTags
+            if !text.isEmpty {
+                self?.tempTags = Helpers.fetchItemsThatMatch(with: text, list: (self?.tagList!)!)
+                self?.tagsField.autoCompleteStrings = self?.tempTags
+            }
         }
         
         tagsField.onSelect = {[weak self] text, indexPath in

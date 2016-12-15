@@ -29,12 +29,15 @@
 		12D423B21DF90B330032F24B /* DetailedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D423B11DF90B320032F24B /* DetailedTableView.swift */; };
 		12D5DF631E0116E60085A094 /* DetailedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D5DF621E0116E60085A094 /* DetailedTableViewController.swift */; };
 		343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096211DEED966008FB4E4 /* WatchListViewController.swift */; };
+		3407FA5E1DF546D1006BDC3A /* InitialTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */; };
 		343096241DEEDC39008FB4E4 /* WatchListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096231DEEDC39008FB4E4 /* WatchListItem.swift */; };
 		343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096251DEEDE6C008FB4E4 /* TagListViewController.swift */; };
 		343096281DEEDE98008FB4E4 /* SellingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343096271DEEDE98008FB4E4 /* SellingListViewController.swift */; };
 		345F82B41DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */; };
 		345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */; };
 		347AC2F21D98AC050073E949 /* AccountLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */; };
+		3485C7591E011CEB00CEC63D /* SellingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */; };
+		3485C75B1E01425200CEC63D /* FavoriteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485C75A1E01425200CEC63D /* FavoriteListViewController.swift */; };
 		34B6157D1DAFF564008C5D39 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */; };
 		34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */; };
 		380F60881D87438C0014D5B0 /* SellingTabTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */; };
@@ -81,7 +84,7 @@
 		12D423B11DF90B320032F24B /* DetailedTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableView.swift; sourceTree = "<group>"; };
 		12D5DF621E0116E60085A094 /* DetailedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewController.swift; sourceTree = "<group>"; };
 		286797EA23F5E049B25082E0 /* Pods-Markit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Markit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Markit/Pods-Markit.release.xcconfig"; sourceTree = "<group>"; };
-		343096211DEED966008FB4E4 /* WatchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
+		3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialTabBarController.swift; sourceTree = "<group>"; };
 		343096231DEEDC39008FB4E4 /* WatchListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListItem.swift; sourceTree = "<group>"; };
 		343096251DEEDE6C008FB4E4 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		343096271DEEDE98008FB4E4 /* SellingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingListViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 		345F82B31DED1F5D001DCDE2 /* LoggedInOrNotLoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInOrNotLoggedInViewController.swift; sourceTree = "<group>"; };
 		345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		347AC2F01D98AC050073E949 /* AccountLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountLoginViewController.swift; sourceTree = "<group>"; };
+		3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingListTableViewCell.swift; sourceTree = "<group>"; };
+		3485C75A1E01425200CEC63D /* FavoriteListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteListViewController.swift; sourceTree = "<group>"; };
 		34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		380F60871D87438C0014D5B0 /* SellingTabTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellingTabTableViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +189,7 @@
 				38FB5CFF1D9BBD4F00361CB6 /* TabBarController.swift */,
 				129C21501DFABCE700056F82 /* NavigationController.swift */,
 				129C214E1DFAA11A00056F82 /* InitialNotLoggedInViewController.swift */,
+				3407FA5D1DF546D1006BDC3A /* InitialTabBarController.swift */,
 				12CBFE861DEF770C006683DF /* AutoCompleteTextField.swift */,
 				384810CA1D84EC0700830C95 /* ListingsViewController.swift */,
 				12B5CD7F1DC1B45200E9C263 /* ListingsAdvancedSearchViewController.swift */,
@@ -205,11 +211,10 @@
 				12B69A371DEEEA4C00C9B599 /* ChatMessageViewController.swift */,
 				34B6157C1DAFF564008C5D39 /* ProfilePageViewController.swift */,
 				343096271DEEDE98008FB4E4 /* SellingListViewController.swift */,
-				343096211DEED966008FB4E4 /* WatchListViewController.swift */,
+				3485C75A1E01425200CEC63D /* FavoriteListViewController.swift */,
 				343096251DEEDE6C008FB4E4 /* TagListViewController.swift */,
 				34B6157E1DAFFE37008C5D39 /* ProfileViewController.swift */,
 				345F82B51DED430A001DCDE2 /* EditProfileViewController.swift */,
-				343096231DEEDC39008FB4E4 /* WatchListItem.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -222,6 +227,8 @@
 				1258434B1DC17CF8006B5F08 /* ListingsAdvancedSearchView.swift */,
 				125E32801DF8B211005DBE31 /* SellingTabTableViewCell.swift */,
 				128399C11DEEA26500152948 /* ChatTableViewCell.swift */,
+				3485C7581E011CEB00CEC63D /* SellingListTableViewCell.swift */,
+				343096231DEEDC39008FB4E4 /* WatchListItem.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -395,10 +402,11 @@
 				34B6157F1DAFFE37008C5D39 /* ProfileViewController.swift in Sources */,
 				38FB5D001D9BBD4F00361CB6 /* TabBarController.swift in Sources */,
 				129870241DFA9B2100788F46 /* CustomFirebaseAuth.swift in Sources */,
+				3485C7591E011CEB00CEC63D /* SellingListTableViewCell.swift in Sources */,
 				12B34E091DF650D400C13B9F /* AddHubViewController.swift in Sources */,
-				343096221DEED966008FB4E4 /* WatchListViewController.swift in Sources */,
 				345F82B61DED430A001DCDE2 /* EditProfileViewController.swift in Sources */,
 				38FB5CF81D9B7ED200361CB6 /* AccountCreateNameViewController.swift in Sources */,
+				3485C75B1E01425200CEC63D /* FavoriteListViewController.swift in Sources */,
 				38FB5CF61D9B722A00361CB6 /* AddDescriptionViewController.swift in Sources */,
 				12B69A381DEEEA4D00C9B599 /* ChatMessageViewController.swift in Sources */,
 				343096261DEEDE6C008FB4E4 /* TagListViewController.swift in Sources */,

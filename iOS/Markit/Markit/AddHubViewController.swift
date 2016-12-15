@@ -52,8 +52,10 @@ class AddHubViewController: UIViewController {
     
     func handleTextFieldInterface() {
         hubsField.onTextChange = {[weak self] text in
-            self?.tempHubs = Helpers.fetchItemsThatMatch(with: text, list: (self?.hubList!)!)
-            self?.hubsField.autoCompleteStrings = self?.tempHubs
+            if !text.isEmpty {
+                self?.tempHubs = Helpers.fetchItemsThatMatch(with: text, list: (self?.hubList!)!)
+                self?.hubsField.autoCompleteStrings = self?.tempHubs
+            }
         }
         
         hubsField.onSelect = {[weak self] text, indexPath in

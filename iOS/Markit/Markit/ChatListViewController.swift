@@ -14,12 +14,13 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
 
     @IBOutlet weak var chatTableView: UITableView!
     
+    var conversationKeys  = [String]()
     var conversationsList = [Conversation]()
     var databaseRef:        FIRDatabaseReference!
     var userRef:            FIRDatabaseReference!
     var chatRef:            FIRDatabaseReference!
+    var itemRef:            FIRDatabaseReference!
     var currentUser:        String!
-    var lastMessageKey:     String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         databaseRef = FIRDatabase.database().reference()
         userRef     = databaseRef.child("users/\(currentUser!)")
         chatRef     = userRef.child("chats")
+        itemRef     = databaseRef.child("items")
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
@@ -47,14 +49,20 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func getMessages() {
         chatRef.observe(.value, with: { (snapshot) -> Void in
-            let convoDict         = snapshot.value as! NSDictionary
-            let conversation      = Conversation()
-            conversation.context  = convoDict["context"] as? NSDictionary
-            conversation.messages = convoDict["messages"] as? NSDictionary
-            conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as? String?) ?? Date())
+            self.conversationsList = [Conversation]()
+            let convoDictWithKeys = snapshot.value as! NSDictionary
             
-            self.conversationsList.append(conversation)
-            
+            for key in convoDictWithKeys.allKeys {
+                let convoDict         = convoDictWithKeys[key] as! NSDictionary
+                
+                let conversation      = Conversation()
+                conversation.context  = convoDict["context"] as? NSDictionary
+                self.getItemTitle(itemID: (conversation.context?["itemID"] as! String?)!, conversation: conversation)
+                conversation.messages = convoDict["messages"] as? NSDictionary
+                conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as! String?)!)
+                
+                self.conversationsList.append(conversation)
+            }
             self.chatTableView.reloadData()
         })
     }
@@ -66,6 +74,12 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversationsList.count
+    }
+    
+    func getItemTitle(itemID: String, conversation: Conversation) {
+        itemRef.child(itemID).child("title").observeSingleEvent(of: .value, with: { (snapshot) -> Void in
+            conversation.itemTitle = snapshot.value as! String?
+        })
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,6 +99,7 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.chatUsername?.text       = context["otherUsername"] as! String?
         cell.lastSent?.text           = context["latestPost"] as! String?
         cell.chatMessagePreview?.text = latestMessageText as! String?
+        cell.itemTitle?.text          = conversation.itemTitle!
         
         let itemImageURL              = context["itemImageURL"] as? String ?? defaultImage
         
@@ -102,10 +117,6 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         return cell
-    }
-    
-    func getLastSentMessage() {
-        
     }
 
     // MARK: - Table view delegate
