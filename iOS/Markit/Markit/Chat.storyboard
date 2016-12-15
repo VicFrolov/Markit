@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="IUb-8p-Lku">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="IUb-8p-Lku">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,33 +20,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NwU-0X-ujX">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatCell" rowHeight="97" id="CuY-Cw-1qQ" customClass="ChatTableViewCell" customModule="Markit" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="97"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CuY-Cw-1qQ" id="3TE-2e-QOU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                                            <frame key="frameInset" width="375" height="96"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I4b-1u-bZZ">
-                                                    <rect key="frame" x="31" y="8" width="80" height="80"/>
                                                     <color key="tintColor" red="0.83137254901960789" green="0.49411764705882355" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="F7d-Va-DSJ"/>
-                                                        <constraint firstAttribute="height" constant="80" id="MiB-7u-zvv"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="VIR-Dc-0E6"/>
+                                                        <constraint firstAttribute="width" constant="80" id="TAy-ed-8g3"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJO-3s-xLa">
-                                                    <rect key="frame" x="132" y="8" width="109" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text message..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vta-wr-aOQ">
-                                                    <rect key="frame" x="132" y="23" width="235" height="65"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -57,7 +48,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Sent" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psl-Hc-WKe">
                                                     <rect key="frame" x="260" y="10" width="107" height="15"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="107" id="tP2-cb-ZmI"/>
+                                                        <constraint firstAttribute="width" constant="107" id="QCf-O2-8lI"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,18 +56,18 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="I4b-1u-bZZ" secondAttribute="trailing" constant="21" id="2sp-XE-6bs"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="vJO-3s-xLa" secondAttribute="top" id="DCh-kt-pgA"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="3TE-2e-QOU" secondAttribute="trailingMargin" id="GwI-nu-M94"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="leading" secondItem="3TE-2e-QOU" secondAttribute="leadingMargin" constant="23" id="TPq-f5-h4c"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="leading" secondItem="vJO-3s-xLa" secondAttribute="trailing" constant="19" id="YbG-Ce-eEu"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="3TE-2e-QOU" secondAttribute="bottomMargin" id="eui-DH-qu8"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="vta-wr-aOQ" secondAttribute="bottom" id="fLR-FO-gvU"/>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="vta-wr-aOQ" secondAttribute="leading" id="mUK-AX-yZ6"/>
-                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" id="n8V-LQ-XCM"/>
-                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="baseline" secondItem="psl-Hc-WKe" secondAttribute="baseline" id="sWg-h8-BSZ"/>
-                                                <constraint firstItem="vta-wr-aOQ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" constant="15" id="ukN-FI-WeA"/>
-                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="vta-wr-aOQ" secondAttribute="trailing" id="wj5-Jf-dj2"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="3TE-2e-QOU" secondAttribute="trailingMargin" id="A7B-Rp-rUA"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="vJO-3s-xLa" secondAttribute="top" id="AQk-0v-fuv"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="baseline" secondItem="psl-Hc-WKe" secondAttribute="baseline" id="L2W-Iq-nHi"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="vta-wr-aOQ" secondAttribute="bottom" id="LJ4-zO-qEJ"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="leading" secondItem="vJO-3s-xLa" secondAttribute="trailing" constant="19" id="MPt-Go-9I5"/>
+                                                <constraint firstItem="psl-Hc-WKe" firstAttribute="trailing" secondItem="vta-wr-aOQ" secondAttribute="trailing" id="UDx-gM-VQT"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="bottom" secondItem="3TE-2e-QOU" secondAttribute="bottomMargin" id="WSv-oS-8tX"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="I4b-1u-bZZ" secondAttribute="trailing" constant="21" id="cmv-Dt-R9g"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="leading" secondItem="3TE-2e-QOU" secondAttribute="leadingMargin" constant="23" id="gxe-ce-XZU"/>
+                                                <constraint firstItem="I4b-1u-bZZ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" id="ivO-03-aDX"/>
+                                                <constraint firstItem="vJO-3s-xLa" firstAttribute="leading" secondItem="vta-wr-aOQ" secondAttribute="leading" id="n99-Ln-ved"/>
+                                                <constraint firstItem="vta-wr-aOQ" firstAttribute="top" secondItem="3TE-2e-QOU" secondAttribute="topMargin" constant="15" id="vhj-u4-F8H"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration">
@@ -138,7 +129,7 @@
                     <tabBarItem key="tabBarItem" title="Messages" id="USH-4a-gh4"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2ct-am-qDj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2ct-am-qDj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

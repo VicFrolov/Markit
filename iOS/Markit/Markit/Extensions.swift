@@ -39,3 +39,19 @@ extension String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
+
+extension ProfileViewController: ProfilePageViewControllerDelegate {
+    
+    internal func profilePageViewController(profilePageViewController: ProfilePageViewController,
+                                            didUpdatePageCount count: Int) {
+        pageControl.numberOfPages = count
+    }
+    
+    internal func profilePageViewController(profilePageViewController: ProfilePageViewController,
+                                            didUpdatePageIndex index: Int) {
+        pageControl.currentPage = index
+    }
+    
+}
+
+

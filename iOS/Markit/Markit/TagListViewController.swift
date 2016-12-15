@@ -15,21 +15,6 @@ class TagListViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if items.count > 0 {
-            return
-        }
-        items.append("TagListView")
-        items.append("Iphone 7")
-        items.append("Chair")
-        items.append("Panda Cup")
-        items.append("Fossil Watch")
-        items.append("Full Sized Mattress")
-        items.append("Microwave")
-        items.append("Samsung 30' TV")
-        items.append("History Book")
-        items.append("Speakers")
-        items.append("Concert Tickets")
-        items.append("Couch")
     }
     
     private func numberOfSectionsInTableView(tableView: UITableView) -> Int {

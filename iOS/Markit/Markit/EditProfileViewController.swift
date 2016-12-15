@@ -102,7 +102,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         let storage = FIRStorage.storage()
         let storageRef = storage.reference(forURL: "gs://markit-80192.appspot.com")
-        let imagesRef = storageRef.child("images/profileImages/\(userID!)/imageOne.png")
+        let imagesRef = storageRef.child("images/profileImages/\(userID!)/imageOne")
         let newProfilePic = profilePic.jpegData(.lowest)
         
         _ = imagesRef.put(newProfilePic!, metadata: nil) { metadata, error in
@@ -160,9 +160,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         textField.layer.addSublayer(border)
         textField.layer.masksToBounds = true
     }
-    
-
 }
+
 extension UIImage {
     enum JPEGQuality: CGFloat {
         case lowest  = 0

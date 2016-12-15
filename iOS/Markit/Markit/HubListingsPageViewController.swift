@@ -1,22 +1,22 @@
 //
-//  ProfilePageViewController.swift
+//  HubListingsPageViewController.swift
 //  Markit
 //
-//  Created by Bryan Ku on 10/13/16.
+//  Created by Bryan Ku on 12/14/16.
 //  Copyright © 2016 Victor Frolov. All rights reserved.
 //
 
 import UIKit
 
-class ProfilePageViewController: UIPageViewController {
+class HubListingsPageViewController: UIPageViewController {
     
-    weak var profileDelegate: ProfilePageViewControllerDelegate?
-    var layoutsubs = false
+    weak var hubListingsDelegate: HubListingsPageViewControllerDelegate?
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newViewController(title: "ProfilePage"),
-                self.newViewController(title: "FavoriteListPage"),
-                self.newViewController(title: "TagPage")]
+        return [self.newViewController(title: "itemOne"),
+                self.newViewController(title: "itemTwo"),
+                self.newViewController(title: "itemThree"),
+                self.newViewController(title: "itemFour")]
     }()
     
     private func newViewController(title: String) -> UIViewController {
@@ -31,32 +31,20 @@ class ProfilePageViewController: UIPageViewController {
         delegate = self
         
         if let firstViewController = orderedViewControllers.first {
-            let beforeVC = pageViewController(self, viewControllerBefore: firstViewController) as UIViewController!
-            let afterVC = pageViewController(self, viewControllerAfter: firstViewController) as UIViewController!
-            setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
-            setViewControllers([beforeVC!], direction: .forward, animated: false, completion: nil)
-            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
-            
+            setViewControllers([firstViewController],
+                               direction: .forward,
+                               animated: true,
+                               completion: nil)
         }
         
-        profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageCount: orderedViewControllers.count)
+        hubListingsDelegate?.hubListingsPageViewController(hubListingsPageViewController: self, didUpdatePageCount: orderedViewControllers.count)
     }
-    override func viewWillLayoutSubviews() {
-        //Load the viewController before the starting VC then go back to the starting VC
-        //viewWillLayoutSubviews() is called multiple times, so do this only once
-        if !layoutsubs {
-            let startingVC = self.orderedViewControllers.first as UIViewController!
-            let beforeVC = pageViewController(self, viewControllerBefore: startingVC!) as UIViewController!
-            let afterVC = pageViewController(self, viewControllerAfter: startingVC!) as UIViewController!
-            
-            setViewControllers([startingVC!], direction: .forward, animated: false, completion: nil)
-            setViewControllers([beforeVC!], direction: .forward, animated: false, completion: nil)
-            setViewControllers([afterVC!], direction: .forward, animated: false, completion: nil)
-            layoutsubs = true        }
-    }
+    
+    
+    
 }
 
-extension ProfilePageViewController: UIPageViewControllerDataSource {
+extension HubListingsPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -96,10 +84,10 @@ extension ProfilePageViewController: UIPageViewControllerDataSource {
         
         return orderedViewControllers[nextIndex]
     }
-        
+    
 }
 
-extension ProfilePageViewController: UIPageViewControllerDelegate {
+extension HubListingsPageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             didFinishAnimating finished: Bool,
@@ -107,13 +95,13 @@ extension ProfilePageViewController: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         if let firstViewController = viewControllers?.first,
             let index = orderedViewControllers.index(of: firstViewController) {
-                profileDelegate?.profilePageViewController(profilePageViewController: self, didUpdatePageIndex: index)
+            hubListingsDelegate?.hubListingsPageViewController(hubListingsPageViewController: self, didUpdatePageIndex: index)
         }
     }
     
 }
 
-protocol ProfilePageViewControllerDelegate: class {
+protocol HubListingsPageViewControllerDelegate: class {
     
     /**
      Called when the number of pages is updated.
@@ -121,8 +109,8 @@ protocol ProfilePageViewControllerDelegate: class {
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter count: the total number of pages.
      */
-    func profilePageViewController(profilePageViewController: ProfilePageViewController,
-                                    didUpdatePageCount count: Int)
+    func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
+                                   didUpdatePageCount count: Int)
     
     /**
      Called when the current index is updated.
@@ -130,7 +118,7 @@ protocol ProfilePageViewControllerDelegate: class {
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func profilePageViewController(profilePageViewController: ProfilePageViewController,
-                                    didUpdatePageIndex index: Int)
+    func hubListingsPageViewController(hubListingsPageViewController: HubListingsPageViewController,
+                                   didUpdatePageIndex index: Int)
     
 }
