@@ -43,8 +43,17 @@
         <li><a href="../find/find.html">Find</a></li>
         <li><a href="../hub/hub.html">My Hub</a></li>
         <!-- Dropdown Trigger -->
-        <li><a class="dropdown-button" data-activates="profile-drop" href="../profile/profile.html" 
-          data-hover="true" data-belowOrigin="true" data-constrainwidth="false"><img src="../media/ic_profile.png" id="navbar-user-photo"/>Gil Saly</a></li>
+        <li><a class="collapsible-header active waves-effect waves-teal" href="../profile/profile.html"><img src="../media/ic_profile.png" id="navbar-user-photo"/>Gil Saly</a></li>
+        <div class="collapsible-body" style="display: block;">
+          <ul>
+            <li><a href="../profile/profile.html#notifications" id="navbar-notifications" class="side-nav-less">Notifications</a></li>
+            <li><a href="../profile/profile.html#messages" id="navbar-message" class="side-nav-less">Messages</a></li>
+            <li><a href="../profile/profile.html#settings" id="navbar-settings" class="side-nav-less">Settings</a></li>
+            <li><a href="#../profile/profile.html#help" class="side-nav-less">Help</a></li>
+          </ul>
+        </div>
+        <li class="divider"></li>
+        <li><a href="#!" id="navbar-logout-button">Logout</a></li>
       </ul>
     </div>
 </nav>    

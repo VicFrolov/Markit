@@ -14,7 +14,12 @@ $(function() {
                 console.log('fuck you');
                 $(".dropdown-button").dropdown();
 
-                $(".button-collapse").sideNav();
+                $(".button-collapse").sideNav({
+                    menuWidth: 400, // Default is 240
+                    edge: 'right', // Choose the horizontal origin
+                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                    draggable: true // Choose whether you can drag to open on touch screens
+                });
 
                 $("#navbar-logout-button").click(function () {
                     auth.signOut();
