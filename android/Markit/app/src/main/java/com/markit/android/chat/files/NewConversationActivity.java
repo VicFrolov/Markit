@@ -1,6 +1,7 @@
 package com.markit.android.chat.files;
 
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -68,6 +69,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 
     DatabaseReference convoRef = database.getReference().child("users/" + getUID() + "/chats/");
     DatabaseReference chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
+    //DatabaseReference contextRef = convoRef.child(ItemDetail.conversationKey + "/context/" + "latestPost");
     DatabaseReference sellerRef = database.getReference().child("users/" + ItemDetail.otherUser + "/chats/" + ItemDetail.conversationKey + "/messages");
 
 
@@ -105,7 +107,7 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 
                 //message item itself
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate, type);
-                //chatKey = chatRef.push().getKey();
+
                 chatRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
@@ -114,6 +116,8 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                         }
                     }
                 });
+//                contextRef.setValue(newDate);
+//                System.out.println(newDate);
 
                 sellerRef.push().setValue(message, new DatabaseReference.CompletionListener() {
                     @Override

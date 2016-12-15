@@ -101,7 +101,9 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
 
                 otherUser = (String) itemRef.child("uid").getValue();
+
                 otherUsername = (String) dataSnapshot.child("users").child(otherUser).child("username").getValue();
+
                 userId.setText("Seller: " + otherUsername);
 
                 username = (String) dataSnapshot.child("users/" + getUID() + "/username").getValue();

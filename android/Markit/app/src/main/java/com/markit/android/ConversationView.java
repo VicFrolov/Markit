@@ -80,6 +80,7 @@ public class ConversationView extends BaseActivity implements FirebaseAuth.AuthS
 
                 for (DataSnapshot convos : dataSnapshot.child("users/" + getUID()+ "/chats").getChildren()) {
                     String otherUsername = (String) convos.child("context/" + "otherUsername").getValue();
+                    String otherUser = (String) convos.child("context/" + "otherUser") .getValue();
                     String itemID = (String) convos.child("context/" + "itemID").getValue();
                     String conversationID = (String) convos.child("context/" + "conversationID").getValue();
 
