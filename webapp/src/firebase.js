@@ -48,11 +48,9 @@ var addProfilePicture = function (uid, image, callback) {
             var downloadURL = uploadTask.snapshot.downloadURL;
             console.log(downloadURL);
             resolve(downloadURL);
+            $('#profile-picture').attr('src', downloadURL)
         });
         
-    })
-    .then(function () {
-        getProfilePicture(uid, callback);
     });
 };
 

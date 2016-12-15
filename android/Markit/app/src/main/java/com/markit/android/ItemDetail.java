@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.ads.formats.NativeAd;
 import com.markit.android.base.files.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -68,29 +72,37 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         ValueEventListener itemDetails = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String uid = (String) dataSnapshot.child("items").child(itemID).child("uid").getValue();
+                DataSnapshot itemRef = dataSnapshot.child("items").child(itemID);
+                String username;
                 TextView uidTitle = (TextView) findViewById(R.id.uidTitle);
                 TextView userId = (TextView) findViewById(R.id.userId);
                 TextView description = (TextView) findViewById(R.id.descriptionItemDetail);
                 TextView price = (TextView) findViewById(R.id.priceItemDetail);
                 TextView tags = (TextView) findViewById(R.id.tagsItemDetail);
 
-                otherUser = (String) dataSnapshot.child("uid").getValue();
-                userId.setText(otherUser);
-
-                uidTitle.setText((String) dataSnapshot.child("title").getValue());
-                description.setText("Description: " + (String) dataSnapshot.child("description").getValue());
-                price.setText("Price: $"+(String) dataSnapshot.child("price").getValue());
+                otherUser = (String) itemRef.child("uid").getValue();
+                username = (String) dataSnapshot.child("users").child(otherUser).child("username").getValue();
+                userId.setText("Seller: "+username);
+//                sellerRef = database.getReference().child("users/" + userId + "/chats/");
+                uidTitle.setText((String) itemRef.child("title").getValue());
+                description.setText("Description: " + (String) itemRef.child("description").getValue());
+                price.setText("Price: $"+(String) itemRef.child("price").getValue());
                 //String className = dataSnapshot.child("tags").getValue().getClass().getName();
-//                TODO this line below broke, something about a conversion from HashMap to ArrayList
-//                ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
+                //TODO this line below broke, something about a conversion from HashMap to ArrayList
+                //ArrayList <String> tagList= (ArrayList<String>) dataSnapshot.child("tags").getValue();
 
                 String tagString = "Tags: ";
 
 //                TODO same for this for loop, commented out to avoid using tagList
-//                for(String tag : tagList) {
-//                    tagString = tagString + tag + " ";
-//                }
+                for(DataSnapshot tag :  itemRef.child("tags").getChildren()) {
+                    tagString = tagString + (String)tag.getValue() + " ";
+                }
+                tags.setText(tagString);
+
+                ImageView photo = (ImageView) findViewById(R.id.imageItemDetail);
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+                Glide.with(ItemDetail.this).using(new FirebaseImageLoader()).load(pathReference).into(photo);
 
                 tags.setText(tagString);
                     if (dataSnapshot.child("users").child(getUID()).child("favorites").child(itemID).getValue() == null) {
@@ -113,8 +125,8 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
             }
         };
 
-        itemDatabase.addListenerForSingleValueEvent(itemDetails);
-//        rootDatabase.addListenerForSingleValueEvent(itemDetails);
+        //itemDatabase.addListenerForSingleValueEvent(itemDetails);
+        rootDatabase.addListenerForSingleValueEvent(itemDetails);
         FloatingActionButton newMessage = (FloatingActionButton) findViewById(R.id.newMessage);
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override

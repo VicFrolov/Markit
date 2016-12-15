@@ -3,37 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.markit.markit.CardView">
     <item
-        android:id="@+id/profile"
-        android:title="@string/profile" />
-    <item
-        android:id="@+id/watching"
-        android:title="@string/watching" />
-    <item
         android:id="@+id/change_hub"
         android:title="@string/change_hub" />
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/new_listing"
-        android:title="New Listing" />
-    <item
-        android:id="@+id/notifications"
-        android:title="Notifications" />
-    <item
-        android:id="@+id/messages"
-        android:title="Messages" />
-    <item
-        android:id="@+id/chat"
-        android:title="Chat"/>
-    <item
         android:id="@+id/sign_out"
         android:title="Sign Out"/>
-    <item
-        android:id="@+id/navigation_drawer"
-        android:title="Navigation"/>
 
     <item
         android:id="@+id/search_listings"

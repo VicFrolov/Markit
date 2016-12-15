@@ -30,7 +30,7 @@ final class ChatMessageViewController: JSQMessagesViewController {
     var isInitialMessage: Bool = false
     
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory()
-                                    .outgoingMessagesBubbleImage(with: UIColor(red: 0.169, green: 0.733, blue: 0.678, alpha: 1.0))
+                                    .outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
  
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory()
                                     .incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())

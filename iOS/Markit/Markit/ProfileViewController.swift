@@ -135,7 +135,7 @@ class ProfileViewController: UIViewController {
             let hub = value?["userHub"] as? String ?? ""
             let rating = value?["rating"] as? String ?? "-1"
             let stars = Int(rating)! - 1
-            self.paymentPreference = value?["paymentPreference"] as! NSArray
+//            self.paymentPreference = value?["paymentPreference"] as! NSArray
             self.paymentContains(array: self.paymentPreference, paymentOptions: ["cash", "venmo", "other"])
             
             self.firstLastNameLabel.text = name

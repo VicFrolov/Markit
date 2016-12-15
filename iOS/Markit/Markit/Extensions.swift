@@ -23,6 +23,14 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    func getJustDate() {
+        
+    }
+    
+    func getJustTime() {
+        
+    }
+    
 }
 
 extension String {

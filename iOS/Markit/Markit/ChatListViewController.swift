@@ -14,12 +14,13 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
 
     @IBOutlet weak var chatTableView: UITableView!
     
-    var conversations = [FIRDataSnapshot]()
-    var databaseRef:    FIRDatabaseReference!
-    var userRef:        FIRDatabaseReference!
-    var chatRef:        FIRDatabaseReference!
-    var currentUser:    String!
-    var lastMessageKey: String!
+    var conversationKeys  = [String]()
+    var conversationsList = [Conversation]()
+    var databaseRef:        FIRDatabaseReference!
+    var userRef:            FIRDatabaseReference!
+    var chatRef:            FIRDatabaseReference!
+    var itemRef:            FIRDatabaseReference!
+    var currentUser:        String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +30,14 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         databaseRef = FIRDatabase.database().reference()
         userRef     = databaseRef.child("users/\(currentUser!)")
         chatRef     = userRef.child("chats")
+        itemRef     = databaseRef.child("items")
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
         
         getMessages()
+        
+//        conversationsList.sort (by: { $0.lastSent?.compare($1.lastSent!) == .orderedAscending } )
         
         chatTableView.reloadData()
     }
@@ -44,10 +48,22 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func getMessages() {
-        chatRef.queryOrdered(byChild: "latestPost").observe(.childAdded, with: { (snapshot) -> Void in
-            self.conversations.append(snapshot)
+        chatRef.observe(.value, with: { (snapshot) -> Void in
+            self.conversationsList = [Conversation]()
+            if let convoDictWithKeys = snapshot.value as! NSDictionary? {
             
-            self.chatTableView.reloadData()
+                for key in (convoDictWithKeys.allKeys) {
+                    let convoDict         = convoDictWithKeys[key] as! NSDictionary
+                    
+                    let conversation      = Conversation()
+                    conversation.context  = convoDict["context"] as? NSDictionary
+                    conversation.messages = convoDict["messages"] as? NSDictionary
+                    conversation.lastSent = Date().parse(dateString: (conversation.context?["latestPost"] as! String?)!)
+                    
+                    self.conversationsList.append(conversation)
+                }
+                self.chatTableView.reloadData()
+            }
         })
     }
     
@@ -57,7 +73,7 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
+        return conversationsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,23 +81,22 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
         let row = indexPath.row
         let cell   = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatTableViewCell
         
-        let conversation          = conversations[row].value as! NSDictionary
-        let context               = conversation["context"] as! NSDictionary
-        let conversationID        = conversations[row].key
-        var latestMessage: String = ""
+        let defaultImage          = "https://media.giphy.com/media/mtaWx98w7mX7y/giphy-facebook_s.jpg"
         
-        self.chatRef.child(conversationID).child("messages").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) -> Void in
-            // Ugh this looks horrible
-            let messageDict = snapshot.value as! NSDictionary
-            latestMessage = messageDict["text"]! as! String
-            
-        })
-    
+        let conversation          = conversationsList[row]
+        let context               = conversation.context!
+        let messages              = conversation.messages!
+        let lastMessageKey        = messages.allKeys[messages.count - 1] as! String
+        let latestMessage         = messages[lastMessageKey] as! NSDictionary
+        let latestMessageText     = latestMessage["text"]
+        
         cell.chatUsername?.text       = context["otherUsername"] as! String?
         cell.lastSent?.text           = context["latestPost"] as! String?
-        cell.chatMessagePreview?.text = latestMessage
+        cell.chatMessagePreview?.text = latestMessageText as! String?
         
-        if let url = URL(string: (context["itemImageURL"] as! String?)!) {
+        let itemImageURL              = context["itemImageURL"] as? String ?? defaultImage
+        
+        if let url = URL(string: itemImageURL) {
             if let data = NSData(contentsOf: url as URL) {
                 cell.chatImageView?.image = UIImage(data: data as Data)
                 
@@ -107,18 +122,18 @@ class ChatListViewController: UIViewController, UITableViewDataSource, UITableVi
             
             if let indexPath = chatTableView.indexPathForSelectedRow {
                 let selectedRow         = indexPath.row
-                let selectedConvo       = conversations[selectedRow].value as! NSDictionary
-                let context             = selectedConvo["context"] as! NSDictionary
+                let selectedConvo       = conversationsList[selectedRow]
+                let context             = selectedConvo.context
                 let messageVC           = segue.destination as! ChatMessageViewController
                 
-                messageVC.context       = context["conversationID"] as! String?
+                messageVC.context       = context?["conversationID"] as! String?
                 messageVC.senderId      = currentUser
-                messageVC.itemID        = context["itemID"] as! String?
-                messageVC.otherUserID   = context["otherUser"] as! String?
+                messageVC.itemID        = context?["itemID"] as! String?
+                messageVC.otherUserID   = context?["otherUser"] as! String?
                 
-                let otherUserDefaultValue = context["otherUser"] as! String?
+                let otherUserDefaultValue = context?["otherUser"] as! String?
                 
-                messageVC.otherUserName = context["otherUsername"] as! String? ?? otherUserDefaultValue
+                messageVC.otherUserName = context?["otherUsername"] as! String? ?? otherUserDefaultValue
             }
         }
     }

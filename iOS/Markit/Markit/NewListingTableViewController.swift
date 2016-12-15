@@ -90,6 +90,14 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         })
     }
     
+    func getHubs () {
+        hubRef.observe(.childAdded, with: { (snapshot) -> Void in
+            if snapshot.value! is Int {
+                self.hubList.append(snapshot.key.trim())
+            }
+        })
+    }
+    
     @IBAction func unwindPrice(segue: UIStoryboardSegue) {
         let priceVC = segue.source as? AddPriceViewController
         var userPrice = (priceVC?.priceLabel.text)!
@@ -163,6 +171,7 @@ class NewListingTableViewController: UITableViewController, UIImagePickerControl
         hubRef      = databaseRef.child("hubs")
         
         getTags()
+        getHubs()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -13,19 +13,17 @@ import MARKRangeSlider
 class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegate {
 
     var rangeSlider:                           MARKRangeSlider!
-    var autoCompleteTextField:                 AutoCompleteTextField!
     @IBOutlet var advancedSearchContainerView: ListingsAdvancedSearchView!
     
     var databaseRef: FIRDatabaseReference!
     var tagRef:      FIRDatabaseReference!
     var hubRef:      FIRDatabaseReference!
+    var tagList: [String] = [String]()
+    var hubList: [String] = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.autoCompleteTextField = AutoCompleteTextField()
         
-        configureTextField()
         addDoneButtonOnNumericKeyboard()
         setupReferences()
 
@@ -37,20 +35,18 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegat
         advancedSearchContainerView.minPrice.delegate = self
         advancedSearchContainerView.maxPrice.delegate = self
         
+        getTags()
+        getHubs()
+        
         setupRangeSlider()
-        loadTags()        
+        handleHubAutoComplete()
+        handleTagAutoComplete()
     }
     
     func setupReferences() {
         self.databaseRef           = FIRDatabase.database().reference()
         self.tagRef                = self.databaseRef.child("tags")
         self.hubRef                = self.databaseRef.child("hubs")
-    }
-    
-    func configureTextField() {
-        self.autoCompleteTextField.maximumAutoCompleteCount = 5
-        let tags = [String]()
-        self.autoCompleteTextField.autoCompleteStrings = tags
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -73,17 +69,50 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegat
         view.insertSubview(rangeSlider, at: 1)
     }
     
-//    func handleTextFieldInterface() {
-//        autoCompleteTextField.onTextChange = {[weak self] text in
-//            if !text.isEmpty {
-//                self?.fetchAutoCompleteTags(keyword: text)
-//            }
-//        }
-//        
-//        autoCompleteTextField.onSelect = {[weak self] text, indexPath in
-//            advancedSearchContainerView.hubs?.text = advancedSearchContainerView.hubs?.text + ", " + text
-//        }
-//    }
+    
+    // This is repeating content
+    func getTags () {
+        tagRef.observe(.childAdded, with: { (snapshot) -> Void in
+            if let tagValue = snapshot.value as! Int? {
+                if tagValue > 7 {
+                    self.tagList.append(snapshot.key.trim())
+                }
+            }
+        })
+    }
+    
+    func getHubs () {
+        hubRef.observe(.childAdded, with: { (snapshot) -> Void in
+            if snapshot.value! is Int {
+                self.hubList.append(snapshot.key.trim())
+            }
+        })
+    }
+    
+    func handleTagAutoComplete() {
+        advancedSearchContainerView.tags.onTextChange = {[weak self] text in
+            if !text.isEmpty {
+                self?.advancedSearchContainerView.tags.autoCompleteStrings = Helpers.fetchItemsThatMatch(with: text, list: (self?.tagList)!)
+            }
+        }
+        
+        advancedSearchContainerView.tags.onSelect = {[weak self] text, indexPath in
+            self?.advancedSearchContainerView.tags.text = (self?.advancedSearchContainerView.hubs?.text)! + ", " + text
+        }
+    }
+    
+    func handleHubAutoComplete() {
+        advancedSearchContainerView.hubs.onTextChange = {[weak self] text in
+            if !text.isEmpty {
+                self?.advancedSearchContainerView.hubs.autoCompleteStrings = Helpers.fetchItemsThatMatch(with: text, list: (self?.hubList)!)
+            }
+        }
+        
+        advancedSearchContainerView.hubs.onSelect = {[weak self] text, indexPath in
+            self?.advancedSearchContainerView.hubs?.text = (self?.advancedSearchContainerView.hubs?.text)! + ", " + text
+        }
+    }
+    // up to here
     
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
@@ -93,27 +122,6 @@ class ListingsAdvancedSearchViewController: UIViewController, UITextFieldDelegat
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func loadTags () {
-        var tags: [String] = [String]()
-
-        self.tagRef!.observe(.childAdded, with: { (snapshot) -> Void in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                let tag = (dictionary["tags"] as! String?)!
-                
-                print("TAGS \(snapshot)")
-                tags.append(tag)
-                print("HERE \(tag)")
-            }
-        })
-        
-        self.autoCompleteTextField.autoCompleteStrings = tags
-    }
-    
-    func fetchAutoCompleteTags (keyword: String) {
-        
     }
 
 //    Lots of boiler plate code for now. Will clean up later. Also will change so previous price range is kept even with error
