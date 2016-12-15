@@ -2,6 +2,7 @@ package com.markit.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,10 @@ public class CardViewAdapter extends
         ImageView photo = viewHolder.photo;
         final ImageView likeImage = viewHolder.likeImage;
 
+//        TODO wrap this so objects that have previously been liked start with a filled heart
+        likeImage.setTag(R.drawable.ic_favorite_border_black_48px);
+        likeImage.setColorFilter(Color.parseColor("#F4A49D"));
+
         final String itemID = item.getId();
         final String titleText = item.getTitle();
         title.setText(item.getTitle());
@@ -93,16 +98,18 @@ public class CardViewAdapter extends
         likeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View itemView) {
-                    int id = (int) likeImage.getTag();
-                    if (id == R.drawable.ic_favorite_border_black_48px){
-                        likeImage.setTag(R.drawable.ic_favorite_black_48px);
-                        likeImage.setImageResource(R.drawable.ic_favorite_black_48px);
-                        Toast.makeText(context, titleText +" added to favorites", Toast.LENGTH_SHORT).show();
-                    }else{
-                        likeImage.setTag(R.drawable.ic_favorite_border_black_48px);
-                        likeImage.setImageResource(R.drawable.ic_favorite_border_black_48px);
-                        Toast.makeText(context,titleText+" removed from favorites",Toast.LENGTH_SHORT).show();
-                    }
+                int id = (int) likeImage.getTag();
+                if (id == R.drawable.ic_favorite_border_black_48px){
+                    likeImage.setTag(R.drawable.ic_favorite_black_48px);
+                    likeImage.setImageResource(R.drawable.ic_favorite_black_48px);
+                    likeImage.setColorFilter(Color.parseColor("#F4A49D"));
+                    Toast.makeText(context, titleText +" added to favorites", Toast.LENGTH_SHORT).show();
+                }else{
+                    likeImage.setTag(R.drawable.ic_favorite_border_black_48px);
+                    likeImage.setImageResource(R.drawable.ic_favorite_border_black_48px);
+                    likeImage.setColorFilter(Color.parseColor("#F4A49D"));
+                    Toast.makeText(context,titleText+" removed from favorites",Toast.LENGTH_SHORT).show();
+                }
                 }
             });
 

@@ -205,15 +205,15 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         favorites.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (inFavorites){
-                    rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(false);
-                    favorites.setText("Add to favorites");
-                    inFavorites = false;
-                } else {
-                    rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(true);
-                    favorites.setText("Remove from Favorites");
-                    inFavorites = true;
-                }
+            if (inFavorites){
+                rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(false);
+                favorites.setText("Add to favorites");
+                inFavorites = false;
+            } else {
+                rootDatabase.child("users").child(getUID()).child("favorites").child(itemID).setValue(true);
+                favorites.setText("Remove from Favorites");
+                inFavorites = true;
+            }
             }
         });
 
