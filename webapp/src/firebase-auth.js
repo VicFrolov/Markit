@@ -11,11 +11,10 @@ $(function() {
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
                 let profilePic = $('#navbar-user-photo');
 
-                console.log('fuck you');
                 $(".dropdown-button").dropdown();
 
                 $(".button-collapse").sideNav({
-                    menuWidth: 400, // Default is 240
+                    menuWidth: 300, // Default is 240
                     edge: 'right', // Choose the horizontal origin
                     closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
                     draggable: true // Choose whether you can drag to open on touch screens
@@ -47,6 +46,14 @@ $(function() {
             console.log('user is NOT signed in');
             $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
                 $(".dropdown-button").dropdown();
+
+                console.log('rip');
+                $(".button-collapse").sideNav({
+                    menuWidth: 300, // Default is 240
+                    edge: 'right', // Choose the horizontal origin
+                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                    draggable: true // Choose whether you can drag to open on touch screens
+                });                
             });
         }
     });

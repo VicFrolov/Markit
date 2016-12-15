@@ -229,9 +229,6 @@ $(function () {
         addToTagsList();
     });
 
-    $('#blabla1').click(function() {
-        $('.blabla2').click();
-    });
     addPhotoButton.change(function () {
         reader = new FileReader();
         var fileExtension = ['jpeg', 'jpg', 'png'];
