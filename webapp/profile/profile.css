@@ -49,6 +49,8 @@ main, body {
     margin-top: 20px;
 }
 
+/*card view*/
+
 .card .card-title {
     font-size: 16px;
 }
@@ -62,6 +64,23 @@ main, body {
     margin: 20px 10px 20px 10px;
     position: relative;
 }
+
+.card-contact {
+    position:absolute;
+    bottom: 30px;
+    width: 88%
+}
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+/*end card view*/
 
 .my-profile-hub {
     height: 300px;
@@ -182,6 +201,7 @@ main, body {
     border-style: solid;
     border-width: 2px;
     border-color: #ccc;
+    background-color: white;
 }
 
 .tagslist {
@@ -226,7 +246,7 @@ main, body {
 }
 
 .final-setting {
-    margin-bottom: 500px;
+    margin-bottom: 350px;
 }
 
 .card .card-title {
@@ -509,4 +529,46 @@ main, body {
 #message-offer-button {
     color: #fff;
     width: 100px;
+}
+
+
+#profile-selling-holder {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+/*  */
+
+.selling-sold-button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 3;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+.selling-sold-button:hover {
+    background-color: rgba(255, 0, 0, 1);   
+}
+
+.find-result {
+    position: relative;
+}
+
+.sold-item-layer {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.sold-item-layer img {
+    position: absolute;
+    z-index: 4;
+    width: 10;
+    top: 3px;
+    width: 70%;
+    margin-top: 20px;
+    margin-left: 10%;
+    opacity: 0.5;
 }

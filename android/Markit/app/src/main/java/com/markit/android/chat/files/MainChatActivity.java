@@ -99,7 +99,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
                 String uid = firebaseAuth.getCurrentUser().getUid();
                 String user = uid.substring(0, 6);
                 Date date = new Date();
-                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
 
                 Chat message = new Chat(editMessage.getText().toString(), user, newDate);
@@ -172,7 +172,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
             @Override
             public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
                 //chatView.setUser(chat.getUser());
-                chatView.setMessage(chat.getMessage());
+                chatView.setText(chat.getText());
 
 //                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 //                if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
@@ -224,8 +224,8 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
         public Chat() {
         }
 
-        Chat(String message, String sender, String date) {
-            this.text = message;
+        Chat(String text, String sender, String date) {
+            this.text = text;
             this.date = date;
             this.user = sender;
 
@@ -239,7 +239,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
             return uid;
         }
 
-        public String getMessage() {
+        public String getText() {
             return text;
         }
 
@@ -286,7 +286,7 @@ public class MainChatActivity extends BaseActivity implements FirebaseAuth.AuthS
 //            field.setText(user);
 //        }
 
-        public void setMessage(String text) {
+        public void setText(String text) {
             TextView field = (TextView) view.findViewById(message_text);
             field.setText(text);
         }

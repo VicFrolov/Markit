@@ -69,8 +69,6 @@
 	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
 	 
 	    var updateNavbarName = function () {
-	        console.log('blabla');
-
 	        Promise.resolve(getUserInfo(uid)).then(userData => {
 	            profileName.text(userData.username);
 	        });        
@@ -319,6 +317,14 @@
 	    });
 	};
 
+	var getUserSelling = function (uid) {
+	    return usersRef.child(`${uid}/itemsForSale/`).once('value').then(function (snapshot) {
+	        return snapshot.val();
+	    }).catch(function (error) {
+	        console.log(error);
+	    });
+	}
+
 	// Adding proper promise, but not replacing the callback antipatern
 	// as not to break profile code
 	var getUserInfoProper = function(uid) {
@@ -372,7 +378,6 @@
 	        });
 	    });
 	};
-
 
 	var removeFavorite = function (item) {
 	    usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
@@ -642,6 +647,10 @@
 	}
 
 
+	var setItemAsSold = function(itemID) {
+	    itemsRef.child(`${itemID}/sold/`).set(true);
+	}
+
 	var previousListener = [null, null];
 
 	var shutOffMessageDetailListener = function(uid, chatID) {
@@ -729,7 +738,6 @@
 	};
 
 	var getUserSuggestions = function (uid) {
-
 	    return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
 	        return snapshot.val();
 	    });
@@ -852,7 +860,12 @@
 	    getUserInfoProper,
 	    displayMessagesDetail,
 	    postNewMessage,
+<<<<<<< HEAD
 	    sendVerificationEmail
+=======
+	    getUserSelling,
+	    setItemAsSold
+>>>>>>> 3ccf221e629d3ce5a8783b441b693486bb86d4f7
 	};
 
 /***/ },
@@ -1880,7 +1893,7 @@
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = {};        
+	            var filteredItemList = {};      
 	            
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
@@ -2449,10 +2462,12 @@
 	        return firstNameValid && lastNameValid && usernameValid && hubValid && emailValid && usernameValid;
 	    };
 
-	    var nameSizeLimit = 1;
-	    
+	    var nameSizeMin = 3;
+	    var nameSizeMax = 15;
+	    var usernameLength;
+
 	    $('body').on('keyup', '#sign-up-first-name', function() {
-	        if ($('#sign-up-first-name').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-first-name').val().length >= nameSizeMin) {
 	            firstNameValid = true;
 	            $('#first-name-unavailable').hide();
 	            $('#first-name-available').show();
@@ -2463,7 +2478,7 @@
 	    });
 
 	     $('body').on('keyup', '#sign-up-last-name', function() {
-	        if ($('#sign-up-last-name').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-last-name').val().length >= nameSizeMin) {
 	            lastNameValid = true;
 	            $('#last-name-unavailable').hide();
 	            $('#last-name-available').show();
@@ -2474,7 +2489,8 @@
 	    });
 
 	    $('body').on('keyup', '#sign-up-username', function() {
-	        if ($('#sign-up-username').val().length >= nameSizeLimit) {
+	        var usernameLength = $('#sign-up-username').val().length;
+	        if (usernameLength >= nameSizeMin && usernameLength <= nameSizeMax) {
 	            usernameValid = true;
 	            $('#username-unavailable').hide();
 	            $('#username-available').show();
@@ -2485,7 +2501,7 @@
 	    });
 
 	    $('body').on('keyup', '#sign-up-hub', function() {
-	        if ($('#sign-up-hub').val().length >= nameSizeLimit) {
+	        if ($('#sign-up-hub').val().length >= nameSizeMin) {
 	            hubValid = true;
 	            $('#hub-unavailable').hide();
 	            $('#hub-available').show();
@@ -2531,7 +2547,8 @@
 	    });
 
 	    module.exports = {
-	        nameSizeLimit
+	        nameSizeMin,
+	        nameSizeMax
 	    }    
 
 	});
@@ -2556,13 +2573,17 @@
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
 	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
-	    var nameSizeLimit = __webpack_require__(11)['nameSizeLimit'];
+	    var nameSizeMin = __webpack_require__(11)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(11)['nameSizeMax'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
 	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
+	    var getUserSelling = __webpack_require__(2)['getUserSelling'];
+	    var getItemsById = __webpack_require__(2)['getItemsById'];
+	    var setItemAsSold = __webpack_require__(2)['setItemAsSold'];
 	    
 	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
 
@@ -2637,48 +2658,52 @@
 	    });
 
 	    var loadSellingCardList = function () {
-	        sellingCardList.empty();
-	        for (var i = 0; i < 31; i++) {
-	            sellingCardList.append([
-	                $('<div></div>').addClass('col l4 m4 s12').append(
-	                    $('<div></div>').addClass('card hoverable profile-card').append([
-	                        $('<div></div>').addClass('profile-favorite').append(
-	                            $('<img>').addClass('profile-favorite-image').attr({
-	                                src: '../media/ic_heart.png'
-	                            })
-	                        ),
-	                        $('<div></div>').addClass('profile-price').text('$69'),
-	                        $('<div></div>').addClass('card-image waves-effect waves-block waves-light').append([
-	                            $('<img>').addClass('activator').attr({
-	                                src: 'https://d3nevzfk7ii3be.cloudfront.net/igi/DX2OGI5fYDA3jOZ5.medium'
-	                            }),
-	                        ]),
-	                        $('<div></div>').addClass('card-content').append([
-	                            $('<span></span>').addClass('card-title activator grey-text text-darken-4').text('Iphone Selling').append(
-	                                $('<i></i>').addClass('material-icons right').text('more_vert')
-	                            ),
+	        Promise.resolve(getUserSelling(uid)).then(function(items) {
+	            if (Object.keys(items).length >= 1) {
+	                let itemList = [];
+	                for (itemId in items) {
+	                    itemList.push(itemId)
+	                }
 
-	                            $('<p></p>').append(
-	                                $('<a></a>').text('view item').attr({
-	                                    href: '#'
-	                                })
-	                            )
-	                        ]),
-	                        $('<div></div>').addClass('card-reveal').append([
-	                            $('<span></span>').addClass('card-title grey-text text-darken-4').text("Description").append(
-	                                $('<i></i>').addClass('material-icons right').text('close')
-	                            ),
-	                            $('<p></p>').text('This is a test selling description')
-	                        ])
-	                    ])
-	                )
-	            ]);
-	        }
+	                Promise.resolve(getItemsById(itemList)).then(function(itemObjects) {
+	                    let filteredItemList = {};
+	                    var str = $('#profile-selling-template').text();
+	                    var compiled = _.template(str);
+	                    var imagePaths = [];
+
+	                    for (var item in itemObjects) {
+	                        var currentItem = itemObjects[item];
+	                        var itemID = currentItem['id'];
+
+	                        imagePaths.push(itemID);
+
+	                        filteredItemList[itemID] = currentItem;
+	                    }
+
+	                    $('#profile-selling-holder').empty();
+	                    $('#profile-selling-holder').append(compiled({filteredItemList: filteredItemList}));
+	                    console.log(filteredItemList);
+
+	                    for (var i = 0; i < imagePaths.length; i += 1) {
+	                        (function (x) {
+	                            getImage(imagePaths[x] + '/imageOne', function(url) {
+	                                $("#" + imagePaths[x]).attr({src: url});
+	                            });
+	                        })(i);
+	                    } 
+	                });
+
+	            } else {
+	                console.log('haha');
+	                // show a div saying user has no items for sale
+	            }
+	        });
 	    };
 
 	    var loadTagsList = function () {
 
 	    };
+
 
 	    var addToTagsList = function () {
 	        var addition = {
@@ -2715,7 +2740,11 @@
 	    };
 
 	    var checkInput = function (input) {
-	        return input.val().length > nameSizeLimit;
+	        return input.val().length > nameSizeMin;
+	    }
+
+	    var checkUsername = function (input) {
+	        return input.val().length >= nameSizeMin && input.val().length <= nameSizeMax
 	    }
 
 	    var updateSettings = function () {
@@ -2793,6 +2822,16 @@
 	        addPhotoInput.click();
 	    });
 
+	    $('#profile-selling-holder').on('click', '.selling-sold-button', function () {
+	        let chatID = $($(this).parent()[0].children[2])[0].children[0].id;
+	        setItemAsSold(chatID);
+	        loadSellingCardList();
+
+	        //get itemID
+	        // mark this item as sold in items, itemsByHub, itemsByUser
+	        // refresh items
+	    });
+
 	    addPhotoInput.change(function () {
 	        reader = new FileReader();
 	        var fileExtension = ['jpeg', 'jpg', 'png'];
@@ -2820,7 +2859,7 @@
 	    });
 
 	    saveButton.click(function () {
-	        if (!checkInput(firstName) || !checkInput(lastName) || !checkInput(username || !checkInput(hub))) {
+	        if (!checkInput(firstName) || !checkInput(lastName) || !checkUsername(username || !checkInput(hub))) {
 	            Materialize.toast('First Name, Last Name, Username, and Hub must all be at least 1 character.', 3000, 'rounded');
 	            return;
 	        }

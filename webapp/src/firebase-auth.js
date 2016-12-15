@@ -8,8 +8,6 @@ $(function() {
     var getUserInfo = require('./firebase.js')["getUserInfoProper"];
  
     var updateNavbarName = function () {
-        console.log('blabla');
-
         Promise.resolve(getUserInfo(uid)).then(userData => {
             profileName.text(userData.username);
         });        

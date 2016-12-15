@@ -171,6 +171,14 @@ var getUserFavorites = function() {
     });
 };
 
+var getUserSelling = function (uid) {
+    return usersRef.child(`${uid}/itemsForSale/`).once('value').then(function (snapshot) {
+        return snapshot.val();
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
 // Adding proper promise, but not replacing the callback antipatern
 // as not to break profile code
 var getUserInfoProper = function(uid) {
@@ -224,7 +232,6 @@ var getFavoriteObjects = function (callback) {
         });
     });
 };
-
 
 var removeFavorite = function (item) {
     usersRef.child(auth.currentUser.uid + '/favorites/' + item).remove();
@@ -494,6 +501,10 @@ var getItemsById = function (itemsToMatch) {
 }
 
 
+var setItemAsSold = function(itemID) {
+    itemsRef.child(`${itemID}/sold/`).set(true);
+}
+
 var previousListener = [null, null];
 
 var shutOffMessageDetailListener = function(uid, chatID) {
@@ -581,7 +592,6 @@ var getItemsInHub = function (hub) {
 };
 
 var getUserSuggestions = function (uid) {
-
     return usersRef.child(uid + '/tagSuggestions/').once('value').then(function (snapshot) {
         return snapshot.val();
     });
@@ -704,5 +714,7 @@ module.exports = {
     getUserInfoProper,
     displayMessagesDetail,
     postNewMessage,
-    sendVerificationEmail
+    sendVerificationEmail,
+    getUserSelling,
+    setItemAsSold
 };
