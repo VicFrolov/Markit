@@ -67,6 +67,7 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         if (idInfo != null) {
             itemID = idInfo.getString("id");
         } else{
+//            TODO this is unacceptable....
             itemID = "-KX9d_FL3zJVZgvnl8TW";
         }
 
