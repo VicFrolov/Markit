@@ -155,51 +155,51 @@ public class ItemDetail extends BaseActivity implements FirebaseAuth.AuthStateLi
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
-            }
-
-//                ItemDetail.conversationKey = convoRef.push().getKey();
 //
-//                String itemPathRef = itemID + "/imageOne";
-//                StorageReference pathReference = pathRef.child(itemPathRef);
-//
-//                System.out.println(pathRef);
-//                System.out.println(itemPathRef);
-//
-//                StorageReference storageRef =FirebaseStorage.getInstance().getReference();
-//                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
-//
-//                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        String itemImageURL = uri.toString();
-//
-//                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-//                        DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
-//
-//                        String itemId = itemID;
-//
-//                        Date date = new Date();
-//                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
-//                        String newDate = fmt.format(date);
-//
-//                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
-//                        contextRef.setValue(myConversation);
-//                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
-//                        sellerRef.setValue(theirConversation);
-//
-//                        startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception exception) {
-//                        // Handle any errors
-//                    }
-//                });
-
-
+//                startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
 //            }
+
+                ItemDetail.conversationKey = convoRef.push().getKey();
+
+                String itemPathRef = itemID + "/imageOne";
+                StorageReference pathReference = pathRef.child(itemPathRef);
+
+                System.out.println(pathRef);
+                System.out.println(itemPathRef);
+
+                StorageReference storageRef =FirebaseStorage.getInstance().getReference();
+                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
+
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String itemImageURL = uri.toString();
+
+                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+                        DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+
+                        String itemId = itemID;
+
+                        Date date = new Date();
+                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+                        String newDate = fmt.format(date);
+
+                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
+                        contextRef.setValue(myConversation);
+                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
+                        sellerRef.setValue(theirConversation);
+
+                        startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+
+            }
         });
 
         favorites.setOnClickListener(new View.OnClickListener(){
