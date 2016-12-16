@@ -47,7 +47,7 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
         selectedCell = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
             self.collectionViewLayout = LGHorizontalLinearFlowLayout
-                .configureLayout(self.collectionView, itemSize: CGSize(width: 90, height: 90), minimumLineSpacing: 10)
+                .configureLayout(collectionView: self.collectionView, itemSize: CGSize(width: 90, height: 90), minimumLineSpacing: 10)
         }
     }
     
@@ -106,7 +106,7 @@ class HubViewController: UIViewController, UICollectionViewDataSource, UICollect
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSize(width: 500, height: 500);
     }
     
