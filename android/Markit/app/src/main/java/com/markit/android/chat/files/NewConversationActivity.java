@@ -105,10 +105,10 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
 
         sendButton = (Button) findViewById(R.id.sendButton);
         editMessage = (EditText) findViewById(R.id.messageEdit);
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/");
-        final StorageReference pathRef = storageRef.child("images/itemImages/");
+//
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/markit-80192.appspot.com/o/");
+//        final StorageReference pathRef = storageRef.child("images/itemImages/");
 
 
         DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
@@ -116,6 +116,8 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
         final DatabaseReference sellerRefContext = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/context");
 //        final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/messages");
 
+
+        chatRef = convoRef.child(ItemDetail.conversationKey + "/messages");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,47 +130,47 @@ public class NewConversationActivity extends BaseActivity implements FirebaseAut
                 SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'");
                 String newDate = fmt.format(date);;
 
-                conversationKey = convoRef.push().getKey();
+//                conversationKey = convoRef.push().getKey();
+//
+//                String itemPathRef = itemID + "/imageOne";
+//                StorageReference pathReference = pathRef.child(itemPathRef);
+//
+//                System.out.println(pathRef);
+//                System.out.println(itemPathRef);
+//
+//                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+//                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
+//
+//                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        String itemImageURL = uri.toString();
+//
+//                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
+//                        DatabaseReference sellerContextRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
+//
+//                        String itemId = itemID;
+//
+//                        Date date = new Date();
+//                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
+//                        String newDate = fmt.format(date);
+//
+//                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
+//                        contextRef.setValue(myConversation);
+//
+//                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
+//                        sellerContextRef.setValue(theirConversation);
+//
+//                        //startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        // Handle any errors
+//                    }
+//                });
 
-                String itemPathRef = itemID + "/imageOne";
-                StorageReference pathReference = pathRef.child(itemPathRef);
-
-                System.out.println(pathRef);
-                System.out.println(itemPathRef);
-
-                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                StorageReference imageRef = storageRef.child("images/itemImages/" + itemID + "/imageOne");
-
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String itemImageURL = uri.toString();
-
-                        DatabaseReference contextRef = convoRef.child(conversationKey + "/context");
-                        DatabaseReference sellerContextRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey  + "/context");
-
-                        String itemId = itemID;
-
-                        Date date = new Date();
-                        SimpleDateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy, HH:mm:ss 'GMT'Z '('z')'");
-                        String newDate = fmt.format(date);
-
-                        ConversationItem myConversation = new ConversationItem(conversationKey, itemId, itemImageURL, otherUser, otherUsername, newDate, true);
-                        contextRef.setValue(myConversation);
-
-                        ConversationItem theirConversation = new ConversationItem(conversationKey, itemId, itemImageURL, getUID(), username, newDate, false);
-                        sellerContextRef.setValue(theirConversation);
-
-                        //startActivity(new Intent(ItemDetail.this, NewConversationActivity.class));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
-                final DatabaseReference chatRef = convoRef.child(conversationKey + "/messages");
+                //final DatabaseReference chatRef = convoRef.child(conversationKey + "/messages");
                 final DatabaseReference sellerRef = database.getReference().child("users/" + otherUser + "/chats/" + conversationKey + "/messages");
 
                 //message item itself
