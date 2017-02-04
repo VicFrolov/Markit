@@ -213,6 +213,9 @@ main, body {
 }
 
 #add-tag-button {
+    position: absolute;
+    right: 20px;
+    top: 6px;
     margin-bottom: 30px;
 }
 
@@ -421,6 +424,17 @@ main, body {
     margin: 0px;
 }
 
+#watch-list-placeholder {
+    text-align: center;
+    opacity: 0.6;
+}
+
+#watch-list-placeholder-image {
+    margin-top: 30px;
+    width: 150px;
+    opacity: 0.2;
+}
+
 #message-send-button {
     background-color: #2196F3;
     height: 28px;
@@ -554,7 +568,7 @@ main, body {
 }
 
 .selling-sold-button:hover {
-    background-color: rgba(255, 0, 0, 1);   
+    background-color: rgba(255, 0, 0, 1);
 }
 
 .find-result {
