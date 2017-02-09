@@ -17,7 +17,7 @@ $(function () {
     var getUserSelling = require('./firebase.js')['getUserSelling'];
     var getItemsById = require('./firebase.js')['getItemsById'];
     var setItemAsSold = require('./firebase.js')['setItemAsSold'];
-    
+
     var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
     var reader;
@@ -72,21 +72,21 @@ $(function () {
         };
     }
 
-    
+
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
         $('#message-send-button').attr('chatid', chatid)
 
         // toggling clicked/selected div colors
         if($(this).closest('div').hasClass('active')) {
-            return false;   
+            return false;
         }
 
         $(this).find('.material-icons').remove();
         $('.active-message').toggleClass('active-message');
         $(this).closest('div').toggleClass('active-message');
         $('#message-detail-content').empty().fadeOut(100);
-        
+
         displayMessagesDetail(uid, chatid);
     });
 
@@ -122,7 +122,7 @@ $(function () {
                                 $("#" + imagePaths[x]).attr({src: url});
                             });
                         })(i);
-                    } 
+                    }
                 });
 
             } else {
@@ -207,7 +207,7 @@ $(function () {
         } else if (window.location.hash.substr(1) === 'settings') {
             $('ul.tabs').tabs('select_tab', 'profile-settings');
         }
-    } 
+    }
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -242,7 +242,7 @@ $(function () {
         }
         else {
             $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
-        }        
+        }
     })
 
     addButton.click(function () {
@@ -250,6 +250,10 @@ $(function () {
     });
 
     addPhotoButton.click(function () {
+        addPhotoInput.click();
+    });
+
+    profilePicture.click(function () {
         addPhotoInput.click();
     });
 
