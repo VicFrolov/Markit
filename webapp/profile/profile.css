@@ -200,16 +200,24 @@ main, body {
 
 #add-photo-button {
     opacity: 0;
-    margin-top: -157px;
-    margin-left: 43px;
+    margin-top: -161px;
+    margin-left: 12px;
+    height: 102px;
+    width: 102px;
 }
 
 #add-photo-button:hover {
     opacity: .3;
 }
 
+#add-photo-icon {
+    margin-top: 30px;
+    margin-left: -2px;
+}
+
 .add-photo-button {
-    position: relative;
+    maragin: 12;
+    /*position: relative;*/
     /*left: 98px;
     bottom: 3px;*/
     cursor: pointer;
