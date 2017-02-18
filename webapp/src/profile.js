@@ -53,10 +53,7 @@ $(function () {
 
             $('#profile-liked-holder').empty();
             $('#profile-liked-holder').append(compiled({items: items}));
-
-
-
-
+            
             for (var item in items) {
                 imagePaths.push(items[item]['id']);
             }

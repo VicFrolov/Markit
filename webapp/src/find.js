@@ -1,5 +1,8 @@
 'use strict'
+
 $(function() {
+    console.log(location.hash.length);
+
     var getListings = require('./firebase.js')['getListings'];
     var getFavorites = require('./firebase.js')['getFavorites'];
     var wNumb = require('wNumb');
@@ -208,7 +211,7 @@ $(function() {
             tags[i] = tags[i].toLowerCase();
         }
         
-        query += keywords === "" ? "none" : "" + keywords;
+        query += `${keywords}?hub=${hubs}?tags=${tags}?priceMin=${priceRange[0]}?priceMax=${priceRange[1]}`;
         location.hash = query;
 
         newSearch(getListings(), keywords, tags, hubs, priceRange);
