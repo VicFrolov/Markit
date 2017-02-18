@@ -19,12 +19,22 @@
         <div class="profile-card-view">
           <div id="my-profile">
             <img class="my-profile-hub" src="http://admin.lmu.edu/media/admin/parking/mainbanner-parking.jpg">
-            <img id="profile-picture" class="my-profile-picture z-depth-1 circle" src="../media/ic_profile.png">
-            <div class="add-photo-position">
-              <div class="file-field">
-                <a class="waves-effect waves-light btn add-photo-button" id="add-photo-button"><i class="material-icons">add_a_photo</i></a>
-                <input hidden id="add-photo-input" type="file">
-              </div>
+            <!-- TODO: Make a mouseover profile image shader  -->
+            <!-- <img id="profile-picture-overlay" class="my-profile-picture-overlay z-depth-1 circle"> -->
+            <!-- <a class="btn-floating btn-small waves-effect waves-light scale-transition scale-out" id="add-photo-button">
+                <i class="material-icons">add_a_photo</i>
+            </a> -->
+            <div id="profile-picture-position">
+                <img id="profile-picture" class="my-profile-picture z-depth-1 circle" src="../media/ic_profile.png">
+                <div id="profile-picture-overlay">
+                  <div class="file-field">
+                      <a class="btn-floating waves-effect waves-light black add-photo-button" id="add-photo-button">
+                          <i class="material-icons" id="add-photo-icon">add_a_photo</i>
+                      </a>
+                    <!-- <a class="btn btn-large waves-effect waves-light add-photo-button" id="add-photo-button"><i class="material-icons">add_a_photo</i></a> -->
+                    <input hidden id="add-photo-input" type="file">
+                  </div>
+                </div>
             </div>
             <span class="my-profile-username"></span>
             <div class="my-profile-stars">

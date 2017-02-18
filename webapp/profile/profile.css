@@ -91,14 +91,34 @@ main, body {
     width: 100%;
 }
 
+#profile-picture-position {
+    position: absolute;
+    top: 285px;
+}
+
 .my-profile-picture {
     background-color: #eee;
     height: 100px;
     width: 100px;
     margin: 12px;
-    position: absolute;
-    top: 285px;
+    position: relative;
 }
+
+/*TODO: Profile picture on mouseover shader*/
+
+/*#profile-picture-overlay {
+    background-color: black;
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    opacity: 0;
+}
+#profile-picture-overlay:hover {
+    opacity: 100;
+    margin-top: -50px;
+}*/
+
+
 
 .my-profile-username {
     font-size: 36px;
@@ -177,10 +197,29 @@ main, body {
     position: absolute;
 }
 
+
+#add-photo-button {
+    opacity: 0;
+    margin-top: -161px;
+    margin-left: 12px;
+    height: 102px;
+    width: 102px;
+}
+
+#add-photo-button:hover {
+    opacity: .3;
+}
+
+#add-photo-icon {
+    margin-top: 30px;
+    margin-left: -2px;
+}
+
 .add-photo-button {
-    position: relative;
-    left: 98px;
-    bottom: 3px;
+    maragin: 12;
+    /*position: relative;*/
+    /*left: 98px;
+    bottom: 3px;*/
     cursor: pointer;
 }
 
