@@ -129,6 +129,15 @@ $(function() {
         });
     };
 
+    function updateSliderRange ( min, max ) {
+        updateSlider.noUiSlider.updateOptions({
+            range: {
+                'min': min,
+                'max': max
+            }
+        });
+    }
+
     var showItemsBasedOnHash = function() {
         if (location.hash.length > 0) {
             let hashKeys = location.hash.split('?');
@@ -155,7 +164,7 @@ $(function() {
             }
 
             let priceRange = [parseInt(hashKeys[3].split("=")[1]), parseInt(hashKeys[4].split("=")[1])];
-
+            updateSliderRange(priceRange[0], priceRange[1]);
 
             $("#find-keywords").val(key.join(" "));
             $('#find-tags').textext()[0].tags().addTags(tags);

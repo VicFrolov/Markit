@@ -209,8 +209,7 @@
 	var sendVerificationEmail = function () {
 	    firebase.auth().onAuthStateChanged(function(user) {
 	        if (user) {
-	            user.sendEmailVerification().then(function() {
-	            });   
+	            user.sendEmailVerification();
 	        }
 	    });
 	};
@@ -1898,6 +1897,15 @@
 	        });
 	    };
 
+	    function updateSliderRange ( min, max ) {
+	        updateSlider.noUiSlider.updateOptions({
+	            range: {
+	                'min': min,
+	                'max': max
+	            }
+	        });
+	    }
+
 	    var showItemsBasedOnHash = function() {
 	        if (location.hash.length > 0) {
 	            let hashKeys = location.hash.split('?');
@@ -1924,7 +1932,7 @@
 	            }
 
 	            let priceRange = [parseInt(hashKeys[3].split("=")[1]), parseInt(hashKeys[4].split("=")[1])];
-
+	            updateSliderRange(priceRange[0], priceRange[1]);
 
 	            $("#find-keywords").val(key.join(" "));
 	            $('#find-tags').textext()[0].tags().addTags(tags);
@@ -2841,7 +2849,7 @@
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user.emailVerified) {
 	            user = auth.currentUser.email;
 	            uid = auth.currentUser.uid;
 	            if (window.location.pathname === '/profile/profile.html') {
