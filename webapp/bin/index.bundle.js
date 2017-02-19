@@ -1786,38 +1786,6 @@
 	    var favoriteTemplate = $('#favorite-template');
 	    $('#message-popup-confirmation').hide();
 
-
-	    var showItemsBasedOnHash = function() {
-	        if (location.hash.length > 0) {
-	            let hashKeys = location.hash.split('?');
-	            let key = hashKeys[0].split("=")[1];
-	            let hubs = hashKeys[1].split("=")[1];
-	            let tags = hashKeys[2].split("=")[1];
-
-	            if (tags.length === 0) {
-	                tags = [];
-	            } else {
-	                tags = tags.split(',');
-	            }
-
-	            if (key.length === 0) {
-	                key = [];
-	            } else {
-	                key = key.split(',');
-	            }
-
-	            if (hubs.length === 0) {
-	                hubs = [];
-	            } else {
-	                hubs = hubs.split(',');
-	            }
-
-	            let priceRange = [parseInt(hashKeys[3].split("=")[1]), parseInt(hashKeys[4].split("=")[1])];
-	            
-	            newSearch(getListings(), key, tags, hubs, priceRange);
-	        }
-	    }
-
 	    var showFavoritesInSidebar = function(favorites) {
 	        var str = $('#favorite-template').text();
 	        var compiled = _.template(str);
@@ -1870,76 +1838,7 @@
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
 	        }
-	    });    
-
-	    var slider = $("#search-slider");
-	    if (slider.length > 0) {
-	        // Add dropdown hub selector
-	        $('select').material_select();
-	        // add slider
-	        noUiSlider.create(slider[0], {
-	            start: [1, 500],
-	            connect: true,
-	            step: 1,
-	            tooltips: true,
-	            format: wNumb({
-	                decimals: 0,
-	                thousand: ',',
-	                prefix: '$',
-	            }),
-	            range: {
-	                'min': 1,
-	                'max': 3000
-	            }
-	        });
-
-	        slider[0].noUiSlider.get()
-
-
-	        // add autofill tags
-	        var findTags = $('#find-tags');
-	        findTags.textext({plugins : 'tags autocomplete'})
-	            .bind('getSuggestions', function(e, data){
-	                var list = [
-	                        'Table',
-	                        'Desk',
-	                        'Computer',
-	                        'Electronics',
-	                        'iPhone',
-	                        'Cell-Phone',
-	                        'Apple',
-	                        'Macbook',
-	                        'Chair',
-	                        'Leather',
-	                        'Clothing',
-	                        'Bedroom',
-	                        'Bathroom',
-	                        'Couch',
-	                        'Kitchen',
-	                        'Living-Room',
-	                        'Dinner-Table'
-	                    ],
-	                    textext = $(e.target).textext()[0],
-	                    query = (data ? data.query : '') || '';
-
-	                $(this).trigger('setSuggestions',{
-	                    result : textext.itemManager().filter(list, query) }
-	                );
-	        });
-	    }
-
-	    var showFavoritesInSearches = function(currentFavorites) {
-	        $('.find-result-favorite-image').each(function() {
-	            var  currentImageID = $(this).attr('uid');
-	            if(currentFavorites && currentFavorites[currentImageID]) {
-	                $(this).attr('src', '../media/ic_heart_hover.png');
-	                $(this).css('opacity', 1);
-	                this.favorited = true;
-
-	            }
-
-	        });
-	    };
+	    });
 
 	    var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
 	        Promise.resolve(currentItems).then(function(itemList) {
@@ -1999,8 +1898,112 @@
 	        });
 	    };
 
-	    showItemsBasedOnHash();
+	    var showItemsBasedOnHash = function() {
+	        if (location.hash.length > 0) {
+	            let hashKeys = location.hash.split('?');
+	            let key = hashKeys[0].split("=")[1];
+	            let hubs = hashKeys[1].split("=")[1];
+	            let tags = hashKeys[2].split("=")[1];
 
+	            if (tags.length === 0) {
+	                tags = [];
+	            } else {
+	                tags = tags.split(',');
+	            }
+
+	            if (key.length === 0) {
+	                key = [];
+	            } else {
+	                key = key.split(',');
+	            }
+
+	            if (hubs.length === 0) {
+	                hubs = [];
+	            } else {
+	                hubs = hubs.split(',');
+	            }
+
+	            let priceRange = [parseInt(hashKeys[3].split("=")[1]), parseInt(hashKeys[4].split("=")[1])];
+
+
+	            $("#find-keywords").val(key.join(" "));
+	            $('#find-tags').textext()[0].tags().addTags(tags);
+
+	            
+	            newSearch(getListings(), key, tags, hubs, priceRange);
+	        }
+	    }    
+
+	    var slider = $("#search-slider");
+	    if (window.location.pathname === "/find/find.html") {
+	        // Add dropdown hub selector
+	        $('select').material_select();
+	        // add slider
+	        noUiSlider.create(slider[0], {
+	            start: [1, 500],
+	            connect: true,
+	            step: 1,
+	            tooltips: true,
+	            format: wNumb({
+	                decimals: 0,
+	                thousand: ',',
+	                prefix: '$',
+	            }),
+	            range: {
+	                'min': 1,
+	                'max': 3000
+	            }
+	        });
+
+	        slider[0].noUiSlider.get()
+
+
+	        // add autofill tags
+	        var findTags = $('#find-tags');
+	        findTags.textext({plugins : 'tags autocomplete'})
+	            .bind('getSuggestions', function(e, data){
+	                var list = [
+	                        'Table',
+	                        'Desk',
+	                        'Computer',
+	                        'Electronics',
+	                        'iPhone',
+	                        'Cell-Phone',
+	                        'Apple',
+	                        'Macbook',
+	                        'Chair',
+	                        'Leather',
+	                        'Clothing',
+	                        'Bedroom',
+	                        'Bathroom',
+	                        'Couch',
+	                        'Kitchen',
+	                        'Living-Room',
+	                        'Dinner-Table'
+	                    ],
+	                    textext = $(e.target).textext()[0],
+	                    query = (data ? data.query : '') || '';
+
+	                $(this).trigger('setSuggestions',{
+	                    result : textext.itemManager().filter(list, query) }
+	                );
+	        });
+
+	        showItemsBasedOnHash();
+	    }
+
+	    var showFavoritesInSearches = function(currentFavorites) {
+	        $('.find-result-favorite-image').each(function() {
+	            var  currentImageID = $(this).attr('uid');
+	            if(currentFavorites && currentFavorites[currentImageID]) {
+	                $(this).attr('src', '../media/ic_heart_hover.png');
+	                $(this).css('opacity', 1);
+	                this.favorited = true;
+
+	            }
+
+	        });
+	    };
 
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
