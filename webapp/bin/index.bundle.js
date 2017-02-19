@@ -2640,6 +2640,8 @@
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict"
+
 	$(function () {
 	    $('#message-offer-popup').fadeOut(1);
 	    var auth = __webpack_require__(2)['auth'];
@@ -2801,7 +2803,7 @@
 	        hub.val(userInfo.userHub);
 	        loadProfilePicture();
 	        $('.my-profile-username').text(firebaseUsername);
-	        for (preference in userInfo.paymentPreferences) {
+	        for (let preference in userInfo.paymentPreferences) {
 	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
 	        }
 
@@ -2819,7 +2821,7 @@
 
 	    var updateSettings = function () {
 	        var paymentPreferences = [];
-	        for (preference in paymentPreference.val()) {
+	        for (let preference in paymentPreference.val()) {
 	            paymentPreferences.push(paymentPreference.val()[preference]);
 	        }
 
@@ -2849,8 +2851,7 @@
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user.emailVerified) {
-	            user = auth.currentUser.email;
+	        if (user) {
 	            uid = auth.currentUser.uid;
 	            if (window.location.pathname === '/profile/profile.html') {
 	                $('select').material_select();
@@ -2859,9 +2860,13 @@
 	                getFavoriteObjects(showFavoritedItems);
 	                displayConversations(uid);
 	                rerouteProfileHash();
+
+	                if (!auth.currentUser.emailVerified) {
+	                    Materialize.toast('Please check email to verify account', 3000, 'rounded');
+	                }
 	            }
 
-	        } else if (!user.emailVerified && window.location.pathname === '/profile/profile.html'){
+	        } else if (!user && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }
 	    });
