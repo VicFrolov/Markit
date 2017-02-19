@@ -22,11 +22,30 @@ $(function() {
         if (location.hash.length > 0) {
             let hashKeys = location.hash.split('?');
             let key = hashKeys[0].split("=")[1];
-            let hub = hashKeys[1].split("=")[1];
+            let hubs = hashKeys[1].split("=")[1];
             let tags = hashKeys[2].split("=")[1];
-            let priceRange = [hashKeys[3].split("=")[1], hashKeys[4].split("=")[1]];
+
+            if (tags.length === 0) {
+                tags = [];
+            } else {
+                tags = tags.split(',');
+            }
+
+            if (key.length === 0) {
+                key = [];
+            } else {
+                key = key.split(',');
+            }
+
+            if (hubs.length === 0) {
+                hubs = [];
+            } else {
+                hubs = hubs.split(',');
+            }
+
+            let priceRange = [parseInt(hashKeys[3].split("=")[1]), parseInt(hashKeys[4].split("=")[1])];
             
-            newSearch(getListings(), key, tags, hub, priceRange);
+            newSearch(getListings(), key, tags, hubs, priceRange);
         }
     }
 
@@ -155,6 +174,11 @@ $(function() {
 
     var newSearch = function(currentItems, keywords = [], tags = [], hubs = [], priceRange = []) {
         Promise.resolve(currentItems).then(function(itemList) {
+
+            console.log(hubs);
+            console.log(keywords);
+            console.log(tags);
+            console.log(priceRange);
             var str = $('#find-results-template').text();
             var compiled = _.template(str);
             var imagePaths = [];
