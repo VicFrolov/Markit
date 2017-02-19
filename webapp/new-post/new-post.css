@@ -300,6 +300,7 @@ input[type=text]:focus:not([readonly]) {
     height: 60%;
     padding: 10px 50px 0px 50px;
     display: relative;
+    text-align: center;
 }
 
 .close-button {
@@ -309,11 +310,8 @@ input[type=text]:focus:not([readonly]) {
     cursor: pointer;
 }
 
-#notVerified-popup-inner textarea {
-    resize: none;
-    height: 200px;
-    margin-bottom: 20px;
-    padding: 10px 15px 10px 10px;
+#notVerified-popup-send-button {
+    margin-top: 50px;
 }
 
 @media screen and (max-width: 993px) {

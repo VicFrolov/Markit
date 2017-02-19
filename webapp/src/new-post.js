@@ -3,6 +3,7 @@
 $(function() {
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
+    var sendVerificationEmail = require('./firebase.js')['sendVerificationEmail'];
     var itemTitle;
     var itemDescription;
     var itemTags;
@@ -11,7 +12,7 @@ $(function() {
     var userID;
     var itemImages;
 
-    $('#notVerified-popup-confirmation').hide();
+    $('#notVerified-confirmation').hide();
 
     var checkBasicItems = function() {
         var checksPassed = true;
@@ -166,7 +167,7 @@ $(function() {
 
     let checkIfVerified = () => {
         auth.onAuthStateChanged(function(user) {
-            if (auth.currentUser.emailVerified) {
+            if (!auth.currentUser.emailVerified) {
                 $('#notVerified-popup').css('z-index', '100').animate({
                     opacity: 1
                 }, 50);
@@ -193,6 +194,21 @@ $(function() {
         });
 
     }
+
+    $("#notVerified-popup-send-button").click(() => {
+        console.log('button clicked');
+        $('#notVerified-popup-content').fadeOut(500);
+
+        setTimeout(function () {
+            $('#notVerified-popup-inner').css({
+                'display': 'flex',
+                'align-items': 'center',
+                'justify-content': 'center'
+            });
+            $('#notVerified-confirmation').fadeIn();
+        }, 500);
+        sendVerificationEmail();
+    });
 
     if (window.location.pathname === "/new-post/new-post.html") {
         checkIfVerified();
