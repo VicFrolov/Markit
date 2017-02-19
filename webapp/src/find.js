@@ -1,8 +1,6 @@
 'use strict'
 
 $(function() {
-    console.log(location.hash.length);
-
     var getListings = require('./firebase.js')['getListings'];
     var getFavorites = require('./firebase.js')['getFavorites'];
     var wNumb = require('wNumb');
@@ -18,6 +16,19 @@ $(function() {
 
     var favoriteTemplate = $('#favorite-template');
     $('#message-popup-confirmation').hide();
+
+
+    var showItemsBasedOnHash = function() {
+        if (location.hash.length > 0) {
+            let hashKeys = location.hash.split('?');
+            let key = hashKeys[0].split("=")[1];
+            let hub = hashKeys[1].split("=")[1];
+            let tags = hashKeys[2].split("=")[1];
+            let priceRange = [hashKeys[3].split("=")[1], hashKeys[4].split("=")[1]];
+            
+            newSearch(getListings(), key, tags, hub, priceRange);
+        }
+    }
 
     var showFavoritesInSidebar = function(favorites) {
         var str = $('#favorite-template').text();
@@ -194,6 +205,8 @@ $(function() {
             }            
         });
     };
+
+    showItemsBasedOnHash();
 
 
     $("#find-search-button").click(function () {
