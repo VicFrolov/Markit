@@ -207,7 +207,7 @@ $(function () {
     }
 
     auth.onAuthStateChanged(function(user) {
-        if (user) {
+        if (user.emailVerified) {
             user = auth.currentUser.email;
             uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
