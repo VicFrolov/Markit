@@ -2861,7 +2861,7 @@
 	                rerouteProfileHash();
 	            }
 
-	        } else if (!user && window.location.pathname === '/profile/profile.html'){
+	        } else if (!user.emailVerified && window.location.pathname === '/profile/profile.html'){
 	            window.location.href = "../index.html";
 	        }
 	    });
