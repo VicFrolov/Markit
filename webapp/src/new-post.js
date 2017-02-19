@@ -1,3 +1,5 @@
+"use strict"
+
 $(function() {
     var addListing = require('./firebase.js')['addListing'];
     var auth = require('./firebase.js')['auth'];
@@ -8,6 +10,8 @@ $(function() {
     var itemHub;
     var userID;
     var itemImages;
+
+    $('#notVerified-popup-confirmation').hide();
 
     var checkBasicItems = function() {
         var checksPassed = true;
@@ -120,8 +124,16 @@ $(function() {
         }
     });
 
-    var itemTagRef = $('#itemTags');
-    if (itemTagRef.length > 0) {
+
+    $('.close-button').click(function () {
+        $('#notVerified-popup').animate({
+            opacity: 0,
+            'z-index': -100
+        }, 100);
+    });
+
+    let initializeTagTextExt = () => {
+        var itemTagRef = $('#itemTags');
         itemTagRef.textext({plugins : 'tags autocomplete'})
             .bind('getSuggestions', function(e, data){
                 var list = [
@@ -149,11 +161,23 @@ $(function() {
                 $(this).trigger('setSuggestions',{
                     result : textext.itemManager().filter(list, query) }
                 );
+        });        
+    }
+
+    let checkIfVerified = () => {
+        auth.onAuthStateChanged(function(user) {
+            if (auth.currentUser.emailVerified) {
+                $('#notVerified-popup').css('z-index', '100').animate({
+                    opacity: 1
+                }, 50);
+
+                $("#post-preview").addClass('disabled');
+            }
         });
     }
 
-    var hubRef = $('#hub-selection');
-    if (hubRef.length > 0) {
+    let initializeCampusTextExt = () => {
+        var hubRef = $('#hub-selection');
         hubRef.textext({plugins : 'tags autocomplete'})
             .bind('getSuggestions', function(e, data){
                 var list = [
@@ -167,6 +191,13 @@ $(function() {
                     result : textext.itemManager().filter(list, query) }
                 );
         });
+
+    }
+
+    if (window.location.pathname === "/new-post/new-post.html") {
+        checkIfVerified();
+        initializeCampusTextExt();
+        initializeTagTextExt();
     }
 
 
