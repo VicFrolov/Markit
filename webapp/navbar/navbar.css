@@ -72,6 +72,10 @@ nav .input-field {
     line-height: 64px;
 }
 
+.active-navbar-li {
+    color: #F4A49D;
+}
+
 /*show the stupid navbar search*/
 nav .input-field label i { 
     color: rgba(0, 0, 0, 0.2);

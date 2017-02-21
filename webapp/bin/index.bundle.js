@@ -59,24 +59,35 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict"
+
 	$(function() {
 	    var auth = __webpack_require__(2)["auth"];
 	    let uid;
 	    let navbarProfilePic;
 	    let profilePic;
+	    let profileName
 	    
 	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
 	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
 	 
-	    var updateNavbarName = function () {
+	    var updateNavbarName = function (profileName) {
 	        Promise.resolve(getUserInfo(uid)).then(userData => {
 	            profileName.text(userData.username);
 	        });        
 	    };
 
-	    var updateNavbarPic = function () {
+	    var updateNavbarPic = function (navbarProfilePic) {
 	        Promise.resolve(getProfilePicture(uid)).then(url => {
 	            navbarProfilePic.attr('src', url);
+	        });
+	    }
+
+	    var highlightPage = function() {
+	        $('#navbar-placeholder a').each(function(){
+	            if ($(this).prop('href') == window.location.href) {
+	                $(this).addClass('active'); $(this).addClass('active-navbar-li');
+	            }
 	        });
 	    }
 
@@ -113,9 +124,9 @@
 	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
 	                });
 
-	                updateNavbarName();
-	                updateNavbarPic();
-
+	                updateNavbarName(profileName);
+	                updateNavbarPic(navbarProfilePic);
+	                highlightPage();
 	            });
 	        } else {
 	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
@@ -2671,7 +2682,7 @@
 	    module.exports = {
 	        nameSizeMin,
 	        nameSizeMax
-	    }    
+	    }
 
 	});
 
@@ -2833,7 +2844,6 @@
 
 	    var loadSettings = function () {
 	        getUserInfo(uid, loadUserInfo);
-	        updateNavbarName();
 	    };
 
 	    var loadProfilePicture = function () {

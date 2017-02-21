@@ -1,21 +1,32 @@
+"use strict"
+
 $(function() {
     var auth = require('./firebase.js')["auth"];
     let uid;
     let navbarProfilePic;
     let profilePic;
+    let profileName
     
     var getProfilePicture = require('./firebase.js')["getProfilePicture"];
     var getUserInfo = require('./firebase.js')["getUserInfoProper"];
  
-    var updateNavbarName = function () {
+    var updateNavbarName = function (profileName) {
         Promise.resolve(getUserInfo(uid)).then(userData => {
             profileName.text(userData.username);
         });        
     };
 
-    var updateNavbarPic = function () {
+    var updateNavbarPic = function (navbarProfilePic) {
         Promise.resolve(getProfilePicture(uid)).then(url => {
             navbarProfilePic.attr('src', url);
+        });
+    }
+
+    var highlightPage = function() {
+        $('#navbar-placeholder a').each(function(){
+            if ($(this).prop('href') == window.location.href) {
+                $(this).addClass('active'); $(this).addClass('active-navbar-li');
+            }
         });
     }
 
@@ -52,9 +63,9 @@ $(function() {
                     $('ul.tabs').tabs('select_tab', 'profile-settings');
                 });
 
-                updateNavbarName();
-                updateNavbarPic();
-
+                updateNavbarName(profileName);
+                updateNavbarPic(navbarProfilePic);
+                highlightPage();
             });
         } else {
             $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
