@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link href="../tag-plugin/textext.core.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.tags.css" rel="stylesheet">
+    <link href="../tag-plugin/textext.plugin.autocomplete.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./navbar/navbar.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="css/custom.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="../media/favicon.png"/>
@@ -55,22 +58,25 @@
               <input type="text" id="main-keys" placeholder="ISBN, iPhone, etc">
             </div>
             <div class="col s12 m12 l3">
-              <label for="main-tags">Campus</label>
-              <input type="text" id="main-tags" placeholder="Loyola Marymount University">
+              <label for="main-campus">Campus</label>
+              <input type="text" id="main-campus">
             </div>
             <div class="col s12 m12 l2">
               <label for="main-price">Max Price</label>
               <input type="text" id="main-price" placeholder="$ 65">
             </div>
             <div class="col s12 m12 l2">
-              <label for="main-price">Tags</label>
-              <input type="text" id="main-price" placeholder="Books, Electronics">
+              <label for="main-tags">Tags</label>
+              <textarea id="main-tags" placeholder="Books, Electronics"></textarea>
             </div>                           
             <div class="col s12 m12 l2">
               <a class="waves-effect waves-light btn-large" id="search-button-main-page"><i class="medium material-icons">search</i></a>
             </div>
           </div>
           <p id="optional-blurb">(All fields are optional)</p>
+          
+
+
         </div>        
       </div>
       <div class="section white">
@@ -162,6 +168,9 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="../tag-plugin/textext.core.js"></script>
+    <script src="../tag-plugin/textext.plugin.tags.js"></script>
+    <script src="../tag-plugin/textext.plugin.autocomplete.js"></script>
     <script type="text/javascript" src="bin/index.bundle.js"></script>
   </body>
 </html>

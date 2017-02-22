@@ -133,8 +133,8 @@ $(function() {
         }, 100);
     });
 
-    let initializeTagTextExt = () => {
-        var itemTagRef = $('#itemTags');
+    let initializeTagTextExt = (element) => {
+        var itemTagRef = $(element);
         itemTagRef.textext({plugins : 'tags autocomplete'})
             .bind('getSuggestions', function(e, data){
                 var list = [
@@ -213,7 +213,7 @@ $(function() {
     if (window.location.pathname === "/new-post/new-post.html") {
         checkIfVerified();
         initializeCampusTextExt();
-        initializeTagTextExt();
+        initializeTagTextExt('#itemTags');
     }
 
 
@@ -296,4 +296,9 @@ $(function() {
     $('#cancel-hub').on('click', function() {
         $('#hub-popup').fadeOut();
     });
+
+    module.exports = {
+        initializeTagTextExt
+    }
 });
+

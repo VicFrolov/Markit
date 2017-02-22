@@ -5,7 +5,8 @@ $(function() {
     let uid;
     let navbarProfilePic;
     let profilePic;
-    let profileName
+    let profileName;
+    let searchNavbar = $('.search-navbar');
     
     var getProfilePicture = require('./firebase.js')["getProfilePicture"];
     var getUserInfo = require('./firebase.js')["getUserInfoProper"];
@@ -28,6 +29,11 @@ $(function() {
                 $(this).addClass('active'); $(this).addClass('active-navbar-li');
             }
         });
+    }
+
+    var useQuickSearchBar = () => {
+        window.location = `/find/find.html`;
+
     }
 
     auth.onAuthStateChanged(function(user) {
@@ -62,6 +68,13 @@ $(function() {
                 $('#navbar-settings').click(function () {
                     $('ul.tabs').tabs('select_tab', 'profile-settings');
                 });
+
+                // $('.search-navbar').on("keyup", function(e) {
+                //     let searchQuery = searchNavbar.val();
+                //     if (e.keyCode == 13 && searchQuery) {
+                //         alert("shit")
+                //     }
+                // });
 
                 updateNavbarName(profileName);
                 updateNavbarPic(navbarProfilePic);
