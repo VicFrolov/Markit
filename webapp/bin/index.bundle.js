@@ -52,7 +52,8 @@
 	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(14);
-	module.exports = __webpack_require__(2);
+	__webpack_require__(2);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
@@ -3023,7 +3024,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
-	    $('.parallax').parallax();
 	    var getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var auth = __webpack_require__(2)["auth"];
@@ -3103,6 +3103,43 @@
 	    
 
 	});
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	"use strict" 
+	$(function() {
+	    $('.slider').slider();
+	    $('ul.tabs').tabs();
+	    $('.parallax').parallax();
+
+	    let blurbLeft = true;
+
+	    let fadingBlurbs = (blurbSide) => {
+	        console.log(blurbLeft);
+	        if (blurbSide) {
+	            $(".main-info-left").fadeIn(2000).delay(3000).fadeOut('slow', function() {
+	                blurbLeft = !blurbLeft;
+	                fadingBlurbs(blurbLeft);
+	            });
+	        } else {
+	            $(".main-info-right").fadeIn(2000).delay(3000).fadeOut('slow', function() {
+	                blurbLeft = !blurbLeft;
+	                fadingBlurbs(blurbLeft);
+	            });
+	        }
+	    }
+
+	    if (window.location.pathname === "/index.html") {
+	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
+	    }
+
+
+	});
+
+	    
+
 
 /***/ }
 /******/ ]);

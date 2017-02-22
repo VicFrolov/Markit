@@ -11,10 +11,35 @@ main {
 }
 
 
-/*search box and blurb */
+/*fading blurbs */
+
+.main-info-container {
+    height: 200px;
+    margin: 100px 10% 100px 10%;
+}
+
+.main-info-left {
+    display: none;
+    color: #fff;
+    width: 50%;
+}
+
+.main-info-right {
+    display: none;
+    float: right;
+    color: #fff;
+    width: 50%;
+    text-align: right;
+}
+
+.main-info-right h3 {
+    margin-top: 0px;
+}
+
+/*search box*/
 
 .search-container {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.9);
     margin-left: 10%;
     margin-right: 10%;
     padding: 40px 40px 40px 40px;
@@ -29,18 +54,6 @@ main {
     color: rgba(0, 0, 0, 0.4);
     padding-left: 15px;
     font-size: 10px;
-}
-
-
-
-
-#search-container-index {
-    background-color: rgba(0, 0, 0, 0);
-}
-
-#main-page-search {
-    background-color: #fff;
-    padding: 20px 20px 20px 20px;
 }
 
 #search-container-blurb {
@@ -76,6 +89,10 @@ input[type=text]:focus:not([readonly]) {
 
 .parallax-container {
     height: 700px;
+}
+
+.blur-me {
+     filter: brightness(70%) contrast(70%);
 }
 
 #parallax-first-container {
