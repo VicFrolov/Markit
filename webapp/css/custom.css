@@ -10,18 +10,76 @@ main {
     /*flex: 1 0 auto;*/
 }
 
-#main-page-search {
-    margin-top: 200px;
+
+/*search box and blurb */
+
+.search-container {
+    background-color: rgba(255, 255, 255, 0.85);
     margin-left: 10%;
     margin-right: 10%;
+    padding: 40px 40px 40px 40px;
+}
+
+.search-container .row {
+    margin-bottom: 0px;
+}
+
+#optional-blurb {
+    margin: 0px;
+    color: rgba(0, 0, 0, 0.4);
+    padding-left: 15px;
+    font-size: 10px;
+}
+
+
+
+
+#search-container-index {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#main-page-search {
     background-color: #fff;
-    height: 200px;
+    padding: 20px 20px 20px 20px;
+}
+
+#search-container-blurb {
+    margin-bottom: 100px;
+    padding-right: 50%;
+    color: #fff;
+}
+
+input[type=text] {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding-left: 10px;
+    background-color: #fff;
+}
+
+label {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+input[type=text]:focus:not([readonly]) {
+    box-shadow: 0 0 3px rgba(0, 100, 255, 0.5) inset, 0 0 8px rgba(0, 100, 255, 0.5);
+    outline: 0 none;
+}
+
+#search-button-main-page {
+    margin-top: 20px;
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    background-color: #039BE5;
 }
 
 /*parallax */
 
 .parallax-container {
-    height: 600px;
+    height: 700px;
+}
+
+#parallax-first-container {
+    background-color: #039BE5;
 }
 
 /*Launch page*/
