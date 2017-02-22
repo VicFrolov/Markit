@@ -129,12 +129,9 @@ $(function() {
         });
     };
 
-    function updateSliderRange ( min, max ) {
-        updateSlider.noUiSlider.updateOptions({
-            range: {
-                'min': min,
-                'max': max
-            }
+    function updateSliderRange (min, max) {
+        slider[0].noUiSlider.updateOptions({
+            start: [min, max]
         });
     }
 

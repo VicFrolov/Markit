@@ -2,12 +2,26 @@ html, body {
     font-family: "Oxygen", sans-serif;
     /*footer stuff*/
     display: flex;
-    min-height: 100vh;
+    height: 100%;
     flex-direction: column;
 }
 
 main {
-    flex: 1 0 auto;
+    /*flex: 1 0 auto;*/
+}
+
+#main-page-search {
+    margin-top: 200px;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #fff;
+    height: 200px;
+}
+
+/*parallax */
+
+.parallax-container {
+    height: 600px;
 }
 
 /*Launch page*/
