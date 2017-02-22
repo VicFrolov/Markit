@@ -10,6 +10,18 @@ main {
     /*flex: 1 0 auto;*/
 }
 
+/*Fonts*/
+
+.bold-caption {
+    font-size: 80px;
+    font-weight: 900;
+    color: #fff;
+}
+
+.caption-text-below {
+    font-size: 17px;
+    color: #fff;
+}
 
 /*fading blurbs */
 
@@ -20,14 +32,12 @@ main {
 
 .main-info-left {
     display: none;
-    color: #fff;
     width: 50%;
 }
 
 .main-info-right {
     display: none;
     float: right;
-    color: #fff;
     width: 50%;
     text-align: right;
 }
