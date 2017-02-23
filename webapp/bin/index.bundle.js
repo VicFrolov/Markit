@@ -1884,8 +1884,7 @@
 	            })(i);
 	        }
 	    };
-
-
+	    
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(favoriteTemplate).length > 0) {
@@ -1915,7 +1914,7 @@
 	                    getFavoriteObjects(showFavoritesInSidebar);
 	                }
 	                this.favorited = !this.favorited;
-	            });            
+	            });
 	        } else {
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
@@ -1932,8 +1931,8 @@
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = {};      
-	            
+	            var filteredItemList = {};
+
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
 	                var itemID = currentItem['id'];
@@ -1976,7 +1975,7 @@
 	                        $("#" + imagePaths[x]).attr({src: url});
 	                    });
 	                })(i);
-	            }            
+	            }
 	        });
 	    };
 
@@ -2017,10 +2016,10 @@
 	            $("#find-keywords").val(key.join(" "));
 	            $('#find-tags').textext()[0].tags().addTags(tags);
 
-	            
+
 	            newSearch(getListings(), key, tags, hubs, priceRange);
 	        }
-	    }    
+	    }
 
 	    var slider = $("#search-slider");
 	    if (window.location.pathname === "/find/find.html") {
@@ -2095,7 +2094,7 @@
 
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
-	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
+	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);
 	        let hubs = $("#find-hubs").val();
 	        let tags = $('#find-tags').textext()[0].tags()._formData;
 	        let priceRange = slider[0].noUiSlider.get();
@@ -2107,7 +2106,7 @@
 	        for (let i = 0; i < tags.length; i += 1) {
 	            tags[i] = tags[i].toLowerCase();
 	        }
-	        
+
 	        query += `${keywords}?hub=${hubs}?tags=${tags}?priceMin=${priceRange[0]}?priceMax=${priceRange[1]}`;
 	        location.hash = query;
 
@@ -2142,20 +2141,20 @@
 
 	        Promise.resolve(getItemsById([newMessageId]))
 	            .then(function(items) {
-	                
+
 	                for (let item in items) {
 	                    newMessageSellerId = items[item].uid;
 	                }
 
-	                return Promise.all([getUserInfoProper(newMessageSellerId), 
-	                    getUserInfoProper(auth.currentUser.uid)]); 
+	                return Promise.all([getUserInfoProper(newMessageSellerId),
+	                    getUserInfoProper(auth.currentUser.uid)]);
 	            })
 	            .then(function(results) {
 	                let currentUser = results[1];
 	                let otherUser = results[0]
 	                let myUsername = currentUser['username'];
 	                let otherUsername = otherUser['username'];
-	                initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+	                initializeMessage(auth.currentUser.uid, newMessageSellerId,
 	                    newMessageId, newMessageImagePath, newMessageContent, otherUsername, myUsername);
 
 	                $('#message-popup-content').fadeOut(500);
@@ -2173,6 +2172,7 @@
 	    });
 
 	});
+
 
 /***/ },
 /* 10 */

@@ -3,7 +3,7 @@
 $(function() {
     var getListings = require('./firebase.js')['getListings'];
     var getFavorites = require('./firebase.js')['getFavorites'];
-    var df
+    var wNumb = require('wNumb');
     var auth = require('./firebase.js')["auth"];
     var itemImagesRef = require('./firebase.js')["itemImagesRef"];
     var addFavoriteToProfile = require('./firebase.js')['addFavoriteToProfile'];
