@@ -144,7 +144,6 @@ $(function () {
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
-        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
