@@ -1674,29 +1674,11 @@
 	        }, 100);
 	    });
 
-	    let initializeTagTextExt = (element) => {
+	    let initializeTagTextExt = (element, tags) => {
 	        var itemTagRef = $(element);
 	        itemTagRef.textext({plugins : 'tags autocomplete'})
 	            .bind('getSuggestions', function(e, data){
-	                var list = [
-	                        'Table',
-	                        'Desk',
-	                        'Computer',
-	                        'Electronics',
-	                        'iPhone',
-	                        'Cell-Phone',
-	                        'Apple',
-	                        'Macbook',
-	                        'Chair',
-	                        'Leather',
-	                        'Clothing',
-	                        'Bedroom',
-	                        'Bathroom',
-	                        'Couch',
-	                        'Kitchen',
-	                        'Living-Room',
-	                        'Dinner-Table'
-	                    ],
+	                var list = tags,
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
 
@@ -1754,7 +1736,25 @@
 	    if (window.location.pathname === "/new-post/new-post.html") {
 	        checkIfVerified();
 	        initializeCampusTextExt();
-	        initializeTagTextExt('#itemTags');
+	        initializeTagTextExt('#itemTags', [
+	            'Table',
+	            'Desk',
+	            'Computer',
+	            'Electronics',
+	            'iPhone',
+	            'Cell-Phone',
+	            'Apple',
+	            'Macbook',
+	            'Chair',
+	            'Leather',
+	            'Clothing',
+	            'Bedroom',
+	            'Bathroom',
+	            'Couch',
+	            'Kitchen',
+	            'Living-Room',
+	            'Dinner-Table'
+	        ]);
 	    }
 
 
@@ -2610,7 +2610,7 @@
 	            //     $('#password-unavailable').show();
 	            // }
 	        }
-	    });    
+	    });
 
 	    var checkHub = function () {
 	        return $('#sign-up-hub').val();
@@ -3134,6 +3134,30 @@
 	    $('ul.tabs').tabs();
 	    $('.parallax').parallax();
 
+	    let tagsList = [
+	                    'Table',
+	                    'Desk',
+	                    'Computer',
+	                    'Electronics',
+	                    'iPhone',
+	                    'Cell-Phone',
+	                    'Apple',
+	                    'Macbook',
+	                    'Chair',
+	                    'Leather',
+	                    'Clothing',
+	                    'Bedroom',
+	                    'Bathroom',
+	                    'Couch',
+	                    'Kitchen',
+	                    'Living-Room',
+	                    'Dinner-Table'
+	    ];
+
+	    let campusList = ['UCLA', 'Loyola Marymount University'];
+
+
+
 	    let initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
 
 	    let blurbLeft = true;
@@ -3156,7 +3180,7 @@
 
 	    $("#search-button-main-page").on('click', () => {
 	        let keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
-	        let hubInput = "";
+	        let hubInput = $('#main-campus').textext()[0].tags()._formData;
 	        let tagsInput = $('#main-tags').textext()[0].tags()._formData;
 	        let priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
 
@@ -3168,9 +3192,10 @@
 	    })
 
 	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
-	        console.log("at index page");
+
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
-	        initializeTagTextExt('#main-tags')
+	        initializeTagTextExt('#main-tags', tagsList);
+	        initializeTagTextExt('#main-campus', campusList);
 
 	    }
 

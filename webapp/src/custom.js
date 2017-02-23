@@ -5,6 +5,30 @@ $(function() {
     $('ul.tabs').tabs();
     $('.parallax').parallax();
 
+    let tagsList = [
+                    'Table',
+                    'Desk',
+                    'Computer',
+                    'Electronics',
+                    'iPhone',
+                    'Cell-Phone',
+                    'Apple',
+                    'Macbook',
+                    'Chair',
+                    'Leather',
+                    'Clothing',
+                    'Bedroom',
+                    'Bathroom',
+                    'Couch',
+                    'Kitchen',
+                    'Living-Room',
+                    'Dinner-Table'
+    ];
+
+    let campusList = ['UCLA', 'Loyola Marymount University'];
+
+
+
     let initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
 
     let blurbLeft = true;
@@ -27,7 +51,7 @@ $(function() {
 
     $("#search-button-main-page").on('click', () => {
         let keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
-        let hubInput = "";
+        let hubInput = $('#main-campus').textext()[0].tags()._formData;
         let tagsInput = $('#main-tags').textext()[0].tags()._formData;
         let priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
 
@@ -39,9 +63,10 @@ $(function() {
     })
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
-        console.log("at index page");
+
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
-        initializeTagTextExt('#main-tags')
+        initializeTagTextExt('#main-tags', tagsList);
+        initializeTagTextExt('#main-campus', campusList);
 
     }
 

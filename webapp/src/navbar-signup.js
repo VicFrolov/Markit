@@ -67,7 +67,7 @@ $(function() {
             //     $('#password-unavailable').show();
             // }
         }
-    });    
+    });
 
     var checkHub = function () {
         return $('#sign-up-hub').val();
