@@ -33,8 +33,7 @@ $(function() {
             })(i);
         }
     };
-
-
+    
 
     auth.onAuthStateChanged(function(user) {
         if (user && $(favoriteTemplate).length > 0) {
