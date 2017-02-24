@@ -852,6 +852,12 @@
 	    fbProvider.addScope('email');
 	    fbProvider.addScope('user_education_history');
 	    auth.signInWithRedirect(fbProvider).then((result) => {
+	        if (result.credential) {
+	            console.log('result');
+	            console.log(result);
+	            const token = result.credential.accessToken;
+
+	        }
 
 	    });
 	};
