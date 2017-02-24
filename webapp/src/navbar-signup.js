@@ -81,7 +81,6 @@ $(function() {
         }
     });
 
-
     var checkHub = function () {
         return $('#sign-up-hub').val();
     };

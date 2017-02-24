@@ -48,12 +48,12 @@
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	__webpack_require__(10);
 	__webpack_require__(11);
 	__webpack_require__(12);
 	__webpack_require__(13);
+	__webpack_require__(14);
 	__webpack_require__(2);
-	module.exports = __webpack_require__(14);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
@@ -188,8 +188,8 @@
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 	var userImagesRef = firebase.storage().ref('images/profileImages/');
 	var usersRef = database.ref('users/');
-	var fbProvider = new firebase.auth.FacebookAuthProvider();
-	var googleProvider = new firebase.auth.GoogleAuthProvider();
+	const fbProvider = new firebase.auth.FacebookAuthProvider();
+	const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
 	var addProfilePicture = function (uid, image, callback) {
@@ -847,14 +847,16 @@
 	        });
 	};
 
-	let facebookLogin = () => {
+	const facebookLogin = () => {
 	    fbProvider.addScope('public_profile');
 	    fbProvider.addScope('email');
 	    fbProvider.addScope('user_education_history');
-	    auth.signInWithRedirect(fbProvider);
+	    auth.signInWithRedirect(fbProvider).then((result) => {
+
+	    });
 	};
 
-	let googleLogin = () => {
+	const googleLogin = () => {
 	    auth.signInWithRedirect(googleProvider);
 	};
 
@@ -1685,29 +1687,11 @@
 	        }, 100);
 	    });
 
-	    let initializeTagTextExt = (element) => {
+	    let initializeTagTextExt = (element, tags) => {
 	        var itemTagRef = $(element);
 	        itemTagRef.textext({plugins : 'tags autocomplete'})
 	            .bind('getSuggestions', function(e, data){
-	                var list = [
-	                        'Table',
-	                        'Desk',
-	                        'Computer',
-	                        'Electronics',
-	                        'iPhone',
-	                        'Cell-Phone',
-	                        'Apple',
-	                        'Macbook',
-	                        'Chair',
-	                        'Leather',
-	                        'Clothing',
-	                        'Bedroom',
-	                        'Bathroom',
-	                        'Couch',
-	                        'Kitchen',
-	                        'Living-Room',
-	                        'Dinner-Table'
-	                    ],
+	                var list = tags,
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
 
@@ -1765,7 +1749,25 @@
 	    if (window.location.pathname === "/new-post/new-post.html") {
 	        checkIfVerified();
 	        initializeCampusTextExt();
-	        initializeTagTextExt('#itemTags');
+	        initializeTagTextExt('#itemTags', [
+	            'Table',
+	            'Desk',
+	            'Computer',
+	            'Electronics',
+	            'iPhone',
+	            'Cell-Phone',
+	            'Apple',
+	            'Macbook',
+	            'Chair',
+	            'Leather',
+	            'Clothing',
+	            'Bedroom',
+	            'Bathroom',
+	            'Couch',
+	            'Kitchen',
+	            'Living-Room',
+	            'Dinner-Table'
+	        ]);
 	    }
 
 
@@ -1865,7 +1867,7 @@
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var getFavorites = __webpack_require__(2)['getFavorites'];
-	    var df
+	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
@@ -2189,6 +2191,369 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
+
+	    if ( true ) {
+
+	        // AMD. Register as an anonymous module.
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+	    } else if ( typeof exports === 'object' ) {
+
+	        // Node/CommonJS
+	        module.exports = factory();
+
+	    } else {
+
+	        // Browser globals
+	        window.wNumb = factory();
+	    }
+
+	}(function(){
+
+		'use strict';
+
+	var FormatOptions = [
+		'decimals',
+		'thousand',
+		'mark',
+		'prefix',
+		'suffix',
+		'encoder',
+		'decoder',
+		'negativeBefore',
+		'negative',
+		'edit',
+		'undo'
+	];
+
+	// General
+
+		// Reverse a string
+		function strReverse ( a ) {
+			return a.split('').reverse().join('');
+		}
+
+		// Check if a string starts with a specified prefix.
+		function strStartsWith ( input, match ) {
+			return input.substring(0, match.length) === match;
+		}
+
+		// Check is a string ends in a specified suffix.
+		function strEndsWith ( input, match ) {
+			return input.slice(-1 * match.length) === match;
+		}
+
+		// Throw an error if formatting options are incompatible.
+		function throwEqualError( F, a, b ) {
+			if ( (F[a] || F[b]) && (F[a] === F[b]) ) {
+				throw new Error(a);
+			}
+		}
+
+		// Check if a number is finite and not NaN
+		function isValidNumber ( input ) {
+			return typeof input === 'number' && isFinite( input );
+		}
+
+		// Provide rounding-accurate toFixed method.
+		// Borrowed: http://stackoverflow.com/a/21323330/775265
+		function toFixed ( value, exp ) {
+			value = value.toString().split('e');
+			value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+			value = value.toString().split('e');
+			return (+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp))).toFixed(exp);
+		}
+
+
+	// Formatting
+
+		// Accept a number as input, output formatted string.
+		function formatTo ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+			var originalInput = input, inputIsNegative, inputPieces, inputBase, inputDecimals = '', output = '';
+
+			// Apply user encoder to the input.
+			// Expected outcome: number.
+			if ( encoder ) {
+				input = encoder(input);
+			}
+
+			// Stop if no valid number was provided, the number is infinite or NaN.
+			if ( !isValidNumber(input) ) {
+				return false;
+			}
+
+			// Rounding away decimals might cause a value of -0
+			// when using very small ranges. Remove those cases.
+			if ( decimals !== false && parseFloat(input.toFixed(decimals)) === 0 ) {
+				input = 0;
+			}
+
+			// Formatting is done on absolute numbers,
+			// decorated by an optional negative symbol.
+			if ( input < 0 ) {
+				inputIsNegative = true;
+				input = Math.abs(input);
+			}
+
+			// Reduce the number of decimals to the specified option.
+			if ( decimals !== false ) {
+				input = toFixed( input, decimals );
+			}
+
+			// Transform the number into a string, so it can be split.
+			input = input.toString();
+
+			// Break the number on the decimal separator.
+			if ( input.indexOf('.') !== -1 ) {
+				inputPieces = input.split('.');
+
+				inputBase = inputPieces[0];
+
+				if ( mark ) {
+					inputDecimals = mark + inputPieces[1];
+				}
+
+			} else {
+
+			// If it isn't split, the entire number will do.
+				inputBase = input;
+			}
+
+			// Group numbers in sets of three.
+			if ( thousand ) {
+				inputBase = strReverse(inputBase).match(/.{1,3}/g);
+				inputBase = strReverse(inputBase.join( strReverse( thousand ) ));
+			}
+
+			// If the number is negative, prefix with negation symbol.
+			if ( inputIsNegative && negativeBefore ) {
+				output += negativeBefore;
+			}
+
+			// Prefix the number
+			if ( prefix ) {
+				output += prefix;
+			}
+
+			// Normal negative option comes after the prefix. Defaults to '-'.
+			if ( inputIsNegative && negative ) {
+				output += negative;
+			}
+
+			// Append the actual number.
+			output += inputBase;
+			output += inputDecimals;
+
+			// Apply the suffix.
+			if ( suffix ) {
+				output += suffix;
+			}
+
+			// Run the output through a user-specified post-formatter.
+			if ( edit ) {
+				output = edit ( output, originalInput );
+			}
+
+			// All done.
+			return output;
+		}
+
+		// Accept a sting as input, output decoded number.
+		function formatFrom ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+			var originalInput = input, inputIsNegative, output = '';
+
+			// User defined pre-decoder. Result must be a non empty string.
+			if ( undo ) {
+				input = undo(input);
+			}
+
+			// Test the input. Can't be empty.
+			if ( !input || typeof input !== 'string' ) {
+				return false;
+			}
+
+			// If the string starts with the negativeBefore value: remove it.
+			// Remember is was there, the number is negative.
+			if ( negativeBefore && strStartsWith(input, negativeBefore) ) {
+				input = input.replace(negativeBefore, '');
+				inputIsNegative = true;
+			}
+
+			// Repeat the same procedure for the prefix.
+			if ( prefix && strStartsWith(input, prefix) ) {
+				input = input.replace(prefix, '');
+			}
+
+			// And again for negative.
+			if ( negative && strStartsWith(input, negative) ) {
+				input = input.replace(negative, '');
+				inputIsNegative = true;
+			}
+
+			// Remove the suffix.
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+			if ( suffix && strEndsWith(input, suffix) ) {
+				input = input.slice(0, -1 * suffix.length);
+			}
+
+			// Remove the thousand grouping.
+			if ( thousand ) {
+				input = input.split(thousand).join('');
+			}
+
+			// Set the decimal separator back to period.
+			if ( mark ) {
+				input = input.replace(mark, '.');
+			}
+
+			// Prepend the negative symbol.
+			if ( inputIsNegative ) {
+				output += '-';
+			}
+
+			// Add the number
+			output += input;
+
+			// Trim all non-numeric characters (allow '.' and '-');
+			output = output.replace(/[^0-9\.\-.]/g, '');
+
+			// The value contains no parse-able number.
+			if ( output === '' ) {
+				return false;
+			}
+
+			// Covert to number.
+			output = Number(output);
+
+			// Run the user-specified post-decoder.
+			if ( decoder ) {
+				output = decoder(output);
+			}
+
+			// Check is the output is valid, otherwise: return false.
+			if ( !isValidNumber(output) ) {
+				return false;
+			}
+
+			return output;
+		}
+
+
+	// Framework
+
+		// Validate formatting options
+		function validate ( inputOptions ) {
+
+			var i, optionName, optionValue,
+				filteredOptions = {};
+
+			if ( inputOptions['suffix'] === undefined ) {
+				inputOptions['suffix'] = inputOptions['postfix'];
+			}
+
+			for ( i = 0; i < FormatOptions.length; i+=1 ) {
+
+				optionName = FormatOptions[i];
+				optionValue = inputOptions[optionName];
+
+				if ( optionValue === undefined ) {
+
+					// Only default if negativeBefore isn't set.
+					if ( optionName === 'negative' && !filteredOptions.negativeBefore ) {
+						filteredOptions[optionName] = '-';
+					// Don't set a default for mark when 'thousand' is set.
+					} else if ( optionName === 'mark' && filteredOptions.thousand !== '.' ) {
+						filteredOptions[optionName] = '.';
+					} else {
+						filteredOptions[optionName] = false;
+					}
+
+				// Floating points in JS are stable up to 7 decimals.
+				} else if ( optionName === 'decimals' ) {
+					if ( optionValue >= 0 && optionValue < 8 ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+
+				// These options, when provided, must be functions.
+				} else if ( optionName === 'encoder' || optionName === 'decoder' || optionName === 'edit' || optionName === 'undo' ) {
+					if ( typeof optionValue === 'function' ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+
+				// Other options are strings.
+				} else {
+
+					if ( typeof optionValue === 'string' ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+				}
+			}
+
+			// Some values can't be extracted from a
+			// string if certain combinations are present.
+			throwEqualError(filteredOptions, 'mark', 'thousand');
+			throwEqualError(filteredOptions, 'prefix', 'negative');
+			throwEqualError(filteredOptions, 'prefix', 'negativeBefore');
+
+			return filteredOptions;
+		}
+
+		// Pass all options as function arguments
+		function passAll ( options, method, input ) {
+			var i, args = [];
+
+			// Add all options in order of FormatOptions
+			for ( i = 0; i < FormatOptions.length; i+=1 ) {
+				args.push(options[FormatOptions[i]]);
+			}
+
+			// Append the input, then call the method, presenting all
+			// options as arguments.
+			args.push(input);
+			return method.apply('', args);
+		}
+
+		function wNumb ( options ) {
+
+			if ( !(this instanceof wNumb) ) {
+				return new wNumb ( options );
+			}
+
+			if ( typeof options !== "object" ) {
+				return;
+			}
+
+			options = validate(options);
+
+			// Call 'formatTo' with proper arguments.
+			this.to = function ( input ) {
+				return passAll(options, formatTo, input);
+			};
+
+			// Call 'formatFrom' with proper arguments.
+			this.from = function ( input ) {
+				return passAll(options, formatFrom, input);
+			};
+		}
+
+		return wNumb;
+
+	}));
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict"
 
 	$(function() {
@@ -2271,7 +2636,6 @@
 	            // }
 	        }
 	    });
-
 
 	    var checkHub = function () {
 	        return $('#sign-up-hub').val();
@@ -2371,7 +2735,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	$(function() {
@@ -2379,7 +2743,7 @@
 	});
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -2392,8 +2756,8 @@
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
 	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
-	    var nameSizeMin = __webpack_require__(10)['nameSizeMin'];
-	    var nameSizeMax = __webpack_require__(10)['nameSizeMax'];
+	    var nameSizeMin = __webpack_require__(11)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(11)['nameSizeMax'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
@@ -2701,7 +3065,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
@@ -2786,14 +3150,39 @@
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict" 
+	"use strict"
+
 	$(function() {
 	    $('.slider').slider();
 	    $('ul.tabs').tabs();
 	    $('.parallax').parallax();
+
+	    let tagsList = [
+	                    'Table',
+	                    'Desk',
+	                    'Computer',
+	                    'Electronics',
+	                    'iPhone',
+	                    'Cell-Phone',
+	                    'Apple',
+	                    'Macbook',
+	                    'Chair',
+	                    'Leather',
+	                    'Clothing',
+	                    'Bedroom',
+	                    'Bathroom',
+	                    'Couch',
+	                    'Kitchen',
+	                    'Living-Room',
+	                    'Dinner-Table'
+	    ];
+
+	    let campusList = ['UCLA', 'Loyola Marymount University'];
+
+
 
 	    let initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
 
@@ -2816,17 +3205,23 @@
 
 
 	    $("#search-button-main-page").on('click', () => {
-	        keysInput = $("#main-keys").val();
-	        hubInput = "todo";
-	        tagsInput = "todo";
-	        priceMaxInput = $("#main-price").val();
+	        let keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
+	        let hubInput = $('#main-campus').textext()[0].tags()._formData;
+	        let tagsInput = $('#main-tags').textext()[0].tags()._formData;
+	        let priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
+
+	        for (let i = 0; i < tagsInput.length; i += 1) {
+	            tagsInput[i] = tagsInput[i].toLowerCase();
+	        }
 	        
-	        // window.location.href = `/find/find.html#key=\${keysInput}?hub=\${hubInput}?tags=\${tagsInput}?priceMin=1?priceMax=\${priceMaxInput}`;
+	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
 	    })
 
-	    if (window.location.pathname === "/index.html") {
+	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
+
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
-	        initializeTagTextExt('#main-tags')
+	        initializeTagTextExt('#main-tags', tagsList);
+	        initializeTagTextExt('#main-campus', campusList);
 
 	    }
 
