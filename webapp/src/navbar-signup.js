@@ -67,7 +67,7 @@ $(function() {
             //     $('#password-unavailable').show();
             // }
         }
-    });    
+    });
 
     var checkHub = function () {
         return $('#sign-up-hub').val();
@@ -161,6 +161,6 @@ $(function() {
     module.exports = {
         nameSizeMin,
         nameSizeMax
-    }    
+    }
 
 });

@@ -1,3 +1,5 @@
+"use strict"
+
 $(function () {
     $('#message-offer-popup').fadeOut(1);
     var auth = require('./firebase.js')['auth'];
@@ -17,7 +19,7 @@ $(function () {
     var getUserSelling = require('./firebase.js')['getUserSelling'];
     var getItemsById = require('./firebase.js')['getItemsById'];
     var setItemAsSold = require('./firebase.js')['setItemAsSold'];
-    
+
     var updateNavbarPic = require('./firebase-auth.js')['updateNavbarPic'];
 
     var reader;
@@ -53,10 +55,7 @@ $(function () {
 
             $('#profile-liked-holder').empty();
             $('#profile-liked-holder').append(compiled({items: items}));
-
-
-
-
+            
             for (var item in items) {
                 imagePaths.push(items[item]['id']);
             }
@@ -72,21 +71,21 @@ $(function () {
         };
     }
 
-    
+
     $('#messages-preview-holder').on('click', '.message-preview', function() {
         let chatid = $(this).attr('chatid');
         $('#message-send-button').attr('chatid', chatid)
 
         // toggling clicked/selected div colors
-        if($(this).closest('div').hasClass('active')) {
-            return false;   
+        if ($(this).closest('div').hasClass('active')) {
+            return false;
         }
 
         $(this).find('.material-icons').remove();
         $('.active-message').toggleClass('active-message');
         $(this).closest('div').toggleClass('active-message');
         $('#message-detail-content').empty().fadeOut(100);
-        
+
         displayMessagesDetail(uid, chatid);
     });
 
@@ -122,7 +121,7 @@ $(function () {
                                 $("#" + imagePaths[x]).attr({src: url});
                             });
                         })(i);
-                    } 
+                    }
                 });
 
             } else {
@@ -145,7 +144,6 @@ $(function () {
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
-        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
@@ -162,7 +160,7 @@ $(function () {
         hub.val(userInfo.userHub);
         loadProfilePicture();
         $('.my-profile-username').text(firebaseUsername);
-        for (preference in userInfo.paymentPreferences) {
+        for (let preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
 
@@ -180,7 +178,7 @@ $(function () {
 
     var updateSettings = function () {
         var paymentPreferences = [];
-        for (preference in paymentPreference.val()) {
+        for (let preference in paymentPreference.val()) {
             paymentPreferences.push(paymentPreference.val()[preference]);
         }
 
@@ -207,11 +205,10 @@ $(function () {
         } else if (window.location.hash.substr(1) === 'settings') {
             $('ul.tabs').tabs('select_tab', 'profile-settings');
         }
-    } 
+    }
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
-            user = auth.currentUser.email;
             uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
                 $('select').material_select();
@@ -220,6 +217,10 @@ $(function () {
                 getFavoriteObjects(showFavoritedItems);
                 displayConversations(uid);
                 rerouteProfileHash();
+
+                if (!auth.currentUser.emailVerified) {
+                    Materialize.toast('Please check email to verify account', 3000, 'rounded');
+                }
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
@@ -242,7 +243,7 @@ $(function () {
         }
         else {
             $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
-        }        
+        }
     })
 
     addButton.click(function () {
@@ -250,6 +251,10 @@ $(function () {
     });
 
     addPhotoButton.click(function () {
+        addPhotoInput.click();
+    });
+
+    profilePicture.click(function () {
         addPhotoInput.click();
     });
 
