@@ -232,6 +232,7 @@ footer .page-footer {
 
 .scroll-button {
     cursor: pointer;
+    user-select: none;
 }
 
 .scroll-blurb p {

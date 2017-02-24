@@ -85,14 +85,18 @@ $(() => {
     });
 
     const scrollAmount = 420;
+
     $('#scroll-left').on('click', () => {
         const leftPos = $('.outside-scroll-container').scrollLeft();
-        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 500);
+        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 600);
     });
 
     $('#scroll-right').on('click', () => {
         const leftPos = $('.outside-scroll-container').scrollLeft();
-        $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 500);
+
+        if (leftPos <= scrollAmount * 2) {
+            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 600);
+        }
     });    
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
@@ -100,7 +104,7 @@ $(() => {
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
-        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 4);
+        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 5);
 
     }
 });
