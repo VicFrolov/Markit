@@ -53,7 +53,7 @@ $(() => {
         const str = $('#first-div-results-template').text();
         const compiled = _.template(str);
 
-        mostRecentItemsFirstDiv.empty();
+        // mostRecentItemsFirstDiv.empty();
         mostRecentItemsFirstDiv.prepend(compiled({items: items}));
 
 

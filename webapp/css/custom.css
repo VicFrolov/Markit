@@ -240,6 +240,21 @@ footer .page-footer {
     font-size: 19px;
 }
 
+.see-more-card {
+    height: 310px;
+    width: 400px;
+    background-color: #039BE5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.3;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 1px rgba(0,0,0,0.23);
+}
+
+.see-more-card p {
+    font-size: 19px;
+    color: #fff;
+}
 
 .section {
     padding: 0px;
