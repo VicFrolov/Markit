@@ -1,5 +1,5 @@
 html, body {
-    font-family: "Oxygen", sans-serif;
+    font-family: "Roboto", sans-serif;
     /*footer stuff*/
     display: flex;
     height: 100%;
@@ -148,6 +148,7 @@ footer .page-footer {
 .card {
     margin: 20px 10px 20px 10px;
     position: relative;
+    width: 400px;
 }
 
 .card-contact {
@@ -155,6 +156,7 @@ footer .page-footer {
     bottom: 30px;
     width: 88%
 }
+
 .card-view-hub {
     float: right;
     font-size: 13px;
@@ -191,4 +193,47 @@ footer .page-footer {
     height: auto;
     opacity: 0.3;
     cursor: pointer;
+}
+
+
+/*Scroll container*/
+
+.scroll-object {
+    height: 400px;
+    display: flex;
+}
+
+.outside-scroll-container {
+    width: 80%;
+    overflow: scroll;
+}
+
+.inside-scroll-container {
+    width: 6000px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+}
+
+.left-scroll-arrow-container {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-scroll-arrow-container {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-button {
+    cursor: pointer;
+}
+
+.section {
+    padding: 0px;
 }

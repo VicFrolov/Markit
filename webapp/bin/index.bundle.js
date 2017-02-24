@@ -3213,12 +3213,23 @@
 	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
 	    });
 
+	    const scrollAmount = 420;
+	    $('#scroll-left').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+	        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 500);
+	    });
+
+	    $('#scroll-right').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+	        $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 500);
+	    });    
+
 	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
 
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
 	        initializeTagTextExt('#main-tags', tagsList);
 	        initializeTagTextExt('#main-campus', campusList);
-	        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 3);
+	        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 4);
 
 	    }
 	});
