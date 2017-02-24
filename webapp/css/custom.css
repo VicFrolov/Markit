@@ -234,6 +234,13 @@ footer .page-footer {
     cursor: pointer;
 }
 
+.scroll-blurb p {
+    margin: 30px 0px 0px 10%;
+    padding-left: 10px;
+    font-size: 19px;
+}
+
+
 .section {
     padding: 0px;
 }
