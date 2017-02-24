@@ -1,11 +1,15 @@
 "use strict"
 
-$(function() {
+$(() => {
+    const getRecentItemsInHub = require('./firebase.js')['getRecentItemsInHub'];
+    const getImage = require('./firebase.js')["getImage"];
+
     $('.slider').slider();
     $('ul.tabs').tabs();
     $('.parallax').parallax();
 
-    let tagsList = [
+
+    const tagsList = [
                     'Table',
                     'Desk',
                     'Computer',
@@ -25,15 +29,11 @@ $(function() {
                     'Dinner-Table'
     ];
 
-    let campusList = ['UCLA', 'Loyola Marymount University'];
-
-
-
-    let initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
-
+    const campusList = ['UCLA', 'Loyola Marymount University'];
+    const initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
     let blurbLeft = true;
 
-    let fadingBlurbs = (blurbSide) => {
+    const fadingBlurbs = (blurbSide) => {
         if (blurbSide) {
             $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
                 blurbLeft = !blurbLeft;
@@ -47,29 +47,49 @@ $(function() {
         }
     }
 
+    const mostRecentItemsFirstDiv = $('#first-div-results-holder');
+    const showMostRecentItemsFirstDiv = (items) => {
+        let imagePaths = []
+        const str = $('#first-div-results-template').text();
+        const compiled = _.template(str);
 
+        mostRecentItemsFirstDiv.empty();
+        mostRecentItemsFirstDiv.prepend(compiled({items: items}));
+
+
+        for (let item in items) {
+            imagePaths.push(items[item]['id']);
+        }
+
+        for (let i = 0; i < imagePaths.length; i += 1) {
+            ((x)=> {
+                getImage(imagePaths[x] + '/imageOne', (url) => {
+                    $(`#${imagePaths[x]}`).attr({src: url});
+                });
+            })(i);
+        }
+    };
 
     $("#search-button-main-page").on('click', () => {
-        let keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
-        let hubInput = $('#main-campus').textext()[0].tags()._formData;
-        let tagsInput = $('#main-tags').textext()[0].tags()._formData;
-        let priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
+        const keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
+        const hubInput = $('#main-campus').textext()[0].tags()._formData;
+        const tagsInput = $('#main-tags').textext()[0].tags()._formData;
+        const priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
 
         for (let i = 0; i < tagsInput.length; i += 1) {
             tagsInput[i] = tagsInput[i].toLowerCase();
+
         }
         
         window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
-    })
+    });
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
 
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
+        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 3);
 
     }
-
 });
-
-    

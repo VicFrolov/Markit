@@ -130,6 +130,65 @@ input[type=text]:focus:not([readonly]) {
 
 /*footer*/
 
-footer.page-footer {
+footer .page-footer {
     margin-top: 0px;
+}
+
+
+/* card view*/
+.card .card-title {
+    font-size: 16px;
+}
+
+.card .card-image {
+    height: 200px;
+}
+
+
+.card {
+    margin: 20px 10px 20px 10px;
+    position: relative;
+}
+
+.card-contact {
+    position:absolute;
+    bottom: 30px;
+    width: 88%
+}
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.find-result-price {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-size: 1.1rem;
+    z-index: 3;
+    color: #fff;
+    pointer-events: none;
+}
+
+.find-result-favorite {
+    position: absolute;
+    top: 1%;
+    right: -3%;
+    z-index: 3;
+}
+
+.find-result-favorite-image {
+    width: 75%;
+    height: auto;
+    opacity: 0.3;
+    cursor: pointer;
 }
