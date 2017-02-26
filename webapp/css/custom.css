@@ -1,5 +1,5 @@
 html, body {
-    font-family: "Oxygen", sans-serif;
+    font-family: "Roboto", sans-serif;
     /*footer stuff*/
     display: flex;
     height: 100%;
@@ -82,6 +82,14 @@ label {
     color: rgba(0, 0, 0, 0.7);
 }
 
+.text-core {
+    height: 47px;
+}
+
+.text-wrap {
+    height: 47px;
+}
+
 input[type=text]:focus:not([readonly]) {
     outline: 0 none;
     box-shadow: 0 0 5px rgba(0, 100, 255, 1);
@@ -130,6 +138,133 @@ input[type=text]:focus:not([readonly]) {
 
 /*footer*/
 
-footer.page-footer {
+footer .page-footer {
     margin-top: 0px;
+}
+
+
+/* card view*/
+.card .card-title {
+    font-size: 16px;
+}
+
+.card .card-image {
+    height: 200px;
+}
+
+
+.card {
+    margin: 20px 10px 20px 10px;
+    position: relative;
+    width: 400px;
+}
+
+.card-contact {
+    position:absolute;
+    bottom: 30px;
+    width: 88%
+}
+
+.card-view-hub {
+    float: right;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.find-result-price {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-size: 1.1rem;
+    z-index: 3;
+    color: #fff;
+    pointer-events: none;
+}
+
+.find-result-favorite {
+    position: absolute;
+    top: 1%;
+    right: -3%;
+    z-index: 3;
+}
+
+.find-result-favorite-image {
+    width: 75%;
+    height: auto;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+
+/*Scroll container*/
+
+.scroll-object {
+    height: 400px;
+    display: flex;
+}
+
+.outside-scroll-container {
+    width: 80%;
+    overflow: scroll;
+}
+
+.inside-scroll-container {
+    width: 6000px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+}
+
+.left-scroll-arrow-container {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-scroll-arrow-container {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-button {
+    cursor: pointer;
+    user-select: none;
+}
+
+.scroll-blurb p {
+    margin: 30px 0px 0px 10%;
+    padding-left: 10px;
+    font-size: 19px;
+}
+
+.see-more-card {
+    height: 310px;
+    width: 400px;
+    background-color: #039BE5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.3;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 1px rgba(0,0,0,0.23);
+}
+
+.see-more-card p {
+    font-size: 19px;
+    color: #fff;
+}
+
+.section {
+    padding: 0px;
 }

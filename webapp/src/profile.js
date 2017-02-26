@@ -275,7 +275,7 @@ $(function () {
             Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
         } else {
             reader.onload = function (e) {
-                addProfilePicture(uid, e.target.result, loadProfilePicture);
+                addProfilePicture(uid, e.target.result);
             }
             reader.readAsDataURL($(this)[0].files[0]);
         }

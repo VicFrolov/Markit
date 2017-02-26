@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MarkIt</title>
+    <title>Vendyr</title>
     <meta name="viewport" content="width=device-width">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -59,7 +59,7 @@
             </div>
             <div class="col s12 m12 l3">
               <label for="main-campus">Campus</label>
-              <input type="text" id="main-campus">
+              <textarea id="main-campus" placeholder="Books, Electronics"></textarea>
             </div>
             <div class="col s12 m12 l2">
               <label for="main-price">Max Price</label>
@@ -77,37 +77,103 @@
         </div>
       </div>
       <div class="section white">
-        <div class="row container">
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h4 class="center red-text text-lighten-2"><i class="medium material-icons">loyalty</i></h4>
-              <h5 class="center">Choose Your Tags</h5>
-              <p class="center light">Simply let <span class="red-text text-lighten-2">MarkIt</span> know what items interest you.</p>
-              <div class="divider"></div>
-              <p class="center light">Say you're looking for <span class="red-text text-lighten-2">couches</span> that are <span class="red-text text-lighten-2">under 500$</span> made of <span class="red-text text-lighten-2">leather</span>.</p>
-            </div>
-          </div>
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h4 class="center red-text text-lighten-2"><i class="medium material-icons">directions_walk</i></h4>
-              <h5 class="center">Live Freely</h5>
-              <p class="center light">Let <span class="red-text text-lighten-2">MarkIt</span> keep an eye out for what you want to buy.</p>
-              <div class="divider"></div>
-              <p class="center light">Don't waste your time checking if someone is selling your perfect couch.</p>
-            </div>
-          </div>
-
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h4 class="center red-text text-lighten-2"><i class="medium material-icons">announcement</i></h4>
-              <h5 class="center">Get Notified</h5>
-              <p class="center light"><span class="red-text text-lighten-2">MarkIt</span> will let you know when your item is available.</p>
-              <div class="divider"></div>
-              <p class="center light">Get that one couch that's just right for you.</p>
-            </div>
-          </div>
-          <div class="tagging-system-image"></div>
+        <div class="scroll-blurb">
+          <p> Newest Items around Loyola Marymount University</p>
         </div>
+        <div class="scroll-object">
+          <div class="left-scroll-arrow-container">
+            <i class="material-icons large right scroll-button" id="scroll-left">keyboard_arrow_left</i>
+          </div>
+          <div class="outside-scroll-container">
+            <div class="inside-scroll-container" id="first-div-results-holder">
+              <script type="text/template" id="first-div-results-template">
+                <% for (var specificItem in items) { %>
+                <%     var item = items[specificItem] %>
+                  <div class="card find-result hoverable">
+                    <div class="find-result-favorite">
+                      <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
+                    </div>
+                    <div class="find-result-price">
+                      $ <%- item['price'] %>
+                    </div>
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" src="" id=<%- item['id'] %>>
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
+                      <p>
+                        <span class="view-item-detail">view item</span>
+                        <span class="card-view-hub"><%- item['hubs'] %></span>
+                      </p>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">
+                        Description<i class="material-icons right">close</i>
+                        <p><%- item['description'] %></p>
+                      </span>
+                      <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
+                    </div>
+                  </div>
+                <% }; %>
+              </script>
+              <div class="see-more-card hoverable">
+                <p>See More</p>
+              </div>
+            </div>
+          </div>
+          <div class="right-scroll-arrow-container">
+            <i class="material-icons large right scroll-button" id="scroll-right">keyboard_arrow_right</i>
+          </div>
+        </div>
+        <!-- UCLA -->
+        <div class="scroll-blurb">
+          <p> Newest Items around UCLA</p>
+        </div>
+        <div class="scroll-object">
+          <div class="left-scroll-arrow-container">
+            <i class="material-icons large right scroll-button" id="scroll-left">keyboard_arrow_left</i>
+          </div>
+          <div class="outside-scroll-container">
+            <div class="inside-scroll-container" id="second-div-results-holder">
+              <script type="text/template" id="second-div-results-template">
+                <% for (var specificItem in items) { %>
+                <%     var item = items[specificItem] %>
+                  <div class="card find-result hoverable">
+                    <div class="find-result-favorite">
+                      <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
+                    </div>
+                    <div class="find-result-price">
+                      $ <%- item['price'] %>
+                    </div>
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" src="" id=<%- item['id'] %>>
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
+                      <p>
+                        <span class="view-item-detail">view item</span>
+                        <span class="card-view-hub"><%- item['hubs'] %></span>
+                      </p>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">
+                        Description<i class="material-icons right">close</i>
+                        <p><%- item['description'] %></p>
+                      </span>
+                      <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
+                    </div>
+                  </div>
+                <% }; %>
+              </script>
+              <div class="see-more-card hoverable">
+                <p>See More</p>
+              </div>
+            </div>
+          </div>
+          <div class="right-scroll-arrow-container">
+            <i class="material-icons large right scroll-button" id="scroll-right">keyboard_arrow_right</i>
+          </div>
+        </div>        
       </div>
       <div class="parallax-container">
         <div class="parallax"><img class="responsive-img" src="media/BlondeWorkingHardWithHands.jpg" width=></div>
@@ -168,6 +234,7 @@
     <script src="../tag-plugin/textext.core.js"></script>
     <script src="../tag-plugin/textext.plugin.tags.js"></script>
     <script src="../tag-plugin/textext.plugin.autocomplete.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.js"></script>
     <script type="text/javascript" src="bin/index.bundle.js"></script>
   </body>
 </html>

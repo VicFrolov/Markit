@@ -39,6 +39,10 @@ $(function() {
     auth.onAuthStateChanged(function(user) {
         if (user) {
             uid = auth.currentUser.uid;
+
+            if (window.location.pathname === "/signup/signup.html") {
+                window.location.href = '/'
+            }
             
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
                 navbarProfilePic = $('#navbar-user-photo');

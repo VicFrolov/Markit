@@ -49,7 +49,7 @@
 	__webpack_require__(8);
 	__webpack_require__(9);
 	__webpack_require__(11);
-	(function webpackMissingModule() { throw new Error("Cannot find module \"./src/item.js\""); }());
+	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(2);
@@ -101,6 +101,10 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            uid = auth.currentUser.uid;
+
+	            if (window.location.pathname === "/signup/signup.html") {
+	                window.location.href = '/'
+	            }
 	            
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
 	                navbarProfilePic = $('#navbar-user-photo');
@@ -188,9 +192,11 @@
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 	var userImagesRef = firebase.storage().ref('images/profileImages/');
 	var usersRef = database.ref('users/');
+	const fbProvider = new firebase.auth.FacebookAuthProvider();
+	const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
-	var addProfilePicture = function (uid, image, callback) {
+	var addProfilePicture = function (uid, image) {
 	    return new Promise(function(resolve, reject) {
 	        image = image.replace(/^.*base64,/g, '');
 	        var profilePicName = "imageOne";
@@ -215,10 +221,9 @@
 	            var downloadURL = uploadTask.snapshot.downloadURL;
 	            resolve(downloadURL);
 	            $('#profile-picture').attr('src', downloadURL);
-
 	            $('#navbar-user-photo').attr('src', downloadURL);
 	        });
-	        
+
 	    });
 	};
 
@@ -266,7 +271,7 @@
 	    hubs.forEach(function(currentHub) {
 	        database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
 	    });
-	    
+
 	    // adding images to storage
 	    for (var i = 0; i < images.length; i += 1) {
 	        (function(x) {
@@ -303,9 +308,9 @@
 	    });
 	};
 
-	var getRecentItemsInHub = function (hub, callback) {
-	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(4).once('value').then(function (snapshot) {
-	        callback(snapshot.val());
+	var getRecentItemsInHub = function (hub, limit) {
+	    return database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
+	        return snapshot.val();
 	    }, function (error) {
 	        console.log(error);
 	    });
@@ -404,11 +409,11 @@
 	        let item = snapshot.val()
 	        let itemTags = item['tags']
 	        for (let i = 0; i < itemTags.length; i += 1) {
-	            usersRef.child(auth.currentUser.uid + 
+	            usersRef.child(auth.currentUser.uid +
 	                '/tagSuggestions/' + itemTags[i]).set(0.5);
 	        }
 
-	    });    
+	    });
 	};
 
 	var filterListings = function (keywords, hubs, tags, price_range) {
@@ -429,7 +434,7 @@
 	var addFavoriteToProfile = function(uid, itemID) {
 	    usersRef.child(uid + '/favorites/' + itemID).set(true);
 	    itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
-	    
+
 	    //update suggested tags
 	    itemsRef.child(itemID).once('value').then(function(snapshot) {
 	        let item = snapshot.val()
@@ -438,7 +443,7 @@
 	            usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
 	        }
 
-	    });    
+	    });
 
 	};
 
@@ -459,7 +464,7 @@
 	};
 
 	var createAccount = function () {
-	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(),
 	        $("#sign-up-password").val()).then(function(user) {
 	            var newUser = firebase.auth().currentUser;
 	            newUserDBEntry(newUser);
@@ -467,7 +472,7 @@
 	            var errorCode = error.code;
 	            var errorMessage = error.message;
 	            console.log(errorMessage);
-	    });    
+	    });
 	};
 
 	var newUserDBEntry = function (user) {
@@ -611,7 +616,7 @@
 	        // Wait for them all to complete
 	        Promise.all(promises).then(() => {
 	            previewMessages.sort(function(a, b){
-	                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+	                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
 	            });
 
 	            for (var i = 0; i < previewMessages.length; i += 1) {
@@ -683,8 +688,8 @@
 
 	    usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
 	        let message = snapshot.val();
-	        let userClass = (message.user === auth.currentUser.uid ? 
-	            'message-bubble-self' : 
+	        let userClass = (message.user === auth.currentUser.uid ?
+	            'message-bubble-self' :
 	            'message-bubble-other'
 	        );
 
@@ -692,7 +697,7 @@
 	            usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
 	            $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
 	            $('#message-detail-content').fadeIn();
-	            
+
 	            // sroll to bottom of chat
 	            var wtf = $('#message-detail-content');
 	            var height = wtf[0].scrollHeight;
@@ -762,7 +767,7 @@
 
 	var populateSuggestionsInHub = function(hub, uid) {
 	    return Promise.all([
-	        getItemsInHub(hub), 
+	        getItemsInHub(hub),
 	        getUserSuggestions(uid), getUserFavorites()]).then(function (results) {
 	            let itemsInHub = results[0];
 	            let userSuggestions = results[1];
@@ -785,7 +790,7 @@
 	                            tagMatches[tag] = userSuggestions[tag];
 	                            tagMatchCount += 1;
 	                            tagWeight += userSuggestions[tag];
-	                            
+
 	                        }
 	                    });
 
@@ -843,7 +848,39 @@
 	            }
 
 	        });
-	}
+	};
+
+	const facebookLogin = () => {
+	    fbProvider.addScope('public_profile');
+	    fbProvider.addScope('email');
+	    fbProvider.addScope('user_education_history');
+	    auth.signInWithPopup(fbProvider).then((result) => {
+	        if (result.credential) {
+	            const token = result.credential.accessToken;
+	            let seperatedName = result.user.displayName.split(' ', 2);
+	            let date = Date();
+	            let defaultPreference = ['cash'];
+	            let user = auth.currentUser;
+	            console.log(result);
+
+	            let userInfo = {
+	                uid: user.uid,
+	                email: result.user.email,
+	                username: result.user.displayName,
+	                userHub: null,
+	                firstName: seperatedName[0],
+	                lastName: seperatedName[1],
+	                paymentPreferences: defaultPreference,
+	                dateCreated: date
+	            };
+	            usersRef.child(user.uid).set(userInfo);
+	        }
+	    });
+	};
+
+	const googleLogin = () => {
+	    auth.signInWithRedirect(googleProvider);
+	};
 
 
 	module.exports = {
@@ -879,8 +916,11 @@
 	    postNewMessage,
 	    sendVerificationEmail,
 	    getUserSelling,
-	    setItemAsSold
+	    setItemAsSold,
+	    facebookLogin,
+	    googleLogin
 	};
+
 
 /***/ },
 /* 3 */
@@ -1669,29 +1709,11 @@
 	        }, 100);
 	    });
 
-	    let initializeTagTextExt = (element) => {
+	    let initializeTagTextExt = (element, tags) => {
 	        var itemTagRef = $(element);
 	        itemTagRef.textext({plugins : 'tags autocomplete'})
 	            .bind('getSuggestions', function(e, data){
-	                var list = [
-	                        'Table',
-	                        'Desk',
-	                        'Computer',
-	                        'Electronics',
-	                        'iPhone',
-	                        'Cell-Phone',
-	                        'Apple',
-	                        'Macbook',
-	                        'Chair',
-	                        'Leather',
-	                        'Clothing',
-	                        'Bedroom',
-	                        'Bathroom',
-	                        'Couch',
-	                        'Kitchen',
-	                        'Living-Room',
-	                        'Dinner-Table'
-	                    ],
+	                var list = tags,
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
 
@@ -1749,7 +1771,25 @@
 	    if (window.location.pathname === "/new-post/new-post.html") {
 	        checkIfVerified();
 	        initializeCampusTextExt();
-	        initializeTagTextExt('#itemTags');
+	        initializeTagTextExt('#itemTags', [
+	            'Table',
+	            'Desk',
+	            'Computer',
+	            'Electronics',
+	            'iPhone',
+	            'Cell-Phone',
+	            'Apple',
+	            'Macbook',
+	            'Chair',
+	            'Leather',
+	            'Clothing',
+	            'Bedroom',
+	            'Bathroom',
+	            'Couch',
+	            'Kitchen',
+	            'Living-Room',
+	            'Dinner-Table'
+	        ]);
 	    }
 
 
@@ -1849,7 +1889,7 @@
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var getFavorites = __webpack_require__(2)['getFavorites'];
-	    var df
+	    var wNumb = __webpack_require__(10);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
@@ -2170,16 +2210,382 @@
 
 
 /***/ },
-/* 10 */,
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
+
+	    if ( true ) {
+
+	        // AMD. Register as an anonymous module.
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+	    } else if ( typeof exports === 'object' ) {
+
+	        // Node/CommonJS
+	        module.exports = factory();
+
+	    } else {
+
+	        // Browser globals
+	        window.wNumb = factory();
+	    }
+
+	}(function(){
+
+		'use strict';
+
+	var FormatOptions = [
+		'decimals',
+		'thousand',
+		'mark',
+		'prefix',
+		'suffix',
+		'encoder',
+		'decoder',
+		'negativeBefore',
+		'negative',
+		'edit',
+		'undo'
+	];
+
+	// General
+
+		// Reverse a string
+		function strReverse ( a ) {
+			return a.split('').reverse().join('');
+		}
+
+		// Check if a string starts with a specified prefix.
+		function strStartsWith ( input, match ) {
+			return input.substring(0, match.length) === match;
+		}
+
+		// Check is a string ends in a specified suffix.
+		function strEndsWith ( input, match ) {
+			return input.slice(-1 * match.length) === match;
+		}
+
+		// Throw an error if formatting options are incompatible.
+		function throwEqualError( F, a, b ) {
+			if ( (F[a] || F[b]) && (F[a] === F[b]) ) {
+				throw new Error(a);
+			}
+		}
+
+		// Check if a number is finite and not NaN
+		function isValidNumber ( input ) {
+			return typeof input === 'number' && isFinite( input );
+		}
+
+		// Provide rounding-accurate toFixed method.
+		// Borrowed: http://stackoverflow.com/a/21323330/775265
+		function toFixed ( value, exp ) {
+			value = value.toString().split('e');
+			value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+			value = value.toString().split('e');
+			return (+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp))).toFixed(exp);
+		}
+
+
+	// Formatting
+
+		// Accept a number as input, output formatted string.
+		function formatTo ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+			var originalInput = input, inputIsNegative, inputPieces, inputBase, inputDecimals = '', output = '';
+
+			// Apply user encoder to the input.
+			// Expected outcome: number.
+			if ( encoder ) {
+				input = encoder(input);
+			}
+
+			// Stop if no valid number was provided, the number is infinite or NaN.
+			if ( !isValidNumber(input) ) {
+				return false;
+			}
+
+			// Rounding away decimals might cause a value of -0
+			// when using very small ranges. Remove those cases.
+			if ( decimals !== false && parseFloat(input.toFixed(decimals)) === 0 ) {
+				input = 0;
+			}
+
+			// Formatting is done on absolute numbers,
+			// decorated by an optional negative symbol.
+			if ( input < 0 ) {
+				inputIsNegative = true;
+				input = Math.abs(input);
+			}
+
+			// Reduce the number of decimals to the specified option.
+			if ( decimals !== false ) {
+				input = toFixed( input, decimals );
+			}
+
+			// Transform the number into a string, so it can be split.
+			input = input.toString();
+
+			// Break the number on the decimal separator.
+			if ( input.indexOf('.') !== -1 ) {
+				inputPieces = input.split('.');
+
+				inputBase = inputPieces[0];
+
+				if ( mark ) {
+					inputDecimals = mark + inputPieces[1];
+				}
+
+			} else {
+
+			// If it isn't split, the entire number will do.
+				inputBase = input;
+			}
+
+			// Group numbers in sets of three.
+			if ( thousand ) {
+				inputBase = strReverse(inputBase).match(/.{1,3}/g);
+				inputBase = strReverse(inputBase.join( strReverse( thousand ) ));
+			}
+
+			// If the number is negative, prefix with negation symbol.
+			if ( inputIsNegative && negativeBefore ) {
+				output += negativeBefore;
+			}
+
+			// Prefix the number
+			if ( prefix ) {
+				output += prefix;
+			}
+
+			// Normal negative option comes after the prefix. Defaults to '-'.
+			if ( inputIsNegative && negative ) {
+				output += negative;
+			}
+
+			// Append the actual number.
+			output += inputBase;
+			output += inputDecimals;
+
+			// Apply the suffix.
+			if ( suffix ) {
+				output += suffix;
+			}
+
+			// Run the output through a user-specified post-formatter.
+			if ( edit ) {
+				output = edit ( output, originalInput );
+			}
+
+			// All done.
+			return output;
+		}
+
+		// Accept a sting as input, output decoded number.
+		function formatFrom ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+			var originalInput = input, inputIsNegative, output = '';
+
+			// User defined pre-decoder. Result must be a non empty string.
+			if ( undo ) {
+				input = undo(input);
+			}
+
+			// Test the input. Can't be empty.
+			if ( !input || typeof input !== 'string' ) {
+				return false;
+			}
+
+			// If the string starts with the negativeBefore value: remove it.
+			// Remember is was there, the number is negative.
+			if ( negativeBefore && strStartsWith(input, negativeBefore) ) {
+				input = input.replace(negativeBefore, '');
+				inputIsNegative = true;
+			}
+
+			// Repeat the same procedure for the prefix.
+			if ( prefix && strStartsWith(input, prefix) ) {
+				input = input.replace(prefix, '');
+			}
+
+			// And again for negative.
+			if ( negative && strStartsWith(input, negative) ) {
+				input = input.replace(negative, '');
+				inputIsNegative = true;
+			}
+
+			// Remove the suffix.
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+			if ( suffix && strEndsWith(input, suffix) ) {
+				input = input.slice(0, -1 * suffix.length);
+			}
+
+			// Remove the thousand grouping.
+			if ( thousand ) {
+				input = input.split(thousand).join('');
+			}
+
+			// Set the decimal separator back to period.
+			if ( mark ) {
+				input = input.replace(mark, '.');
+			}
+
+			// Prepend the negative symbol.
+			if ( inputIsNegative ) {
+				output += '-';
+			}
+
+			// Add the number
+			output += input;
+
+			// Trim all non-numeric characters (allow '.' and '-');
+			output = output.replace(/[^0-9\.\-.]/g, '');
+
+			// The value contains no parse-able number.
+			if ( output === '' ) {
+				return false;
+			}
+
+			// Covert to number.
+			output = Number(output);
+
+			// Run the user-specified post-decoder.
+			if ( decoder ) {
+				output = decoder(output);
+			}
+
+			// Check is the output is valid, otherwise: return false.
+			if ( !isValidNumber(output) ) {
+				return false;
+			}
+
+			return output;
+		}
+
+
+	// Framework
+
+		// Validate formatting options
+		function validate ( inputOptions ) {
+
+			var i, optionName, optionValue,
+				filteredOptions = {};
+
+			if ( inputOptions['suffix'] === undefined ) {
+				inputOptions['suffix'] = inputOptions['postfix'];
+			}
+
+			for ( i = 0; i < FormatOptions.length; i+=1 ) {
+
+				optionName = FormatOptions[i];
+				optionValue = inputOptions[optionName];
+
+				if ( optionValue === undefined ) {
+
+					// Only default if negativeBefore isn't set.
+					if ( optionName === 'negative' && !filteredOptions.negativeBefore ) {
+						filteredOptions[optionName] = '-';
+					// Don't set a default for mark when 'thousand' is set.
+					} else if ( optionName === 'mark' && filteredOptions.thousand !== '.' ) {
+						filteredOptions[optionName] = '.';
+					} else {
+						filteredOptions[optionName] = false;
+					}
+
+				// Floating points in JS are stable up to 7 decimals.
+				} else if ( optionName === 'decimals' ) {
+					if ( optionValue >= 0 && optionValue < 8 ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+
+				// These options, when provided, must be functions.
+				} else if ( optionName === 'encoder' || optionName === 'decoder' || optionName === 'edit' || optionName === 'undo' ) {
+					if ( typeof optionValue === 'function' ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+
+				// Other options are strings.
+				} else {
+
+					if ( typeof optionValue === 'string' ) {
+						filteredOptions[optionName] = optionValue;
+					} else {
+						throw new Error(optionName);
+					}
+				}
+			}
+
+			// Some values can't be extracted from a
+			// string if certain combinations are present.
+			throwEqualError(filteredOptions, 'mark', 'thousand');
+			throwEqualError(filteredOptions, 'prefix', 'negative');
+			throwEqualError(filteredOptions, 'prefix', 'negativeBefore');
+
+			return filteredOptions;
+		}
+
+		// Pass all options as function arguments
+		function passAll ( options, method, input ) {
+			var i, args = [];
+
+			// Add all options in order of FormatOptions
+			for ( i = 0; i < FormatOptions.length; i+=1 ) {
+				args.push(options[FormatOptions[i]]);
+			}
+
+			// Append the input, then call the method, presenting all
+			// options as arguments.
+			args.push(input);
+			return method.apply('', args);
+		}
+
+		function wNumb ( options ) {
+
+			if ( !(this instanceof wNumb) ) {
+				return new wNumb ( options );
+			}
+
+			if ( typeof options !== "object" ) {
+				return;
+			}
+
+			options = validate(options);
+
+			// Call 'formatTo' with proper arguments.
+			this.to = function ( input ) {
+				return passAll(options, formatTo, input);
+			};
+
+			// Call 'formatFrom' with proper arguments.
+			this.from = function ( input ) {
+				return passAll(options, formatFrom, input);
+			};
+		}
+
+		return wNumb;
+
+	}));
+
+
+/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict"
 
 	$(function() {
 	    var createAccount = __webpack_require__(2)["createAccount"];
 	    var sendVerificationEmail = __webpack_require__(2)['sendVerificationEmail'];
+	    let facebookAuthentication = __webpack_require__(2)['facebookLogin'];
+	    let googleAuthentication = __webpack_require__(2)['googleLogin'];
 
 	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
-	        $('#sign-up-popup1').fadeIn();
+	        window.location.href = '/signup/signup.html';
 	    });
 
 	    $(document).mouseup(function (e) {
@@ -2209,8 +2615,16 @@
 	    var emailValid = false;
 	    var passwordValid = false;
 
+	    $('body').on('click', '#google-login-button', function() {
+	        googleAuthentication();
+	    });
+
+	    $('body').on('click', '#fb-login-button', function() {
+	        facebookAuthentication();
+	    });
 
 	    $('body').on('click', '#create-account-next-button', function() {
+	        console.log('suuuupppp');
 	        if (checkNames()) {
 	            next();
 	        } else {
@@ -2225,7 +2639,7 @@
 	            //     $('#username-unavailable').show();
 	            // }
 	        }
-	    });    
+	    });
 
 	    $('body').on('click', '#create-account-button', function() {
 	        if (checkInput()) {
@@ -2243,7 +2657,7 @@
 	            //     $('#password-unavailable').show();
 	            // }
 	        }
-	    });    
+	    });
 
 	    var checkHub = function () {
 	        return $('#sign-up-hub').val();
@@ -2300,7 +2714,7 @@
 	    });
 
 	    var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
-	    var passwordSizeLimit = 8; 
+	    var passwordSizeLimit = 8;
 
 	    $('body').on('keyup', '#sign-up-email', function() {
 	        if (emailCheck.test($('#sign-up-email').val())) {
@@ -2341,8 +2755,16 @@
 
 	});
 
+
 /***/ },
-/* 12 */,
+/* 12 */
+/***/ function(module, exports) {
+
+	$(function() {
+	    $('.carousel.carousel-slider').carousel({full_width: true});
+	});
+
+/***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2623,7 +3045,7 @@
 	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
 	        } else {
 	            reader.onload = function (e) {
-	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	                addProfilePicture(uid, e.target.result);
 	            }
 	            reader.readAsDataURL($(this)[0].files[0]);
 	        }
@@ -2738,7 +3160,7 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(mostRecentItems).length > 0) {
 	            getUserInfo(auth.currentUser.uid, showUserInfo);
-	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
 	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
@@ -2753,17 +3175,42 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict" 
-	$(function() {
+	"use strict"
+
+	$(() => {
+	    const getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
+	    const getImage = __webpack_require__(2)["getImage"];
+
 	    $('.slider').slider();
 	    $('ul.tabs').tabs();
 	    $('.parallax').parallax();
 
-	    let initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
 
+	    const tagsList = [
+	                    'Table',
+	                    'Desk',
+	                    'Computer',
+	                    'Electronics',
+	                    'iPhone',
+	                    'Cell-Phone',
+	                    'Apple',
+	                    'Macbook',
+	                    'Chair',
+	                    'Leather',
+	                    'Clothing',
+	                    'Bedroom',
+	                    'Bathroom',
+	                    'Couch',
+	                    'Kitchen',
+	                    'Living-Room',
+	                    'Dinner-Table'
+	    ];
+
+	    const campusList = ['UCLA', 'Loyola Marymount University'];
+	    const initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
 	    let blurbLeft = true;
 
-	    let fadingBlurbs = (blurbSide) => {
+	    const fadingBlurbs = (blurbSide) => {
 	        if (blurbSide) {
 	            $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
 	                blurbLeft = !blurbLeft;
@@ -2777,27 +3224,71 @@
 	        }
 	    }
 
+	    const mostRecentItemsFirstDiv = $('#first-div-results-holder');
+	    const mostRecentItemsSecondDiv = $('#second-div-results-holder');
+	    const showMostRecentItemsFirstDiv = (campus, numberOfResults, placeholderElement) => {
+	        Promise.resolve(getRecentItemsInHub(campus, numberOfResults)).then(items => {
+	            let imagePaths = []
+	            const str = placeholderElement.text();
+	            const compiled = _.template(str);
 
+	            // mostRecentItemsFirstDiv.empty();
+	            placeholderElement.prepend(compiled({items: items}));
+
+
+	            for (let item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
+
+	            for (let i = 0; i < imagePaths.length; i += 1) {
+	                ((x)=> {
+	                    getImage(imagePaths[x] + '/imageOne', (url) => {
+	                        $(`#${imagePaths[x]}`).attr({src: url});
+	                    });
+	                })(i);
+	            }
+	        });
+	    };
 
 	    $("#search-button-main-page").on('click', () => {
-	        keysInput = $("#main-keys").val();
-	        hubInput = "todo";
-	        tagsInput = "todo";
-	        priceMaxInput = $("#main-price").val();
+	        const keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
+	        const hubInput = $('#main-campus').textext()[0].tags()._formData;
+	        const tagsInput = $('#main-tags').textext()[0].tags()._formData;
+	        const priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
+
+	        for (let i = 0; i < tagsInput.length; i += 1) {
+	            tagsInput[i] = tagsInput[i].toLowerCase();
+
+	        }
 	        
-	        // window.location.href = `/find/find.html#key=\${keysInput}?hub=\${hubInput}?tags=\${tagsInput}?priceMin=1?priceMax=\${priceMaxInput}`;
-	    })
+	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
+	    });
 
-	    if (window.location.pathname === "/index.html") {
+	    const scrollAmount = 420;
+
+	    $('#scroll-left').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+	        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 400);
+
+	    });
+
+	    $('#scroll-right').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+
+	        if (leftPos <= scrollAmount * 2) {
+	            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 400);
+	        }
+	    });    
+
+	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
+
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
-	        initializeTagTextExt('#main-tags')
-
+	        initializeTagTextExt('#main-tags', tagsList);
+	        initializeTagTextExt('#main-campus', campusList);
+	        showMostRecentItemsFirstDiv('Loyola Marymount University', 5, mostRecentItemsFirstDiv);
+	        showMostRecentItemsFirstDiv('UCLA', 5, mostRecentItemsSecondDiv);
 	    }
-
 	});
-
-	    
-
 
 /***/ }
 /******/ ]);

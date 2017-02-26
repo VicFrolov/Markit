@@ -6,11 +6,13 @@ module.exports = {
             './src/new-post.js',
             './src/find.js',
             './src/navbar-signup.js',
-            './src/detailed-view.js',
+            './src/item.js',
             './src/profile.js',
             './src/hub.js',
             './src/firebase.js',
-            './src/custom.js'        
+            './src/custom.js',
+            './src/item-card.js',
+            './src/signup'
         ]
      },
      output: {

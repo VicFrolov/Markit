@@ -68,7 +68,7 @@ $(function () {
     auth.onAuthStateChanged(function(user) {
         if (user && $(mostRecentItems).length > 0) {
             getUserInfo(auth.currentUser.uid, showUserInfo);
-            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems);
+            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
             showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
         } else if (!user && $(mostRecentItems).length > 0) {
             window.location.href = "../index.html";
