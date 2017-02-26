@@ -683,14 +683,27 @@ const facebookLogin = () => {
     fbProvider.addScope('public_profile');
     fbProvider.addScope('email');
     fbProvider.addScope('user_education_history');
-    auth.signInWithRedirect(fbProvider).then((result) => {
+    auth.signInWithPopup(fbProvider).then((result) => {
         if (result.credential) {
-            console.log('result');
-            console.log(result);
             const token = result.credential.accessToken;
+            let seperatedName = result.user.displayName.split(' ', 2);
+            let date = Date();
+            let defaultPreference = ['cash'];
+            let user = auth.currentUser;
+            console.log(result);
 
+            let userInfo = {
+                uid: user.uid,
+                email: result.user.email,
+                username: result.user.displayName,
+                userHub: null,
+                firstName: seperatedName[0],
+                lastName: seperatedName[1],
+                paymentPreferences: defaultPreference,
+                dateCreated: date
+            };
+            usersRef.child(user.uid).set(userInfo);
         }
-
     });
 };
 
