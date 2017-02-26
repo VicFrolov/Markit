@@ -1,0 +1,33 @@
+#signup-body {
+    background-color: #eee;
+}
+#signup-container {
+    margin: 80px 30%;
+    height: 700px;
+    background-color: #fff;
+    min-width: 10px;
+}
+
+
+@media screen and (max-width: 1268px) {
+    #signup-container {
+        margin: 80px 25%;
+    }
+
+}
+
+
+@media screen and (max-width: 993px) {
+    #signup-container {
+        margin: 80px 10%;
+    }
+
+}
+
+@media screen and (max-width: 871px) {
+    #signup-container {
+        margin: 20px 0%;
+        min-width: 100%;
+    }
+}
+

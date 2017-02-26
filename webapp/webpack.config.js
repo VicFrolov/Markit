@@ -11,7 +11,8 @@ module.exports = {
             './src/hub.js',
             './src/firebase.js',
             './src/custom.js',
-            './src/item-card.js',      
+            './src/item-card.js',
+            './src/signup'
         ]
      },
      output: {
