@@ -48,26 +48,29 @@ $(() => {
     }
 
     const mostRecentItemsFirstDiv = $('#first-div-results-holder');
-    const showMostRecentItemsFirstDiv = (items) => {
-        let imagePaths = []
-        const str = $('#first-div-results-template').text();
-        const compiled = _.template(str);
+    const mostRecentItemsSecondDiv = $('#second-div-results-holder');
+    const showMostRecentItemsFirstDiv = (campus, numberOfResults, placeholderElement) => {
+        Promise.resolve(getRecentItemsInHub(campus, numberOfResults)).then(items => {
+            let imagePaths = []
+            const str = placeholderElement.text();
+            const compiled = _.template(str);
 
-        // mostRecentItemsFirstDiv.empty();
-        mostRecentItemsFirstDiv.prepend(compiled({items: items}));
+            // mostRecentItemsFirstDiv.empty();
+            placeholderElement.prepend(compiled({items: items}));
 
 
-        for (let item in items) {
-            imagePaths.push(items[item]['id']);
-        }
+            for (let item in items) {
+                imagePaths.push(items[item]['id']);
+            }
 
-        for (let i = 0; i < imagePaths.length; i += 1) {
-            ((x)=> {
-                getImage(imagePaths[x] + '/imageOne', (url) => {
-                    $(`#${imagePaths[x]}`).attr({src: url});
-                });
-            })(i);
-        }
+            for (let i = 0; i < imagePaths.length; i += 1) {
+                ((x)=> {
+                    getImage(imagePaths[x] + '/imageOne', (url) => {
+                        $(`#${imagePaths[x]}`).attr({src: url});
+                    });
+                })(i);
+            }
+        });
     };
 
     $("#search-button-main-page").on('click', () => {
@@ -88,14 +91,15 @@ $(() => {
 
     $('#scroll-left').on('click', () => {
         const leftPos = $('.outside-scroll-container').scrollLeft();
-        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 600);
+        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 400);
+
     });
 
     $('#scroll-right').on('click', () => {
         const leftPos = $('.outside-scroll-container').scrollLeft();
 
         if (leftPos <= scrollAmount * 2) {
-            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 600);
+            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 400);
         }
     });    
 
@@ -104,7 +108,7 @@ $(() => {
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
-        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 5);
-
+        showMostRecentItemsFirstDiv('Loyola Marymount University', 5, mostRecentItemsFirstDiv);
+        showMostRecentItemsFirstDiv('UCLA', 5, mostRecentItemsSecondDiv);
     }
 });

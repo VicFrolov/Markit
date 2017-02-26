@@ -135,9 +135,9 @@ var getListings = function () {
     });
 };
 
-var getRecentItemsInHub = function (hub, callback, limit) {
-    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
-        callback(snapshot.val());
+var getRecentItemsInHub = function (hub, limit) {
+    return database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
+        return snapshot.val();
     }, function (error) {
         console.log(error);
     });
