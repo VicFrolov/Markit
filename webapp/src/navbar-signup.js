@@ -7,7 +7,7 @@ $(function() {
     let googleAuthentication = require('./firebase.js')['googleLogin'];
 
     $('#navbar-placeholder').on('click', '#sign-up-button', function () {
-        $('#sign-up-popup1').fadeIn();
+        window.location.href = '/signup/signup.html';
     });
 
     $(document).mouseup(function (e) {

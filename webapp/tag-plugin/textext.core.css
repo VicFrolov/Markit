@@ -28,6 +28,16 @@
   height: auto;
 }
 
+.search-container .text-core .text-wrap textarea,
+.search-container .text-core .text-wrap input {
+  height: 47px;
+  line-height: 2.7rem;
+  padding-left: 10px;
+  font-size: 1rem;
+  margin: 0px;
+  font-family: "Roboto", sans-serif;
+}
+
 .text-core .text-wrap textarea:focus {
   box-shadow: 0 0 5px rgba(0, 100, 255, 1);
   border: 1px solid rgba(0, 100, 255, 1);

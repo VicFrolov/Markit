@@ -53,7 +53,9 @@
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(2);
-	module.exports = __webpack_require__(15);
+	__webpack_require__(15);
+	__webpack_require__(16);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -101,6 +103,10 @@
 	    auth.onAuthStateChanged(function(user) {
 	        if (user) {
 	            uid = auth.currentUser.uid;
+
+	            if (window.location.pathname === "/signup/signup.html") {
+	                window.location.href = '/'
+	            }
 	            
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
 	                navbarProfilePic = $('#navbar-user-photo');
@@ -192,7 +198,7 @@
 	const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
-	var addProfilePicture = function (uid, image, callback) {
+	var addProfilePicture = function (uid, image) {
 	    return new Promise(function(resolve, reject) {
 	        image = image.replace(/^.*base64,/g, '');
 	        var profilePicName = "imageOne";
@@ -217,7 +223,6 @@
 	            var downloadURL = uploadTask.snapshot.downloadURL;
 	            resolve(downloadURL);
 	            $('#profile-picture').attr('src', downloadURL);
-
 	            $('#navbar-user-photo').attr('src', downloadURL);
 	        });
 
@@ -305,9 +310,9 @@
 	    });
 	};
 
-	var getRecentItemsInHub = function (hub, callback, limit) {
-	    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
-	        callback(snapshot.val());
+	var getRecentItemsInHub = function (hub, limit) {
+	    return database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
+	        return snapshot.val();
 	    }, function (error) {
 	        console.log(error);
 	    });
@@ -2582,7 +2587,7 @@
 	    let googleAuthentication = __webpack_require__(2)['googleLogin'];
 
 	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
-	        $('#sign-up-popup1').fadeIn();
+	        window.location.href = '/signup/signup.html';
 	    });
 
 	    $(document).mouseup(function (e) {
@@ -3042,7 +3047,7 @@
 	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
 	        } else {
 	            reader.onload = function (e) {
-	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	                addProfilePicture(uid, e.target.result);
 	            }
 	            reader.readAsDataURL($(this)[0].files[0]);
 	        }
@@ -3222,26 +3227,29 @@
 	    }
 
 	    const mostRecentItemsFirstDiv = $('#first-div-results-holder');
-	    const showMostRecentItemsFirstDiv = (items) => {
-	        let imagePaths = []
-	        const str = $('#first-div-results-template').text();
-	        const compiled = _.template(str);
+	    const mostRecentItemsSecondDiv = $('#second-div-results-holder');
+	    const showMostRecentItemsFirstDiv = (campus, numberOfResults, placeholderElement) => {
+	        Promise.resolve(getRecentItemsInHub(campus, numberOfResults)).then(items => {
+	            let imagePaths = []
+	            const str = placeholderElement.text();
+	            const compiled = _.template(str);
 
-	        mostRecentItemsFirstDiv.empty();
-	        mostRecentItemsFirstDiv.prepend(compiled({items: items}));
+	            // mostRecentItemsFirstDiv.empty();
+	            placeholderElement.prepend(compiled({items: items}));
 
 
-	        for (let item in items) {
-	            imagePaths.push(items[item]['id']);
-	        }
+	            for (let item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
 
-	        for (let i = 0; i < imagePaths.length; i += 1) {
-	            ((x)=> {
-	                getImage(imagePaths[x] + '/imageOne', (url) => {
-	                    $(`#${imagePaths[x]}`).attr({src: url});
-	                });
-	            })(i);
-	        }
+	            for (let i = 0; i < imagePaths.length; i += 1) {
+	                ((x)=> {
+	                    getImage(imagePaths[x] + '/imageOne', (url) => {
+	                        $(`#${imagePaths[x]}`).attr({src: url});
+	                    });
+	                })(i);
+	            }
+	        });
 	    };
 
 	    $("#search-button-main-page").on('click', () => {
@@ -3258,15 +3266,50 @@
 	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
 	    });
 
+	    const scrollAmount = 420;
+
+	    $('#scroll-left').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+	        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 400);
+
+	    });
+
+	    $('#scroll-right').on('click', () => {
+	        const leftPos = $('.outside-scroll-container').scrollLeft();
+
+	        if (leftPos <= scrollAmount * 2) {
+	            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 400);
+	        }
+	    });    
+
 	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
 
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
 	        initializeTagTextExt('#main-tags', tagsList);
 	        initializeTagTextExt('#main-campus', campusList);
-	        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 3);
-
+	        showMostRecentItemsFirstDiv('Loyola Marymount University', 5, mostRecentItemsFirstDiv);
+	        showMostRecentItemsFirstDiv('UCLA', 5, mostRecentItemsSecondDiv);
 	    }
 	});
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	$(function () {
+	    $('body').on('click', '.view-item-detail', function() {
+	        let parentDiv = $(this).parent().parent().parent();
+	        let imageDiv = parentDiv[0].children[2];
+	        let itemID = $(imageDiv)[0].children[0].id;
+	        window.location.href = `/items/item.html#item=${itemID}`;
+	    });
+	});
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	
 
 /***/ }
 /******/ ]);

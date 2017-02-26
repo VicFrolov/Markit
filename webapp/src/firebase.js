@@ -24,7 +24,7 @@ const fbProvider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
-var addProfilePicture = function (uid, image, callback) {
+var addProfilePicture = function (uid, image) {
     return new Promise(function(resolve, reject) {
         image = image.replace(/^.*base64,/g, '');
         var profilePicName = "imageOne";
@@ -49,7 +49,6 @@ var addProfilePicture = function (uid, image, callback) {
             var downloadURL = uploadTask.snapshot.downloadURL;
             resolve(downloadURL);
             $('#profile-picture').attr('src', downloadURL);
-
             $('#navbar-user-photo').attr('src', downloadURL);
         });
 
@@ -137,9 +136,9 @@ var getListings = function () {
     });
 };
 
-var getRecentItemsInHub = function (hub, callback, limit) {
-    database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
-        callback(snapshot.val());
+var getRecentItemsInHub = function (hub, limit) {
+    return database.ref('itemsByHub/' + hub + '/').orderByKey().limitToLast(limit).once('value').then(function (snapshot) {
+        return snapshot.val();
     }, function (error) {
         console.log(error);
     });
