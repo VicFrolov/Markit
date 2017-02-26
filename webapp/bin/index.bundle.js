@@ -54,7 +54,8 @@
 	__webpack_require__(14);
 	__webpack_require__(2);
 	__webpack_require__(15);
-	module.exports = __webpack_require__(16);
+	__webpack_require__(16);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -2546,7 +2547,7 @@
 	    var sendVerificationEmail = __webpack_require__(2)['sendVerificationEmail'];
 
 	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
-	        $('#sign-up-popup1').fadeIn();
+	        window.location.href = '/signup/signup.html';
 	    });
 
 	    $(document).mouseup(function (e) {
@@ -3254,6 +3255,12 @@
 	        window.location.href = `/items/item.html#item=${itemID}`;
 	    });
 	});
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	
 
 /***/ }
 /******/ ]);
