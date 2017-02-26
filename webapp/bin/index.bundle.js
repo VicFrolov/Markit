@@ -53,7 +53,8 @@
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(2);
-	module.exports = __webpack_require__(15);
+	__webpack_require__(15);
+	module.exports = __webpack_require__(16);
 
 
 /***/ },
@@ -190,7 +191,7 @@
 	var usersRef = database.ref('users/');
 
 
-	var addProfilePicture = function (uid, image, callback) {
+	var addProfilePicture = function (uid, image) {
 	    return new Promise(function(resolve, reject) {
 	        image = image.replace(/^.*base64,/g, '');
 	        var profilePicName = "imageOne";
@@ -215,7 +216,6 @@
 	            var downloadURL = uploadTask.snapshot.downloadURL;
 	            resolve(downloadURL);
 	            $('#profile-picture').attr('src', downloadURL);
-
 	            $('#navbar-user-photo').attr('src', downloadURL);
 	        });
 	        
@@ -2135,14 +2135,6 @@
 	    });
 
 
-	    $('body').on('click', '.view-item-detail', function() {
-	        let parentDiv = $(this).parent().parent().parent();
-	        let imageDiv = parentDiv[0].children[2];
-	        let itemID = $(imageDiv)[0].children[0].id;
-	        window.location.href = `/items/item.html#item=${itemID}`;
-	    });
-
-
 	    $('#message-popup-send-button').click(function() {
 	        let newMessageSellerId;
 	        let newMessageContent = $($(this).parent()[0].children[2]).val();
@@ -3005,7 +2997,7 @@
 	            Materialize.toast('Only formats are allowed : ' + fileExtension.join(', '), 3000, 'rounded');
 	        } else {
 	            reader.onload = function (e) {
-	                addProfilePicture(uid, e.target.result, loadProfilePicture);
+	                addProfilePicture(uid, e.target.result);
 	            }
 	            reader.readAsDataURL($(this)[0].files[0]);
 	        }
@@ -3248,6 +3240,19 @@
 	        showMostRecentItemsFirstDiv('Loyola Marymount University', 5, mostRecentItemsFirstDiv);
 	        showMostRecentItemsFirstDiv('UCLA', 5, mostRecentItemsSecondDiv);
 	    }
+	});
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	$(function () {
+	    $('body').on('click', '.view-item-detail', function() {
+	        let parentDiv = $(this).parent().parent().parent();
+	        let imageDiv = parentDiv[0].children[2];
+	        let itemID = $(imageDiv)[0].children[0].id;
+	        window.location.href = `/items/item.html#item=${itemID}`;
+	    });
 	});
 
 /***/ }

@@ -10,7 +10,8 @@ module.exports = {
             './src/profile.js',
             './src/hub.js',
             './src/firebase.js',
-            './src/custom.js'        
+            './src/custom.js',
+            './src/item-card.js',      
         ]
      },
      output: {

@@ -31,10 +31,11 @@
 .search-container .text-core .text-wrap textarea,
 .search-container .text-core .text-wrap input {
   height: 47px;
-  line-height: 2.5rem;
+  line-height: 2.7rem;
   padding-left: 10px;
   font-size: 1rem;
   margin: 0px;
+  font-family: "Roboto", sans-serif;
 }
 
 .text-core .text-wrap textarea:focus {

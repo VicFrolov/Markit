@@ -22,7 +22,7 @@ var userImagesRef = firebase.storage().ref('images/profileImages/');
 var usersRef = database.ref('users/');
 
 
-var addProfilePicture = function (uid, image, callback) {
+var addProfilePicture = function (uid, image) {
     return new Promise(function(resolve, reject) {
         image = image.replace(/^.*base64,/g, '');
         var profilePicName = "imageOne";
@@ -47,7 +47,6 @@ var addProfilePicture = function (uid, image, callback) {
             var downloadURL = uploadTask.snapshot.downloadURL;
             resolve(downloadURL);
             $('#profile-picture').attr('src', downloadURL);
-
             $('#navbar-user-photo').attr('src', downloadURL);
         });
         
