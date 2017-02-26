@@ -53,9 +53,7 @@
 	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(2);
-	__webpack_require__(15);
-	__webpack_require__(16);
-	module.exports = __webpack_require__(17);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
@@ -3291,25 +3289,6 @@
 	        showMostRecentItemsFirstDiv('UCLA', 5, mostRecentItemsSecondDiv);
 	    }
 	});
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	$(function () {
-	    $('body').on('click', '.view-item-detail', function() {
-	        let parentDiv = $(this).parent().parent().parent();
-	        let imageDiv = parentDiv[0].children[2];
-	        let itemID = $(imageDiv)[0].children[0].id;
-	        window.location.href = `/items/item.html#item=${itemID}`;
-	    });
-	});
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	
 
 /***/ }
 /******/ ]);
