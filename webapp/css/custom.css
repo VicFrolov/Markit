@@ -82,6 +82,14 @@ label {
     color: rgba(0, 0, 0, 0.7);
 }
 
+.text-core {
+    height: 47px;
+}
+
+.text-wrap {
+    height: 47px;
+}
+
 input[type=text]:focus:not([readonly]) {
     outline: 0 none;
     box-shadow: 0 0 5px rgba(0, 100, 255, 1);
