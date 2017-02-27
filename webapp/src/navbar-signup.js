@@ -1,6 +1,10 @@
+"use strict"
+
 $(function() {
     var createAccount = require('./firebase.js')["createAccount"];
     var sendVerificationEmail = require('./firebase.js')['sendVerificationEmail'];
+    let facebookAuthentication = require('./firebase.js')['facebookLogin'];
+    let googleAuthentication = require('./firebase.js')['googleLogin'];
 
     $('#navbar-placeholder').on('click', '#sign-up-button', function () {
         window.location.href = '/signup/signup.html';
@@ -33,8 +37,16 @@ $(function() {
     var emailValid = false;
     var passwordValid = false;
 
+    $('body').on('click', '#google-login-button', function() {
+        googleAuthentication();
+    });
+
+    $('body').on('click', '#fb-login-button', function() {
+        facebookAuthentication();
+    });
 
     $('body').on('click', '#create-account-next-button', function() {
+        console.log('suuuupppp');
         if (checkNames()) {
             next();
         } else {
@@ -49,7 +61,7 @@ $(function() {
             //     $('#username-unavailable').show();
             // }
         }
-    });    
+    });
 
     $('body').on('click', '#create-account-button', function() {
         if (checkInput()) {
@@ -124,7 +136,7 @@ $(function() {
     });
 
     var emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
-    var passwordSizeLimit = 8; 
+    var passwordSizeLimit = 8;
 
     $('body').on('keyup', '#sign-up-email', function() {
         if (emailCheck.test($('#sign-up-email').val())) {

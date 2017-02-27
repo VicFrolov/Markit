@@ -20,6 +20,8 @@ var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var userImagesRef = firebase.storage().ref('images/profileImages/');
 var usersRef = database.ref('users/');
+const fbProvider = new firebase.auth.FacebookAuthProvider();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
 var addProfilePicture = function (uid, image) {
@@ -49,7 +51,7 @@ var addProfilePicture = function (uid, image) {
             $('#profile-picture').attr('src', downloadURL);
             $('#navbar-user-photo').attr('src', downloadURL);
         });
-        
+
     });
 };
 
@@ -97,7 +99,7 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     hubs.forEach(function(currentHub) {
         database.ref('itemsByHub/' + currentHub + '/').child(itemKey).set(itemData);
     });
-    
+
     // adding images to storage
     for (var i = 0; i < images.length; i += 1) {
         (function(x) {
@@ -235,11 +237,11 @@ var removeFavorite = function (item) {
         let item = snapshot.val()
         let itemTags = item['tags']
         for (let i = 0; i < itemTags.length; i += 1) {
-            usersRef.child(auth.currentUser.uid + 
+            usersRef.child(auth.currentUser.uid +
                 '/tagSuggestions/' + itemTags[i]).set(0.5);
         }
 
-    });    
+    });
 };
 
 var filterListings = function (keywords, hubs, tags, price_range) {
@@ -260,7 +262,7 @@ var addNewListingToProfile = function(uid, itemID) {
 var addFavoriteToProfile = function(uid, itemID) {
     usersRef.child(uid + '/favorites/' + itemID).set(true);
     itemsRef.child(itemID + '/favorites/').child(auth.currentUser.uid).set(true);
-    
+
     //update suggested tags
     itemsRef.child(itemID).once('value').then(function(snapshot) {
         let item = snapshot.val()
@@ -269,7 +271,7 @@ var addFavoriteToProfile = function(uid, itemID) {
             usersRef.child(uid + '/tagSuggestions/' + itemTags[i]).set(1);
         }
 
-    });    
+    });
 
 };
 
@@ -290,7 +292,7 @@ var removeProfileTag = function (itemTitle) {
 };
 
 var createAccount = function () {
-    auth.createUserWithEmailAndPassword($("#sign-up-email").val(), 
+    auth.createUserWithEmailAndPassword($("#sign-up-email").val(),
         $("#sign-up-password").val()).then(function(user) {
             var newUser = firebase.auth().currentUser;
             newUserDBEntry(newUser);
@@ -298,7 +300,7 @@ var createAccount = function () {
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorMessage);
-    });    
+    });
 };
 
 var newUserDBEntry = function (user) {
@@ -442,7 +444,7 @@ var sortConversations = function(uid, chatID) {
         // Wait for them all to complete
         Promise.all(promises).then(() => {
             previewMessages.sort(function(a, b){
-                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime() 
+                return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
             });
 
             for (var i = 0; i < previewMessages.length; i += 1) {
@@ -514,8 +516,8 @@ var displayMessagesDetail = function (uid, chatID) {
 
     usersRef.child(`${uid}/chats/${chatID}/messages`).on('child_added', function(snapshot) {
         let message = snapshot.val();
-        let userClass = (message.user === auth.currentUser.uid ? 
-            'message-bubble-self' : 
+        let userClass = (message.user === auth.currentUser.uid ?
+            'message-bubble-self' :
             'message-bubble-other'
         );
 
@@ -523,7 +525,7 @@ var displayMessagesDetail = function (uid, chatID) {
             usersRef.child(`${uid}/chats/${chatID}/context/readMessages`).set(true);
             $('#message-detail-content').append($('<p></p>').addClass(userClass).text(message.text));
             $('#message-detail-content').fadeIn();
-            
+
             // sroll to bottom of chat
             var wtf = $('#message-detail-content');
             var height = wtf[0].scrollHeight;
@@ -593,7 +595,7 @@ var getUserSuggestions = function (uid) {
 
 var populateSuggestionsInHub = function(hub, uid) {
     return Promise.all([
-        getItemsInHub(hub), 
+        getItemsInHub(hub),
         getUserSuggestions(uid), getUserFavorites()]).then(function (results) {
             let itemsInHub = results[0];
             let userSuggestions = results[1];
@@ -616,7 +618,7 @@ var populateSuggestionsInHub = function(hub, uid) {
                             tagMatches[tag] = userSuggestions[tag];
                             tagMatchCount += 1;
                             tagWeight += userSuggestions[tag];
-                            
+
                         }
                     });
 
@@ -674,7 +676,39 @@ var populateSuggestionsInHub = function(hub, uid) {
             }
 
         });
-}
+};
+
+const facebookLogin = () => {
+    fbProvider.addScope('public_profile');
+    fbProvider.addScope('email');
+    fbProvider.addScope('user_education_history');
+    auth.signInWithPopup(fbProvider).then((result) => {
+        if (result.credential) {
+            const token = result.credential.accessToken;
+            let seperatedName = result.user.displayName.split(' ', 2);
+            let date = Date();
+            let defaultPreference = ['cash'];
+            let user = auth.currentUser;
+            console.log(result);
+
+            let userInfo = {
+                uid: user.uid,
+                email: result.user.email,
+                username: result.user.displayName,
+                userHub: null,
+                firstName: seperatedName[0],
+                lastName: seperatedName[1],
+                paymentPreferences: defaultPreference,
+                dateCreated: date
+            };
+            usersRef.child(user.uid).set(userInfo);
+        }
+    });
+};
+
+const googleLogin = () => {
+    auth.signInWithRedirect(googleProvider);
+};
 
 
 module.exports = {
@@ -710,5 +744,7 @@ module.exports = {
     postNewMessage,
     sendVerificationEmail,
     getUserSelling,
-    setItemAsSold
+    setItemAsSold,
+    facebookLogin,
+    googleLogin
 };
