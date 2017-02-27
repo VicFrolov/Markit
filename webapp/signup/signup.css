@@ -96,3 +96,14 @@ input:-webkit-autofill {
     font-size: 9px;
     color: rgba(0, 0, 0, 0.5);
 }
+
+.signup-small-alert {
+    font-size: 9px;
+}
+
+.valid-entry-checkmark {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    color: #AED581;
+}

@@ -5,14 +5,13 @@ module.exports = {
             './src/navbar-login', 
             './src/new-post.js',
             './src/find.js',
-            './src/navbar-signup.js',
             './src/item.js',
             './src/profile.js',
             './src/hub.js',
             './src/firebase.js',
             './src/custom.js',
             './src/item-card.js',
-            './src/signup'
+            './src/signup.js'
         ]
      },
      output: {
