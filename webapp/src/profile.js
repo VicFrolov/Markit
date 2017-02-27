@@ -8,8 +8,8 @@ $(function () {
     var addTagToProfile = require('./firebase.js')['addTagToProfile'];
     var getProfileTags = require('./firebase.js')['getProfileTags'];
     var removeProfileTag = require('./firebase.js')['removeProfileTag'];
-    var nameSizeMin = require('./navbar-signup.js')['nameSizeMin'];
-    var nameSizeMax = require('./navbar-signup.js')['nameSizeMax'];
+    var nameSizeMin = require('./signup.js')['nameSizeMin'];
+    var nameSizeMax = require('./signup.js')['nameSizeMax'];
     var userImagesRef = require('./firebase.js')['userImagesRef'];
     var addProfilePicture = require('./firebase.js')['addProfilePicture'];
     var getProfilePicture = require('./firebase.js')['getProfilePicture'];
@@ -156,16 +156,17 @@ $(function () {
         firstName.val(userInfo.firstName);
         lastName.val(userInfo.lastName);
         username.val(userInfo.username);
+
         firebaseUsername = userInfo.username;
         hub.val(userInfo.userHub);
         loadProfilePicture();
-        $('.my-profile-username').text(firebaseUsername);
+        $('.my-profile-username').text(userInfo.firstName);
+
         for (let preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
 
         $('select').material_select();
-
     };
 
     var checkInput = function (input) {

@@ -291,33 +291,27 @@ var removeProfileTag = function (itemTitle) {
     usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 };
 
-var createAccount = function () {
-    auth.createUserWithEmailAndPassword($("#sign-up-email").val(),
-        $("#sign-up-password").val()).then(function(user) {
-            var newUser = firebase.auth().currentUser;
-            newUserDBEntry(newUser);
-        }, function(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorMessage);
+const createAccount = function (email, pass, first, last) {
+    auth.createUserWithEmailAndPassword(email, pass).then(function(user) {
+        let newUser = firebase.auth().currentUser;
+        newUserDBEntry(newUser, first, last);
+    }, function(error) {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        console.log(errorMessage);
     });
 };
 
-var newUserDBEntry = function (user) {
-    var firstName = $("#sign-up-first-name").val();
-    var lastName = $("#sign-up-last-name").val();
-    var username = $("#sign-up-username").val();
-    var userHub = $("#sign-up-hub").val();
-    var defaultPreference = ["cash"];
-    var date =  Date();
+const newUserDBEntry = function (user, first, last) {
+    let defaultPreference = ["cash"];
+    let date =  Date();
 
-    var userInfo = {
+    let userInfo = {
         uid: user.uid,
         email: user.email,
-        username: username,
-        userHub: userHub,
-        firstName: firstName,
-        lastName: lastName,
+        userHub: 'Loyola Marymount University',
+        firstName: first,
+        lastName: last,
         paymentPreferences: defaultPreference,
         dateCreated: date
     };

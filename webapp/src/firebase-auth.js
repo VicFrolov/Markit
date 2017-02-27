@@ -13,7 +13,7 @@ $(function() {
  
     var updateNavbarName = function (profileName) {
         Promise.resolve(getUserInfo(uid)).then(userData => {
-            profileName.text(userData.username);
+            profileName.text(userData.firstName);
         });        
     };
 
@@ -40,9 +40,9 @@ $(function() {
         if (user) {
             uid = auth.currentUser.uid;
 
-            if (window.location.pathname === "/signup/signup.html") {
-                window.location.href = '/'
-            }
+            // if (window.location.pathname === "/signup/signup.html") {
+            //     window.location.href = '/'
+            // }
             
             $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
                 navbarProfilePic = $('#navbar-user-photo');

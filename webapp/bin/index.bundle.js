@@ -50,12 +50,11 @@
 	__webpack_require__(9);
 	__webpack_require__(11);
 	__webpack_require__(12);
-	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(2);
 	__webpack_require__(15);
 	__webpack_require__(16);
-	module.exports = __webpack_require__(17);
+	module.exports = __webpack_require__(13);
 
 
 /***/ },
@@ -77,7 +76,7 @@
 	 
 	    var updateNavbarName = function (profileName) {
 	        Promise.resolve(getUserInfo(uid)).then(userData => {
-	            profileName.text(userData.username);
+	            profileName.text(userData.firstName);
 	        });        
 	    };
 
@@ -104,9 +103,9 @@
 	        if (user) {
 	            uid = auth.currentUser.uid;
 
-	            if (window.location.pathname === "/signup/signup.html") {
-	                window.location.href = '/'
-	            }
+	            // if (window.location.pathname === "/signup/signup.html") {
+	            //     window.location.href = '/'
+	            // }
 	            
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
 	                navbarProfilePic = $('#navbar-user-photo');
@@ -465,33 +464,27 @@
 	    usersRef.child(auth.currentUser.uid + '/tagsList/' + itemTitle).remove()
 	};
 
-	var createAccount = function () {
-	    auth.createUserWithEmailAndPassword($("#sign-up-email").val(),
-	        $("#sign-up-password").val()).then(function(user) {
-	            var newUser = firebase.auth().currentUser;
-	            newUserDBEntry(newUser);
-	        }, function(error) {
-	            var errorCode = error.code;
-	            var errorMessage = error.message;
-	            console.log(errorMessage);
+	const createAccount = function (email, pass, first, last) {
+	    auth.createUserWithEmailAndPassword(email, pass).then(function(user) {
+	        let newUser = firebase.auth().currentUser;
+	        newUserDBEntry(newUser, first, last);
+	    }, function(error) {
+	        let errorCode = error.code;
+	        let errorMessage = error.message;
+	        console.log(errorMessage);
 	    });
 	};
 
-	var newUserDBEntry = function (user) {
-	    var firstName = $("#sign-up-first-name").val();
-	    var lastName = $("#sign-up-last-name").val();
-	    var username = $("#sign-up-username").val();
-	    var userHub = $("#sign-up-hub").val();
-	    var defaultPreference = ["cash"];
-	    var date =  Date();
+	const newUserDBEntry = function (user, first, last) {
+	    let defaultPreference = ["cash"];
+	    let date =  Date();
 
-	    var userInfo = {
+	    let userInfo = {
 	        uid: user.uid,
 	        email: user.email,
-	        username: username,
-	        userHub: userHub,
-	        firstName: firstName,
-	        lastName: lastName,
+	        userHub: 'Loyola Marymount University',
+	        firstName: first,
+	        lastName: last,
 	        paymentPreferences: defaultPreference,
 	        dateCreated: date
 	    };
@@ -2583,18 +2576,12 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
 	$(function() {
 	    $('.carousel.carousel-slider').carousel({full_width: true});
 	});
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -2607,8 +2594,8 @@
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
 	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
-	    var nameSizeMin = __webpack_require__(11)['nameSizeMin'];
-	    var nameSizeMax = __webpack_require__(11)['nameSizeMax'];
+	    var nameSizeMin = __webpack_require__(13)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(13)['nameSizeMax'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
@@ -2755,16 +2742,17 @@
 	        firstName.val(userInfo.firstName);
 	        lastName.val(userInfo.lastName);
 	        username.val(userInfo.username);
+
 	        firebaseUsername = userInfo.username;
 	        hub.val(userInfo.userHub);
 	        loadProfilePicture();
-	        $('.my-profile-username').text(firebaseUsername);
+	        $('.my-profile-username').text(userInfo.firstName);
+
 	        for (let preference in userInfo.paymentPreferences) {
 	            $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
 	        }
 
 	        $('select').material_select();
-
 	    };
 
 	    var checkInput = function (input) {
@@ -2911,6 +2899,126 @@
 	        password.attr("disabled", true);
 	        updateSettings();
 	    });
+
+	});
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict"
+
+	$(function() {
+	    const createAccount = __webpack_require__(2)["createAccount"];
+	    const sendVerificationEmail = __webpack_require__(2)['sendVerificationEmail'];
+	    const facebookAuthentication = __webpack_require__(2)['facebookLogin'];
+	    const googleAuthentication = __webpack_require__(2)['googleLogin'];
+	    const auth = __webpack_require__(2)['auth'];
+
+	    const nameCheck = new RegExp(/^[a-zA-Z]{2,15}[\ ][a-zA-Z]{2,20}$/);
+	    const emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
+	    const passwordSizeLimit = 8;
+	    const nameSizeMin = 2;
+	    const nameSizeMax = 15;    
+
+	    let nameValid = false;
+	    let lastNameValid = false;
+	    let emailValid = false;
+	    let passwordValid = false;
+
+	    let first = "";
+	    let last = "";
+
+	    const checkInput = function () {
+	        return nameValid && emailValid && passwordValid;
+	    };
+
+
+
+	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
+	        window.location.href = '/signup/signup.html';
+	    });
+
+	    $('body').on('click', '#google-login-button', function() {
+	        googleAuthentication();
+	    });
+
+	    $('body').on('click', '#fb-login-button', function() {
+	        facebookAuthentication();
+	    });
+
+
+	    $('body').on('click', '#sign-up-button-container', function() {
+	        if (checkInput()) {
+	            createAccount($('#signup-email').val(), $('#signup-password').val(), first, last);
+	            sendVerificationEmail();
+	        } else {
+	            // Materialize.toast('Invalid input.', 3000, 'rounded');
+	            if (!nameValid) {
+	                $("#fullname-alert").removeClass('hide');
+	            } 
+
+	            if (!passwordValid) {
+	                $("#password-alert").removeClass('hide');
+	            }
+	        }
+	    });
+
+
+	    $('body').on('keyup', '#signup-names', function() {
+	        const fullName = $('#signup-names').val();
+	        first = fullName.substr(0,fullName.indexOf(' '));
+	        last = fullName.substr(fullName.indexOf(' ') + 1);
+
+	        if (first.length < nameSizeMin || first.length > nameSizeMax || 
+	            last.length < nameSizeMin || last.length > nameSizeMax) {
+	            nameValid = false;
+	            $('#checkmark-name').addClass('hide');
+	        } else {
+	            nameValid = true
+	            $('#checkmark-name').removeClass('hide');
+	        }
+	    });
+
+	    $('body').on('keyup', '#signup-email', function() {
+	        let userEmail = $('#signup-email').val();
+
+	        if (emailCheck.test(userEmail)) {
+	            auth.fetchProvidersForEmail(userEmail).then(function(result) {
+	                if (result.length === 0) {
+	                    emailValid = true;
+	                    $('#checkmark-email').removeClass('hide');
+	                    $('#email-edu-blurb').text("(Must be .edu)");
+	                    $('#email-edu-blurb').removeClass('red-text text-darken-1');
+	                } else {
+	                    console.log('lol');
+	                    $('#email-edu-blurb').text("(Email is already registered)");
+	                    $('#email-edu-blurb').addClass('red-text text-darken-1');
+	                }
+	            }).catch(function(error) {
+	                console.log(error);
+	            });
+	        } else {
+	            emailValid = false;
+	            $('#checkmark-email').addClass('hide');
+	        }
+	    });
+
+	    $('body').on('keyup', '#signup-password', function() {
+	        if ($('#signup-password').val().length >= passwordSizeLimit) {
+	            passwordValid = true;
+	            $('#checkmark-password').removeClass('hide');
+	        } else {
+	            passwordValid = false;
+	            $('#checkmark-password').addClass('hide');
+	        }
+	    });
+
+	    module.exports = {
+	        nameSizeMin,
+	        nameSizeMax
+	    };
 
 	});
 
@@ -3131,123 +3239,6 @@
 	        window.location.href = `/items/item.html#item=${itemID}`;
 	    });
 	});
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict"
-
-	$(function() {
-	    const createAccount = __webpack_require__(2)["createAccount"];
-	    const sendVerificationEmail = __webpack_require__(2)['sendVerificationEmail'];
-	    const facebookAuthentication = __webpack_require__(2)['facebookLogin'];
-	    const googleAuthentication = __webpack_require__(2)['googleLogin'];
-	    const auth = __webpack_require__(2)['auth'];
-
-	    const nameCheck = new RegExp(/^[a-zA-Z]{2,15}[\ ][a-zA-Z]{2,20}$/);
-	    const emailCheck = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/);
-	    const passwordSizeLimit = 8;
-	    const nameSizeMin = 2;
-	    const nameSizeMax = 15;    
-
-	    let nameValid = false;
-	    let lastNameValid = false;
-	    let emailValid = false;
-	    let passwordValid = false;
-
-	    const checkInput = function () {
-	        return nameValid && emailValid && passwordValid;
-	    };
-
-
-
-	    $('#navbar-placeholder').on('click', '#sign-up-button', function () {
-	        window.location.href = '/signup/signup.html';
-	    });
-
-	    $('body').on('click', '#google-login-button', function() {
-	        googleAuthentication();
-	    });
-
-	    $('body').on('click', '#fb-login-button', function() {
-	        facebookAuthentication();
-	    });
-
-
-	    $('body').on('click', '#sign-up-button-container', function() {
-	        if (checkInput()) {
-	            createAccount();
-	            sendVerificationEmail();
-	        } else {
-	            // Materialize.toast('Invalid input.', 3000, 'rounded');
-	            if (!nameValid) {
-	                $("#fullname-alert").removeClass('hide');
-	            } 
-
-	            if (!passwordValid) {
-	                $("#password-alert").removeClass('hide');
-	            }
-	        }
-	    });
-
-
-	    $('body').on('keyup', '#signup-names', function() {
-	        const fullName = $('#signup-names').val();
-	        const first = fullName.substr(0,fullName.indexOf(' '));
-	        const last = fullName.substr(fullName.indexOf(' ') + 1);
-
-	        if (first.length < nameSizeMin || first.length > nameSizeMax || 
-	            last.length < nameSizeMin || last.length > nameSizeMax) {
-	            nameValid = false;
-	            $('#checkmark-name').addClass('hide');
-	        } else {
-	            nameValid = true
-	            $('#checkmark-name').removeClass('hide');
-	        }
-	    });
-
-	    $('body').on('keyup', '#signup-email', function() {
-	        let userEmail = $('#signup-email').val();
-
-	        if (emailCheck.test(userEmail)) {
-	            auth.fetchProvidersForEmail(userEmail).then(function(result) {
-	                if (result.length === 0) {
-	                    emailValid = true;
-	                    $('#checkmark-email').removeClass('hide');
-	                    $('#email-edu-blurb').text("(Must be .edu)");
-	                    $('#email-edu-blurb').removeClass('red-text text-darken-1');
-	                } else {
-	                    console.log('lol');
-	                    $('#email-edu-blurb').text("(Email is already registered)");
-	                    $('#email-edu-blurb').addClass('red-text text-darken-1');
-	                }
-	            }).catch(function(error) {
-	                console.log(error);
-	            });
-	        } else {
-	            emailValid = false;
-	            $('#checkmark-email').addClass('hide');
-	        }
-	    });
-
-	    $('body').on('keyup', '#signup-password', function() {
-	        if ($('#signup-password').val().length >= passwordSizeLimit) {
-	            passwordValid = true;
-	            $('#checkmark-password').removeClass('hide');
-	        } else {
-	            passwordValid = false;
-	            $('#checkmark-password').addClass('hide');
-	        }
-	    });
-
-	    module.exports = {
-	        nameSizeMin,
-	        nameSizeMax
-	    };
-
-	});
-
 
 /***/ }
 /******/ ]);

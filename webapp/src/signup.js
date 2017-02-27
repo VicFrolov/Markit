@@ -18,6 +18,9 @@ $(function() {
     let emailValid = false;
     let passwordValid = false;
 
+    let first = "";
+    let last = "";
+
     const checkInput = function () {
         return nameValid && emailValid && passwordValid;
     };
@@ -39,7 +42,7 @@ $(function() {
 
     $('body').on('click', '#sign-up-button-container', function() {
         if (checkInput()) {
-            createAccount();
+            createAccount($('#signup-email').val(), $('#signup-password').val(), first, last);
             sendVerificationEmail();
         } else {
             // Materialize.toast('Invalid input.', 3000, 'rounded');
@@ -56,8 +59,8 @@ $(function() {
 
     $('body').on('keyup', '#signup-names', function() {
         const fullName = $('#signup-names').val();
-        const first = fullName.substr(0,fullName.indexOf(' '));
-        const last = fullName.substr(fullName.indexOf(' ') + 1);
+        first = fullName.substr(0,fullName.indexOf(' '));
+        last = fullName.substr(fullName.indexOf(' ') + 1);
 
         if (first.length < nameSizeMin || first.length > nameSizeMax || 
             last.length < nameSizeMin || last.length > nameSizeMax) {
