@@ -19,27 +19,30 @@
       <div class="z-depth-1" id="signup-container">
         <div id="login-popup-inner">
           <p id="signup-blurb"> Join the vendyr Community</p>
-          <a class="waves-effect waves-light btn signup-inner-items z-depth-0" id="fb-login-button"><i class="material-icons left"></i>Connect with Facebook</a>
+          <a class="waves-effect waves-light btn signup-inner-items z-depth-0" id="fb-login-button">Connect with Facebook</a>
           <div class="crossline-wrapper">
             <div> or </div>
           </div>
           <div class="row login-fields">
               <div class="row">
                 <div class="input-field col s12">
-                  <label for="signup-names">Full Name</label>
+                  <label for="signup-names">Full Name <span class="signup-small-alert hide red-text text-darken-1" id="fullname-alert">(First and Last name required, both must be over 2 characters)</span></label>
                   <input type="email" id="signup-names" placeholder="John Doe">
+                  <i class="small material-icons valid-entry-checkmark hide" id="checkmark-name">ic_check_circle</i>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <label for="signup-email">Email</label>
+                  <label for="signup-email">Email <span id="email-edu-blurb">(Must be .edu)</span></label>
                   <input type="email" id="signup-email" placeholder="jDoe@lion.lmu.edu">
+                  <i class="small material-icons valid-entry-checkmark hide" id="checkmark-email">ic_check_circle</i>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <label for="signup-email">Password</label>
-                  <input id="signup-email" type="password" placeholder="Password">
+                  <label for="signup-password">Password <span class="signup-small-alert hide red-text text-darken-1" id="password-alert">(Must be 8 or more characters)</span></label>
+                  <input id="signup-password" type="password" placeholder="Password">
+                  <i class="small material-icons valid-entry-checkmark hide" id="checkmark-password">ic_check_circle</i>
                 </div>
               </div>
           </div>
