@@ -197,6 +197,8 @@
 
 
 	var addProfilePicture = function (uid, image) {
+	    console.log('image');
+	    console.log(image);
 	    return new Promise(function(resolve, reject) {
 	        image = image.replace(/^.*base64,/g, '');
 	        var profilePicName = "imageOne";
@@ -861,7 +863,7 @@
 	            let date = Date();
 	            let defaultPreference = ['cash'];
 	            let user = auth.currentUser;
-	            console.log(result);
+	            console.log(result.user);
 
 	            let userInfo = {
 	                uid: user.uid,
@@ -873,6 +875,8 @@
 	                paymentPreferences: defaultPreference,
 	                dateCreated: date
 	            };
+	            // addProfilePicture(user.uid, convertURLToImage(result.user.photoURL), addProfilePicture);
+	            convertURLToImage(result.user.photoURL, user.uid, addProfilePicture);
 	            usersRef.child(user.uid).set(userInfo);
 	        }
 	    });
@@ -882,6 +886,36 @@
 	    auth.signInWithRedirect(googleProvider);
 	};
 
+	const convertURLToImage = (url, userId, callback) => {
+	    let canvas = document.createElement("canvas");
+	    let context = canvas.getContext('2d');
+	    let image = new Image();
+	    image.src = url;
+	    console.log(image);
+	    image.onload = () => {
+	        context.drawImage(image, 100, 100);
+	        let source = canvas.toDataURL('image/jpeg');
+	        console.log(source);
+	        callback(source);
+	    }
+	};
+
+	let savePictureFromURL = (url) => {
+	  let filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
+	  let xhr = new XMLHttpRequest();
+	  xhr.responseType = 'blob';
+	  xhr.onload = function() {
+	    var a = document.createElement('a');
+	    a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
+	    a.download = filename; // Set the file name.
+	    a.style.display = 'none';
+	    document.body.appendChild(a);
+	    a.click();
+	    a.remove();
+	  };
+	  xhr.open('GET', url);
+	  xhr.send().then();
+	}
 
 	module.exports = {
 	    auth,
