@@ -3203,17 +3203,17 @@
 
 	    const scrollAmount = 420;
 
-	    $('#scroll-left').on('click', () => {
-	        const leftPos = $('.outside-scroll-container').scrollLeft();
-	        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 400);
-
+	    $('.scroll-left').on('click', function () {
+	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
+	        const leftPos = $divToScroll.scrollLeft();
+	        $divToScroll.animate({ scrollLeft:  leftPos - scrollAmount }, 400);
 	    });
 
-	    $('#scroll-right').on('click', () => {
+	    $('.scroll-right').on('click', function () {
 	        const leftPos = $('.outside-scroll-container').scrollLeft();
-
+	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
 	        if (leftPos <= scrollAmount * 2) {
-	            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 400);
+	            $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, 400);
 	        }
 	    });    
 
