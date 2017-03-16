@@ -55,7 +55,7 @@ $(() => {
             const str = placeholderElement.text();
             const compiled = _.template(str);
 
-            // mostRecentItemsFirstDiv.empty();
+            placeholderElement.empty();
             placeholderElement.prepend(compiled({items: items}));
 
 
