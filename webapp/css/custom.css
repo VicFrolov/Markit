@@ -291,21 +291,54 @@ footer .page-footer {
     font-weight: 800;
     letter-spacing: 5px;
     color: #fff;
-    margin: 0px 0px 20px 0px;
     padding: 0px;
 }
 
+#splash-pick-campus h6 {
+    color: #ccc;
+    margin: 0px 0px 60px 0px;
+}
+
+#campus-list {
+    margin: 0px 200px 60px 200px;
+}
+
 .campus-button {
-    height: 300px;
-    width: 400px;
-    margin-right: 20px;
-    margin-left: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: black;
-    font-size: 60px;
+    height: 150px;
+    width: 350px;
+
+    margin: 20px 10px 0px 0px;
+    color: #eee;
+    border: 3px solid #eee;
+    border-radius: 8px;
+    font-size: 30px;
+    letter-spacing: 5px;
+    cursor: pointer;
+
+    background-size: 200% 200%;
+    background-image: 
+    linear-gradient(to top, #A72424 50%, transparent 50%);
+    -webkit-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -moz-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -ms-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -o-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+}
+
+.campus-button:hover {
+    border-color: #A72424;
+    background-image: 
+    linear-gradient(to top, #A72424 51%, transparent 50%);
+    background-position: 0 100%;
+    -webkit-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -moz-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -ms-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    -o-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
+    transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
 }
 
 .short-line-break {
     width: 200px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+    text-align: left;
 }
