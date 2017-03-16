@@ -10,6 +10,14 @@ main {
     /*flex: 1 0 auto;*/
 }
 
+/* helper for horizontal/vertical align */
+
+.hori-vert-align {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /*Fonts*/
 
 .bold-caption {
@@ -267,4 +275,37 @@ footer .page-footer {
 
 .section {
     padding: 0px;
+}
+
+
+/* select campus to search*/
+#splash-pick-campus {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    background-color: #282828;
+}
+
+#splash-pick-campus h1 {
+    font-family: Raleway, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    color: #fff;
+    margin: 0px 0px 20px 0px;
+    padding: 0px;
+}
+
+.campus-button {
+    height: 300px;
+    width: 400px;
+    margin-right: 20px;
+    margin-left: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    font-size: 60px;
+}
+
+.short-line-break {
+    width: 200px;
+    margin-bottom: 60px;
 }
