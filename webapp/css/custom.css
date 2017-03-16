@@ -285,13 +285,25 @@ footer .page-footer {
     background-color: #282828;
 }
 
+.splash-big-blurb {
+    font-family: Raleway, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    color: #555;
+    padding: 0px;
+    text-align: center;
+    margin-top: 150px;
+}
+
 #splash-pick-campus h1 {
     font-family: Raleway, sans-serif;
     font-size: 30px;
     font-weight: 800;
     letter-spacing: 5px;
-    color: #fff;
+    color: #eee;
     padding: 0px;
+    text-align: center;
 }
 
 #splash-pick-campus h6 {
@@ -336,6 +348,16 @@ footer .page-footer {
     -o-transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
     transition: background-position 500ms, color 500ms ease, border-color 500ms ease;
 }
+
+.campus-button-coming-soon {
+    background-image: linear-gradient(to top, #555 50%, transparent 50%);
+}
+
+.campus-button-coming-soon:hover {
+    border-color: #555;
+    background-image: linear-gradient(to top, #555 51%, transparent 50%);
+}
+
 
 .short-line-break {
     width: 200px;

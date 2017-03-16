@@ -77,7 +77,10 @@
         </div>
       </div>
       <div class="section white">
+        <h1 class="splash-big-blurb">Shop by Most Recent</h1>
+        <hr class="short-line-break">
         <div class="scroll-blurb">
+
           <p> Newest Items around Loyola Marymount University</p>
         </div>
         <div class="scroll-object">
@@ -89,7 +92,7 @@
               <script type="text/template" id="first-div-results-template">
                 <% for (var specificItem in items) { %>
                 <%     var item = items[specificItem] %>
-                  <div class="card find-result hoverable">
+                  <div class="card find-result z-depth-1 hoverable">
                     <div class="find-result-favorite">
                       <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
                     </div>
@@ -182,10 +185,10 @@
         <div id="campus-list">
           <div class="campus-button hori-vert-align z-depth-4 hoverable">UCLA</div>
           <div class="campus-button hori-vert-align z-depth-4 hoverable">LMU</div>
-          <div class="campus-button hori-vert-align z-depth-4 hoverable">USC</div>
-          <div class="campus-button hori-vert-align z-depth-4 hoverable">UCB</div>
-          <div class="campus-button hori-vert-align z-depth-4 hoverable">NYU</div>
-          <div class="campus-button hori-vert-align z-depth-4 hoverable">MIT</div>          
+          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">USC</div>
+          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">UCB</div>
+          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">NYU</div>
+          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">MIT</div>          
         </div>
       </div>
     </main>

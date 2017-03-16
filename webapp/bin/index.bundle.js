@@ -3215,7 +3215,17 @@
 	        if (leftPos <= scrollAmount * 2) {
 	            $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, 400);
 	        }
-	    });    
+	    });
+
+	    $('.campus-button-coming-soon').hover(function() {
+	        const $this = $(this);
+	        const schoolName = $this.text();
+	        $this.data('schoolName', schoolName);
+	        $this.text("Coming Soon");
+	    }, function () {
+	        const $this = $(this);
+	        $this.text($this.data('schoolName'));
+	    })
 
 	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
 
