@@ -318,15 +318,13 @@ footer .page-footer {
 .campus-button {
     height: 150px;
     width: 350px;
-
     margin: 20px 10px 0px 0px;
     color: #eee;
     border: 3px solid #eee;
     border-radius: 8px;
-    font-size: 30px;
+    font-size: 20px;
     letter-spacing: 5px;
     cursor: pointer;
-
     background-size: 200% 200%;
     background-image: 
     linear-gradient(to top, #A72424 50%, transparent 50%);
@@ -356,6 +354,7 @@ footer .page-footer {
 .campus-button-coming-soon:hover {
     border-color: #555;
     background-image: linear-gradient(to top, #555 51%, transparent 50%);
+    cursor: not-allowed;
 }
 
 
