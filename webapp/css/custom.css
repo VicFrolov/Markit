@@ -237,6 +237,12 @@ footer .page-footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 45px;
+    background-color: #eee;
+    margin-bottom: 45px;
+    margin-right: 10px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .right-scroll-arrow-container {
@@ -244,11 +250,17 @@ footer .page-footer {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.scroll-button {
+    margin-top: 45px;
+    background-color: #eee;
+    margin-bottom: 45px;
+    margin-left: 10px;
     cursor: pointer;
     user-select: none;
+}
+
+.left-scroll-arrow-container:hover i, .right-scroll-arrow-container:hover i {
+    color: #F4A49D;
+    font-size: 30px !important;
 }
 
 .scroll-blurb p {

@@ -3203,8 +3203,8 @@
 
 	    const scrollAmount = 420;
 
-	    $('.scroll-left').on('click', function () {
-	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
+	    $('.left-scroll-arrow-container').on('click', function () {
+	        const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
 	        const leftPos = $divToScroll.scrollLeft();
 
 	        if (leftPos === 0) {
@@ -3216,8 +3216,8 @@
 	        console.log(leftPos);
 	    });
 
-	    $('.scroll-right').on('click', function () {
-	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
+	    $('.right-scroll-arrow-container').on('click', function () {
+	        const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
 	        const leftPos = $divToScroll.scrollLeft();
 	        if (leftPos <= scrollAmount * 2) {
 	            $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, 400);
