@@ -3206,15 +3206,23 @@
 	    $('.scroll-left').on('click', function () {
 	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
 	        const leftPos = $divToScroll.scrollLeft();
-	        $divToScroll.animate({ scrollLeft:  leftPos - scrollAmount }, 400);
+
+	        if (leftPos === 0) {
+	            $divToScroll.animate({ scrollLeft:  0 }, 400);    
+	        } else {
+	            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);    
+	        }
+	        
+	        console.log(leftPos);
 	    });
 
 	    $('.scroll-right').on('click', function () {
-	        const leftPos = $('.outside-scroll-container').scrollLeft();
 	        const $divToScroll = $($(this).parent().parent().find('.outside-scroll-container'));
+	        const leftPos = $divToScroll.scrollLeft();
 	        if (leftPos <= scrollAmount * 2) {
 	            $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, 400);
 	        }
+	        console.log(leftPos)
 	    });
 
 	    $('.campus-button-coming-soon').hover(function() {
