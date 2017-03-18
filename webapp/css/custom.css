@@ -21,14 +21,14 @@ main {
 /*Fonts*/
 
 .bold-caption {
-    font-size: 80px;
+    font-size: 40px;
     font-weight: 900;
-    color: #fff;
+    color: #555;
 }
 
 .caption-text-below {
     font-size: 17px;
-    color: #fff;
+    color: #555;
 }
 
 /*fading blurbs */
@@ -159,6 +159,7 @@ footer .page-footer {
 
 .card .card-image {
     height: 200px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 
@@ -166,6 +167,7 @@ footer .page-footer {
     margin: 20px 10px 20px 10px;
     position: relative;
     width: 400px;
+    border-radius: 10px;
 }
 
 .card-contact {
@@ -239,7 +241,6 @@ footer .page-footer {
     align-items: center;
     justify-content: center;
     margin-top: 45px;
-    background-color: #eee;
     margin-bottom: 45px;
     margin-right: 10px;
     cursor: pointer;
@@ -252,7 +253,6 @@ footer .page-footer {
     align-items: center;
     justify-content: center;
     margin-top: 45px;
-    background-color: #eee;
     margin-bottom: 45px;
     margin-left: 10px;
     cursor: pointer;
