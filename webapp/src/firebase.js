@@ -257,6 +257,13 @@ var signIn = function (email, password) {
     });
 };
 
+let anonymousSignIn = () => {
+    auth.signInAnonymously().catch( (error) => {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+    });
+};
+
 var addNewListingToProfile = function(uid, itemID) {
     usersRef.child(uid + '/itemsForSale/' + itemID).set(true);
 };
@@ -714,13 +721,23 @@ const convertURLToImage = (url, userId, callback) => {
     let image = new Image();
     image.src = url;
     console.log(image);
-    image.onload = () => {
+    image.onload = (userId) => {
         context.drawImage(image, 100, 100);
         let source = canvas.toDataURL('image/jpeg');
         console.log(source);
         callback(source);
     }
 };
+
+// const convertURLToImage = (url, userId, callback) => {
+//     let $img = $('<img>', { width : 100, height : 100, src : url });
+//     // $img.onload = () => {
+//         let source = $img.toDataURL('image/jpg');
+//         console.log(source);
+//         callback(userId, source);
+//         $img.remove();
+//     // }
+// };
 
 let savePictureFromURL = (url) => {
   let filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
@@ -737,7 +754,7 @@ let savePictureFromURL = (url) => {
   };
   xhr.open('GET', url);
   xhr.send().then();
-}
+};
 
 module.exports = {
     auth,
