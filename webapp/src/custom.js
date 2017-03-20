@@ -55,7 +55,7 @@ $(() => {
             const str = placeholderElement.text();
             const compiled = _.template(str);
 
-            // mostRecentItemsFirstDiv.empty();
+            placeholderElement.empty();
             placeholderElement.prepend(compiled({items: items}));
 
 
@@ -89,19 +89,37 @@ $(() => {
 
     const scrollAmount = 420;
 
-    $('#scroll-left').on('click', () => {
-        const leftPos = $('.outside-scroll-container').scrollLeft();
-        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 400);
+    $('.left-scroll-arrow-container').on('click', function () {
+        const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
+        const leftPos = $divToScroll.scrollLeft();
 
+        if (leftPos === 0) {
+            $divToScroll.animate({ scrollLeft:  0 }, 400);    
+        } else {
+            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);    
+        }
+        
+        console.log(leftPos);
     });
 
-    $('#scroll-right').on('click', () => {
-        const leftPos = $('.outside-scroll-container').scrollLeft();
-
+    $('.right-scroll-arrow-container').on('click', function () {
+        const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
+        const leftPos = $divToScroll.scrollLeft();
         if (leftPos <= scrollAmount * 2) {
-            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 400);
+            $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, 400);
         }
-    });    
+        console.log(leftPos)
+    });
+
+    $('.campus-button-coming-soon').hover(function() {
+        const $this = $(this);
+        const schoolName = $this.text();
+        $this.data('schoolName', schoolName);
+        $this.text("Coming Soon");
+    }, function () {
+        const $this = $(this);
+        $this.text($this.data('schoolName'));
+    })
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
 
