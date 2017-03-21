@@ -36,7 +36,7 @@ $(() => {
     const fadingBlurbs = (blurbSide) => {
         if (blurbSide) {
             $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
-                blurbLeft = !blurbLeft;
+                // blurbLeft = !blurbLeft;
                 fadingBlurbs(blurbLeft);
             });
         } else {
