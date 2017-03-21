@@ -67,6 +67,8 @@ main {
     border-radius: 10px;
     position: relative;
     bottom: 250px;
+    -webkit-transition: background-color 1s;
+    transition: background-color 1s;
 }
 
 .search-container:hover {
