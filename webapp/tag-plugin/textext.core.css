@@ -1,9 +1,16 @@
 .text-core {
   position: relative;
 }
+
 .text-core .text-wrap {
-  background: #fff;
+  background-color: rgba(255, 255, 255, 0.5);
   position: absolute;
+  -webkit-transition: background-color 1s;
+  transition: background-color 1s;
+}
+
+.text-core .text-wrap:hover {
+  background-color: #fff;
 }
 .text-core .text-wrap textarea,
 .text-core .text-wrap input {

@@ -72,9 +72,18 @@ main {
 }
 
 .search-container:hover {
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
+.search-container input {
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-transition: background-color 1s;
+    transition: background-color 1s;
+}
+
+.search-container input:hover {
+    background-color: rgba(255, 255, 255, 1.0);
+}
 .search-container .row {
     margin-bottom: 0px;
 }
@@ -95,7 +104,6 @@ main {
 input[type=text] {
     border: 1px solid rgba(0, 0, 0, 0.3);
     padding-left: 10px;
-    background-color: #fff;
 }
 
 label {
