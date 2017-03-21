@@ -33,10 +33,10 @@ $(function() {
             })(i);
         }
     };
-    
+
 
     auth.onAuthStateChanged(function(user) {
-        if (user && $(favoriteTemplate).length > 0) {
+        if (user && !user.isAnonymous && $(favoriteTemplate).length > 0) {
             getFavoriteObjects(showFavoritesInSidebar);
             $("#find-favorite-logged-in").css('display', 'block');
             $("#find-favorite-logged-out").css('display', 'none');

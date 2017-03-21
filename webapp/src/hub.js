@@ -66,7 +66,7 @@ $(function () {
     }
 
     auth.onAuthStateChanged(function(user) {
-        if (user && $(mostRecentItems).length > 0) {
+        if (user && !user.isAnonymous && $(mostRecentItems).length > 0) {
             getUserInfo(auth.currentUser.uid, showUserInfo);
             getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
             showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
@@ -74,7 +74,7 @@ $(function () {
             window.location.href = "../index.html";
 
         }
-    });    
-    
+    });
+
 
 });

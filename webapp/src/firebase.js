@@ -68,7 +68,7 @@ var getProfilePicture = function (uid) {
 
 var sendVerificationEmail = function () {
     firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
+        if (user && !user.isAnonymous) {
             user.sendEmailVerification();
         }
     });
@@ -151,7 +151,7 @@ var getRecentItemsInHub = function (hub, limit) {
 // of callback + promise
 var getFavorites = function (callback) {
     auth.onAuthStateChanged(function(user) {
-        if (user) {
+        if (user && !user.isAnonymous) {
             usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
                 callback(snapshot.val());
             }, function (error) {
@@ -199,6 +199,12 @@ var updateUserInfo = function(uid, updatedInfo) {
 };
 
 var getImage = function(address, callback) {
+    auth.onAuthStateChanged( (user) => {
+        if (!user) {
+            anonymousSignIn();
+            console.log('anonymousSignIn');
+        }
+    });
     itemImagesRef.child(address).getDownloadURL().then(function(url) {
         callback(url);
     }).catch(function(error) {
@@ -257,7 +263,7 @@ var signIn = function (email, password) {
     });
 };
 
-let anonymousSignIn = () => {
+const anonymousSignIn = () => {
     auth.signInAnonymously().catch( (error) => {
         let errorCode = error.code;
         let errorMessage = error.message;
@@ -791,5 +797,6 @@ module.exports = {
     getUserSelling,
     setItemAsSold,
     facebookLogin,
-    googleLogin
+    googleLogin,
+    anonymousSignIn
 };

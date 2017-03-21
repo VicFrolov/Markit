@@ -55,7 +55,7 @@ $(function () {
 
             $('#profile-liked-holder').empty();
             $('#profile-liked-holder').append(compiled({items: items}));
-            
+
             for (var item in items) {
                 imagePaths.push(items[item]['id']);
             }
@@ -209,7 +209,7 @@ $(function () {
     }
 
     auth.onAuthStateChanged(function(user) {
-        if (user) {
+        if (user && !user.isAnonymous) {
             uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
                 $('select').material_select();

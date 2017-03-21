@@ -70,14 +70,14 @@
 	    let profilePic;
 	    let profileName;
 	    let searchNavbar = $('.search-navbar');
-	    
+
 	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
 	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
-	 
+
 	    var updateNavbarName = function (profileName) {
 	        Promise.resolve(getUserInfo(uid)).then(userData => {
 	            profileName.text(userData.firstName);
-	        });        
+	        });
 	    };
 
 	    var updateNavbarPic = function (navbarProfilePic) {
@@ -100,13 +100,13 @@
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && !user.isAnonymous) {
 	            uid = auth.currentUser.uid;
 
 	            // if (window.location.pathname === "/signup/signup.html") {
 	            //     window.location.href = '/'
 	            // }
-	            
+
 	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
 	                navbarProfilePic = $('#navbar-user-photo');
 	                profileName = $('#profile-name');
@@ -155,7 +155,7 @@
 	                    edge: 'right', // Choose the horizontal origin
 	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
 	                    draggable: true // Choose whether you can drag to open on touch screens
-	                });                
+	                });
 	            });
 	        }
 	    });
@@ -166,6 +166,7 @@
 	    }
 
 	});
+
 
 /***/ },
 /* 2 */
@@ -241,7 +242,7 @@
 
 	var sendVerificationEmail = function () {
 	    firebase.auth().onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && !user.isAnonymous) {
 	            user.sendEmailVerification();
 	        }
 	    });
@@ -324,7 +325,7 @@
 	// of callback + promise
 	var getFavorites = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && !user.isAnonymous) {
 	            usersRef.child(auth.currentUser.uid + '/favorites/').once("value").then(function (snapshot) {
 	                callback(snapshot.val());
 	            }, function (error) {
@@ -372,6 +373,12 @@
 	};
 
 	var getImage = function(address, callback) {
+	    auth.onAuthStateChanged( (user) => {
+	        if (!user) {
+	            anonymousSignIn();
+	            console.log('anonymousSignIn');
+	        }
+	    });
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
 	        callback(url);
 	    }).catch(function(error) {
@@ -430,7 +437,7 @@
 	    });
 	};
 
-	let anonymousSignIn = () => {
+	const anonymousSignIn = () => {
 	    auth.signInAnonymously().catch( (error) => {
 	        let errorCode = error.code;
 	        let errorMessage = error.message;
@@ -964,7 +971,8 @@
 	    getUserSelling,
 	    setItemAsSold,
 	    facebookLogin,
-	    googleLogin
+	    googleLogin,
+	    anonymousSignIn
 	};
 
 
@@ -1965,10 +1973,10 @@
 	            })(i);
 	        }
 	    };
-	    
+
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user && $(favoriteTemplate).length > 0) {
+	        if (user && !user.isAnonymous && $(favoriteTemplate).length > 0) {
 	            getFavoriteObjects(showFavoritesInSidebar);
 	            $("#find-favorite-logged-in").css('display', 'block');
 	            $("#find-favorite-logged-out").css('display', 'none');
@@ -2687,7 +2695,7 @@
 
 	            $('#profile-liked-holder').empty();
 	            $('#profile-liked-holder').append(compiled({items: items}));
-	            
+
 	            for (var item in items) {
 	                imagePaths.push(items[item]['id']);
 	            }
@@ -2841,7 +2849,7 @@
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user) {
+	        if (user && !user.isAnonymous) {
 	            uid = auth.currentUser.uid;
 	            if (window.location.pathname === '/profile/profile.html') {
 	                $('select').material_select();
@@ -3141,7 +3149,7 @@
 	    }
 
 	    auth.onAuthStateChanged(function(user) {
-	        if (user && $(mostRecentItems).length > 0) {
+	        if (user && !user.isAnonymous && $(mostRecentItems).length > 0) {
 	            getUserInfo(auth.currentUser.uid, showUserInfo);
 	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
 	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
@@ -3149,10 +3157,11 @@
 	            window.location.href = "../index.html";
 
 	        }
-	    });    
-	    
+	    });
+
 
 	});
+
 
 /***/ },
 /* 15 */
