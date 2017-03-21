@@ -12,7 +12,6 @@
     <link type="text/css" rel="stylesheet" href="css/custom.css"  media="screen,projection"/>
     <link rel="shortcut icon" type="image/png" href="../media/favicon.png"/>
   </head>
-
   <body>
     <!-- facebook auth stuff -->
     <script>
@@ -32,7 +31,6 @@
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
-
     <header>
       <div id="navbar-placeholder"> </div>
     </header>
@@ -49,7 +47,6 @@
               <p class="caption-text-below">Enter a search once, and only once (e.g. ISBN for a book). we'll notify you when the item is available at the locations and price that you want.</p>
           </div>
         </div> 
-        
         <div class="search-container z-depth-4">
           <div class="row">
             <div class="col s12 m12 l3">
@@ -74,15 +71,11 @@
           </div>
           <p id="optional-blurb">(All fields are optional)</p>
         </div>
-
       </div>
-
-
       <div class="section white">
         <h1 class="splash-big-blurb">Shop by Most Recent</h1>
         <hr class="short-line-break">
         <div class="scroll-blurb">
-
           <p> Newest Items around Loyola Marymount University</p>
         </div>
         <div class="scroll-object">
@@ -98,13 +91,11 @@
                     <div class="find-result-favorite">
                       <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
                     </div>
-                    <div class="find-result-price">
-                      $ <%- item['price'] %>
-                    </div>
                     <div class="card-image waves-effect waves-block waves-light">
                       <img class="activator" src="" id=<%- item['id'] %>>
                     </div>
                     <div class="card-content">
+                      <span class="find-result-price">$ <%- item['price'] %> - </span>
                       <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
                       <p>
                         <span class="view-item-detail">view item</span>
@@ -147,9 +138,6 @@
                     <div class="find-result-favorite">
                       <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
                     </div>
-                    <div class="find-result-price">
-                      $ <%- item['price'] %>
-                    </div>
                     <div class="card-image waves-effect waves-block waves-light">
                       <img class="activator" src="" id=<%- item['id'] %>>
                     </div>
@@ -178,7 +166,7 @@
           <div class="right-scroll-arrow-container">
             <i class="material-icons small right scroll-button scroll-right">keyboard_arrow_right</i>
           </div>
-        </div>        
+        </div>
       </div>
       <div class="center" id="splash-pick-campus">
         <h1>Shop by Campus</h1>
@@ -190,7 +178,7 @@
           <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">USC</div>
           <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">UCB</div>
           <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">NYU</div>
-          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">MIT</div>          
+          <div class="campus-button campus-button-coming-soon hori-vert-align z-depth-4 hoverable">MIT</div>
         </div>
       </div>
     </main>

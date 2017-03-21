@@ -197,16 +197,7 @@ footer .page-footer {
 }
 
 .find-result-price {
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    color: black;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 5px;
-    font-size: 1.1rem;
-    z-index: 3;
-    color: #fff;
-    pointer-events: none;
+    color: #AED581;
 }
 
 .find-result-favorite {
@@ -288,6 +279,9 @@ footer .page-footer {
     align-items: center;
     opacity: 0.3;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 1px rgba(0,0,0,0.23);
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .see-more-card p {
