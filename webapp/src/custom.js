@@ -66,7 +66,8 @@ $(() => {
             for (let i = 0; i < imagePaths.length; i += 1) {
                 ((x)=> {
                     getImage(imagePaths[x] + '/imageOne', (url) => {
-                        $(`#${imagePaths[x]}`).attr({src: url});
+                        console.log(url)
+                        $(`.${imagePaths[x]}`).attr({src: url});
                     });
                 })(i);
             }
@@ -122,7 +123,6 @@ $(() => {
     })
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
-
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
