@@ -34,6 +34,9 @@ main {
 /*fading blurbs */
 
 .main-info-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
     height: 200px;
     margin: 100px 10% 100px 10%;
 }
@@ -57,13 +60,30 @@ main {
 /*search box*/
 
 .search-container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.5);
     margin-left: 10%;
     margin-right: 10%;
     padding: 40px 40px 40px 40px;
     border-radius: 10px;
+    position: relative;
+    bottom: 250px;
+    -webkit-transition: background-color 1s;
+    transition: background-color 1s;
 }
 
+.search-container:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.search-container input {
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-transition: background-color 1s;
+    transition: background-color 1s;
+}
+
+.search-container input:hover {
+    background-color: rgba(255, 255, 255, 1.0);
+}
 .search-container .row {
     margin-bottom: 0px;
 }
@@ -84,7 +104,6 @@ main {
 input[type=text] {
     border: 1px solid rgba(0, 0, 0, 0.3);
     padding-left: 10px;
-    background-color: #fff;
 }
 
 label {
@@ -188,16 +207,7 @@ footer .page-footer {
 }
 
 .find-result-price {
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    color: black;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 5px;
-    font-size: 1.1rem;
-    z-index: 3;
-    color: #fff;
-    pointer-events: none;
+    color: #AED581;
 }
 
 .find-result-favorite {
@@ -279,6 +289,9 @@ footer .page-footer {
     align-items: center;
     opacity: 0.3;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 1px rgba(0,0,0,0.23);
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .see-more-card p {
@@ -306,7 +319,7 @@ footer .page-footer {
     color: #555;
     padding: 0px;
     text-align: center;
-    margin-top: 150px;
+    margin-top: -50px;
 }
 
 #splash-pick-campus h1 {
@@ -375,4 +388,8 @@ footer .page-footer {
     width: 200px;
     margin-bottom: 40px;
     text-align: left;
+}
+
+#big-header-image {
+
 }

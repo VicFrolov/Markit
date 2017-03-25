@@ -36,7 +36,7 @@ $(() => {
     const fadingBlurbs = (blurbSide) => {
         if (blurbSide) {
             $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
-                blurbLeft = !blurbLeft;
+                // blurbLeft = !blurbLeft;
                 fadingBlurbs(blurbLeft);
             });
         } else {
@@ -83,7 +83,7 @@ $(() => {
             tagsInput[i] = tagsInput[i].toLowerCase();
 
         }
-        
+
         window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
     });
 
@@ -94,11 +94,11 @@ $(() => {
         const leftPos = $divToScroll.scrollLeft();
 
         if (leftPos === 0) {
-            $divToScroll.animate({ scrollLeft:  0 }, 400);    
+            $divToScroll.animate({ scrollLeft:  0 }, 400);
         } else {
-            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);    
+            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);
         }
-        
+
         console.log(leftPos);
     });
 

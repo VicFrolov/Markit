@@ -54,7 +54,8 @@
 	__webpack_require__(2);
 	__webpack_require__(15);
 	__webpack_require__(16);
-	module.exports = __webpack_require__(13);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
@@ -377,15 +378,21 @@
 	        if (!user) {
 	            anonymousSignIn();
 	            console.log('anonymousSignIn');
+	        } else {
+	            getImageHelper(address, callback);
 	        }
 	    });
+	    getImageHelper(address, callback);
+	};
+
+	const getImageHelper = (address, callback) => {
 	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
 	        callback(url);
 	    }).catch(function(error) {
 	        console.log("error image not found");
 	        console.log("error either in item id, filename, or file doesn't exist");
 	    });
-	};
+	}
 
 	var getFavoriteObjects = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
@@ -3205,7 +3212,7 @@
 	    const fadingBlurbs = (blurbSide) => {
 	        if (blurbSide) {
 	            $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
-	                blurbLeft = !blurbLeft;
+	                // blurbLeft = !blurbLeft;
 	                fadingBlurbs(blurbLeft);
 	            });
 	        } else {
@@ -3252,7 +3259,7 @@
 	            tagsInput[i] = tagsInput[i].toLowerCase();
 
 	        }
-	        
+
 	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
 	    });
 
@@ -3263,11 +3270,11 @@
 	        const leftPos = $divToScroll.scrollLeft();
 
 	        if (leftPos === 0) {
-	            $divToScroll.animate({ scrollLeft:  0 }, 400);    
+	            $divToScroll.animate({ scrollLeft:  0 }, 400);
 	        } else {
-	            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);    
+	            $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, 400);
 	        }
-	        
+
 	        console.log(leftPos);
 	    });
 
@@ -3300,6 +3307,7 @@
 	    }
 	});
 
+
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
@@ -3312,6 +3320,17 @@
 	        window.location.href = `/items/item.html#item=${itemID}`;
 	    });
 	});
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	$( () => {
+	    console.log('WHAT IS UP!?');
+	    const anonymousSignIn = __webpack_require__(2)["anonymousSignIn"];
+	    anonymousSignIn();
+	});
+
 
 /***/ }
 /******/ ]);

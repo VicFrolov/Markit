@@ -203,15 +203,21 @@ var getImage = function(address, callback) {
         if (!user) {
             anonymousSignIn();
             console.log('anonymousSignIn');
+        } else {
+            getImageHelper(address, callback);
         }
     });
+    getImageHelper(address, callback);
+};
+
+const getImageHelper = (address, callback) => {
     itemImagesRef.child(address).getDownloadURL().then(function(url) {
         callback(url);
     }).catch(function(error) {
         console.log("error image not found");
         console.log("error either in item id, filename, or file doesn't exist");
     });
-};
+}
 
 var getFavoriteObjects = function (callback) {
     auth.onAuthStateChanged(function(user) {
