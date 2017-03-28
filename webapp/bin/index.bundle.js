@@ -2673,6 +2673,7 @@
 	    var reader;
 	    var user;
 	    var uid;
+	    let userRating;
 	    var firebaseUsername;
 	    var likedCardList = $('#profile-liked-card-list');
 	    var sellingCardList = $('#profile-selling-card-list');
@@ -2686,6 +2687,11 @@
 	    var lastName = $('#profile-last-name');
 	    var username = $('#profile-user-name');
 	    var hub = $('#profile-hub-name');
+	    let star1 = $('#star-1');
+	    let star2 = $('#star-2');
+	    let star3 = $('#star-3');
+	    let star4 = $('#star-4');
+	    let star5 = $('#star-5');
 	    var paymentPreference;
 	    var emailNotifications = $('#email-notifications');
 	    var password = $('#profile-password');
@@ -2804,6 +2810,7 @@
 	        firstName.val(userInfo.firstName);
 	        lastName.val(userInfo.lastName);
 	        username.val(userInfo.username);
+	        userRating = (userInfo.userRating);
 
 	        firebaseUsername = userInfo.username;
 	        hub.val(userInfo.userHub);
@@ -2815,6 +2822,21 @@
 	        }
 
 	        $('select').material_select();
+	        postRating();
+	    };
+
+	    let postRating = () => {
+	        if (userRating < 0) {
+	            return;
+	        }
+	        let flooredRating = Math.floor(userRating);
+	        for (let star = 1; star <= flooredRating; star += 1) {
+	            console.log(`star-${star}`);
+	            $(`#star-${star}`).html('star_rating');
+	        }
+	        if (Math.ceil(userRating) > 0.3) {
+	            $(`#star-${flooredRating + 1}`).html('star_half');
+	        }
 	    };
 
 	    var checkInput = function (input) {
