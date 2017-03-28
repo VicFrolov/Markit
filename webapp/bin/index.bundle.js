@@ -509,7 +509,8 @@
 	        firstName: first,
 	        lastName: last,
 	        paymentPreferences: defaultPreference,
-	        dateCreated: date
+	        dateCreated: date,
+	        userRating: -1
 	    };
 	    usersRef.child(user.uid).set(userInfo);
 	};
@@ -3326,7 +3327,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	$( () => {
-	    console.log('WHAT IS UP!?');
 	    const anonymousSignIn = __webpack_require__(2)["anonymousSignIn"];
 	    anonymousSignIn();
 	});
