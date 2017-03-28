@@ -1,4 +1,4 @@
 $( () => {
-    const anonymousSignIn = require('./firebase.js')["anonymousSignIn"];
-    anonymousSignIn();
+    // const anonymousSignIn = require('./firebase.js')["anonymousSignIn"];
+    // anonymousSignIn();
 });
