@@ -177,16 +177,19 @@ $(function () {
         postRating();
     };
 
-    let postRating = () => {
+    const postRating = () => {
         if (userRating < 0) {
-            return;
+            for (let star = 1; star <= 5; star += 1) {
+                $(`#star-${star}`).html('remove');
+            }
         }
         let flooredRating = Math.floor(userRating);
         for (let star = 1; star <= flooredRating; star += 1) {
-            console.log(`star-${star}`);
             $(`#star-${star}`).html('star_rating');
         }
-        if (Math.ceil(userRating) > 0.3) {
+        if (userRating % 1 > 0.7) {
+            $(`#star-${flooredRating + 1}`).html('star_rating');
+        } else if (userRating % 1 > 0.3) {
             $(`#star-${flooredRating + 1}`).html('star_half');
         }
     };
