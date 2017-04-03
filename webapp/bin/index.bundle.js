@@ -510,7 +510,8 @@
 	        lastName: last,
 	        paymentPreferences: defaultPreference,
 	        dateCreated: date,
-	        userRating: -1
+	        userRating: -1,
+	        numberOfRatings: 0
 	    };
 	    usersRef.child(user.uid).set(userInfo);
 	};
@@ -2636,11 +2637,34 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	$(function() {
+	"use strict"
+
+	$(() => {
 	    $('.carousel.carousel-slider').carousel({full_width: true});
+	    let getImage = __webpack_require__(2)["getImage"];
+	    let itemImagesRef = __webpack_require__(2)["itemImagesRef"];
+
+	    let itemId;
+
+	    const showItemBasedOnHash = () => {
+	        if (location.hash.length > 0) {
+	            itemId = location.hash.split("=")[1];
+	            getImage(itemId + '/imageOne', (url) => {
+	                $('#image-1').attr({src: url});
+	            });
+	            $('#item-title');
+	            $('#item-description');
+	            $('#item-price').html('$999');
+
+	        }
+	    };
+
+	    showItemBasedOnHash();
+
 	});
+
 
 /***/ },
 /* 12 */

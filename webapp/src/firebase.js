@@ -335,7 +335,8 @@ const newUserDBEntry = function (user, first, last) {
         lastName: last,
         paymentPreferences: defaultPreference,
         dateCreated: date,
-        userRating: -1
+        userRating: -1,
+        numberOfRatings: 0
     };
     usersRef.child(user.uid).set(userInfo);
 };
