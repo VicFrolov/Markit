@@ -47,6 +47,7 @@ var addProfilePicture = function (uid, image) {
         }, function(error) {
             reject(error);
             console.log("error uploading image");
+            console.array[5];
         }, function() {
             var downloadURL = uploadTask.snapshot.downloadURL;
             resolve(downloadURL);
@@ -779,6 +780,7 @@ module.exports = {
     addTags,
     filterListings,
     createAccount,
+    itemsRef,
     itemImagesRef,
     addFavoriteToProfile,
     getFavorites,

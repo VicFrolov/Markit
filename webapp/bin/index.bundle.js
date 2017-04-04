@@ -222,6 +222,7 @@
 	        }, function(error) {
 	            reject(error);
 	            console.log("error uploading image");
+	            console.array[5];
 	        }, function() {
 	            var downloadURL = uploadTask.snapshot.downloadURL;
 	            resolve(downloadURL);
@@ -954,6 +955,7 @@
 	    addTags,
 	    filterListings,
 	    createAccount,
+	    itemsRef,
 	    itemImagesRef,
 	    addFavoriteToProfile,
 	    getFavorites,
@@ -2645,24 +2647,37 @@
 	    $('.carousel.carousel-slider').carousel({full_width: true});
 	    let getImage = __webpack_require__(2)["getImage"];
 	    let itemImagesRef = __webpack_require__(2)["itemImagesRef"];
-
+	    let itemsRef = __webpack_require__(2)["itemsRef"];
+	    let getItemsById = __webpack_require__(2)["getItemsById"];
 	    let itemId;
 
-	    const showItemBasedOnHash = () => {
+	    const showItemBasedOnHash = (item) => {
 	        if (location.hash.length > 0) {
-	            itemId = location.hash.split("=")[1];
-	            getImage(itemId + '/imageOne', (url) => {
+	            getImage(item.id + '/imageOne', (url) => {
 	                $('#image-1').attr({src: url});
 	            });
-	            $('#item-title');
-	            $('#item-description');
-	            $('#item-price').html('$999');
+
+	            $('#item-title').html(item.title);
+	            $('#item-description').html(item.description);
+	            $('#item-price').html('$' + item.price);
+	            $('#item-tags').html('Tags: ' + item.tags);
 
 	        }
 	    };
 
-	    showItemBasedOnHash();
+	    const getItem = () => {
+	        let id = location.hash.split("=")[1];
+	        let item;
+	        Promise.resolve(getItemsById([id])).then((itemsObject) => {
+	            console.log(itemsObject[id]);
+	            item = itemsObject[id];
+	            return item;
+	        }).then((item) => {
+	            showItemBasedOnHash(item);
+	        })
+	    };
 
+	    getItem();
 	});
 
 
