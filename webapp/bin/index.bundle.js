@@ -2667,7 +2667,6 @@
 	    };
 
 	    const postRating = (user) => {
-	        console.log(user);
 	        let userRating = user.rating;
 	        if (userRating < 0) {
 	            for (let star = 1; star <= 5; star += 1) {
@@ -2691,18 +2690,21 @@
 	    const getItem = () => {
 	        let id = location.hash.split("=")[1];
 	        let item;
-	        Promise.resolve(getItemsById([id])).then((itemsObject) => {
+	        Promise.resolve(getItemsById([id]))
+	        .then((itemsObject) => {
 	            item = itemsObject[id];
 	            return item;
-	        }).then((item) => {
+	        })
+	        .then((item) => {
 	            showItemBasedOnHash(item);
 	            getUserInfo(item.uid, postRating);
 	        })
 	    };
 
+	    if (window.location.pathname === "/items/item.html" || window.location.pathname === "/") {
+	        getItem();
+	    }
 
-
-	    getItem();
 
 	});
 
