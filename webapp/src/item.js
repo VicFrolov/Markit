@@ -6,6 +6,7 @@ $(() => {
     let itemImagesRef = require('./firebase.js')["itemImagesRef"];
     let itemsRef = require('./firebase.js')["itemsRef"];
     let getItemsById = require('./firebase.js')["getItemsById"];
+    var getUserInfo = require('./firebase.js')['getUserInfo'];
     let itemId;
 
     const showItemBasedOnHash = (item) => {
@@ -22,17 +23,42 @@ $(() => {
         }
     };
 
+    const postRating = (user) => {
+        console.log(user);
+        let userRating = user.rating;
+        if (userRating < 0) {
+            for (let star = 1; star <= 5; star += 1) {
+                $(`#star-${star}`).html('remove');
+                $('#star-5').tooltip({tooltip: 'not yet rated'});
+            }
+            return;
+        }
+        let flooredRating = Math.floor(userRating);
+        for (let star = 1; star <= flooredRating; star += 1) {
+            $(`#star-${star}`).html('star_rating');
+        }
+        $('#star-5').tooltip({tooltip: userRating});
+        if (userRating % 1 > 0.7) {
+            $(`#star-${flooredRating + 1}`).html('star_rating');
+        } else if (userRating % 1 > 0.3) {
+            $(`#star-${flooredRating + 1}`).html('star_half');
+        }
+    };
+
     const getItem = () => {
         let id = location.hash.split("=")[1];
         let item;
         Promise.resolve(getItemsById([id])).then((itemsObject) => {
-            console.log(itemsObject[id]);
             item = itemsObject[id];
             return item;
         }).then((item) => {
             showItemBasedOnHash(item);
+            getUserInfo(item.uid, postRating);
         })
     };
 
+
+
     getItem();
+
 });
