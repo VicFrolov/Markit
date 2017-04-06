@@ -90,7 +90,8 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
         uid: uid,
         id: itemKey,
         hubs: hubs,
-        date: myDate
+        date: myDate,
+        views: 1
     };
 
     addTags(lowerCasedTags);
