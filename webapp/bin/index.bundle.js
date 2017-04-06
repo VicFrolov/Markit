@@ -55,7 +55,7 @@
 	__webpack_require__(15);
 	__webpack_require__(16);
 	__webpack_require__(13);
-	module.exports = __webpack_require__(17);
+	(function webpackMissingModule() { throw new Error("Cannot find module \"./src/navbar-signup\""); }());
 
 
 /***/ },
@@ -3436,16 +3436,6 @@
 	        window.location.href = `/items/item.html#item=${itemID}`;
 	    });
 	});
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	$( () => {
-	    // const anonymousSignIn = require('./firebase.js')["anonymousSignIn"];
-	    // anonymousSignIn();
-	});
-
 
 /***/ }
 /******/ ]);
