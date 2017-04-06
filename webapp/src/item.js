@@ -6,7 +6,8 @@ $(() => {
     let itemImagesRef = require('./firebase.js')["itemImagesRef"];
     let itemsRef = require('./firebase.js')["itemsRef"];
     let getItemsById = require('./firebase.js')["getItemsById"];
-    var getUserInfo = require('./firebase.js')['getUserInfo'];
+    let getUserInfo = require('./firebase.js')['getUserInfo'];
+    let getProfilePicture = require('./firebase.js')['getProfilePicture'];
     let itemId;
 
     const showItemBasedOnHash = (item) => {
@@ -18,13 +19,19 @@ $(() => {
             $('#item-title').html(item.title);
             $('#item-description').html(item.description);
             $('#item-price').html('$' + item.price);
-            $('#item-tags').html('Tags: ' + item.tags);
+            $('#item-tags').html('Tags: ' + item.tags.join(', '));
 
         }
     };
 
-    const postRating = (user) => {
-        console.log(user);
+    const setProfileImageURL = (user) => {
+        Promise.resolve(getProfilePicture(user)).then((url) => {
+            $('#seller-profile-picture').attr('src', url);
+        });
+    };
+
+    const postUser = (user) => {
+        setProfileImageURL(user.uid)
         $('#seller-username').html(user['firstName']);
         let userRating = user.userRating;
         if (userRating < 0) {
@@ -56,7 +63,7 @@ $(() => {
         })
         .then((item) => {
             showItemBasedOnHash(item);
-            getUserInfo(item.uid, postRating);
+            getUserInfo(item.uid, postUser);
         })
     };
 
