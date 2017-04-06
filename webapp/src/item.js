@@ -8,6 +8,8 @@ $(() => {
     let getItemsById = require('./firebase.js')["getItemsById"];
     let getUserInfo = require('./firebase.js')['getUserInfo'];
     let getProfilePicture = require('./firebase.js')['getProfilePicture'];
+    let auth = require('./firebase.js')['auth'];
+    let getUserInfoProper = require('./firebase.js')['getUserInfoProper'];
     let itemId;
 
     const showItemBasedOnHash = (item) => {
@@ -53,7 +55,7 @@ $(() => {
         }
     };
 
-    const getItem = () => {
+    const loadListing = () => {
         let id = location.hash.split("=")[1];
         let item;
         Promise.resolve(getItemsById([id]))
@@ -64,11 +66,21 @@ $(() => {
         .then((item) => {
             showItemBasedOnHash(item);
             getUserInfo(item.uid, postUser);
+            addViewCount(item, auth.currentUser.uid);
         })
     };
 
+    const addViewCount = (item, currentUserId) => {
+        if(currentUserId !== item.uid) {
+            console.log(item);
+            let viewCount = item.views || 1;
+            // TODO possibly change this from a set to something else
+            itemsRef.child(item.id).child('views').set(viewCount + 1);
+        }
+    };
+
     if (window.location.pathname === "/items/item.html" || window.location.pathname === "/") {
-        getItem();
+        loadListing();
     }
 
 
