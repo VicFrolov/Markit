@@ -379,7 +379,6 @@
 	    auth.onAuthStateChanged( (user) => {
 	        if (!user) {
 	            anonymousSignIn();
-	            console.log('anonymousSignIn');
 	        } else {
 	            getImageHelper(address, callback);
 	        }
