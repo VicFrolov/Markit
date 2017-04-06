@@ -48,9 +48,9 @@ $(() => {
                 $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, scrollSpeed);
             }
             console.log(leftPos)
-        });        
+        });     
     };
-    
+
     module.exports = {
         displayItemsInScroller,
     };
