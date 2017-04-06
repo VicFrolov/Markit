@@ -1,6 +1,7 @@
 module.exports = {
      entry: {
         app: [
+            './src/sidescroller-view.js',
             './src/firebase-auth.js',
             './src/navbar-login',
             './src/new-post.js',
@@ -11,8 +12,7 @@ module.exports = {
             './src/firebase.js',
             './src/custom.js',
             './src/item-card.js',
-            './src/signup.js',
-            './src/navbar-signup'
+            './src/signup.js'
         ]
      },
      output: {

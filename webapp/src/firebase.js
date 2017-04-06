@@ -131,6 +131,10 @@ var addListing = function (title, description, tags, price, hubs, uid, images) {
     }
 };
 
+const bumpViewCount = (itemID) => {
+
+};
+
 
 var getListings = function () {
     return itemsRef.once("value").then(function (snapshot) {
@@ -460,6 +464,7 @@ var sortConversations = function(uid, chatID) {
 
             previewMessages.push(messageObj);
         }
+        
         // Wait for them all to complete
         Promise.all(promises).then(() => {
             previewMessages.sort(function(a, b){
