@@ -64,9 +64,51 @@ body {
     margin-left: 10px;
 }
 
-#user-stars {
-    width: 100px;
-    margin-top: 10px;
+.user-stars {
+    position: relative;
+    margin-top: 50px;
+    bottom: 40px;
+    left: 150px;
+}
+
+.star-1 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-2 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-3 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-4 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
+}
+
+.star-5 {
+    position: relative;
+    bottom: 50px;
+    right: 30px;
+    color: gold;
+    width: 25px;
 }
 @media (max-width: 1000px) {
     .container {

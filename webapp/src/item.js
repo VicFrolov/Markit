@@ -24,7 +24,9 @@ $(() => {
     };
 
     const postRating = (user) => {
-        let userRating = user.rating;
+        console.log(user);
+        $('#seller-username').html(user['firstName']);
+        let userRating = user.userRating;
         if (userRating < 0) {
             for (let star = 1; star <= 5; star += 1) {
                 $(`#star-${star}`).html('remove');
