@@ -3439,6 +3439,11 @@
 	            } else {
 	                $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, scrollSpeed);
 	            }
+<<<<<<< HEAD
+=======
+
+	            console.log(leftPos);
+>>>>>>> 297cc88401a56cfa67e8b3834a7b7416dbb0c635
 	        });
 
 	        $('.right-scroll-arrow-container').on('click', function () {
@@ -3447,6 +3452,10 @@
 	            if (leftPos <= scrollAmount * 2) {
 	                $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, scrollSpeed);
 	            }
+<<<<<<< HEAD
+=======
+	            console.log(leftPos)
+>>>>>>> 297cc88401a56cfa67e8b3834a7b7416dbb0c635
 	        });     
 	    };
 
