@@ -101,8 +101,6 @@
 	            } else {
 	                $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, scrollSpeed);
 	            }
-
-	            console.log(leftPos);
 	        });
 
 	        $('.right-scroll-arrow-container').on('click', function () {
@@ -111,7 +109,6 @@
 	            if (leftPos <= scrollAmount * 2) {
 	                $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, scrollSpeed);
 	            }
-	            console.log(leftPos)
 	        });     
 	    };
 
