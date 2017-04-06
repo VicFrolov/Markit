@@ -72,7 +72,6 @@ $(() => {
 
     const addViewCount = (item, currentUserId) => {
         if(currentUserId !== item.uid) {
-            console.log(item);
             let viewCount = item.views || 1;
             // TODO possibly change this from a set to something else
             itemsRef.child(item.id).child('views').set(viewCount + 1);
