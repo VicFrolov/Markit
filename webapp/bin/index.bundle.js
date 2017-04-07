@@ -48,14 +48,14 @@
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
-	__webpack_require__(11);
+	__webpack_require__(10);
 	__webpack_require__(12);
-	__webpack_require__(14);
-	__webpack_require__(2);
-	__webpack_require__(15);
-	__webpack_require__(16);
 	__webpack_require__(13);
-	(function webpackMissingModule() { throw new Error("Cannot find module \"./src/navbar-signup\""); }());
+	__webpack_require__(15);
+	__webpack_require__(2);
+	__webpack_require__(16);
+	__webpack_require__(17);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -65,109 +65,58 @@
 	"use strict"
 
 	$(() => {
-	    var auth = __webpack_require__(2)["auth"];
-	    let uid;
-	    let navbarProfilePic;
-	    let profilePic;
-	    let profileName;
-	    let searchNavbar = $('.search-navbar');
+	    const getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
+	    const getImage = __webpack_require__(2)['getImage'];
+	    const scrollAmount = 420;
+	    const scrollSpeed = 300;
 
-	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
-	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
+	    const displayItemsInScroller = (campus, numberOfResults, placeholderElement) => {
+	        Promise.resolve(getRecentItemsInHub(campus, numberOfResults)).then(items => {
+	            let imagePaths = [];
+	            const str = placeholderElement.text();
+	            const compiled = _.template(str);
 
-	    var updateNavbarName = function (profileName) {
-	        Promise.resolve(getUserInfo(uid)).then(userData => {
-	            profileName.text(userData.firstName);
-	        });
-	    };
+	            placeholderElement.empty();
+	            placeholderElement.prepend(compiled({items: items}));
 
-	    var updateNavbarPic = function (navbarProfilePic) {
-	        Promise.resolve(getProfilePicture(uid)).then(url => {
-	            navbarProfilePic.attr('src', url);
-	        });
-	    }
+	            for (let item in items) {
+	                imagePaths.push(items[item]['id']);
+	            }
 
-	    var highlightPage = function() {
-	        $('#navbar-placeholder a').each(function(){
-	            if ($(this).prop('href') == window.location.href) {
-	                $(this).addClass('active'); $(this).addClass('active-navbar-li');
+	            for (let i = 0; i < imagePaths.length; i += 1) {
+	                ((x)=> {
+	                    getImage(imagePaths[x] + '/imageOne', (url) => {
+	                        $(`.${imagePaths[x]}`).attr({src: url});
+	                    });
+	                })(i);
 	            }
 	        });
-	    }
 
-	    var useQuickSearchBar = () => {
-	        window.location = `/find/find.html`;
+	        $('.left-scroll-arrow-container').on('click', function () {
+	            const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
+	            const leftPos = $divToScroll.scrollLeft();
 
-	    }
+	            if (leftPos === 0) {
+	                $divToScroll.animate({ scrollLeft:  0 }, scrollSpeed);
+	            } else {
+	                $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, scrollSpeed);
+	            }
+	        });
 
-	    auth.onAuthStateChanged(function(user) {
-	        if (user && !user.isAnonymous) {
-	            uid = auth.currentUser.uid;
-
-	            // if (window.location.pathname === "/signup/signup.html") {
-	            //     window.location.href = '/'
-	            // }
-
-	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
-	                navbarProfilePic = $('#navbar-user-photo');
-	                profileName = $('#profile-name');
-
-	                $(".dropdown-button").dropdown();
-
-	                $(".button-collapse").sideNav({
-	                    menuWidth: 300, // Default is 240
-	                    edge: 'right', // Choose the horizontal origin
-	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-	                    draggable: true // Choose whether you can drag to open on touch screens
-	                });
-
-	                $("#navbar-logout-button").click(function () {
-	                    auth.signOut();
-	                });
-
-	                $('#navbar-message').click(function()  {
-	                    $('ul.tabs').tabs('select_tab', 'profile-messages');
-	                });
-
-	                $('#navbar-notifications').click(function () {
-	                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
-	                });
-
-	                $('#navbar-settings').click(function () {
-	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
-	                });
-
-	                // $('.search-navbar').on("keyup", function(e) {
-	                //     let searchQuery = searchNavbar.val();
-	                //     if (e.keyCode == 13 && searchQuery) {
-	                //         alert("shit")
-	                //     }
-	                // });
-
-	                updateNavbarName(profileName);
-	                updateNavbarPic(navbarProfilePic);
-	                highlightPage();
-	            });
-	        } else {
-	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
-	                $(".dropdown-button").dropdown();
-	                $(".button-collapse").sideNav({
-	                    menuWidth: 300, // Default is 240
-	                    edge: 'right', // Choose the horizontal origin
-	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-	                    draggable: true // Choose whether you can drag to open on touch screens
-	                });
-	            });
-	        }
-	    });
+	        $('.right-scroll-arrow-container').on('click', function () {
+	            const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
+	            const leftPos = $divToScroll.scrollLeft();
+	            if (leftPos <= scrollAmount * 2) {
+	                $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, scrollSpeed);
+	            }
+	        });     
+	    };
 
 	    module.exports = {
-	        updateNavbarName,
-	        updateNavbarPic
-	    }
+	        displayItemsInScroller,
+	    };
 
 	});
-
 
 /***/ },
 /* 2 */
@@ -1615,6 +1564,117 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict"
+
+	$(() => {
+	    var auth = __webpack_require__(2)["auth"];
+	    let uid;
+	    let navbarProfilePic;
+	    let profilePic;
+	    let profileName;
+	    let searchNavbar = $('.search-navbar');
+
+	    var getProfilePicture = __webpack_require__(2)["getProfilePicture"];
+	    var getUserInfo = __webpack_require__(2)["getUserInfoProper"];
+
+	    var updateNavbarName = function (profileName) {
+	        Promise.resolve(getUserInfo(uid)).then(userData => {
+	            profileName.text(userData.firstName);
+	        });
+	    };
+
+	    var updateNavbarPic = function (navbarProfilePic) {
+	        Promise.resolve(getProfilePicture(uid)).then(url => {
+	            navbarProfilePic.attr('src', url);
+	        });
+	    }
+
+	    var highlightPage = function() {
+	        $('#navbar-placeholder a').each(function(){
+	            if ($(this).prop('href') == window.location.href) {
+	                $(this).addClass('active'); $(this).addClass('active-navbar-li');
+	            }
+	        });
+	    }
+
+	    var useQuickSearchBar = () => {
+	        window.location = `/find/find.html`;
+
+	    }
+
+	    auth.onAuthStateChanged(function(user) {
+	        if (user && !user.isAnonymous) {
+	            uid = auth.currentUser.uid;
+
+	            // if (window.location.pathname === "/signup/signup.html") {
+	            //     window.location.href = '/'
+	            // }
+
+	            $("#navbar-placeholder").load("../navbar/navbar-logged-in.html", function () {
+	                navbarProfilePic = $('#navbar-user-photo');
+	                profileName = $('#profile-name');
+
+	                $(".dropdown-button").dropdown();
+
+	                $(".button-collapse").sideNav({
+	                    menuWidth: 300, // Default is 240
+	                    edge: 'right', // Choose the horizontal origin
+	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	                    draggable: true // Choose whether you can drag to open on touch screens
+	                });
+
+	                $("#navbar-logout-button").click(function () {
+	                    auth.signOut();
+	                });
+
+	                $('#navbar-message').click(function()  {
+	                    $('ul.tabs').tabs('select_tab', 'profile-messages');
+	                });
+
+	                $('#navbar-notifications').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-tagslist');
+	                });
+
+	                $('#navbar-settings').click(function () {
+	                    $('ul.tabs').tabs('select_tab', 'profile-settings');
+	                });
+
+	                // $('.search-navbar').on("keyup", function(e) {
+	                //     let searchQuery = searchNavbar.val();
+	                //     if (e.keyCode == 13 && searchQuery) {
+	                //         alert("shit")
+	                //     }
+	                // });
+
+	                updateNavbarName(profileName);
+	                updateNavbarPic(navbarProfilePic);
+	                highlightPage();
+	            });
+	        } else {
+	            $("#navbar-placeholder").load("../navbar/navbar-signup.html", function () {
+	                $(".dropdown-button").dropdown();
+	                $(".button-collapse").sideNav({
+	                    menuWidth: 300, // Default is 240
+	                    edge: 'right', // Choose the horizontal origin
+	                    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	                    draggable: true // Choose whether you can drag to open on touch screens
+	                });
+	            });
+	        }
+	    });
+
+	    module.exports = {
+	        updateNavbarName,
+	        updateNavbarPic
+	    }
+
+	});
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	$(function () {
 	    var signIn = __webpack_require__(2)["signIn"];
 
@@ -1641,7 +1701,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -1951,7 +2011,7 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -1959,7 +2019,7 @@
 	$(function() {
 	    var getListings = __webpack_require__(2)['getListings'];
 	    var getFavorites = __webpack_require__(2)['getFavorites'];
-	    var wNumb = __webpack_require__(10);
+	    var wNumb = __webpack_require__(11);
 	    var auth = __webpack_require__(2)["auth"];
 	    var itemImagesRef = __webpack_require__(2)["itemImagesRef"];
 	    var addFavoriteToProfile = __webpack_require__(2)['addFavoriteToProfile'];
@@ -2280,7 +2340,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
@@ -2643,7 +2703,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -2661,10 +2721,22 @@
 	    let itemId;
 
 	    const showItemBasedOnHash = (item) => {
+	        let numbers = ['One', 'Two', 'Three', 'Four'];
 	        if (location.hash.length > 0) {
-	            getImage(item.id + '/imageOne', (url) => {
-	                $('#image-1').attr({src: url});
-	            });
+	            for (let i = 0; i < 4; i += 1) {
+	                getImage(item.id + `/image${numbers[i]}`, (url) => {
+	                    console.log('url: ' + url);
+	                    if (url) {
+	                        console.log('hi');
+	                        $(`#image-${i + 1}`).attr({src: url});
+	                    } else {
+	                        // TODO this doesnt actually do anything...
+	                        $(`#image-${i + 1}`).remove();
+	                    }
+
+	                });
+	            }
+
 
 	            $('#item-title').html(item.title);
 	            $('#item-description').html(item.description);
@@ -2735,7 +2807,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -2748,19 +2820,19 @@
 	    var addTagToProfile = __webpack_require__(2)['addTagToProfile'];
 	    var getProfileTags = __webpack_require__(2)['getProfileTags'];
 	    var removeProfileTag = __webpack_require__(2)['removeProfileTag'];
-	    var nameSizeMin = __webpack_require__(13)['nameSizeMin'];
-	    var nameSizeMax = __webpack_require__(13)['nameSizeMax'];
+	    var nameSizeMin = __webpack_require__(14)['nameSizeMin'];
+	    var nameSizeMax = __webpack_require__(14)['nameSizeMax'];
 	    var userImagesRef = __webpack_require__(2)['userImagesRef'];
 	    var addProfilePicture = __webpack_require__(2)['addProfilePicture'];
 	    var getProfilePicture = __webpack_require__(2)['getProfilePicture'];
 	    var displayConversations = __webpack_require__(2)['displayConversations'];
 	    var displayMessagesDetail = __webpack_require__(2)['displayMessagesDetail'];
-	    var updateNavbarName = __webpack_require__(1)['updateNavbarName'];
+	    var updateNavbarName = __webpack_require__(7)['updateNavbarName'];
 	    var getUserSelling = __webpack_require__(2)['getUserSelling'];
 	    var getItemsById = __webpack_require__(2)['getItemsById'];
 	    var setItemAsSold = __webpack_require__(2)['setItemAsSold'];
 
-	    var updateNavbarPic = __webpack_require__(1)['updateNavbarPic'];
+	    var updateNavbarPic = __webpack_require__(7)['updateNavbarPic'];
 
 	    var reader;
 	    var user;
@@ -3086,7 +3158,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
@@ -3206,7 +3278,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	$(function () {
@@ -3292,15 +3364,15 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
 
 	$(function() {
-	    const displayItemsInScroller = __webpack_require__(18)['displayItemsInScroller'];
+	    const displayItemsInScroller = __webpack_require__(1)['displayItemsInScroller'];
 	    const campusList = ['UCLA', 'Loyola Marymount University'];
-	    const initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
+	    const initializeTagTextExt = __webpack_require__(9)['initializeTagTextExt']
 	    let blurbLeft = true;
 	    const tagsList = [
 	        'Table',
@@ -3383,7 +3455,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	$(function () {
@@ -3393,76 +3465,6 @@
 	        let itemID = $(imageDiv)[0].children[0].id;
 	        window.location.href = `/items/item.html#item=${itemID}`;
 	    });
-	});
-
-/***/ },
-/* 17 */,
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict"
-
-	$(() => {
-	    const getRecentItemsInHub = __webpack_require__(2)['getRecentItemsInHub'];
-	    const getImage = __webpack_require__(2)['getImage'];
-	    const scrollAmount = 420;
-	    const scrollSpeed = 300;
-
-	    const displayItemsInScroller = (campus, numberOfResults, placeholderElement) => {
-	        Promise.resolve(getRecentItemsInHub(campus, numberOfResults)).then(items => {
-	            let imagePaths = [];
-	            const str = placeholderElement.text();
-	            const compiled = _.template(str);
-
-	            placeholderElement.empty();
-	            placeholderElement.prepend(compiled({items: items}));
-
-	            for (let item in items) {
-	                imagePaths.push(items[item]['id']);
-	            }
-
-	            for (let i = 0; i < imagePaths.length; i += 1) {
-	                ((x)=> {
-	                    getImage(imagePaths[x] + '/imageOne', (url) => {
-	                        $(`.${imagePaths[x]}`).attr({src: url});
-	                    });
-	                })(i);
-	            }
-	        });
-
-	        $('.left-scroll-arrow-container').on('click', function () {
-	            const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
-	            const leftPos = $divToScroll.scrollLeft();
-
-	            if (leftPos === 0) {
-	                $divToScroll.animate({ scrollLeft:  0 }, scrollSpeed);
-	            } else {
-	                $divToScroll.animate({ scrollLeft: leftPos - scrollAmount }, scrollSpeed);
-	            }
-<<<<<<< HEAD
-=======
-
-	            console.log(leftPos);
->>>>>>> 297cc88401a56cfa67e8b3834a7b7416dbb0c635
-	        });
-
-	        $('.right-scroll-arrow-container').on('click', function () {
-	            const $divToScroll = $($(this).parent().find('.outside-scroll-container'));
-	            const leftPos = $divToScroll.scrollLeft();
-	            if (leftPos <= scrollAmount * 2) {
-	                $divToScroll.animate({ scrollLeft:  leftPos + scrollAmount }, scrollSpeed);
-	            }
-<<<<<<< HEAD
-=======
-	            console.log(leftPos)
->>>>>>> 297cc88401a56cfa67e8b3834a7b7416dbb0c635
-	        });     
-	    };
-
-	    module.exports = {
-	        displayItemsInScroller,
-	    };
-
 	});
 
 /***/ }
