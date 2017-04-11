@@ -19,6 +19,7 @@ var auth = firebase.auth();
 var itemsRef = database.ref('items/');
 var itemImagesRef = firebase.storage().ref('images/itemImages/');
 var userImagesRef = firebase.storage().ref('images/profileImages/');
+let campusImagesRef = firebase.storage().ref('images/hubImages/');
 var usersRef = database.ref('users/');
 const fbProvider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -204,7 +205,7 @@ var updateUserInfo = function(uid, updatedInfo) {
     }
 };
 
-var getImage = function(address, callback) {
+var getImage = function(id, callback) {
     auth.onAuthStateChanged( (user) => {
         if (!user) {
             anonymousSignIn();
@@ -212,17 +213,31 @@ var getImage = function(address, callback) {
             getImageHelper(address, callback);
         }
     });
+    let address = itemImagesRef.child(id);
     getImageHelper(address, callback);
 };
 
 const getImageHelper = (address, callback) => {
-    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+    console.log(address);
+    address.getDownloadURL().then(function(url) {
         callback(url);
     }).catch(function(error) {
         console.log("error image not found");
         console.log("error either in item id, filename, or file doesn't exist");
     });
-}
+};
+
+const getCampusImage = (campus, callback) => {
+    auth.onAuthStateChanged( (user) => {
+        if (!user) {
+            anonymousSignIn();
+        } else {
+            getImageHelper(address, callback);
+        }
+    });
+    let address = campusImagesRef.child(campus);
+    getImageHelper(address, callback);
+};
 
 var getFavoriteObjects = function (callback) {
     auth.onAuthStateChanged(function(user) {
@@ -463,7 +478,7 @@ var sortConversations = function(uid, chatID) {
 
             previewMessages.push(messageObj);
         }
-        
+
         // Wait for them all to complete
         Promise.all(promises).then(() => {
             previewMessages.sort(function(a, b){
@@ -813,5 +828,6 @@ module.exports = {
     setItemAsSold,
     facebookLogin,
     googleLogin,
-    anonymousSignIn
+    anonymousSignIn,
+    getCampusImage
 };
