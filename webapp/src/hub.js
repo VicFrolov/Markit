@@ -70,6 +70,7 @@ $(function () {
         if (user && !user.isAnonymous && $(mostRecentItems).length > 0) {
             getUserInfo(auth.currentUser.uid, showUserInfo);
             getUserInfo(auth.currentUser.uid, loadCampusImage);
+            // TODO: Whatever this is down here breaks everything, figure out why
             // getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
             showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
             // loadCampusImage(user);
