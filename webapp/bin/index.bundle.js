@@ -91,6 +91,7 @@
 	                })(i);
 	            }
 	        });
+	        
 
 	        $('.left-scroll-arrow-container').on('click', function () {
 	            const $divToScroll = $($(this).parent().find('.outside-scroll-container'));

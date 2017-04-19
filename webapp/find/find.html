@@ -61,33 +61,31 @@
           <script type="text/template" id="find-results-template">
             <% for (var specificItem in filteredItemList) { %>
             <%     var item = filteredItemList[specificItem] %>
-            <div class="col l4 m6 s12">
-              <div class="card find-result hoverable">
-                <div class="find-result-favorite">
-                  <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
-                </div>
-                <div class="find-result-price">
-                  $ <%- item['price'] %>
-                </div>
-                <div class="card-image waves-effect waves-block waves-light">
-                  <img class="activator" src="" id=<%- item['id'] %>>
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
-                  <p>
-                    <span class="view-item-detail">view item</span>
-                    <span class="card-view-hub"><%- item['hubs'] %></span>
-                  </p>
-                </div>
-                <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4">
-                    Description<i class="material-icons right">close</i>
-                    <p><%- item['description'] %></p>
-                  </span>
-                  <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
+              <div class="col l4 m6 s12">
+                <div class="card find-result hoverable">
+                  <div class="find-result-favorite">
+                    <img class="find-result-favorite-image" src="../media/ic_heart.png" alt="heart" uid=<%- item['id'] %>>
+                  </div>
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="" id=<%- item['id'] %>>
+                  </div>
+                  <div class="card-content">
+                    <span class="find-result-price">$<%- item['price'] %> - </span>
+                    <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
+                    <p>
+                      <span class="view-item-detail">view item</span>
+                      <span class="card-view-hub"><%- item['hubs'] %></span>
+                    </p>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                      Description<i class="material-icons right">close</i>
+                      <p><%- item['description'] %></p>
+                    </span>
+                    <a class="waves-effect waves-light btn green lighten-2 card-contact">Contact Seller</a>
+                  </div>
                 </div>
               </div>
-            </div>
             <% }; %>
           </script>
         </div>
