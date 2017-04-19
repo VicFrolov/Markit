@@ -17,9 +17,7 @@ $(() => {
         if (location.hash.length > 0) {
             for (let i = 0; i < 4; i += 1) {
                 getImage(item.id + `/image${numbers[i]}`, (url) => {
-                    console.log('url: ' + url);
                     if (url) {
-                        console.log('hi');
                         $(`#image-${i + 1}`).attr({src: url});
                     } else {
                         // TODO this doesnt actually do anything...

@@ -143,6 +143,7 @@
 	var itemsRef = database.ref('items/');
 	var itemImagesRef = firebase.storage().ref('images/itemImages/');
 	var userImagesRef = firebase.storage().ref('images/profileImages/');
+	let campusImagesRef = firebase.storage().ref('images/hubImages/');
 	var usersRef = database.ref('users/');
 	const fbProvider = new firebase.auth.FacebookAuthProvider();
 	const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -328,7 +329,7 @@
 	    }
 	};
 
-	var getImage = function(address, callback) {
+	var getImage = function(id, callback) {
 	    auth.onAuthStateChanged( (user) => {
 	        if (!user) {
 	            anonymousSignIn();
@@ -336,17 +337,31 @@
 	            getImageHelper(address, callback);
 	        }
 	    });
+	    let address = itemImagesRef.child(id);
 	    getImageHelper(address, callback);
 	};
 
 	const getImageHelper = (address, callback) => {
-	    itemImagesRef.child(address).getDownloadURL().then(function(url) {
+	    console.log(address);
+	    address.getDownloadURL().then(function(url) {
 	        callback(url);
 	    }).catch(function(error) {
 	        console.log("error image not found");
 	        console.log("error either in item id, filename, or file doesn't exist");
 	    });
-	}
+	};
+
+	const getCampusImage = (campus, callback) => {
+	    auth.onAuthStateChanged( (user) => {
+	        if (!user) {
+	            anonymousSignIn();
+	        } else {
+	            getImageHelper(address, callback);
+	        }
+	    });
+	    let address = campusImagesRef.child(campus);
+	    getImageHelper(address, callback);
+	};
 
 	var getFavoriteObjects = function (callback) {
 	    auth.onAuthStateChanged(function(user) {
@@ -587,7 +602,7 @@
 
 	            previewMessages.push(messageObj);
 	        }
-	        
+
 	        // Wait for them all to complete
 	        Promise.all(promises).then(() => {
 	            previewMessages.sort(function(a, b){
@@ -937,7 +952,8 @@
 	    setItemAsSold,
 	    facebookLogin,
 	    googleLogin,
-	    anonymousSignIn
+	    anonymousSignIn,
+	    getCampusImage
 	};
 
 
@@ -2725,9 +2741,7 @@
 	        if (location.hash.length > 0) {
 	            for (let i = 0; i < 4; i += 1) {
 	                getImage(item.id + `/image${numbers[i]}`, (url) => {
-	                    console.log('url: ' + url);
 	                    if (url) {
-	                        console.log('hi');
 	                        $(`#image-${i + 1}`).attr({src: url});
 	                    } else {
 	                        // TODO this doesnt actually do anything...
@@ -3289,6 +3303,7 @@
 	    var populateSuggestionsInHub = __webpack_require__(2)['populateSuggestionsInHub'];
 	    var getItemsById = __webpack_require__(2)['getItemsById'];
 	    var getUserInfo = __webpack_require__(2)['getUserInfo'];
+	    let getCampusImage = __webpack_require__(2)['getCampusImage'];
 
 
 	    var mostRecentItems = $('#hub-most-recent');
@@ -3346,19 +3361,32 @@
 
 	    var showUserInfo = function (userData) {
 	        $('#hub-username-blurb').text(userData.firstName);
-	    }
+	    };
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && !user.isAnonymous && $(mostRecentItems).length > 0) {
 	            getUserInfo(auth.currentUser.uid, showUserInfo);
-	            getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
+	            getUserInfo(auth.currentUser.uid, loadCampusImage);
+	            // TODO: Whatever this is down here breaks everything, figure out why
+	            // getRecentItemsInHub('Loyola Marymount University', showMostRecentItems, 4);
 	            showSuggestions(populateSuggestionsInHub('Loyola Marymount University', auth.currentUser.uid));
+	            // loadCampusImage(user);
 	        } else if (!user && $(mostRecentItems).length > 0) {
 	            window.location.href = "../index.html";
 
 	        }
 	    });
 
+	    let loadCampusImage = (user) => {
+	        // console.log(user);
+	        getCampusImage(user['userHub'].replace(/ /g, '-') + '.jpg', (url) => {
+	            console.log('loadCampusImage');
+	            if (url) {
+	                console.log(url);
+	                $('#campus-image').attr({src: url});
+	            }
+	        });
+	    };
 
 	});
 
