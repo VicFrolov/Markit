@@ -342,8 +342,9 @@
 	};
 
 	const getImageHelper = (address, callback) => {
-	    console.log(address);
 	    address.getDownloadURL().then(function(url) {
+	        console.log('firebase');
+	        console.log(url);
 	        callback(url);
 	    }).catch(function(error) {
 	        console.log("error image not found");
@@ -915,6 +916,18 @@
 	  xhr.send().then();
 	};
 
+	// const activateSearchBar = () => {
+	//     console.log('searchbar activating');
+	//     $('#navbar-searchbar').keyup( (e) => {
+	//         console.log('searchbar found');
+	//         let searchNavbar = $('#navbar-searchbar');
+	//         let searchQuery = searchNavbar.val();
+	//         if (e.keyCode == 13 && searchQuery) {
+	//             alert("shit");
+	//         }
+	//     });
+	// };
+
 	module.exports = {
 	    auth,
 	    signIn,
@@ -954,6 +967,7 @@
 	    googleLogin,
 	    anonymousSignIn,
 	    getCampusImage
+	    // activateSearchBar
 	};
 
 
@@ -1714,7 +1728,14 @@
 	    $('body').on('click', '#sign-in-button', function() {
 	        signIn($('#email').val(), $('#password').val());
 	    });
+
+	    // $('.search-navbar').keypress( (key) => {
+	    //     if (key.which === 13) {
+	    //         console.log('what is up');
+	    //     }
+	    // });
 	});
+
 
 /***/ },
 /* 9 */
@@ -2812,7 +2833,7 @@
 	        }
 	    };
 
-	    if (window.location.pathname === "/items/item.html" || window.location.pathname === "/") {
+	    if (window.location.pathname === "/items/item.html") {
 	        loadListing();
 	    }
 
@@ -2895,6 +2916,8 @@
 	            for (var i = 0; i < imagePaths.length; i += 1) {
 	                (function (x) {
 	                    getImage(imagePaths[x] + '/imageOne', function(url) {
+	                        console.log('profile');
+	                        console.log(url);
 	                        tagToAdd = "img.activator:eq(" + x  + " )";
 	                        $(tagToAdd).attr({src: url});
 	                    });
@@ -3099,7 +3122,7 @@
 	        else {
 	            $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
 	        }
-	    })
+	    });
 
 	    addButton.click(function () {
 	        addToTagsList();
@@ -3400,7 +3423,8 @@
 	$(function() {
 	    const displayItemsInScroller = __webpack_require__(1)['displayItemsInScroller'];
 	    const campusList = ['UCLA', 'Loyola Marymount University'];
-	    const initializeTagTextExt = __webpack_require__(9)['initializeTagTextExt']
+	    const initializeTagTextExt = __webpack_require__(9)['initializeTagTextExt'];
+	    // const activateSearchBar = require('./firebase.js')['activateSearchBar'];
 	    let blurbLeft = true;
 	    const tagsList = [
 	        'Table',
@@ -3420,7 +3444,7 @@
 	        'Kitchen',
 	        'Living-Room',
 	        'Dinner-Table'
-	    ];    
+	    ];
 
 	    $('.slider').slider();
 	    $('ul.tabs').tabs();
@@ -3468,15 +3492,15 @@
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
 	        initializeTagTextExt('#main-tags', tagsList);
 	        initializeTagTextExt('#main-campus', campusList);
-
+	        // activateSearchBar();
 	        $("#lmu-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
 	            const $this = $(this);
-	            displayItemsInScroller('Loyola Marymount University', 5, $this.find(".inside-scroll-container"));            
+	            displayItemsInScroller('Loyola Marymount University', 5, $this.find(".inside-scroll-container"));
 	        });
 
 	        $("#ucla-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
 	            const $this = $(this);
-	            displayItemsInScroller('UCLA', 5, $this.find(".inside-scroll-container"));            
+	            displayItemsInScroller('UCLA', 5, $this.find(".inside-scroll-container"));
 	        });
 	    }
 	});

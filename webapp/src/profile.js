@@ -69,6 +69,8 @@ $(function () {
             for (var i = 0; i < imagePaths.length; i += 1) {
                 (function (x) {
                     getImage(imagePaths[x] + '/imageOne', function(url) {
+                        console.log('profile');
+                        console.log(url);
                         tagToAdd = "img.activator:eq(" + x  + " )";
                         $(tagToAdd).attr({src: url});
                     });
@@ -273,7 +275,7 @@ $(function () {
         else {
             $('#message-offer-popup').addClass('invisible-div').fadeOut(1000);
         }
-    })
+    });
 
     addButton.click(function () {
         addToTagsList();

@@ -218,8 +218,9 @@ var getImage = function(id, callback) {
 };
 
 const getImageHelper = (address, callback) => {
-    console.log(address);
     address.getDownloadURL().then(function(url) {
+        console.log('firebase');
+        console.log(url);
         callback(url);
     }).catch(function(error) {
         console.log("error image not found");
@@ -791,6 +792,18 @@ let savePictureFromURL = (url) => {
   xhr.send().then();
 };
 
+// const activateSearchBar = () => {
+//     console.log('searchbar activating');
+//     $('#navbar-searchbar').keyup( (e) => {
+//         console.log('searchbar found');
+//         let searchNavbar = $('#navbar-searchbar');
+//         let searchQuery = searchNavbar.val();
+//         if (e.keyCode == 13 && searchQuery) {
+//             alert("shit");
+//         }
+//     });
+// };
+
 module.exports = {
     auth,
     signIn,
@@ -830,4 +843,5 @@ module.exports = {
     googleLogin,
     anonymousSignIn,
     getCampusImage
+    // activateSearchBar
 };

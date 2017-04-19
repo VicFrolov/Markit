@@ -21,4 +21,10 @@ $(function () {
     $('body').on('click', '#sign-in-button', function() {
         signIn($('#email').val(), $('#password').val());
     });
+
+    // $('.search-navbar').keypress( (key) => {
+    //     if (key.which === 13) {
+    //         console.log('what is up');
+    //     }
+    // });
 });

@@ -3,7 +3,8 @@
 $(function() {
     const displayItemsInScroller = require('./sidescroller-view.js')['displayItemsInScroller'];
     const campusList = ['UCLA', 'Loyola Marymount University'];
-    const initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
+    const initializeTagTextExt = require('./new-post.js')['initializeTagTextExt'];
+    // const activateSearchBar = require('./firebase.js')['activateSearchBar'];
     let blurbLeft = true;
     const tagsList = [
         'Table',
@@ -23,7 +24,7 @@ $(function() {
         'Kitchen',
         'Living-Room',
         'Dinner-Table'
-    ];    
+    ];
 
     $('.slider').slider();
     $('ul.tabs').tabs();
@@ -71,15 +72,15 @@ $(function() {
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
-
+        // activateSearchBar();
         $("#lmu-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
             const $this = $(this);
-            displayItemsInScroller('Loyola Marymount University', 5, $this.find(".inside-scroll-container"));            
+            displayItemsInScroller('Loyola Marymount University', 5, $this.find(".inside-scroll-container"));
         });
 
         $("#ucla-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
             const $this = $(this);
-            displayItemsInScroller('UCLA', 5, $this.find(".inside-scroll-container"));            
+            displayItemsInScroller('UCLA', 5, $this.find(".inside-scroll-container"));
         });
     }
 });

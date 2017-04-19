@@ -88,7 +88,7 @@ $(() => {
         }
     };
 
-    if (window.location.pathname === "/items/item.html" || window.location.pathname === "/") {
+    if (window.location.pathname === "/items/item.html") {
         loadListing();
     }
 

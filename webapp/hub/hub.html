@@ -17,12 +17,24 @@
 
     <main>
 
+
+
       <div class="parallax-container">
         <div class="parallax"><img id="campus-image"></div>
       </div>
       <div class="container">
         <div class="section white" id="hub-first-divider">
-          <a id="hub-change-button" class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">business</i></a>
+          <a id="hub-change-button" class="btn-floating btn-large waves-effect waves-light" href="#hub-change-modal"><i class="material-icons">business</i></a>
+              <!-- Modal Structure TODO this shit aint working-->
+            <div id="hub-change-modal" class="modal">
+              <div class="modal-content">
+                <h4>Modal Header</h4>
+                <p>A bunch of text</p>
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+              </div>
+            </div>
           <h2 class="header">Hi, <span id="hub-username-blurb"></span></h2>
           <p>
             Welcome to your hub!
@@ -121,6 +133,7 @@
 
       </div>
     </main>
+
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.js"></script>
